@@ -1,4 +1,4 @@
-# Tideline Digital
+# Deep Blue Builds
 
 A single-page marketing site for a website creation &amp; management studio. Beach/sunset theme, custom animated canvas hero, branching flowchart of services, pricing, testimonials, FAQ, and a consultation form.
 
@@ -7,7 +7,7 @@ Everything lives in **`index.html`** — no build step, no dependencies, no fram
 ## Project structure
 
 ```
-tideline-digital/
+deep-blue-builds/
 ├── index.html      # the entire site (HTML + CSS + JS inline)
 ├── vercel.json     # clean URLs + security headers
 ├── .gitignore
@@ -31,7 +31,7 @@ npm package: https://www.npmjs.com/package/@anthropic-ai/claude-code (`npm insta
 
 ```bash
 npm install -g vercel      # if you don't have it
-cd tideline-digital
+cd deep-blue-builds
 vercel                     # preview deploy (follow the prompts)
 vercel --prod              # promote to production
 ```
@@ -48,7 +48,7 @@ vercel --prod              # promote to production
 This started as a design mockup, so a few values are placeholders:
 
 - [ ] **Phone number** — replace `(561) 555-0100` (appears in the top bar, contact section, and footer).
-- [ ] **Email** — replace `hello@tidelinedigital.com`.
+- [ ] **Email** — replace `hello@deepbluebuilds.com`.
 - [ ] **Stats** — the hero counters (120+ sites, 99.9% uptime, 14 yrs, &lt;1 day) are illustrative.
 - [ ] **Testimonials** — names, companies, and quotes are invented; swap in real ones.
 - [ ] **Pricing** — confirm the Launch / Grow / Care numbers reflect your real offer.
@@ -65,4 +65,4 @@ This started as a design mockup, so a few values are placeholders:
 
 The pages ship with meta descriptions, canonical tags, Open Graph/Twitter cards, a social image (`og.png`), a favicon, and JSON-LD structured data (Organization + WebSite + FAQPage on the homepage, BreadcrumbList + CollectionPage/Article on Work and the case study). `robots.txt` and `sitemap.xml` are included.
 
-**Before launch:** search-and-replace the placeholder domain `https://www.tidelinedigital.com` with your real domain across all `.html` files, `robots.txt`, and `sitemap.xml`, and update the placeholder phone number. Then submit the sitemap in Google Search Console.
+**Before launch:** search-and-replace the placeholder domain `https://www.deepbluebuilds.com` with your real domain across all `.html` files, `robots.txt`, and `sitemap.xml`, and update the placeholder phone number. Then submit the sitemap in Google Search Console.
