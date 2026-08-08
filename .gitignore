@@ -1,16 +1,9 @@
 # Vercel
 .vercel
 
-# Dependencies (none required, but just in case)
-node_modules
-
-# Logs
-*.log
-npm-debug.log*
-
-# OS / editor cruft
+# OS / editor
 .DS_Store
 Thumbs.db
-.idea
-.vscode
-*.swp
+*.log
+.idea/
+.vscode/
