@@ -1,0 +1,4 @@
+# The static marketing site lives at the repo root.
+# The Next.js accounting app under books/ is a separate project —
+# keep its source out of this static deployment.
+books/
