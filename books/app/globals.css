@@ -279,3 +279,49 @@
     text-align: right;
   }
 }
+
+
+/* 8 ── invoice document ──────────────────────────────────────────────
+   A single sheet that reads well on screen and prints clean to PDF.
+   The .invoice-sheet is an 8.5×11 page; print hides all app chrome.   */
+
+.invoice-sheet {
+  background: var(--card);
+  color: var(--foreground);
+}
+.invoice-sheet thead th { background: transparent; }
+
+/* Invoice tables opt out of the ledger hover / heavy header treatment */
+.invoice-sheet table thead th {
+  background: var(--primary);
+  color: var(--color-brass-400);
+}
+.invoice-sheet table tbody tr:hover { background: transparent; }
+
+@media print {
+  /* Hide everything except the invoice sheet */
+  aside,
+  .no-print { display: none !important; }
+
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  /* Neutralise the app layout wrappers so the sheet fills the page */
+  .app-main { padding: 0 !important; max-width: none !important; margin: 0 !important; }
+
+  .invoice-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .invoice-page { page-break-after: always; }
+  .invoice-page:last-child { page-break-after: auto; }
+
+  @page { size: letter; margin: 0.6in; }
+}

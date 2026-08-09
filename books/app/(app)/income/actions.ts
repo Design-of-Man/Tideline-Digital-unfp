@@ -40,6 +40,8 @@ export async function createInvoice(formData: FormData) {
   const amount = cents(num(formData.get("amount")));
   const issue_date = str(formData.get("issue_date")) ?? new Date().toISOString().slice(0, 10);
   const description = str(formData.get("description"));
+  const invoice_type =
+    (str(formData.get("invoice_type")) ?? "standard") as Enums<"invoice_kind">;
 
   if (!contact_id || !income_account_id || !amount || amount <= 0) {
     redirect("/income?error=" + encodeURIComponent("Customer, income account and amount are required."));
@@ -47,11 +49,22 @@ export async function createInvoice(formData: FormData) {
   const ar = await arAccountId(supabase);
   if (!ar) redirect("/income?error=" + encodeURIComponent("No Accounts Receivable account found."));
 
+  // Systematic number (CLIENT-TYPE-NNN) unless one was typed in.
+  let number = str(formData.get("number"));
+  if (!number) {
+    const { data: gen } = await supabase.rpc("next_client_invoice_number", {
+      p_contact: contact_id,
+      p_type: invoice_type,
+    });
+    if (gen) number = gen as string;
+  }
+
   const { data: invoice, error } = await supabase
     .from("invoices")
     .insert({
       contact_id,
-      number: str(formData.get("number")),
+      number,
+      invoice_type,
       issue_date,
       due_date: str(formData.get("due_date")),
       status: "open",
@@ -83,7 +96,7 @@ export async function createInvoice(formData: FormData) {
       ],
       source: "invoice",
       sourceId: invoice.id,
-      reference: str(formData.get("number")),
+      reference: number,
     });
     await supabase.from("invoices").update({ journal_entry_id: je }).eq("id", invoice.id);
   } catch (e) {

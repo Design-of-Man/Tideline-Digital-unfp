@@ -7,6 +7,8 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.15"
   }
@@ -64,50 +66,84 @@ export type Database = {
           type?: Database["public"]["Enums"]["account_type"]
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "accounts_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "accounts_tax_category_fk"
+            columns: ["tax_category_id"]
+            isOneToOne: false
+            referencedRelation: "tax_categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       company_settings: {
         Row: {
           address: string | null
+          contact_name: string | null
           created_at: string
           dba_name: string | null
           ein: string | null
+          email: string | null
           entity_type: string
           fiscal_year_start_month: number
           id: number
+          invoice_footer: string | null
           legal_name: string
+          payment_instructions: string | null
+          phone: string | null
           tax_state: string | null
           updated_at: string
+          website: string | null
         }
         Insert: {
           address?: string | null
+          contact_name?: string | null
           created_at?: string
           dba_name?: string | null
           ein?: string | null
+          email?: string | null
           entity_type?: string
           fiscal_year_start_month?: number
           id?: number
+          invoice_footer?: string | null
           legal_name?: string
+          payment_instructions?: string | null
+          phone?: string | null
           tax_state?: string | null
           updated_at?: string
+          website?: string | null
         }
         Update: {
           address?: string | null
+          contact_name?: string | null
           created_at?: string
           dba_name?: string | null
           ein?: string | null
+          email?: string | null
           entity_type?: string
           fiscal_year_start_month?: number
           id?: number
+          invoice_footer?: string | null
           legal_name?: string
+          payment_instructions?: string | null
+          phone?: string | null
           tax_state?: string | null
           updated_at?: string
+          website?: string | null
         }
         Relationships: []
       }
       contacts: {
         Row: {
           address: string | null
+          code: string | null
           created_at: string
           email: string | null
           id: string
@@ -122,6 +158,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          code?: string | null
           created_at?: string
           email?: string | null
           id?: string
@@ -136,6 +173,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          code?: string | null
           created_at?: string
           email?: string | null
           id?: string
@@ -205,6 +243,20 @@ export type Database = {
             referencedRelation: "accounts"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "distributions_journal_entry_id_fkey"
+            columns: ["journal_entry_id"]
+            isOneToOne: false
+            referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "distributions_pay_from_account_id_fkey"
+            columns: ["pay_from_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
         ]
       }
       employee_expenses: {
@@ -270,6 +322,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "employee_expenses_category_account_id_fkey"
+            columns: ["category_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "employee_expenses_employee_id_fkey"
             columns: ["employee_id"]
             isOneToOne: false
@@ -277,8 +336,29 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "employee_expenses_category_account_id_fkey"
-            columns: ["category_account_id"]
+            foreignKeyName: "employee_expenses_journal_entry_accrual_id_fkey"
+            columns: ["journal_entry_accrual_id"]
+            isOneToOne: false
+            referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "employee_expenses_journal_entry_payment_id_fkey"
+            columns: ["journal_entry_payment_id"]
+            isOneToOne: false
+            referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "employee_expenses_liability_account_id_fkey"
+            columns: ["liability_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "employee_expenses_pay_from_account_id_fkey"
+            columns: ["pay_from_account_id"]
             isOneToOne: false
             referencedRelation: "accounts"
             referencedColumns: ["id"]
@@ -344,7 +424,15 @@ export type Database = {
           title?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "employees_equity_account_id_fkey"
+            columns: ["equity_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       expenses: {
         Row: {
@@ -410,17 +498,17 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "expenses_paid_from_account_id_fkey"
-            columns: ["paid_from_account_id"]
-            isOneToOne: false
-            referencedRelation: "accounts"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "expenses_journal_entry_id_fkey"
             columns: ["journal_entry_id"]
             isOneToOne: false
             referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_paid_from_account_id_fkey"
+            columns: ["paid_from_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
             referencedColumns: ["id"]
           },
           {
@@ -455,6 +543,9 @@ export type Database = {
           invoice_id: string
           line_no: number
           quantity: number
+          tax_amount: number
+          tax_note: string | null
+          tax_treatment: Database["public"]["Enums"]["tax_treatment"]
           unit_price: number
         }
         Insert: {
@@ -465,6 +556,9 @@ export type Database = {
           invoice_id: string
           line_no?: number
           quantity?: number
+          tax_amount?: number
+          tax_note?: string | null
+          tax_treatment?: Database["public"]["Enums"]["tax_treatment"]
           unit_price?: number
         }
         Update: {
@@ -475,7 +569,108 @@ export type Database = {
           invoice_id?: string
           line_no?: number
           quantity?: number
+          tax_amount?: number
+          tax_note?: string | null
+          tax_treatment?: Database["public"]["Enums"]["tax_treatment"]
           unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_lines_income_account_id_fkey"
+            columns: ["income_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoice_lines_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoice_number_counters: {
+        Row: {
+          last_number: number
+          year: number
+        }
+        Insert: {
+          last_number?: number
+          year: number
+        }
+        Update: {
+          last_number?: number
+          year?: number
+        }
+        Relationships: []
+      }
+      invoice_sends: {
+        Row: {
+          cc_email: string | null
+          error: string | null
+          id: string
+          invoice_id: string
+          pdf_url: string | null
+          provider: string | null
+          provider_message_id: string | null
+          sent_at: string
+          status: string
+          subject: string | null
+          to_email: string
+        }
+        Insert: {
+          cc_email?: string | null
+          error?: string | null
+          id?: string
+          invoice_id: string
+          pdf_url?: string | null
+          provider?: string | null
+          provider_message_id?: string | null
+          sent_at?: string
+          status?: string
+          subject?: string | null
+          to_email: string
+        }
+        Update: {
+          cc_email?: string | null
+          error?: string | null
+          id?: string
+          invoice_id?: string
+          pdf_url?: string | null
+          provider?: string | null
+          provider_message_id?: string | null
+          sent_at?: string
+          status?: string
+          subject?: string | null
+          to_email?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_sends_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoice_seq_counters: {
+        Row: {
+          client_code: string
+          last_number: number
+          type_code: string
+        }
+        Insert: {
+          client_code: string
+          last_number?: number
+          type_code: string
+        }
+        Update: {
+          client_code?: string
+          last_number?: number
+          type_code?: string
         }
         Relationships: []
       }
@@ -487,12 +682,23 @@ export type Database = {
           created_at: string
           due_date: string | null
           id: string
+          invoice_type: Database["public"]["Enums"]["invoice_kind"]
           issue_date: string
           journal_entry_id: string | null
           memo: string | null
           number: string | null
+          pdf_url: string | null
+          recurring_id: string | null
+          sent_at: string | null
+          service_period_end: string | null
+          service_period_start: string | null
+          state_tax_rate: number
           status: Database["public"]["Enums"]["invoice_status"]
           subtotal: number
+          surtax_rate: number
+          tax_county: string | null
+          tax_state: string
+          tax_total: number
           terms: string | null
           total: number
           updated_at: string
@@ -504,12 +710,23 @@ export type Database = {
           created_at?: string
           due_date?: string | null
           id?: string
+          invoice_type?: Database["public"]["Enums"]["invoice_kind"]
           issue_date?: string
           journal_entry_id?: string | null
           memo?: string | null
           number?: string | null
+          pdf_url?: string | null
+          recurring_id?: string | null
+          sent_at?: string | null
+          service_period_end?: string | null
+          service_period_start?: string | null
+          state_tax_rate?: number
           status?: Database["public"]["Enums"]["invoice_status"]
           subtotal?: number
+          surtax_rate?: number
+          tax_county?: string | null
+          tax_state?: string
+          tax_total?: number
           terms?: string | null
           total?: number
           updated_at?: string
@@ -521,17 +738,35 @@ export type Database = {
           created_at?: string
           due_date?: string | null
           id?: string
+          invoice_type?: Database["public"]["Enums"]["invoice_kind"]
           issue_date?: string
           journal_entry_id?: string | null
           memo?: string | null
           number?: string | null
+          pdf_url?: string | null
+          recurring_id?: string | null
+          sent_at?: string | null
+          service_period_end?: string | null
+          service_period_start?: string | null
+          state_tax_rate?: number
           status?: Database["public"]["Enums"]["invoice_status"]
           subtotal?: number
+          surtax_rate?: number
+          tax_county?: string | null
+          tax_state?: string
+          tax_total?: number
           terms?: string | null
           total?: number
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "invoices_ar_account_id_fkey"
+            columns: ["ar_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "invoices_contact_id_fkey"
             columns: ["contact_id"]
@@ -540,10 +775,17 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "invoices_ar_account_id_fkey"
-            columns: ["ar_account_id"]
+            foreignKeyName: "invoices_journal_entry_id_fkey"
+            columns: ["journal_entry_id"]
             isOneToOne: false
-            referencedRelation: "accounts"
+            referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_recurring_id_fkey"
+            columns: ["recurring_id"]
+            isOneToOne: false
+            referencedRelation: "recurring_invoices"
             referencedColumns: ["id"]
           },
         ]
@@ -687,6 +929,20 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "payments_received_deposit_account_id_fkey"
+            columns: ["deposit_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_received_income_account_id_fkey"
+            columns: ["income_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "payments_received_invoice_id_fkey"
             columns: ["invoice_id"]
             isOneToOne: false
@@ -694,10 +950,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "payments_received_deposit_account_id_fkey"
-            columns: ["deposit_account_id"]
+            foreignKeyName: "payments_received_journal_entry_id_fkey"
+            columns: ["journal_entry_id"]
             isOneToOne: false
-            referencedRelation: "accounts"
+            referencedRelation: "journal_entries"
             referencedColumns: ["id"]
           },
         ]
@@ -783,6 +1039,41 @@ export type Database = {
             referencedRelation: "employees"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "payroll_runs_journal_entry_id_fkey"
+            columns: ["journal_entry_id"]
+            isOneToOne: false
+            referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payroll_runs_pay_from_account_id_fkey"
+            columns: ["pay_from_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payroll_runs_payroll_liability_account_id_fkey"
+            columns: ["payroll_liability_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payroll_runs_payroll_tax_expense_account_id_fkey"
+            columns: ["payroll_tax_expense_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payroll_runs_salary_expense_account_id_fkey"
+            columns: ["salary_expense_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
         ]
       }
       recurring_expenses: {
@@ -849,7 +1140,142 @@ export type Database = {
           updated_at?: string
           vendor_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "recurring_expenses_category_account_id_fkey"
+            columns: ["category_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_expenses_paid_from_account_id_fkey"
+            columns: ["paid_from_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_expenses_tax_category_id_fkey"
+            columns: ["tax_category_id"]
+            isOneToOne: false
+            referencedRelation: "tax_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_expenses_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      recurring_invoices: {
+        Row: {
+          amount: number
+          ar_account_id: string | null
+          bill_in_advance: boolean
+          contact_id: string
+          created_at: string
+          description: string | null
+          end_date: string | null
+          frequency: Database["public"]["Enums"]["recurrence_frequency"]
+          id: string
+          income_account_id: string
+          interval_count: number
+          invoice_type: Database["public"]["Enums"]["invoice_kind"]
+          is_active: boolean
+          last_run_date: string | null
+          memo: string | null
+          name: string
+          net_days: number
+          next_run_date: string
+          start_date: string
+          state_tax_rate: number
+          surtax_rate: number
+          tax_county: string | null
+          tax_treatment: Database["public"]["Enums"]["tax_treatment"]
+          terms: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          ar_account_id?: string | null
+          bill_in_advance?: boolean
+          contact_id: string
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          frequency?: Database["public"]["Enums"]["recurrence_frequency"]
+          id?: string
+          income_account_id: string
+          interval_count?: number
+          invoice_type?: Database["public"]["Enums"]["invoice_kind"]
+          is_active?: boolean
+          last_run_date?: string | null
+          memo?: string | null
+          name: string
+          net_days?: number
+          next_run_date?: string
+          start_date?: string
+          state_tax_rate?: number
+          surtax_rate?: number
+          tax_county?: string | null
+          tax_treatment?: Database["public"]["Enums"]["tax_treatment"]
+          terms?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          ar_account_id?: string | null
+          bill_in_advance?: boolean
+          contact_id?: string
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          frequency?: Database["public"]["Enums"]["recurrence_frequency"]
+          id?: string
+          income_account_id?: string
+          interval_count?: number
+          invoice_type?: Database["public"]["Enums"]["invoice_kind"]
+          is_active?: boolean
+          last_run_date?: string | null
+          memo?: string | null
+          name?: string
+          net_days?: number
+          next_run_date?: string
+          start_date?: string
+          state_tax_rate?: number
+          surtax_rate?: number
+          tax_county?: string | null
+          tax_treatment?: Database["public"]["Enums"]["tax_treatment"]
+          terms?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recurring_invoices_ar_account_id_fkey"
+            columns: ["ar_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_invoices_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_invoices_income_account_id_fkey"
+            columns: ["income_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tax_categories: {
         Row: {
@@ -924,13 +1350,47 @@ export type Database = {
           tax_type?: Database["public"]["Enums"]["tax_payment_type"]
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tax_payments_journal_entry_id_fkey"
+            columns: ["journal_entry_id"]
+            isOneToOne: false
+            referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tax_payments_pay_from_account_id_fkey"
+            columns: ["pay_from_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tax_payments_tax_account_id_fkey"
+            columns: ["tax_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      account_normal_side: {
+        Args: { p_type: Database["public"]["Enums"]["account_type"] }
+        Returns: string
+      }
+      add_frequency: {
+        Args: {
+          p_date: string
+          p_freq: Database["public"]["Enums"]["recurrence_frequency"]
+          p_n: number
+        }
+        Returns: string
+      }
       create_journal_entry: {
         Args: {
           p_date: string
@@ -981,6 +1441,20 @@ export type Database = {
         Args: { p_through?: string }
         Returns: number
       }
+      generate_due_recurring_invoices: {
+        Args: { p_recurring_id?: string; p_through?: string }
+        Returns: string[]
+      }
+      next_client_invoice_number: {
+        Args: {
+          p_contact: string
+          p_type: Database["public"]["Enums"]["invoice_kind"]
+        }
+        Returns: string
+      }
+      next_invoice_number: { Args: { p_year?: number }; Returns: string }
+      post_invoice: { Args: { p_invoice: string }; Returns: string }
+      recalc_invoice_totals: { Args: { p_invoice: string }; Returns: undefined }
     }
     Enums: {
       account_subtype:
@@ -1022,6 +1496,7 @@ export type Database = {
         | "employee_expense"
         | "tax_payment"
       expense_status: "unpaid" | "paid"
+      invoice_kind: "standard" | "implementation" | "monthly"
       invoice_status: "draft" | "open" | "partial" | "paid" | "void"
       pay_frequency:
         | "weekly"
@@ -1058,6 +1533,12 @@ export type Database = {
         | "sales_tax"
         | "property_tax"
         | "other"
+      tax_treatment:
+        | "nontaxable_service"
+        | "taxable_tangible"
+        | "advertising_materials_exempt"
+        | "resale_certificate"
+        | "out_of_state"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1164,3 +1645,116 @@ export type Enums<
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      account_subtype: [
+        "bank",
+        "accounts_receivable",
+        "other_current_asset",
+        "fixed_asset",
+        "other_asset",
+        "accounts_payable",
+        "credit_card",
+        "payroll_liability",
+        "tax_liability",
+        "other_current_liability",
+        "long_term_liability",
+        "equity",
+        "retained_earnings",
+        "distributions",
+        "contributions",
+        "income",
+        "other_income",
+        "cogs",
+        "operating_expense",
+        "payroll_expense",
+        "tax_expense",
+        "other_expense",
+      ],
+      account_type: ["asset", "liability", "equity", "revenue", "expense"],
+      contact_type: ["customer", "vendor", "both"],
+      emp_expense_status: ["submitted", "approved", "reimbursed", "rejected"],
+      entry_source: [
+        "manual",
+        "opening_balance",
+        "transfer",
+        "invoice",
+        "payment_received",
+        "expense",
+        "recurring_expense",
+        "payroll",
+        "distribution",
+        "employee_expense",
+        "tax_payment",
+      ],
+      expense_status: ["unpaid", "paid"],
+      invoice_kind: ["standard", "implementation", "monthly"],
+      invoice_status: ["draft", "open", "partial", "paid", "void"],
+      pay_frequency: [
+        "weekly",
+        "biweekly",
+        "semimonthly",
+        "monthly",
+        "quarterly",
+        "annually",
+      ],
+      payment_method: [
+        "bank_transfer",
+        "check",
+        "card",
+        "cash",
+        "ach",
+        "wire",
+        "paypal",
+        "stripe",
+        "other",
+      ],
+      recurrence_frequency: [
+        "weekly",
+        "biweekly",
+        "semimonthly",
+        "monthly",
+        "quarterly",
+        "semiannually",
+        "annually",
+      ],
+      tax_payment_type: [
+        "federal_income_est",
+        "state_income_est",
+        "payroll_941",
+        "payroll_940",
+        "state_payroll",
+        "state_franchise",
+        "sales_tax",
+        "property_tax",
+        "other",
+      ],
+      tax_treatment: [
+        "nontaxable_service",
+        "taxable_tangible",
+        "advertising_materials_exempt",
+        "resale_certificate",
+        "out_of_state",
+      ],
+    },
+  },
+} as const

@@ -110,7 +110,14 @@ export default async function IncomePage({
                   {customers.map((c) => (<option key={c.id} value={c.id}>{c.name}</option>))}
                 </Select>
               </Field>
-              <Field label="Invoice #"><Input name="number" placeholder="INV-001" /></Field>
+              <Field label="Type">
+                <Select name="invoice_type" defaultValue="standard">
+                  <option value="standard">Standard</option>
+                  <option value="implementation">Implementation</option>
+                  <option value="monthly">Monthly</option>
+                </Select>
+              </Field>
+              <Field label="Invoice #" hint="Leave blank to auto-number."><Input name="number" placeholder="Auto" /></Field>
               <Field label="Amount"><Input name="amount" type="number" step="0.01" min="0" required /></Field>
               <Field label="Income account">
                 <Select name="income_account_id" required defaultValue="">
@@ -147,12 +154,16 @@ export default async function IncomePage({
               <tbody>
                 {invoices.map((i: any) => (
                   <tr key={i.id}>
-                    <td className="text-muted-foreground">{i.number || i.id.slice(0, 6)}<div className="text-xs text-muted-foreground">{shortDate(i.issue_date)}</div></td>
+                    <td className="text-muted-foreground">
+                      <a href={`/invoices/${i.id}`} className="text-accent hover:underline font-medium">{i.number || i.id.slice(0, 6)}</a>
+                      <div className="text-xs text-muted-foreground">{shortDate(i.issue_date)}</div>
+                    </td>
                     <td className="font-medium text-foreground">{i.contact?.name}</td>
                     <td><Badge tone={INV_TONE[i.status]}>{i.status}</Badge></td>
                     <td className="num tabular-nums">{money(i.total)}<div className="text-xs text-muted-foreground">{money(i.amount_paid)} paid</div></td>
-                    <td className="text-right pr-4">
-                      <form action={deleteInvoice}><input type="hidden" name="id" value={i.id} /><button className="text-muted-foreground/60 hover:text-destructive text-sm">Delete</button></form>
+                    <td className="text-right pr-4 whitespace-nowrap">
+                      <a href={`/invoices/${i.id}`} className="text-muted-foreground hover:text-foreground text-sm mr-3">View</a>
+                      <form action={deleteInvoice} className="inline"><input type="hidden" name="id" value={i.id} /><button className="text-muted-foreground/60 hover:text-destructive text-sm">Delete</button></form>
                     </td>
                   </tr>
                 ))}

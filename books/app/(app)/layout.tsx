@@ -65,7 +65,7 @@ export default async function AppLayout({
             </button>
           </form>
         </div>
-        <main className="flex-1 p-6 md:p-8 max-w-6xl w-full mx-auto">
+        <main className="app-main flex-1 p-6 md:p-8 max-w-6xl w-full mx-auto">
           {children}
         </main>
       </div>

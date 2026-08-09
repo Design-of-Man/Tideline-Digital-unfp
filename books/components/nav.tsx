@@ -11,7 +11,10 @@ const SECTIONS: { heading: string; items: { href: string; label: string }[] }[] 
     },
     {
       heading: "Money in",
-      items: [{ href: "/income", label: "Income & Invoices" }],
+      items: [
+        { href: "/income", label: "Income & Invoices" },
+        { href: "/recurring-invoices", label: "Recurring Invoices" },
+      ],
     },
     {
       heading: "Money out",
@@ -51,12 +54,18 @@ const SECTIONS: { heading: string; items: { href: string; label: string }[] }[] 
         { href: "/reports/trial-balance", label: "Trial Balance" },
       ],
     },
+    {
+      heading: "Company",
+      items: [{ href: "/settings", label: "Settings" }],
+    },
   ];
 
 export function Sidebar() {
   const pathname = usePathname();
   const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+    href === "/"
+      ? pathname === "/"
+      : pathname === href || pathname.startsWith(href + "/");
 
   return (
     <nav className="flex flex-col gap-5 px-2.5 py-5">
