@@ -46,14 +46,14 @@ export default async function IncomePage({
       </div>
 
       {customers.length === 0 && (
-        <Card className="p-4 mb-6 bg-amber-50 border-amber-200">
-          <p className="text-sm text-amber-800">Add a customer first to create invoices or attribute payments.</p>
+        <Card className="p-4 mb-6 bg-muted border-border">
+          <p className="text-sm text-warning">Add a customer first to create invoices or attribute payments.</p>
         </Card>
       )}
 
       <div className="flex flex-wrap gap-3 mb-6">
         <details>
-          <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-slate-900 text-white px-3.5 py-2 text-sm font-medium hover:bg-slate-700 list-none">+ Record payment</summary>
+          <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-3.5 py-2 text-sm font-medium hover:bg-primary/90 list-none">+ Record payment</summary>
           <Card className="mt-3 p-5 w-full">
             <form action={recordPayment} className="grid sm:grid-cols-3 gap-4">
               <Field label="Date"><Input name="payment_date" type="date" defaultValue={todayISO()} required /></Field>
@@ -101,7 +101,7 @@ export default async function IncomePage({
         </details>
 
         <details>
-          <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-white text-slate-700 border border-slate-300 px-3.5 py-2 text-sm font-medium hover:bg-slate-50 list-none">+ Create invoice</summary>
+          <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-card text-foreground border border-input px-3.5 py-2 text-sm font-medium hover:bg-muted list-none">+ Create invoice</summary>
           <Card className="mt-3 p-5 w-full">
             <form action={createInvoice} className="grid sm:grid-cols-3 gap-4">
               <Field label="Customer">
@@ -127,7 +127,7 @@ export default async function IncomePage({
         </details>
 
         <details>
-          <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg text-slate-600 hover:bg-slate-100 px-3.5 py-2 text-sm font-medium list-none">+ New customer</summary>
+          <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg text-muted-foreground hover:bg-muted px-3.5 py-2 text-sm font-medium list-none">+ New customer</summary>
           <Card className="mt-3 p-5 w-full">
             <form action={createCustomer} className="grid sm:grid-cols-3 gap-4 items-end">
               <Field label="Name" className="sm:col-span-2"><Input name="name" required /></Field>
@@ -147,12 +147,12 @@ export default async function IncomePage({
               <tbody>
                 {invoices.map((i: any) => (
                   <tr key={i.id}>
-                    <td className="text-slate-500">{i.number || i.id.slice(0, 6)}<div className="text-xs text-slate-400">{shortDate(i.issue_date)}</div></td>
-                    <td className="font-medium text-slate-800">{i.contact?.name}</td>
+                    <td className="text-muted-foreground">{i.number || i.id.slice(0, 6)}<div className="text-xs text-muted-foreground">{shortDate(i.issue_date)}</div></td>
+                    <td className="font-medium text-foreground">{i.contact?.name}</td>
                     <td><Badge tone={INV_TONE[i.status]}>{i.status}</Badge></td>
-                    <td className="num tabular-nums">{money(i.total)}<div className="text-xs text-slate-400">{money(i.amount_paid)} paid</div></td>
+                    <td className="num tabular-nums">{money(i.total)}<div className="text-xs text-muted-foreground">{money(i.amount_paid)} paid</div></td>
                     <td className="text-right pr-4">
-                      <form action={deleteInvoice}><input type="hidden" name="id" value={i.id} /><button className="text-slate-300 hover:text-rose-600 text-sm">Delete</button></form>
+                      <form action={deleteInvoice}><input type="hidden" name="id" value={i.id} /><button className="text-muted-foreground/60 hover:text-destructive text-sm">Delete</button></form>
                     </td>
                   </tr>
                 ))}
@@ -169,12 +169,12 @@ export default async function IncomePage({
               <tbody>
                 {payments.map((p: any) => (
                   <tr key={p.id}>
-                    <td className="text-slate-500 whitespace-nowrap">{shortDate(p.payment_date)}</td>
-                    <td className="font-medium text-slate-800">{p.contact?.name || "—"}{p.invoice?.number && <div className="text-xs text-slate-400">{p.invoice.number}</div>}</td>
-                    <td className="text-slate-500">{titleize(p.method)}</td>
-                    <td className="num tabular-nums text-emerald-600">{money(p.amount)}</td>
+                    <td className="text-muted-foreground whitespace-nowrap">{shortDate(p.payment_date)}</td>
+                    <td className="font-medium text-foreground">{p.contact?.name || "—"}{p.invoice?.number && <div className="text-xs text-muted-foreground">{p.invoice.number}</div>}</td>
+                    <td className="text-muted-foreground">{titleize(p.method)}</td>
+                    <td className="num tabular-nums text-success">{money(p.amount)}</td>
                     <td className="text-right pr-4">
-                      <form action={deletePayment}><input type="hidden" name="id" value={p.id} /><button className="text-slate-300 hover:text-rose-600 text-sm">Delete</button></form>
+                      <form action={deletePayment}><input type="hidden" name="id" value={p.id} /><button className="text-muted-foreground/60 hover:text-destructive text-sm">Delete</button></form>
                     </td>
                   </tr>
                 ))}

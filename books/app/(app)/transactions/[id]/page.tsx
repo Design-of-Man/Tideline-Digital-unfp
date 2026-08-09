@@ -37,9 +37,9 @@ export default async function EntryDetail({
       />
 
       <Card className="max-w-3xl">
-        <div className="px-5 py-3 border-b border-slate-100 flex items-center gap-2">
+        <div className="px-5 py-3 border-b border-border flex items-center gap-2">
           <Badge>{titleize(entry.source)}</Badge>
-          <span className="text-xs text-slate-400">Entry {entry.id.slice(0, 8)}</span>
+          <span className="text-xs text-muted-foreground">Entry {entry.id.slice(0, 8)}</span>
         </div>
         <table className="data">
           <thead>
@@ -53,19 +53,19 @@ export default async function EntryDetail({
           <tbody>
             {lines.map((l: any) => (
               <tr key={l.id}>
-                <td className="font-medium text-slate-800">
-                  <span className="font-mono text-xs text-slate-400 mr-2">{l.accounts?.code}</span>
+                <td className="font-medium text-foreground">
+                  <span className="font-mono text-xs text-muted-foreground mr-2">{l.accounts?.code}</span>
                   {l.accounts?.name}
                 </td>
-                <td className="text-slate-500">{l.memo || "—"}</td>
+                <td className="text-muted-foreground">{l.memo || "—"}</td>
                 <td className="num tabular-nums">{Number(l.debit) ? money(l.debit) : ""}</td>
                 <td className="num tabular-nums">{Number(l.credit) ? money(l.credit) : ""}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
-            <tr className="bg-slate-50 font-medium">
-              <td colSpan={2} className="px-5 py-2.5 text-slate-500">Totals</td>
+            <tr className="bg-muted font-medium">
+              <td colSpan={2} className="px-5 py-2.5 text-muted-foreground">Totals</td>
               <td className="num tabular-nums px-5 py-2.5">{money(totalD)}</td>
               <td className="num tabular-nums px-5 py-2.5">{money(totalC)}</td>
             </tr>
@@ -78,7 +78,7 @@ export default async function EntryDetail({
           <input type="hidden" name="id" value={entry.id} />
           <SubmitButton variant="danger">Delete entry</SubmitButton>
         </form>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs text-muted-foreground mt-1">
           Deleting reverses this entry from the ledger. If it came from an invoice, expense, etc.,
           delete it from that record instead to keep things consistent.
         </p>

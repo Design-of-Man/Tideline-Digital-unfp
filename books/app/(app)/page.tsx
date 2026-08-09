@@ -77,7 +77,7 @@ export default async function Dashboard() {
         <Card className="lg:col-span-2">
           <CardHeader
             title="Recent transactions"
-            action={<Link href="/transactions" className="text-sm text-slate-500 hover:text-slate-800">View all</Link>}
+            action={<Link href="/transactions" className="text-sm text-muted-foreground hover:text-foreground">View all</Link>}
           />
           {recent && recent.length > 0 ? (
             <table className="data">
@@ -97,7 +97,7 @@ export default async function Dashboard() {
                   );
                   return (
                     <tr key={e.id}>
-                      <td className="whitespace-nowrap text-slate-500">{shortDate(e.entry_date)}</td>
+                      <td className="whitespace-nowrap text-muted-foreground">{shortDate(e.entry_date)}</td>
                       <td>
                         <Link href={`/transactions/${e.id}`} className="hover:underline">
                           {e.memo || "—"}
@@ -122,19 +122,19 @@ export default async function Dashboard() {
         <Card>
           <CardHeader
             title="Upcoming recurring"
-            action={<Link href="/recurring" className="text-sm text-slate-500 hover:text-slate-800">Manage</Link>}
+            action={<Link href="/recurring" className="text-sm text-muted-foreground hover:text-foreground">Manage</Link>}
           />
           {recurring && recurring.length > 0 ? (
-            <ul className="divide-y divide-slate-100">
+            <ul className="divide-y divide-border">
               {recurring.map((r) => (
                 <li key={r.id} className="px-5 py-3 flex items-center justify-between">
                   <div>
-                    <div className="text-sm font-medium text-slate-800">{r.name}</div>
-                    <div className="text-xs text-slate-400">
+                    <div className="text-sm font-medium text-foreground">{r.name}</div>
+                    <div className="text-xs text-muted-foreground">
                       {titleize(r.frequency)} · next {shortDate(r.next_run_date)}
                     </div>
                   </div>
-                  <div className="text-sm tabular-nums text-slate-700">{money(r.amount)}</div>
+                  <div className="text-sm tabular-nums text-foreground">{money(r.amount)}</div>
                 </li>
               ))}
             </ul>

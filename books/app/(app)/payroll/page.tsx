@@ -33,7 +33,7 @@ export default async function PayrollPage({
       {error && <div className="mb-4"><FormError message={error} /></div>}
 
       <details className="mb-6" open={!runs?.length}>
-        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-slate-900 text-white px-3.5 py-2 text-sm font-medium hover:bg-slate-700 list-none">+ Run payroll</summary>
+        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-3.5 py-2 text-sm font-medium hover:bg-primary/90 list-none">+ Run payroll</summary>
         <Card className="mt-3 p-5">
           <form action={runPayroll} className="space-y-5">
             <div className="grid sm:grid-cols-4 gap-4">
@@ -48,7 +48,7 @@ export default async function PayrollPage({
             </div>
 
             <div>
-              <div className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">Employee withholdings (reduce net pay)</div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Employee withholdings (reduce net pay)</div>
               <div className="grid sm:grid-cols-4 gap-4">
                 <Field label="Employee FICA" hint="Blank = 7.65%"><Input name="employee_fica" type="number" step="0.01" min="0" placeholder="auto" /></Field>
                 <Field label="Federal W/H"><Input name="federal_withholding" type="number" step="0.01" min="0" defaultValue={0} /></Field>
@@ -58,7 +58,7 @@ export default async function PayrollPage({
             </div>
 
             <div>
-              <div className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">Employer taxes (company expense)</div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Employer taxes (company expense)</div>
               <div className="grid sm:grid-cols-4 gap-4">
                 <Field label="Employer FICA" hint="Blank = 7.65%"><Input name="employer_fica" type="number" step="0.01" min="0" placeholder="auto" /></Field>
                 <Field label="FUTA"><Input name="futa" type="number" step="0.01" min="0" defaultValue={0} /></Field>
@@ -82,8 +82,8 @@ export default async function PayrollPage({
         </Card>
       </details>
 
-      <div className="mb-4 text-sm text-slate-500">
-        Gross wages this year: <span className="font-semibold text-slate-800">{money(ytd)}</span>
+      <div className="mb-4 text-sm text-muted-foreground">
+        Gross wages this year: <span className="font-semibold text-foreground">{money(ytd)}</span>
       </div>
 
       <Card>
@@ -95,13 +95,13 @@ export default async function PayrollPage({
             <tbody>
               {runs.map((r: any) => (
                 <tr key={r.id}>
-                  <td className="text-slate-500 whitespace-nowrap">{shortDate(r.pay_date)}</td>
-                  <td className="font-medium text-slate-800">{r.employee?.first_name} {r.employee?.last_name}</td>
+                  <td className="text-muted-foreground whitespace-nowrap">{shortDate(r.pay_date)}</td>
+                  <td className="font-medium text-foreground">{r.employee?.first_name} {r.employee?.last_name}</td>
                   <td className="num tabular-nums">{money(r.gross_pay)}</td>
-                  <td className="num tabular-nums text-slate-500">{money(Number(r.employee_fica) + Number(r.federal_withholding) + Number(r.state_withholding) + Number(r.other_withholding) + Number(r.employer_fica) + Number(r.futa) + Number(r.suta))}</td>
+                  <td className="num tabular-nums text-muted-foreground">{money(Number(r.employee_fica) + Number(r.federal_withholding) + Number(r.state_withholding) + Number(r.other_withholding) + Number(r.employer_fica) + Number(r.futa) + Number(r.suta))}</td>
                   <td className="num tabular-nums">{money(r.net_pay)}</td>
                   <td className="text-right pr-4">
-                    <form action={deletePayroll}><input type="hidden" name="id" value={r.id} /><button className="text-slate-300 hover:text-rose-600 text-sm">Delete</button></form>
+                    <form action={deletePayroll}><input type="hidden" name="id" value={r.id} /><button className="text-muted-foreground/60 hover:text-destructive text-sm">Delete</button></form>
                   </td>
                 </tr>
               ))}

@@ -12,13 +12,11 @@ export function PageHeader({
   action?: ReactNode;
 }) {
   return (
-    <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+    <div className="flex flex-wrap items-start justify-between gap-4 mb-7">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">
-          {title}
-        </h1>
+        <h1 className="text-foreground">{title}</h1>
         {description && (
-          <p className="text-sm text-slate-500 mt-1 max-w-2xl">{description}</p>
+          <p className="text-sm text-muted-foreground mt-1.5 max-w-2xl">{description}</p>
         )}
       </div>
       {action && <div className="flex items-center gap-2">{action}</div>}
@@ -35,7 +33,7 @@ export function Card({
 }) {
   return (
     <div
-      className={`bg-white rounded-xl border border-slate-200 shadow-sm ${className}`}
+      className={`bg-card border border-border rounded-md overflow-hidden ${className}`}
     >
       {children}
     </div>
@@ -50,8 +48,8 @@ export function CardHeader({
   action?: ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100">
-      <h2 className="font-medium text-slate-800">{title}</h2>
+    <div className="flex items-center justify-between px-5 py-3.5 border-b border-border">
+      <h2 className="font-display font-semibold text-[15px] text-foreground">{title}</h2>
       {action}
     </div>
   );
@@ -70,19 +68,19 @@ export function StatCard({
 }) {
   const toneClass =
     tone === "positive"
-      ? "text-emerald-600"
+      ? "text-success"
       : tone === "negative"
-      ? "text-rose-600"
+      ? "text-destructive"
       : tone === "muted"
-      ? "text-slate-400"
-      : "text-slate-900";
+      ? "text-muted-foreground"
+      : "text-foreground";
   return (
     <Card className="p-5">
-      <div className="text-xs font-medium uppercase tracking-wide text-slate-500">
-        {label}
+      <div className="dom-label">{label}</div>
+      <div className={`font-display text-[26px] font-semibold mt-2 tabular-nums tracking-tight ${toneClass}`}>
+        {value}
       </div>
-      <div className={`text-2xl font-semibold mt-1.5 ${toneClass}`}>{value}</div>
-      {hint && <div className="text-xs text-slate-400 mt-1">{hint}</div>}
+      {hint && <div className="text-xs text-muted-foreground mt-1.5 tabular-nums">{hint}</div>}
     </Card>
   );
 }
@@ -102,13 +100,12 @@ export function Button({
   className?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const base =
-    "inline-flex items-center justify-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
+    "inline-flex items-center justify-center gap-1.5 rounded-md px-3.5 py-2 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
   const variants = {
-    primary: "bg-slate-900 text-white hover:bg-slate-700",
-    secondary:
-      "bg-white text-slate-700 border border-slate-300 hover:bg-slate-50",
-    ghost: "text-slate-600 hover:bg-slate-100",
-    danger: "bg-rose-600 text-white hover:bg-rose-500",
+    primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+    secondary: "bg-transparent text-foreground border border-border hover:bg-secondary",
+    ghost: "text-muted-foreground hover:bg-muted",
+    danger: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
   };
   const cls = `${base} ${variants[variant]} ${className}`;
   if (href) {
@@ -133,11 +130,11 @@ export function Badge({
   tone?: "slate" | "green" | "amber" | "red" | "blue";
 }) {
   const tones = {
-    slate: "bg-slate-100 text-slate-600",
-    green: "bg-emerald-100 text-emerald-700",
-    amber: "bg-amber-100 text-amber-700",
-    red: "bg-rose-100 text-rose-700",
-    blue: "bg-blue-100 text-blue-700",
+    slate: "bg-muted text-muted-foreground",
+    green: "bg-success/15 text-success",
+    amber: "bg-warning/15 text-warning",
+    red: "bg-destructive/15 text-destructive",
+    blue: "bg-secondary text-secondary-foreground",
   };
   return (
     <span
@@ -159,9 +156,9 @@ export function EmptyState({
 }) {
   return (
     <div className="text-center py-12 px-6">
-      <p className="text-slate-700 font-medium">{title}</p>
+      <p className="text-foreground font-medium">{title}</p>
       {description && (
-        <p className="text-sm text-slate-500 mt-1 max-w-md mx-auto">
+        <p className="text-sm text-muted-foreground mt-1 max-w-md mx-auto">
           {description}
         </p>
       )}
@@ -185,17 +182,15 @@ export function Field({
 }) {
   return (
     <label className={`block ${className}`}>
-      <span className="block text-sm font-medium text-slate-700 mb-1">
-        {label}
-      </span>
+      <span className="dom-label block mb-1.5">{label}</span>
       {children}
-      {hint && <span className="block text-xs text-slate-400 mt-1">{hint}</span>}
+      {hint && <span className="block text-xs text-muted-foreground mt-1">{hint}</span>}
     </label>
   );
 }
 
 const inputCls =
-  "w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200";
+  "w-full rounded-md border border-input bg-popover px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-ring/25";
 
 export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return <input {...props} className={`${inputCls} ${props.className ?? ""}`} />;
@@ -211,13 +206,13 @@ export function Textarea(
 
 export function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
   return (
-    <select {...props} className={`${inputCls} bg-white ${props.className ?? ""}`}>
+    <select {...props} className={`${inputCls} ${props.className ?? ""}`}>
       {props.children}
     </select>
   );
 }
 
-// --- Tables ---
+// --- Money ---
 
 export function Money({
   value,
@@ -226,15 +221,13 @@ export function Money({
   value: number | string | null;
   className?: string;
 }) {
-  return (
-    <span className={`tabular-nums ${className}`}>{money(value)}</span>
-  );
+  return <span className={`tabular-nums ${className}`}>{money(value)}</span>;
 }
 
 export function FormError({ message }: { message?: string }) {
   if (!message) return null;
   return (
-    <div className="rounded-lg bg-rose-50 border border-rose-200 px-3 py-2 text-sm text-rose-700">
+    <div className="rounded-md bg-destructive/10 border border-destructive/30 px-3 py-2 text-sm text-destructive">
       {message}
     </div>
   );

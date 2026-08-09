@@ -39,9 +39,9 @@ export function JournalEntryForm({ accounts }: { accounts: Account[] }) {
         </Field>
       </div>
 
-      <div className="border border-slate-200 rounded-lg overflow-hidden">
+      <div className="border border-border rounded-lg overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wide">
+          <thead className="bg-muted text-muted-foreground text-xs uppercase tracking-wide">
             <tr>
               <th className="text-left px-3 py-2 font-medium">Account</th>
               <th className="text-right px-3 py-2 font-medium w-32">Debit</th>
@@ -51,7 +51,7 @@ export function JournalEntryForm({ accounts }: { accounts: Account[] }) {
           </thead>
           <tbody>
             {lines.map((l) => (
-              <tr key={l.key} className="border-t border-slate-100">
+              <tr key={l.key} className="border-t border-border">
                 <td className="px-3 py-2">
                   <Select
                     name="account_id"
@@ -90,7 +90,7 @@ export function JournalEntryForm({ accounts }: { accounts: Account[] }) {
                   <button
                     type="button"
                     onClick={() => removeLine(l.key)}
-                    className="text-slate-400 hover:text-rose-600"
+                    className="text-muted-foreground hover:text-destructive"
                     aria-label="Remove line"
                   >
                     ×
@@ -99,10 +99,10 @@ export function JournalEntryForm({ accounts }: { accounts: Account[] }) {
               </tr>
             ))}
           </tbody>
-          <tfoot className="bg-slate-50 border-t border-slate-200 text-sm">
+          <tfoot className="bg-muted border-t border-border text-sm">
             <tr>
-              <td className="px-3 py-2 text-slate-500">
-                <button type="button" onClick={addLine} className="text-slate-600 hover:text-slate-900 font-medium">
+              <td className="px-3 py-2 text-muted-foreground">
+                <button type="button" onClick={addLine} className="text-muted-foreground hover:text-foreground font-medium">
                   + Add line
                 </button>
               </td>
@@ -115,7 +115,7 @@ export function JournalEntryForm({ accounts }: { accounts: Account[] }) {
       </div>
 
       <div className="flex items-center justify-between">
-        <div className={`text-sm ${balanced ? "text-emerald-600" : "text-amber-600"}`}>
+        <div className={`text-sm ${balanced ? "text-success" : "text-warning"}`}>
           {balanced
             ? "✓ Balanced"
             : totalD === 0

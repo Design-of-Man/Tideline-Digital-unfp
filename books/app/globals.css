@@ -1,45 +1,281 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+/* =====================================================================
+   Design of Man — books
+   books/app/globals.css   ·   Tailwind v4, no tailwind.config.js
+
+   Palette names and hexes are taken from DesignofManLogo.pdf
+   (Vitruvian mark · v1). Do not substitute approximations — the
+   values below are the brand.
+
+     Ink        #0E1524      Parchment  #F4EEE0
+     Indigo     #1B2436      Paper      #F7F2E9
+     Brass      #C9A24B      Terracotta #C15F3C
+   ===================================================================== */
+
+
+/* 1 ── class-based dark mode (v4 defaults to prefers-color-scheme) ──── */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+/* 2 ── brand ramp → bg-indigo-700, text-brass-400, border-parchment… ── */
 
 @theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif;
+  --color-paper-50:      #FBF8F1;   /* input fill, lightest             */
+  --color-paper-100:     #F7F2E9;   /* Paper — cards                    */
+  --color-parchment-200: #F4EEE0;   /* Parchment — page                 */
+  --color-parchment-300: #EDE6D6;   /* hover fill                       */
+  --color-parchment-400: #E6DDC8;   /* secondary fill                   */
+
+  --color-indigo-500:    #2A3654;
+  --color-indigo-600:    #202B43;   /* masthead gradient, top           */
+  --color-indigo-700:    #1B2436;   /* Indigo — primary surface         */
+  --color-indigo-800:    #151D2E;   /* deepest surface, total blocks    */
+  --color-indigo-900:    #0E1524;   /* Ink                              */
+
+  --color-brass-300:     #DCBB74;
+  --color-brass-400:     #C9A24B;   /* Brass — ON DARK ONLY (2.07:1 on cream) */
+  --color-brass-500:     #A8863C;
+  --color-brass-600:     #8A6E2E;   /* on Parchment, 4.17:1 — large text */
+  --color-brass-700:     #7A6128;   /* on Parchment, 5.09:1 — small text */
+
+  --color-terracotta-400: #C15F3C;  /* Terracotta — on dark             */
+  --color-terracotta-600: #9A5230;  /* on Parchment, 5.01:1             */
+
+  --color-ink-muted:     #4A5464;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans:    "Work Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+
+  --radius-dom:    6px;
+  --radius-dom-lg: 10px;
 }
 
-html,
-body {
-  background-color: #f8fafc; /* slate-50 */
-  color: #0f172a; /* slate-900 */
-  -webkit-font-smoothing: antialiased;
+
+/* 3 ── semantic tokens. Light = invoice body. Dark = invoice masthead. ─ */
+
+@theme inline {
+  --color-background:             var(--background);
+  --color-foreground:             var(--foreground);
+  --color-card:                   var(--card);
+  --color-card-foreground:        var(--card-foreground);
+  --color-popover:                var(--popover);
+  --color-popover-foreground:     var(--popover-foreground);
+  --color-primary:                var(--primary);
+  --color-primary-foreground:     var(--primary-foreground);
+  --color-secondary:              var(--secondary);
+  --color-secondary-foreground:   var(--secondary-foreground);
+  --color-muted:                  var(--muted);
+  --color-muted-foreground:       var(--muted-foreground);
+  --color-accent:                 var(--accent);
+  --color-accent-foreground:      var(--accent-foreground);
+  --color-destructive:            var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success:                var(--success);
+  --color-warning:                var(--warning);
+  --color-border:                 var(--border);
+  --color-input:                  var(--input);
+  --color-ring:                   var(--ring);
 }
 
-/* Consistent report/data tables */
-table.data {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.875rem;
+:root {
+  --background:             #F4EEE0;
+  --foreground:             #0E1524;
+  --card:                   #F7F2E9;
+  --card-foreground:        #0E1524;
+  --popover:                #FBF8F1;
+  --popover-foreground:     #0E1524;
+
+  --primary:                #1B2436;
+  --primary-foreground:     #F7F2E9;
+
+  --secondary:              #E6DDC8;
+  --secondary-foreground:   #1B2436;
+
+  --muted:                  #EDE6D6;
+  --muted-foreground:       #4A5464;
+
+  /* Brass darkens on light backgrounds. The true #C9A24B is 2.07:1 on
+     Parchment — fine on a printed logo sheet, unreadable as UI text. */
+  --accent:                 #7A6128;
+  --accent-foreground:      #F7F2E9;
+
+  --destructive:            #9A5230;
+  --destructive-foreground: #F7F2E9;
+  --success:                #3F6B4A;
+  --warning:                #8A6E2E;
+
+  --border:                 rgb(14 21 36 / 0.13);
+  --input:                  rgb(14 21 36 / 0.20);
+  --ring:                   #8A6E2E;
 }
-table.data thead th {
-  text-align: left;
+
+.dark {
+  --background:             #1B2436;
+  --foreground:             #F7F2E9;
+  --card:                   #202B43;
+  --card-foreground:        #F7F2E9;
+  --popover:                #151D2E;
+  --popover-foreground:     #F7F2E9;
+
+  --primary:                #F7F2E9;
+  --primary-foreground:     #1B2436;
+
+  --secondary:              #2A3654;
+  --secondary-foreground:   #F7F2E9;
+
+  --muted:                  #202B43;
+  --muted-foreground:       #A9B0BF;
+
+  /* On Indigo the true Brass is safe — 6.47:1 */
+  --accent:                 #C9A24B;
+  --accent-foreground:      #151D2E;
+
+  --destructive:            #C15F3C;
+  --destructive-foreground: #151D2E;
+  --success:                #7FB08C;
+  --warning:                #DCBB74;
+
+  --border:                 rgb(247 242 233 / 0.16);
+  --input:                  rgb(247 242 233 / 0.22);
+  --ring:                   #C9A24B;
+}
+
+
+/* 4 ── base ─────────────────────────────────────────────────────────── */
+
+@layer base {
+  * { border-color: var(--border); }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-variation-settings: "opsz" 100, "SOFT" 0, "WONK" 1;
+    letter-spacing: -0.012em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  h1 { font-size: 1.7rem; }
+  h2 { font-size: 1.375rem; }
+  h3 { font-size: 1.0625rem; }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::selection { background: var(--primary); color: var(--primary-foreground); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+
+/* 5 ── ledger tables ─────────────────────────────────────────────────
+   Tabular numerals are the single most important rule here. Without
+   them $1,000.00 and $952.00 don't align their decimals in a column.  */
+
+@layer base {
+  table { width: 100%; border-collapse: collapse; }
+
+  /* the invoice's DESCRIPTION / AMOUNT band */
+  thead th {
+    background: var(--primary);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 0.56rem 1.25rem;
+  }
+  .dark thead th { color: var(--accent); }
+
+  tbody td {
+    padding: 0.7rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--muted); }
+
+  /* Zero-specificity default colour. :where() contributes nothing to
+     specificity, so .amount, .muted, total rows etc. can override it
+     without a specificity arms race. Removing this breaks the totals
+     row — it silently reverts to body colour on a dark background. */
+  :where(tbody td) { color: var(--foreground); }
+
+  .amount, .tabular, [data-numeric],
+  td[align="right"], th[align="right"] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+    text-align: right;
+  }
+
+  /* accounting convention, not a red splash */
+  .amount--negative { color: var(--destructive); }
+  .amount--negative::before { content: "("; }
+  .amount--negative::after  { content: ")"; }
+}
+
+
+/* 6 ── utilities. Class names only; never a new component. ──────────── */
+
+@utility dom-label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
   font-weight: 500;
-  color: #64748b; /* slate-500 */
-  padding: 0.625rem 1.25rem;
-  border-bottom: 1px solid #f1f5f9;
-  font-size: 0.75rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  color: var(--accent);
 }
-table.data tbody td {
-  padding: 0.75rem 1.25rem;
-  border-bottom: 1px solid #f1f5f9;
-  color: #1e293b; /* slate-800 */
+
+@utility dom-masthead {
+  background: linear-gradient(168deg, #202B43 0%, #1B2436 48%, #151D2E 100%);
+  color: #F7F2E9;
 }
-table.data tbody tr:last-child td {
-  border-bottom: none;
+
+@utility dom-total-block {
+  background: #151D2E;
+  color: #F7F2E9;
 }
-table.data tbody tr:hover {
-  background-color: #f8fafc;
+
+@utility dom-rule {
+  border: 0;
+  border-top: 2px solid var(--accent);
+  width: 3rem;
 }
-.num {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
+
+
+/* 7 ── app compatibility (kept minimal) ──────────────────────────────
+   The header band always sits on the Indigo primary surface, so its
+   label is bright Brass (matches the mockup) instead of the on-cream
+   accent. And the app's amount cells use .num — align them like .amount. */
+
+@layer base {
+  thead th { color: var(--color-brass-400); }
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+    text-align: right;
+  }
 }

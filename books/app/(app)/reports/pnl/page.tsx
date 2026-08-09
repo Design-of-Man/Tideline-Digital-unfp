@@ -43,7 +43,7 @@ export default async function PnlReport({
             ))}
             <Total label="Total expenses" amount={totalExp} />
 
-            <tr className="bg-slate-900 text-white">
+            <tr className="bg-primary text-primary-foreground">
               <td className="px-5 py-3 font-semibold">Net income</td>
               <td className="px-5 py-3 num tabular-nums font-semibold">{money(net)}</td>
             </tr>
@@ -51,7 +51,7 @@ export default async function PnlReport({
         </table>
       </Card>
       {(revenue.length === 0 && expenses.length === 0) && (
-        <p className="text-sm text-slate-400 mt-4">No activity in this period.</p>
+        <p className="text-sm text-muted-foreground mt-4">No activity in this period.</p>
       )}
     </div>
   );
@@ -59,24 +59,24 @@ export default async function PnlReport({
 
 function Section({ label }: { label: string }) {
   return (
-    <tr className="bg-slate-50">
-      <td colSpan={2} className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</td>
+    <tr className="bg-muted">
+      <td colSpan={2} className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</td>
     </tr>
   );
 }
 function Row({ name, sub, amount }: { name: string; sub?: string; amount: number }) {
   return (
     <tr>
-      <td className="px-5 py-2 text-slate-700">{name}{sub && <span className="text-xs text-slate-400 ml-2">{sub}</span>}</td>
-      <td className="px-5 py-2 num tabular-nums text-slate-700">{money(amount)}</td>
+      <td className="px-5 py-2 text-foreground">{name}{sub && <span className="text-xs text-muted-foreground ml-2">{sub}</span>}</td>
+      <td className="px-5 py-2 num tabular-nums text-foreground">{money(amount)}</td>
     </tr>
   );
 }
 function Total({ label, amount }: { label: string; amount: number }) {
   return (
-    <tr className="border-t border-slate-200 font-medium">
-      <td className="px-5 py-2 text-slate-800">{label}</td>
-      <td className="px-5 py-2 num tabular-nums text-slate-800">{money(amount)}</td>
+    <tr className="border-t border-border font-medium">
+      <td className="px-5 py-2 text-foreground">{label}</td>
+      <td className="px-5 py-2 num tabular-nums text-foreground">{money(amount)}</td>
     </tr>
   );
 }

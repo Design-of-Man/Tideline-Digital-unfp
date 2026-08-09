@@ -39,7 +39,7 @@ export default async function ExpensesPage({
       {error && <div className="mb-4"><FormError message={error} /></div>}
 
       <details className="mb-6">
-        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-slate-900 text-white px-3.5 py-2 text-sm font-medium hover:bg-slate-700 list-none">
+        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-3.5 py-2 text-sm font-medium hover:bg-primary/90 list-none">
           + Add expense
         </summary>
         <Card className="mt-3 p-5">
@@ -86,8 +86,8 @@ export default async function ExpensesPage({
         </Card>
       </details>
 
-      <div className="mb-4 text-sm text-slate-500">
-        Total this year: <span className="font-semibold text-slate-800">{money(totalYtd)}</span>
+      <div className="mb-4 text-sm text-muted-foreground">
+        Total this year: <span className="font-semibold text-foreground">{money(totalYtd)}</span>
       </div>
 
       <Card>
@@ -106,24 +106,24 @@ export default async function ExpensesPage({
             <tbody>
               {expenses.map((e: any) => (
                 <tr key={e.id}>
-                  <td className="whitespace-nowrap text-slate-500">{shortDate(e.expense_date)}</td>
-                  <td className="font-medium text-slate-800">
+                  <td className="whitespace-nowrap text-muted-foreground">{shortDate(e.expense_date)}</td>
+                  <td className="font-medium text-foreground">
                     {e.vendor?.name || e.memo || "—"}
                     {e.status === "unpaid" && <Badge tone="amber">unpaid</Badge>}
                   </td>
-                  <td className="text-slate-500">{e.category?.name}</td>
+                  <td className="text-muted-foreground">{e.category?.name}</td>
                   <td>
                     {e.tax_categories?.name ? (
                       <Badge tone="green">{e.deductible_pct < 100 ? `${e.deductible_pct}% ` : ""}deductible</Badge>
                     ) : (
-                      <span className="text-slate-300">—</span>
+                      <span className="text-muted-foreground/60">—</span>
                     )}
                   </td>
                   <td className="num tabular-nums">{money(e.amount)}</td>
                   <td className="text-right pr-4">
                     <form action={deleteExpense}>
                       <input type="hidden" name="id" value={e.id} />
-                      <button className="text-slate-300 hover:text-rose-600 text-sm">Delete</button>
+                      <button className="text-muted-foreground/60 hover:text-destructive text-sm">Delete</button>
                     </form>
                   </td>
                 </tr>

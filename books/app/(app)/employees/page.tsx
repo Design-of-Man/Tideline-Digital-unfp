@@ -40,10 +40,10 @@ export default async function EmployeesPage({
             {distributionAccounts.map((a) => (<option key={a.id} value={a.id}>{a.code} · {a.name}</option>))}
           </Select>
         </Field>
-        <label className="flex items-center gap-2 text-sm text-slate-700">
+        <label className="flex items-center gap-2 text-sm text-foreground">
           <input type="checkbox" name="is_owner" defaultChecked={e ? e.is_owner : true} /> Owner
         </label>
-        <label className="flex items-center gap-2 text-sm text-slate-700">
+        <label className="flex items-center gap-2 text-sm text-foreground">
           <input type="checkbox" name="is_shareholder" defaultChecked={e ? e.is_shareholder : true} /> Shareholder
         </label>
       </div>
@@ -59,7 +59,7 @@ export default async function EmployeesPage({
       {error && <div className="mb-4"><FormError message={error} /></div>}
 
       <details className="mb-6">
-        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-slate-900 text-white px-3.5 py-2 text-sm font-medium hover:bg-slate-700 list-none">+ Add person</summary>
+        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-3.5 py-2 text-sm font-medium hover:bg-primary/90 list-none">+ Add person</summary>
         <Card className="mt-3 p-5">
           <form action={createEmployee} className="space-y-4">
             <EmployeeFormFields />
@@ -74,14 +74,14 @@ export default async function EmployeesPage({
             <details>
               <summary className="cursor-pointer px-5 py-4 flex items-center justify-between list-none">
                 <div>
-                  <span className="font-medium text-slate-800">{e.first_name} {e.last_name}</span>
-                  <span className="text-slate-400 text-sm ml-2">{e.title}</span>
+                  <span className="font-medium text-foreground">{e.first_name} {e.last_name}</span>
+                  <span className="text-muted-foreground text-sm ml-2">{e.title}</span>
                   {e.is_owner && <Badge tone="blue">owner</Badge>}
                   {e.is_shareholder && <Badge>{Number(e.ownership_pct)}%</Badge>}
                 </div>
-                <div className="text-sm text-slate-500">{money(e.annual_salary)}/yr · edit</div>
+                <div className="text-sm text-muted-foreground">{money(e.annual_salary)}/yr · edit</div>
               </summary>
-              <div className="px-5 pb-5 border-t border-slate-100 pt-4">
+              <div className="px-5 pb-5 border-t border-border pt-4">
                 <form action={updateEmployee} className="space-y-4">
                   <input type="hidden" name="id" value={e.id} />
                   <EmployeeFormFields e={e} />

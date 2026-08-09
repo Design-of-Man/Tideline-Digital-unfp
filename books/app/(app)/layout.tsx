@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/nav";
+import { Logo, Wordmark } from "@/components/logo";
 
 export default async function AppLayout({
   children,
@@ -22,25 +23,28 @@ export default async function AppLayout({
 
   return (
     <div className="min-h-screen flex">
-      {/* Sidebar */}
-      <aside className="w-60 shrink-0 border-r border-slate-200 bg-white hidden md:flex md:flex-col">
-        <div className="px-5 py-4 border-b border-slate-100">
-          <Link href="/" className="block">
-            <div className="font-semibold text-slate-900 leading-tight">
-              {company?.dba_name || company?.legal_name || "Design of Man"}
-            </div>
-            <div className="text-xs text-slate-400">Books</div>
+      {/* Sidebar — the Indigo field */}
+      <aside className="dom-masthead w-[244px] shrink-0 hidden md:flex md:flex-col">
+        <div className="flex items-center gap-3 px-5 py-[18px] border-b border-parchment-200/[0.13]">
+          <Link href="/" className="flex items-center gap-3">
+            <Logo className="w-[30px] h-[30px] shrink-0" />
+            <span>
+              <Wordmark className="block text-[17px] text-parchment-100 leading-tight" />
+              <span className="block font-mono text-[9.5px] tracking-[0.22em] uppercase text-brass-400">
+                Books
+              </span>
+            </span>
           </Link>
         </div>
         <div className="flex-1 overflow-y-auto">
           <Sidebar />
         </div>
-        <div className="border-t border-slate-100 px-5 py-3">
-          <div className="text-xs text-slate-400 truncate mb-2" title={user.email ?? ""}>
+        <div className="border-t border-parchment-200/[0.13] px-5 py-3.5">
+          <div className="text-[11.5px] text-parchment-200/50 truncate mb-2" title={user.email ?? ""}>
             {user.email}
           </div>
           <form action="/auth/signout" method="post">
-            <button className="text-xs text-slate-500 hover:text-slate-800">
+            <button className="font-mono text-[10.5px] tracking-[0.1em] uppercase text-brass-400 hover:text-brass-300">
               Sign out
             </button>
           </form>
@@ -50,12 +54,15 @@ export default async function AppLayout({
       {/* Main */}
       <div className="flex-1 min-w-0 flex flex-col">
         {/* Mobile top bar */}
-        <div className="md:hidden flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3">
-          <Link href="/" className="font-semibold text-slate-900">
-            {company?.dba_name || "Design of Man"}
+        <div className="dom-masthead md:hidden flex items-center justify-between px-4 py-3">
+          <Link href="/" className="flex items-center gap-2.5">
+            <Logo className="w-6 h-6 shrink-0" />
+            <Wordmark className="text-[15px] text-parchment-100" />
           </Link>
           <form action="/auth/signout" method="post">
-            <button className="text-xs text-slate-500">Sign out</button>
+            <button className="font-mono text-[10px] tracking-[0.1em] uppercase text-brass-400">
+              Sign out
+            </button>
           </form>
         </div>
         <main className="flex-1 p-6 md:p-8 max-w-6xl w-full mx-auto">

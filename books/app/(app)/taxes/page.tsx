@@ -34,8 +34,8 @@ export default async function TaxesPage({
       />
       {error && <div className="mb-4"><FormError message={error} /></div>}
 
-      <Card className="p-4 mb-6 bg-blue-50 border-blue-200">
-        <p className="text-sm text-blue-900">
+      <Card className="p-4 mb-6 bg-muted border-border">
+        <p className="text-sm text-foreground">
           Paying down payroll taxes you already withheld? Choose <strong>Payroll Liabilities</strong> as the tax account —
           that clears the liability instead of double-counting the expense. For franchise/state taxes the business owes
           directly, choose the <strong>Taxes &amp; Licenses</strong> expense account.
@@ -43,7 +43,7 @@ export default async function TaxesPage({
       </Card>
 
       <details className="mb-6" open={!rows?.length}>
-        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-slate-900 text-white px-3.5 py-2 text-sm font-medium hover:bg-slate-700 list-none">+ Record tax payment</summary>
+        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-3.5 py-2 text-sm font-medium hover:bg-primary/90 list-none">+ Record tax payment</summary>
         <Card className="mt-3 p-5">
           <form action={createTaxPayment} className="grid sm:grid-cols-3 gap-4">
             <Field label="Tax type">
@@ -78,8 +78,8 @@ export default async function TaxesPage({
         </Card>
       </details>
 
-      <div className="mb-4 text-sm text-slate-500">
-        Tax paid this year: <span className="font-semibold text-slate-800">{money(ytd)}</span>
+      <div className="mb-4 text-sm text-muted-foreground">
+        Tax paid this year: <span className="font-semibold text-foreground">{money(ytd)}</span>
       </div>
 
       <Card>
@@ -89,12 +89,12 @@ export default async function TaxesPage({
             <tbody>
               {rows.map((r) => (
                 <tr key={r.id}>
-                  <td className="text-slate-500 whitespace-nowrap">{shortDate(r.payment_date)}</td>
-                  <td className="font-medium text-slate-800">{TAX_PAYMENT_TYPE_LABEL[r.tax_type]}</td>
-                  <td className="text-slate-500">{r.period_label || "—"}</td>
+                  <td className="text-muted-foreground whitespace-nowrap">{shortDate(r.payment_date)}</td>
+                  <td className="font-medium text-foreground">{TAX_PAYMENT_TYPE_LABEL[r.tax_type]}</td>
+                  <td className="text-muted-foreground">{r.period_label || "—"}</td>
                   <td className="num tabular-nums">{money(r.amount)}</td>
                   <td className="text-right pr-4">
-                    <form action={deleteTaxPayment}><input type="hidden" name="id" value={r.id} /><button className="text-slate-300 hover:text-rose-600 text-sm">Delete</button></form>
+                    <form action={deleteTaxPayment}><input type="hidden" name="id" value={r.id} /><button className="text-muted-foreground/60 hover:text-destructive text-sm">Delete</button></form>
                   </td>
                 </tr>
               ))}

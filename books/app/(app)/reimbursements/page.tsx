@@ -45,7 +45,7 @@ export default async function ReimbursementsPage({
       {error && <div className="mb-4"><FormError message={error} /></div>}
 
       <details className="mb-6">
-        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-slate-900 text-white px-3.5 py-2 text-sm font-medium hover:bg-slate-700 list-none">+ Submit expense</summary>
+        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-3.5 py-2 text-sm font-medium hover:bg-primary/90 list-none">+ Submit expense</summary>
         <Card className="mt-3 p-5">
           <form action={createEmployeeExpense} className="grid sm:grid-cols-3 gap-4">
             <Field label="Employee">
@@ -68,8 +68,8 @@ export default async function ReimbursementsPage({
         </Card>
       </details>
 
-      <div className="mb-4 text-sm text-slate-500">
-        Currently owed to employees: <span className="font-semibold text-slate-800">{money(owed)}</span>
+      <div className="mb-4 text-sm text-muted-foreground">
+        Currently owed to employees: <span className="font-semibold text-foreground">{money(owed)}</span>
       </div>
 
       <Card>
@@ -81,40 +81,40 @@ export default async function ReimbursementsPage({
             <tbody>
               {rows.map((r: any) => (
                 <tr key={r.id}>
-                  <td className="text-slate-500 whitespace-nowrap">{shortDate(r.expense_date)}</td>
-                  <td className="font-medium text-slate-800">{r.employee?.first_name} {r.employee?.last_name}<div className="text-xs text-slate-400">{r.description}</div></td>
-                  <td className="text-slate-500">{r.category?.name}</td>
+                  <td className="text-muted-foreground whitespace-nowrap">{shortDate(r.expense_date)}</td>
+                  <td className="font-medium text-foreground">{r.employee?.first_name} {r.employee?.last_name}<div className="text-xs text-muted-foreground">{r.description}</div></td>
+                  <td className="text-muted-foreground">{r.category?.name}</td>
                   <td><Badge tone={STATUS_TONE[r.status]}>{r.status}</Badge></td>
                   <td className="num tabular-nums">{money(r.amount)}</td>
                   <td className="text-right pr-4 whitespace-nowrap">
                     {r.status === "submitted" && (
                       <form action={approveEmployeeExpense} className="inline">
                         <input type="hidden" name="id" value={r.id} />
-                        <button className="text-blue-600 hover:text-blue-800 text-sm mr-3">Approve</button>
+                        <button className="text-foreground hover:text-foreground text-sm mr-3">Approve</button>
                       </form>
                     )}
                     {(r.status === "submitted" || r.status === "approved") && (
                       <details className="inline-block align-middle mr-3">
-                        <summary className="text-emerald-600 hover:text-emerald-800 text-sm cursor-pointer list-none inline">Reimburse</summary>
+                        <summary className="text-success hover:text-success text-sm cursor-pointer list-none inline">Reimburse</summary>
                         <form action={reimburseEmployeeExpense} className="inline-flex items-center gap-2 ml-2">
                           <input type="hidden" name="id" value={r.id} />
                           <Select name="pay_from_account_id" required defaultValue="" className="!py-1 !text-xs">
                             <option value="" disabled>Bank…</option>
                             {banks.map((a) => (<option key={a.id} value={a.id}>{a.name}</option>))}
                           </Select>
-                          <button className="text-emerald-700 text-sm font-medium">Pay</button>
+                          <button className="text-success text-sm font-medium">Pay</button>
                         </form>
                       </details>
                     )}
                     {r.status === "submitted" && (
                       <form action={rejectEmployeeExpense} className="inline">
                         <input type="hidden" name="id" value={r.id} />
-                        <button className="text-slate-400 hover:text-slate-700 text-sm mr-3">Reject</button>
+                        <button className="text-muted-foreground hover:text-foreground text-sm mr-3">Reject</button>
                       </form>
                     )}
                     <form action={deleteEmployeeExpense} className="inline">
                       <input type="hidden" name="id" value={r.id} />
-                      <button className="text-slate-300 hover:text-rose-600 text-sm">Delete</button>
+                      <button className="text-muted-foreground/60 hover:text-destructive text-sm">Delete</button>
                     </form>
                   </td>
                 </tr>

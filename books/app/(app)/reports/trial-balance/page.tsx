@@ -43,14 +43,14 @@ export default async function TrialBalance({
           <tbody>
             {rows.map((r) => (
               <tr key={r.account_id}>
-                <td className="text-slate-700"><span className="font-mono text-xs text-slate-400 mr-2">{r.code}</span>{r.name}</td>
+                <td className="text-foreground"><span className="font-mono text-xs text-muted-foreground mr-2">{r.code}</span>{r.name}</td>
                 <td className="num tabular-nums">{r.debitCol ? money(r.debitCol) : ""}</td>
                 <td className="num tabular-nums">{r.creditCol ? money(r.creditCol) : ""}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
-            <tr className="bg-slate-900 text-white font-semibold">
+            <tr className="bg-primary text-primary-foreground font-semibold">
               <td className="px-5 py-3">Totals</td>
               <td className="px-5 py-3 num tabular-nums">{money(totalD)}</td>
               <td className="px-5 py-3 num tabular-nums">{money(totalC)}</td>
@@ -58,7 +58,7 @@ export default async function TrialBalance({
           </tfoot>
         </table>
       </Card>
-      <p className={`text-sm mt-3 ${Math.abs(totalD - totalC) < 0.01 ? "text-emerald-600" : "text-rose-600"}`}>
+      <p className={`text-sm mt-3 ${Math.abs(totalD - totalC) < 0.01 ? "text-success" : "text-destructive"}`}>
         {Math.abs(totalD - totalC) < 0.01 ? "✓ Debits equal credits — the books are in balance." : `Out of balance by ${money(totalD - totalC)}.`}
       </p>
     </div>

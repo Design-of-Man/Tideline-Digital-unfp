@@ -43,7 +43,7 @@ export default async function BalanceSheet({
 
       <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
         <Card>
-          <div className="px-5 py-3 border-b border-slate-100 font-medium text-slate-800">Assets</div>
+          <div className="px-5 py-3 border-b border-border font-medium text-foreground">Assets</div>
           <table className="data">
             <tbody>
               {assets.map((b) => <Row key={b.account_id} name={`${b.code} · ${b.name}`} amount={Number(b.balance)} />)}
@@ -53,7 +53,7 @@ export default async function BalanceSheet({
         </Card>
 
         <Card>
-          <div className="px-5 py-3 border-b border-slate-100 font-medium text-slate-800">Liabilities &amp; Equity</div>
+          <div className="px-5 py-3 border-b border-border font-medium text-foreground">Liabilities &amp; Equity</div>
           <table className="data">
             <tbody>
               <Section label="Liabilities" />
@@ -65,7 +65,7 @@ export default async function BalanceSheet({
               <Row name="Net income (current period)" amount={netIncome} />
               <Total label="Total equity" amount={totalEquity} />
 
-              <tr className="bg-slate-900 text-white">
+              <tr className="bg-primary text-primary-foreground">
                 <td className="px-5 py-3 font-semibold">Total liabilities &amp; equity</td>
                 <td className="px-5 py-3 num tabular-nums font-semibold">{money(totalLiab + totalEquity)}</td>
               </tr>
@@ -75,7 +75,7 @@ export default async function BalanceSheet({
       </div>
 
       {Math.abs(totalAssets - (totalLiab + totalEquity)) > 0.01 && (
-        <p className="text-sm text-rose-600 mt-4">
+        <p className="text-sm text-destructive mt-4">
           Note: assets and liabilities+equity differ by {money(totalAssets - (totalLiab + totalEquity))}. This usually
           means an opening balance still needs to be entered.
         </p>
@@ -86,24 +86,24 @@ export default async function BalanceSheet({
 
 function Section({ label }: { label: string }) {
   return (
-    <tr className="bg-slate-50">
-      <td colSpan={2} className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</td>
+    <tr className="bg-muted">
+      <td colSpan={2} className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</td>
     </tr>
   );
 }
 function Row({ name, amount }: { name: string; amount: number }) {
   return (
     <tr>
-      <td className="px-5 py-2 text-slate-700">{name}</td>
-      <td className="px-5 py-2 num tabular-nums text-slate-700">{money(amount)}</td>
+      <td className="px-5 py-2 text-foreground">{name}</td>
+      <td className="px-5 py-2 num tabular-nums text-foreground">{money(amount)}</td>
     </tr>
   );
 }
 function Total({ label, amount }: { label: string; amount: number }) {
   return (
-    <tr className="border-t border-slate-200 font-medium">
-      <td className="px-5 py-2 text-slate-800">{label}</td>
-      <td className="px-5 py-2 num tabular-nums text-slate-800">{money(amount)}</td>
+    <tr className="border-t border-border font-medium">
+      <td className="px-5 py-2 text-foreground">{label}</td>
+      <td className="px-5 py-2 num tabular-nums text-foreground">{money(amount)}</td>
     </tr>
   );
 }

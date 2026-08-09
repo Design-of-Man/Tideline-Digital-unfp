@@ -59,27 +59,30 @@ export function Sidebar() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <nav className="flex flex-col gap-5 px-3 py-4">
+    <nav className="flex flex-col gap-5 px-2.5 py-5">
       {SECTIONS.map((section) => (
         <div key={section.heading}>
-          <div className="px-3 mb-1 text-[0.65rem] font-semibold uppercase tracking-wider text-slate-400">
+          <div className="px-3.5 mb-1.5 font-mono text-[9.5px] font-medium uppercase tracking-[0.16em] text-brass-400">
             {section.heading}
           </div>
           <ul className="space-y-0.5">
-            {section.items.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`block rounded-lg px-3 py-1.5 text-sm transition-colors ${
-                    isActive(item.href)
-                      ? "bg-slate-900 text-white font-medium"
-                      : "text-slate-600 hover:bg-slate-100"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {section.items.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`relative block rounded px-3.5 py-1.5 text-[13.5px] transition-colors ${
+                      active
+                        ? "text-parchment-200 bg-parchment-200/10 font-medium before:content-[''] before:absolute before:-left-2.5 before:top-1 before:bottom-1 before:w-0.5 before:rounded-r before:bg-brass-400"
+                        : "text-parchment-200/65 hover:text-parchment-200 hover:bg-parchment-200/[0.07]"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       ))}

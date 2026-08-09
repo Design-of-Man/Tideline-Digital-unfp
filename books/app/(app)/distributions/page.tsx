@@ -34,7 +34,7 @@ export default async function DistributionsPage({
       {error && <div className="mb-4"><FormError message={error} /></div>}
 
       <details className="mb-6" open={!rows?.length}>
-        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-slate-900 text-white px-3.5 py-2 text-sm font-medium hover:bg-slate-700 list-none">+ Record distribution</summary>
+        <summary className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-3.5 py-2 text-sm font-medium hover:bg-primary/90 list-none">+ Record distribution</summary>
         <Card className="mt-3 p-5">
           <form action={createDistribution} className="grid sm:grid-cols-3 gap-4">
             <Field label="Shareholder">
@@ -58,8 +58,8 @@ export default async function DistributionsPage({
         </Card>
       </details>
 
-      <div className="mb-4 text-sm text-slate-500">
-        Distributions this year: <span className="font-semibold text-slate-800">{money(ytd)}</span>
+      <div className="mb-4 text-sm text-muted-foreground">
+        Distributions this year: <span className="font-semibold text-foreground">{money(ytd)}</span>
       </div>
 
       <Card>
@@ -69,12 +69,12 @@ export default async function DistributionsPage({
             <tbody>
               {rows.map((r: any) => (
                 <tr key={r.id}>
-                  <td className="text-slate-500 whitespace-nowrap">{shortDate(r.distribution_date)}</td>
-                  <td className="font-medium text-slate-800">{r.employee?.first_name} {r.employee?.last_name}</td>
-                  <td className="text-slate-500">{r.memo || "—"}</td>
+                  <td className="text-muted-foreground whitespace-nowrap">{shortDate(r.distribution_date)}</td>
+                  <td className="font-medium text-foreground">{r.employee?.first_name} {r.employee?.last_name}</td>
+                  <td className="text-muted-foreground">{r.memo || "—"}</td>
                   <td className="num tabular-nums">{money(r.amount)}</td>
                   <td className="text-right pr-4">
-                    <form action={deleteDistribution}><input type="hidden" name="id" value={r.id} /><button className="text-slate-300 hover:text-rose-600 text-sm">Delete</button></form>
+                    <form action={deleteDistribution}><input type="hidden" name="id" value={r.id} /><button className="text-muted-foreground/60 hover:text-destructive text-sm">Delete</button></form>
                   </td>
                 </tr>
               ))}

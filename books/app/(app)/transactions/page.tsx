@@ -52,14 +52,14 @@ export default async function TransactionsPage() {
                 );
                 return (
                   <tr key={e.id}>
-                    <td className="whitespace-nowrap text-slate-500">{shortDate(e.entry_date)}</td>
+                    <td className="whitespace-nowrap text-muted-foreground">{shortDate(e.entry_date)}</td>
                     <td>
-                      <Link href={`/transactions/${e.id}`} className="font-medium text-slate-800 hover:underline">
+                      <Link href={`/transactions/${e.id}`} className="font-medium text-foreground hover:underline">
                         {e.memo || "—"}
                       </Link>
                     </td>
                     <td><Badge tone={SOURCE_TONE[e.source] ?? "slate"}>{titleize(e.source)}</Badge></td>
-                    <td className="text-slate-400 text-xs">{e.reference || "—"}</td>
+                    <td className="text-muted-foreground text-xs">{e.reference || "—"}</td>
                     <td className="num tabular-nums">{money(amount)}</td>
                   </tr>
                 );
