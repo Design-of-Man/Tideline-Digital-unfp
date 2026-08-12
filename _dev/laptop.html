@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How We Build — Design of Man</title>
+<meta name="description" content="Watch a site come together piece by piece. Strategy, design, build, launch and care — the Design of Man process, assembled.">
+<link rel="canonical" href="https://www.tidelinedigital.com/how-we-build">
+<meta name="theme-color" content="#16233B">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How We Build — Design of Man">
+<meta property="og:description" content="Watch a site come together piece by piece.">
+<meta property="og:image" content="https://www.tidelinedigital.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ocean-deep:#16233B; --ocean-abyss:#0C1424; --ocean-mid:#A9843C;
+  --turquoise:#C9A24B; --turquoise-soft:#E0C173;
+  --sand:#E4D5B8; --sand-light:#F4EEE0;
+  --coral:#C15F3C; --coral-dark:#A44B2C;
+  --foam:#F7F2E9; --ink:#2E2A22; --ink-soft:rgba(46,42,34,.66);
+  --line:rgba(46,42,34,.14);
+  --display:'Fraunces',serif; --body:'Work Sans',sans-serif; --mono:'IBM Plex Mono',monospace;
+  --ease:cubic-bezier(.22,1,.36,1); --wrap:1180px;
+}
+*,*::before,*::after{box-sizing:border-box}*{margin:0}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{font-family:var(--body);font-size:17px;line-height:1.65;color:var(--ink);background:var(--foam);-webkit-font-smoothing:antialiased}
+img,svg,canvas{display:block;max-width:100%}
+a{color:var(--coral-dark);text-underline-offset:3px}
+h1,h2,h3{font-family:var(--display);color:var(--ocean-deep);line-height:1.12;font-weight:600;text-wrap:balance}
+h1{font-size:clamp(2.3rem, 1.5rem + 3.2vw, 3.9rem)}
+h2{font-size:clamp(1.7rem, 1.25rem + 2vw, 2.7rem)}
+p{text-wrap:pretty}
+::selection{background:var(--turquoise);color:var(--ocean-abyss)}
+:focus-visible{outline:2.5px solid var(--coral);outline-offset:3px;border-radius:3px}
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:clamp(1.15rem, .6rem + 2.2vw, 2.5rem)}
+.skip-link{position:absolute;left:1rem;top:-100px;z-index:999;background:var(--ocean-deep);color:#fff;padding:.75rem 1.25rem;border-radius:6px;font-weight:600;text-decoration:none;transition:top .18s var(--ease)}
+.skip-link:focus{top:1rem;color:#fff}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(247,242,233,.93);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;min-height:70px}
+.logo{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--display);font-weight:600;font-size:1.1rem;color:var(--ocean-deep);text-decoration:none}
+.logo svg{width:32px;height:32px;color:var(--ocean-deep)}
+.nav-links{display:flex;gap:.3rem;align-items:center}
+.tab-link{padding:.5rem .7rem;font-size:.9rem;font-weight:500;color:var(--ink);text-decoration:none;border-radius:6px}
+.tab-link:hover{color:var(--coral-dark);background:rgba(228,213,184,.42)}
+@media (max-width:820px){.nav-links a:not(.btn){display:none}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.85rem 1.5rem;font-size:.93rem;font-weight:600;text-decoration:none;border:1px solid transparent;border-radius:999px;cursor:pointer;transition:transform .22s var(--ease),background .22s var(--ease),color .22s var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.btn-coral{background:var(--coral);color:#fff}.btn-coral:hover{background:var(--coral-dark);color:#fff}
+.btn-light{background:rgba(247,242,233,.1);border-color:rgba(247,242,233,.34);color:#fff}
+.btn-light:hover{background:var(--foam);color:var(--ocean-deep)}
+.btn-row{display:flex;flex-wrap:wrap;gap:.75rem}
+
+.eyebrow{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--ocean-mid);margin-bottom:1rem}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--turquoise);flex:none;margin-top:.1em}
+
+.intro{padding-block:clamp(3.5rem, 2.4rem + 4.6vw, 6rem);text-align:center}
+.intro .eyebrow{justify-content:center}
+.intro p{max-width:56ch;margin:1.25rem auto 0;font-size:1.08rem;color:var(--ink-soft)}
+.scroll-hint{display:inline-flex;flex-direction:column;align-items:center;gap:.5rem;margin-top:2.5rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ocean-mid)}
+.scroll-hint::after{content:"";width:1px;height:44px;background:linear-gradient(var(--turquoise),transparent);animation:drop 1.8s var(--ease) infinite}
+@keyframes drop{0%{transform:scaleY(.2);transform-origin:top}60%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(1);opacity:0}}
+
+/* ===================== the assembly stage ===================== */
+.assembly{position:relative;height:560vh;background:linear-gradient(180deg,#182A46 0%,var(--ocean-deep) 30%,var(--ocean-abyss) 100%)}
+.stage{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;place-items:center}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(58% 46% at 50% 42%,rgba(201,162,75,.16),transparent 70%)}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+
+.stage-ui{position:relative;z-index:3;isolation:isolate;width:100%;height:100%;pointer-events:none;
+  display:grid;grid-template-rows:auto 1fr auto;padding:clamp(1.25rem,1rem + 1.6vw,2.5rem)}
+.stage-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1.5rem}
+.stage-head .mark{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,242,233,.5)}
+.captions{align-self:end;max-width:30ch}
+/* Scrim so caption text stays readable once the site fills the screen. */
+.stage-ui::before{content:"";position:absolute;left:0;right:0;bottom:0;height:52%;pointer-events:none;
+  background:linear-gradient(to top,rgba(9,18,32,.88),rgba(9,18,32,.45) 45%,transparent);z-index:-1}
+.caption{position:absolute;bottom:clamp(3.5rem,3rem + 2vw,5rem);opacity:0;transform:translateY(14px);
+  transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.caption[data-active="true"]{opacity:1;transform:none}
+.caption .n{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;color:var(--turquoise);display:block;margin-bottom:.5rem}
+.caption h2{color:var(--foam);font-size:clamp(1.6rem,1.2rem + 1.8vw,2.5rem);margin-bottom:.5rem}
+.caption p{color:rgba(247,242,233,.72);font-size:.98rem;max-width:34ch}
+.progress{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(247,242,233,.14);z-index:4}
+.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--turquoise),var(--coral));transform:scaleX(0);transform-origin:left}
+
+/* No WebGL, or JS failed: show a readable fallback instead of a blank box. */
+.fallback{position:absolute;inset:0;z-index:2;display:none;place-items:center;text-align:center;padding:2rem}
+.fallback h2{color:var(--foam)}
+.fallback p{color:rgba(247,242,233,.72);max-width:44ch;margin:.75rem auto 0}
+.assembly[data-webgl="unsupported"] .fallback{display:grid}
+.assembly[data-webgl="unsupported"] .captions,
+.assembly[data-webgl="unsupported"] .progress{display:none}
+.assembly[data-reduced="true"]{height:100svh}
+.assembly[data-reduced="true"] .caption[data-active]{opacity:0}
+.assembly[data-reduced="true"] .caption:last-child{opacity:1;transform:none}
+
+.outro{padding-block:clamp(3.5rem,2.4rem + 4.6vw,6rem);text-align:center;background:var(--sand-light)}
+.outro p{max-width:54ch;margin:1.25rem auto 2rem;color:var(--ink-soft)}
+footer{background:var(--ocean-abyss);color:rgba(247,242,233,.6);padding-block:2.5rem;font-size:.85rem;text-align:center}
+footer a{color:rgba(247,242,233,.75);text-decoration:none}
+footer a:hover{color:var(--turquoise)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .btn:hover{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html#home" class="logo">
+      <svg viewBox="0 0 100 100" fill="none" stroke-linecap="round" aria-hidden="true"><circle cx="50" cy="52" r="43" stroke="#C9A24B" stroke-width="3"/><g stroke="currentColor" stroke-width="3.6"><line x1="50" y1="32" x2="50" y2="63"/><line x1="50" y1="39" x2="17" y2="24"/><line x1="50" y1="39" x2="83" y2="24"/><line x1="50" y1="63" x2="31" y2="88"/><line x1="50" y1="63" x2="69" y2="88"/></g><circle cx="50" cy="25" r="7" fill="#C15F3C"/></svg>
+      Design of Man
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#home" class="tab-link">Home</a>
+      <a href="index.html#services" class="tab-link">Services</a>
+      <a href="work.html" class="tab-link">Work</a>
+      <a href="pay.html" class="tab-link">Billing</a>
+      <a href="index.html#consult" class="btn btn-coral">Book a Free Consult</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="intro wrap">
+    <p class="eyebrow">How we build</p>
+    <h1>A website is not one thing.<br>It is a hundred small ones.</h1>
+    <p>Strategy, structure, design, code, content, speed, search, security, hosting. Scroll, and watch them come together.</p>
+    <span class="scroll-hint">Scroll</span>
+  </section>
+
+  <!-- ============ ASSEMBLY ============ -->
+  <section class="assembly" id="assembly" aria-labelledby="assembly-title">
+    <div class="stage">
+      <canvas data-laptop-canvas aria-hidden="true"></canvas>
+
+      <div class="fallback">
+        <div>
+          <h2 id="assembly-title">Built piece by piece</h2>
+          <p>Strategy, design, build, launch and care. Your browser can't render the 3D version, so here is the short version: we do all five, in that order, and we stay after launch.</p>
+        </div>
+      </div>
+
+      <div class="stage-ui">
+        <div class="stage-head">
+          <span class="mark">Design of Man — the build</span>
+          <span class="mark">Scroll to assemble</span>
+        </div>
+        <div></div>
+        <div class="captions">
+          <article class="caption" data-caption data-active="true">
+            <span class="n">01 — Foundation</span>
+            <h2>Strategy first</h2>
+            <p>Who you are talking to, what they need to see, and what you want them to do. Everything else sits on this.</p>
+          </article>
+          <article class="caption" data-caption>
+            <span class="n">02 — Internals</span>
+            <h2>The parts nobody sees</h2>
+            <p>Clean markup, fast hosting, structured data, real accessibility. The work that decides whether Google and a screen reader can both read your site.</p>
+          </article>
+          <article class="caption" data-caption>
+            <span class="n">03 — Surface</span>
+            <h2>Design that fits the business</h2>
+            <p>Not a template with your logo dropped in. Type, colour and layout chosen for what you actually sell.</p>
+          </article>
+          <article class="caption" data-caption>
+            <span class="n">04 — Launch</span>
+            <h2>It opens up</h2>
+            <p>Domain connected, analytics wired, forms tested with a real submission. We check it works before we tell you it does.</p>
+          </article>
+          <article class="caption" data-caption>
+            <span class="n">05 — Care</span>
+            <h2>And it stays live</h2>
+            <p>Hosting, updates, backups and changes. A site is not finished at launch — it is just open.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="progress"><span data-progress-fill></span></div>
+    </div>
+  </section>
+
+  <section class="outro">
+    <div class="wrap">
+      <p class="eyebrow" style="justify-content:center">Your turn</p>
+      <h2>Let's draw up the plan.</h2>
+      <p>Tell us what the business does and who it needs to reach. We'll come back with a scope, a timeline and a number — no obligation.</p>
+      <div class="btn-row" style="justify-content:center">
+        <a class="btn btn-coral" href="index.html#consult">Book a Free Consult</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Design of Man · <a href="index.html#home">Home</a> · <a href="pay.html">Billing</a></div>
+</footer>
+
+<script type="module">
+  import { createLaptopScene } from './assets/js/laptop-assembly.js';
+  const root = document.getElementById('assembly');
+  try {
+    const scene = createLaptopScene(root);
+    if (!scene) root.setAttribute('data-webgl', 'unsupported');
+  } catch (err) {
+    console.error('[laptop-assembly]', err);
+    root.setAttribute('data-webgl', 'unsupported');
+  }
+</script>
+</body>
+</html>

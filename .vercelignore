@@ -1,4 +1,5 @@
-# The static marketing site lives at the repo root.
-# The Next.js accounting app under books/ is deployed as its OWN Vercel
-# project (Root Directory = books), so it must NOT be excluded here —
-# excluding it left the app project with no source to build.
+_dev/
+*.md
+!README.md
+.git/
+node_modules/

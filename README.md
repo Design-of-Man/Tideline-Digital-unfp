@@ -48,7 +48,7 @@ vercel --prod              # promote to production
 This started as a design mockup, so a few values are placeholders:
 
 - [ ] **Phone number** — replace `(561) 555-0100` (appears in the top bar, contact section, and footer).
-- [ ] **Email** — replace `hello@designofman.com`.
+- [ ] **Email** — replace `hello@tidelinedigital.com`.
 - [ ] **Stats** — the hero counters (120+ sites, 99.9% uptime, 14 yrs, &lt;1 day) are illustrative.
 - [ ] **Testimonials** — names, companies, and quotes are invented; swap in real ones.
 - [ ] **Pricing** — confirm the Launch / Grow / Care numbers reflect your real offer.
@@ -65,4 +65,4 @@ This started as a design mockup, so a few values are placeholders:
 
 The pages ship with meta descriptions, canonical tags, Open Graph/Twitter cards, a social image (`og.png`), a favicon, and JSON-LD structured data (Organization + WebSite + FAQPage on the homepage, BreadcrumbList + CollectionPage/Article on Work and the case study). `robots.txt` and `sitemap.xml` are included.
 
-**Before launch:** search-and-replace the placeholder domain `https://www.designofman.com` with your real domain across all `.html` files, `robots.txt`, and `sitemap.xml`, and update the placeholder phone number. Then submit the sitemap in Google Search Console.
+**Before launch:** search-and-replace the placeholder domain `https://www.tidelinedigital.com` with your real domain across all `.html` files, `robots.txt`, and `sitemap.xml`, and update the placeholder phone number. Then submit the sitemap in Google Search Console.

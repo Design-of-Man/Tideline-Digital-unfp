@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Design of Man designs, builds and maintains fast, custom websites and web apps. Clean design, honest scoping, and ongoing care long after launch day.">
+  <meta name="description" content="Design of Man designs, builds, and maintains fast, custom websites and web apps for businesses across Florida and beyond — clean design, honest pricing, and ongoing care after launch.">
   <link rel="canonical" href="https://www.tidelinedigital.com/">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="author" content="Design of Man">
@@ -15,7 +15,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design of Man">
   <meta property="og:title" content="Design of Man — Website Creation & Management">
-  <meta property="og:description" content="Design of Man designs, builds and maintains fast, custom websites and web apps. Clean design, honest scoping, and ongoing care long after launch day.">
+  <meta property="og:description" content="Design of Man designs, builds, and maintains fast, custom websites and web apps for businesses across Florida and beyond — clean design, honest pricing, and ongoing care after launch.">
   <meta property="og:url" content="https://www.tidelinedigital.com/">
   <meta property="og:image" content="https://www.tidelinedigital.com/og.png">
   <meta property="og:image:width" content="1200">
@@ -23,7 +23,7 @@
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Design of Man — Website Creation & Management">
-  <meta name="twitter:description" content="Design of Man designs, builds and maintains fast, custom websites and web apps. Clean design, honest scoping, and ongoing care long after launch day.">
+  <meta name="twitter:description" content="Design of Man designs, builds, and maintains fast, custom websites and web apps for businesses across Florida and beyond — clean design, honest pricing, and ongoing care after launch.">
   <meta name="twitter:image" content="https://www.tidelinedigital.com/og.png">
 
 <title>Design of Man — Website Creation &amp; Management</title>
@@ -40,7 +40,6 @@
     --display:'Fraunces',serif;--body:'Work Sans',sans-serif;--mono:'IBM Plex Mono',monospace;
     --ease:cubic-bezier(.22,1,.36,1);
   --dla-display:'Fraunces',serif; --dla-body:'Work Sans',sans-serif; --dla-mono:'IBM Plex Mono',monospace;
-  --dom-display:'Fraunces',serif; --dom-body:'Work Sans',sans-serif; --dom-mono:'IBM Plex Mono',monospace;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth;scroll-padding-top:88px}
@@ -617,8 +616,6 @@
     </nav>
   </div>
 </header>
-<main id="main">
-
 
 <section class="hero" id="home">
   <canvas id="ocean"></canvas>
@@ -761,12 +758,7 @@
      data-title="Design of Man — the build"
      data-label="Scroll to assemble"
      data-captions='[["01 \u2014 Discover", "Discover", "We learn your business, your goals, and what your site actually needs to do."], ["02 \u2014 Design", "Design", "Wireframes and visual direction, refined together with your feedback."], ["03 \u2014 Build", "Build", "Development happens in the open, with regular check-ins along the way."], ["04 \u2014 Launch", "Launch", "We handle the technical rollout, start to finish, so nothing breaks."], ["05 \u2014 Maintain", "Maintain", "Ongoing hosting, monitoring, and updates. The work does not stop at launch."]]'></div>
-<script src="assets/js/dom-3d.bundle.js" defer></script>
-<script src="assets/js/chat-widget.js"
-        data-endpoint="https://formspree.io/f/REPLACE_CHAT_ID"
-        data-phone="+15615550100" data-phone-label="(561) 555-0100"
-        data-email="hello@designofman.com" defer></script>
-
+<script src="assets/js/laptop-assembly.bundle.js" defer></script>
 <!-- =================================================== -->
 
 
@@ -954,8 +946,6 @@
   </div>
 </section>
 
-</main>
-
 <footer>
   <div class="wrap">
     <div class="footer-top">
@@ -1012,7 +1002,182 @@ window.addEventListener('load', () => setTimeout(() => document.getElementById('
   });
 })();
 
-/* hero mark is rendered in 3D — see assets/js/dom-3d.bundle.js */
+/* hero canvas — Vitruvian blueprint, drawn by compass
+   ---------------------------------------------------------------------------
+   Recomposed from the previous version:
+     · the mark now fits fully inside the frame instead of being cropped
+     · the head is a thin gold outline, not a solid coral disc that out-shouted
+       the primary CTA
+     · construction geometry lifted from ~0.06 to where it can actually be read
+     · the whole thing draws itself on load, compass first, figure last
+   Reduced motion gets the finished drawing immediately, no animation.        */
+(function(){
+  const canvas=document.getElementById('ocean'); if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  let w,h,dpr,t=0,mx=0.5,my=0.5,tx=0.5,ty=0.5,start=null;
+  const RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const GOLD='201,162,75', LGOLD='224,193,115', PAPER='247,242,233', TERRA='193,95,60';
+  const TAU=Math.PI*2;
+
+  const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+  const seg=(v,a,b)=>clamp((v-a)/(b-a));
+  const easeOut=k=>1-Math.pow(1-k,3);
+  const easeInOut=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+
+  /* ---- draw-on timeline (seconds) ---- */
+  const T={ grid:[0.0,0.9], circle:[0.35,1.75], square:[0.7,2.0],
+            cross:[1.1,2.1], ring:[1.3,2.2], limbs:[1.75,2.9],
+            head:[2.5,3.1], hand:[2.9,3.5] };
+
+  function resize(){
+    dpr=Math.min(window.devicePixelRatio||1,2);
+    w=canvas.clientWidth; h=canvas.clientHeight;
+    canvas.width=Math.round(w*dpr); canvas.height=Math.round(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  /* Stroke a path with a dash-offset reveal. p = 0..1 */
+  function reveal(path,len,p,style,lw){
+    if(p<=0) return;
+    ctx.save();
+    ctx.strokeStyle=style; ctx.lineWidth=lw;
+    ctx.setLineDash([len,len]);
+    ctx.lineDashOffset=len*(1-p);
+    ctx.stroke(path);
+    ctx.restore();
+  }
+
+  function grid(p){
+    if(p<=0) return;
+    const g=46, a=p;
+    ctx.lineWidth=1;
+    ctx.strokeStyle='rgba('+PAPER+','+(0.035*a)+')';
+    ctx.beginPath();
+    for(let x=(w%g);x<=w;x+=g){ctx.moveTo(x,0);ctx.lineTo(x,h);}
+    for(let y=(h%g);y<=h;y+=g){ctx.moveTo(0,y);ctx.lineTo(w,y);}
+    ctx.stroke();
+    ctx.strokeStyle='rgba('+PAPER+','+(0.05*a)+')';
+    ctx.beginPath();
+    for(let x=(w%(g*5));x<=w;x+=g*5){ctx.moveTo(x,0);ctx.lineTo(x,h);}
+    for(let y=(h%(g*5));y<=h;y+=g*5){ctx.moveTo(0,y);ctx.lineTo(w,y);}
+    ctx.stroke();
+  }
+
+  /* The figure, in the logo's own 0..100 coordinate space (circle r=43). */
+  function figurePath(R){
+    const s=R/43, P=(x,y)=>[(x-50)*s,(y-52)*s];
+    const pth=new Path2D();
+    const line=(a,b)=>{pth.moveTo(a[0],a[1]);pth.lineTo(b[0],b[1]);};
+    line(P(50,32),P(50,63));                          // torso
+    line(P(50,39),P(17,24)); line(P(50,39),P(83,24)); // arms, raised
+    line(P(50,63),P(31,88)); line(P(50,63),P(69,88)); // legs, apart
+    return pth;
+  }
+  function armsPath(R){
+    const s=R/43, P=(x,y)=>[(x-50)*s,(y-52)*s];
+    const pth=new Path2D();
+    pth.moveTo(...P(50,39)); pth.lineTo(...P(11,46));
+    pth.moveTo(...P(50,39)); pth.lineTo(...P(89,46));
+    return pth;
+  }
+
+  function scene(){
+    ctx.clearRect(0,0,w,h);
+    const T0=RM?99:t;
+    const gp=easeOut(seg(T0,...T.grid));
+    grid(gp);
+
+    tx+=(mx-tx)*0.06; ty+=(my-ty)*0.06;
+    const narrow=w<760;
+
+    /* --- composition ---------------------------------------------------
+       Radius is capped so the SQUARE (side 2R) clears the viewport with a
+       margin, and the centre is pushed right and down to sit clear of the
+       headline column. Previously R could reach 42% of height while centred
+       at 72% width, which cropped both circle and square. */
+    const margin=narrow?18:40;
+    const maxR=Math.min((h-margin*2)/2/1.06, (w*0.46-margin)/1.06);
+    const R=Math.max(60, Math.min(maxR, narrow?Math.min(w*0.34,h*0.2):h*0.30));
+    const cx=narrow? w*0.5 + (tx-0.5)*18 : w-margin-R*1.06 + (tx-0.5)*26;
+    const cy=narrow? h*0.66 + (ty-0.5)*12 : h*0.50 + (ty-0.5)*18;
+
+    ctx.save();
+    ctx.globalAlpha=narrow?0.42:0.9;
+    ctx.translate(cx,cy);
+    ctx.rotate(RM?0:Math.sin(t*0.10)*0.015);
+
+    // square
+    const sq=new Path2D(); sq.rect(-R,-R,2*R,2*R);
+    reveal(sq, 8*R, easeInOut(seg(T0,...T.square)), 'rgba('+GOLD+',0.26)', 1.3);
+
+    // circle
+    const ci=new Path2D(); ci.arc(0,0,R,0,TAU);
+    reveal(ci, TAU*R, easeInOut(seg(T0,...T.circle)), 'rgba('+GOLD+',0.5)', 1.6);
+
+    // construction: axes + diagonals — lifted so the drafting actually reads
+    const cr=new Path2D();
+    cr.moveTo(-R,0);cr.lineTo(R,0); cr.moveTo(0,-R);cr.lineTo(0,R);
+    cr.moveTo(-R,-R);cr.lineTo(R,R); cr.moveTo(R,-R);cr.lineTo(-R,R);
+    reveal(cr, 6*R, easeInOut(seg(T0,...T.cross)), 'rgba('+PAPER+',0.11)', 1);
+
+    // golden-ratio ring
+    const gr=new Path2D(); gr.arc(0,0,R*0.618,0,TAU);
+    reveal(gr, TAU*R*0.618, easeInOut(seg(T0,...T.ring)), 'rgba('+GOLD+',0.2)', 1);
+
+    // the figure
+    ctx.lineCap='round'; ctx.lineJoin='round';
+    const lp=easeInOut(seg(T0,...T.limbs));
+    reveal(armsPath(R), 2.2*R, lp, 'rgba('+GOLD+',0.3)', 1.5);
+    reveal(figurePath(R), 3.4*R, lp, 'rgba('+PAPER+',0.62)', 2.2);
+
+    // head — outline, not a filled disc, so it never out-contrasts the CTA
+    const hp=easeInOut(seg(T0,...T.head));
+    if(hp>0){
+      const s=R/43, hy=(25-52)*s;
+      const hd=new Path2D(); hd.arc(0,hy,6.5*s,-Math.PI/2,-Math.PI/2+TAU);
+      reveal(hd, TAU*6.5*s, hp, 'rgba('+LGOLD+',0.72)', 2);
+    }
+
+    // compass hand + pivot, once everything is drawn
+    const hnd=easeOut(seg(T0,...T.hand));
+    if(hnd>0){
+      const ang=RM?-0.7:(t*0.30);
+      ctx.globalAlpha*=hnd;
+      ctx.strokeStyle='rgba('+LGOLD+',0.4)'; ctx.lineWidth=1.2;
+      ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(ang)*R,Math.sin(ang)*R); ctx.stroke();
+      ctx.beginPath(); ctx.arc(Math.cos(ang)*R,Math.sin(ang)*R,2.6,0,TAU);
+      ctx.fillStyle='rgba('+TERRA+',0.75)'; ctx.fill();
+      ctx.beginPath(); ctx.arc(0,0,2.2,0,TAU); ctx.fillStyle='rgba('+LGOLD+',0.7)'; ctx.fill();
+    }
+    ctx.restore();
+
+    // drifting construction nodes
+    if(!RM && gp>0.6){
+      for(let i=0;i<7;i++){
+        const px=(i*0.146+t*0.006)%1;
+        const nx=px*w, ny=h*(0.2+0.6*((i*0.37)%1))+Math.sin(t*0.4+i)*6;
+        ctx.beginPath(); ctx.arc(nx,ny,1.4,0,TAU);
+        ctx.fillStyle='rgba('+GOLD+','+(0.10+0.08*Math.sin(t+i))*gp+')'; ctx.fill();
+      }
+    }
+  }
+
+  function loop(ts){
+    if(start===null) start=ts;
+    t=(ts-start)/1000;
+    scene();
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize',()=>{resize();scene();});
+  window.addEventListener('pointermove',e=>{
+    mx=e.clientX/Math.max(window.innerWidth,1);
+    my=e.clientY/Math.max(window.innerHeight,1);
+  },{passive:true});
+
+  resize();
+  if(RM){ tx=mx; ty=my; scene(); } else requestAnimationFrame(loop);
+})();
 
 
 /* sticky nav + progress */
