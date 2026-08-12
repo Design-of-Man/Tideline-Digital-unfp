@@ -57,10 +57,12 @@
 
   .scroll-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--turquoise),var(--coral));z-index:200;transition:width .1s linear}
 
-  .curtain{position:fixed;inset:0;z-index:1000;background:var(--ocean-abyss);display:flex;align-items:center;justify-content:center;transition:opacity .8s var(--ease),visibility .8s var(--ease)}
+  .curtain{position:fixed;inset:0;z-index:10000;background:var(--ocean-abyss);display:flex;align-items:center;justify-content:center;transition:opacity .8s var(--ease),visibility .8s var(--ease)}
   .curtain.done{opacity:0;visibility:hidden}
-  .curtain-mark{font-family:var(--display);font-style:italic;font-weight:500;font-size:clamp(1.6rem,4vw,2.4rem);color:var(--foam);display:flex;align-items:center;gap:.7rem;opacity:0;animation:markIn 1s var(--ease) .1s forwards}
-  .curtain-mark .line{height:1px;background:var(--turquoise);width:0;animation:lineGrow 1.1s var(--ease) .5s forwards}
+  .curtain-video{width:100%;height:100%;object-fit:contain;background:var(--ocean-abyss)}
+  .curtain-skip{position:absolute;bottom:1.4rem;left:1.4rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,242,233,.72);background:rgba(14,21,36,.5);border:1px solid rgba(247,242,233,.25);padding:.55rem 1rem;border-radius:100px;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:color .3s var(--ease),border-color .3s var(--ease),opacity .3s var(--ease);opacity:0;animation:skipIn .6s var(--ease) 1.4s forwards}
+  .curtain-skip:hover{color:var(--foam);border-color:var(--turquoise)}
+  @keyframes skipIn{to{opacity:1}}
   @keyframes markIn{to{opacity:1}}
   @keyframes lineGrow{to{width:60px}}
 
@@ -586,7 +588,13 @@
 
 <div class="scroll-bar" id="scrollBar"></div>
 
-<div class="curtain" id="curtain"><div class="curtain-mark">Design of <span class="line"></span> Man</div></div>
+<div class="curtain" id="curtain">
+  <video class="curtain-video" id="curtainVideo" muted autoplay playsinline preload="auto" poster="/assets/video/intro-poster.jpg">
+    <source src="/assets/video/intro.webm" type="video/webm">
+    <source src="/assets/video/intro.mp4" type="video/mp4">
+  </video>
+  <button class="curtain-skip" id="curtainSkip" type="button" aria-label="Skip intro">Skip intro &rarr;</button>
+</div>
 
 <div class="topbar">
   <div class="wrap topbar-inner">
@@ -983,7 +991,31 @@
 <script>
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-window.addEventListener('load', () => setTimeout(() => document.getElementById('curtain').classList.add('done'), reduceMotion ? 0 : 1400));
+window.addEventListener('load', () => {
+  const curtain = document.getElementById('curtain');
+  if (!curtain) return;
+  const video = document.getElementById('curtainVideo');
+  const skip = document.getElementById('curtainSkip');
+  let dismissed = false;
+  const dismiss = () => {
+    if (dismissed) return;
+    dismissed = true;
+    curtain.classList.add('done');
+    if (video) { try { video.pause(); } catch (e) {} }
+  };
+  // Reduced-motion or no video element: go straight into the site.
+  if (reduceMotion || !video) { dismiss(); return; }
+  // Enter the site the moment the intro finishes.
+  const failsafe = setTimeout(dismiss, 12000);
+  const finish = () => { clearTimeout(failsafe); dismiss(); };
+  video.addEventListener('ended', finish);
+  video.addEventListener('error', finish);
+  if (skip) skip.addEventListener('click', finish);
+  // Muted autoplay is required; if the browser still blocks it, don't trap the visitor.
+  video.muted = true;
+  const p = video.play();
+  if (p && typeof p.catch === 'function') p.catch(finish);
+});
 
 /* hero headline word reveal */
 (function(){
