@@ -16,7 +16,21 @@ import sys
 from html.parser import HTMLParser
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-DOMAIN = "https://www.tidelinedigital.com"
+DOMAIN = "https://www.designofman.com"
+
+# Content that must never reach production. The gate exists to catch exactly this:
+# a site that looks finished but sends a visitor nowhere.
+#
+# 555-0100 through 555-0199 is the NANP range reserved for fiction, so any number
+# in it is a placeholder by definition — matched here in display form,
+# tel: href form, and inside JSON-LD.
+PLACEHOLDER_PATTERNS = [
+    (r"\(?\d{3}\)?[-.\s]?555[-.\s]?01\d{2}", "fictional phone number (555-01xx is reserved for fiction)"),
+    (r"\+1[-.\s]?\d{3}[-.\s]?555[-.\s]?01\d{2}", "fictional phone number in tel:/schema form"),
+    (r"lorem ipsum", "lorem ipsum placeholder copy"),
+    (r"example\.com", "example.com placeholder domain"),
+    (r"REPLACE_[A-Z_]+", "unconfigured placeholder token"),
+]
 
 blockers, notes = [], []
 seen_titles, seen_descs = {}, {}
@@ -109,9 +123,11 @@ for rel in pages:
     def note(c, m):
         notes.append((c, "%s — %s" % (rel, m)))
 
-    # unconfigured endpoints must never ship
-    for ph in set(re.findall(r"REPLACE_[A-Z_]+", html)):
-        bad("CONFIG", "unconfigured placeholder: %s" % ph)
+    # unconfigured endpoints and placeholder content must never ship
+    for pattern, label in PLACEHOLDER_PATTERNS:
+        hits = set(re.findall(pattern, html, re.I))
+        for hit in sorted(hits):
+            bad("PLACEHOLDER", "%s: %s" % (label, hit.strip()))
     if "formspree.io/f/REPLACE" in html or 'action=""' in html:
         bad("CONFIG", "form endpoint not set")
 
