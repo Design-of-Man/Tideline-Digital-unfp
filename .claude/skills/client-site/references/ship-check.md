@@ -22,14 +22,19 @@ repo you just pushed to. A project wired to the pre-migration
 `nicholasbkashuba-lab` repo will keep serving the old site while you push to
 the new one and wonder why nothing changes.
 
-**Confirm which project is canonical before trusting a preview URL.** Repos
-here routinely have more than one Vercel project attached — this one has four
-(`design-of-man`, `designofman-site`, `tideline-digital-eiq7`,
-`tideline-digital-hxu2`), two of them rooted at `books/`. Each posts its own
-preview link on every PR, so the top link in the Vercel comment is not
-necessarily the site. Check `mcp__Vercel__list_teams` and
-`mcp__Vercel__list_projects` rather than assuming a team ID; projects live
-across more than one team.
+**Confirm which project is canonical before trusting a preview URL.** Repos here
+routinely have several Vercel projects attached. This one has five —
+`design-of-man`, `designofman-site`, `tideline-digital-eiq7`,
+`tideline-digital-hxu2`, `tideline-digital-unfp` — appearing under two different
+account slugs, two of them rooted at `books/` rather than the repo root. Each
+posts its own preview link on every PR, and they finish building at different
+times, so the top link in the Vercel comment is neither stable nor necessarily
+the site.
+
+Resolve it by listing rather than assuming: `mcp__Vercel__list_teams` and
+`mcp__Vercel__list_projects`, then match on the Git connection and root
+directory. Never lift a preview URL out of the bot comment without checking
+which project produced it.
 
 Retire or rename the duplicates when you find them. Every stale project is a
 future stale link sent to a client.
