@@ -2,7 +2,7 @@
 type: voice
 client:
 locked: false
-derived-from:
+derived_from:
 ---
 
 # {{title}} — voice

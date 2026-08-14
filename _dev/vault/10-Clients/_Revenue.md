@@ -1,6 +1,6 @@
 ---
 type: revenue
-last-swept:
+last_swept:
 ---
 
 # Revenue

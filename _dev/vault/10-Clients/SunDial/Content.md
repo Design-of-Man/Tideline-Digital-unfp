@@ -1,13 +1,13 @@
 ---
 type: content
 client: sundial
-queue-days-remaining:
-last-checked:
+queue_days:
+last_checked:
 ---
 
 # SunDial — content
 
-The content Routine writes `queue-days-remaining` and `last-checked`.
+The content Routine writes `queue_days` and `last_checked`.
 Under three days is an alarm: the recurring failure is that the queue
 empties and nobody notices while finished assets sit unposted.
 

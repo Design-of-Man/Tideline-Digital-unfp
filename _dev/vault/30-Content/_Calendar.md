@@ -21,7 +21,7 @@ SORT date ASC
 Most often an unsourced clinical claim.
 
 ```dataview
-TABLE WITHOUT ID file.link AS Piece, client AS Client, review-note AS Why
+TABLE WITHOUT ID file.link AS Piece, client AS Client, review_note AS Why
 FROM "30-Content"
 WHERE type = "content-piece" AND status = "blocked"
 SORT date ASC
@@ -42,8 +42,8 @@ Under three days is an alarm. The recurring failure is the queue emptying while
 finished assets sit unposted.
 
 ```dataview
-TABLE WITHOUT ID file.link AS Client, queue-days-remaining AS "Days left"
+TABLE WITHOUT ID file.link AS Client, queue_days AS "Days left"
 FROM "10-Clients"
 WHERE type = "content"
-SORT queue-days-remaining ASC
+SORT queue_days ASC
 ```

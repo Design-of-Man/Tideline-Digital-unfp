@@ -6,12 +6,12 @@ retainer:
 repo:
 vercel:
 domains: []
-email-domains: []
+email_domains: []
 contacts: []
 analytics: false
 gsc: false
 started:
-last-report:
+last_report:
 ---
 
 # {{title}}

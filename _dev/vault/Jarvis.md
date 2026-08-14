@@ -42,11 +42,11 @@ WHERE type = "requests"
 ## Reports overdue
 
 ```dataview
-TABLE WITHOUT ID file.link AS Client, last-report AS "Last report"
+TABLE WITHOUT ID file.link AS Client, last_report AS "Last report"
 FROM "10-Clients"
 WHERE type = "client" AND status = "active"
-  AND (last-report = null OR last-report < date(today) - dur(35 days))
-SORT last-report ASC
+  AND (last_report = null OR last_report < date(today) - dur(35 days))
+SORT last_report ASC
 ```
 
 ## Elsewhere

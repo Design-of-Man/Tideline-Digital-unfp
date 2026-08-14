@@ -6,12 +6,12 @@ retainer:
 repo: Design-of-Man/regenortho
 vercel: regenortho
 domains: []
-email-domains: []
+email_domains: []
 contacts: []
 analytics: false
 gsc: false
 started:
-last-report:
+last_report:
 ---
 
 # RegenOrtho
@@ -25,7 +25,7 @@ Medical. Heading font moved Fraunces to Lora. IV bag hero shipped.
 
 ## Blank fields
 
-`retainer`, `domains`, `email-domains`, `contacts` and `started` are empty
+`retainer`, `domains`, `email_domains`, `contacts` and `started` are empty
 because they were not knowable from the repo and Vercel data. They are
 deliberately blank rather than guessed — the dashboard lists every client
 with gaps so they get filled once, correctly.

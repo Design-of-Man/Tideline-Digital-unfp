@@ -4,6 +4,18 @@ type: dashboard
 
 # Clients
 
+> [!tip] Seeing nothing? Start here.
+> This list should name 16 clients. If it is **empty**, Obsidian is pointed at
+> the wrong folder — you opened the folder *containing* `vault`, rather than
+> `vault` itself. Close the vault and reopen, picking the `vault` folder.
+> If it shows a grey code block instead of a list, Dataview is not enabled yet.
+
+```dataview
+LIST
+FROM "10-Clients"
+WHERE type = "client"
+```
+
 ## Instrumentation gaps — fix these first
 
 Traffic and search data cannot be backfilled. Every client on this list is a
@@ -22,7 +34,7 @@ SORT file.name ASC
 ```dataview
 TABLE WITHOUT ID
   file.link AS Client, status AS Status, retainer AS Retainer,
-  last-report AS "Last report"
+  last_report AS "Last report"
 FROM "10-Clients"
 WHERE type = "client"
 SORT status ASC, file.name ASC
@@ -31,9 +43,9 @@ SORT status ASC, file.name ASC
 ## Monthly recurring revenue
 
 ```dataview
-TABLE WITHOUT ID sum(rows.retainer) AS MRR
+TABLE WITHOUT ID sum(rows.retainer) AS MRR, length(rows) AS "Clients counted"
 FROM "10-Clients"
-WHERE type = "client" AND status = "active"
+WHERE type = "client" AND status = "active" AND retainer > 0
 GROUP BY true
 ```
 
@@ -55,11 +67,11 @@ SORT file.name ASC
 ## Reports overdue
 
 ```dataview
-TABLE WITHOUT ID file.link AS Client, last-report AS "Last report"
+TABLE WITHOUT ID file.link AS Client, last_report AS "Last report"
 FROM "10-Clients"
 WHERE type = "client" AND status = "active"
-  AND (last-report = null OR last-report < date(today) - dur(35 days))
-SORT last-report ASC
+  AND (last_report = null OR last_report < date(today) - dur(35 days))
+SORT last_report ASC
 ```
 
 ## Brand kits not locked
@@ -77,8 +89,8 @@ SORT file.name ASC
 
 ```dataview
 TABLE WITHOUT ID
-  file.link AS Client, queue-days-remaining AS "Days left", last-checked AS Checked
+  file.link AS Client, queue_days AS "Days left", last_checked AS Checked
 FROM "10-Clients"
-WHERE type = "content" AND queue-days-remaining != null AND queue-days-remaining < 3
-SORT queue-days-remaining ASC
+WHERE type = "content" AND queue_days != null AND queue_days < 3
+SORT queue_days ASC
 ```
