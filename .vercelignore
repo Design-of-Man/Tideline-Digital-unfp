@@ -1,3 +1,7 @@
+# The books/ Next.js app deploys as its own Vercel project (root directory
+# books/), so keep its source out of this static site's deployment.
+books/
+
 _dev/
 *.md
 !README.md
