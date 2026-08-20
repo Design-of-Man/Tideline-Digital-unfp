@@ -24,6 +24,27 @@
     var grade = section.querySelector('.hero-scrub-grade');
     var bar = document.getElementById('heroScrubBar');
     var caps = [].slice.call(section.querySelectorAll('.hero-scrub-cap'));
+    var ui = section.querySelector('.hero-scrub-ui');
+    var screenEl = document.getElementById('heroScreen');
+    var screenInner = document.getElementById('heroScreenInner');
+    var hud = document.getElementById('heroHud');
+    var hudPct = document.getElementById('heroHudPct');
+    var hudFill = document.getElementById('heroHudFill');
+    var hudZones = document.getElementById('heroHudZones');
+
+    // Where the lit screen sits inside the final frame, measured off the
+    // render itself (normalised to the 1280x720 source).
+    var SCREEN = { x: 0.1500, y: 0.0792, w: 0.6820, h: 0.6389 };
+    // Scroll is split: scrub the laptop open, then fly into the screen.
+    var ENTER_AT = 0.72;
+
+    var ZONES = ['The Bench', 'The Launch', 'Inside'];
+    if (hudZones) {
+      hudZones.innerHTML = ZONES.map(function (z, i) {
+        return '<span class="dla-hud-zone" data-zone="' + i + '">' + z + '</span>';
+      }).join('');
+    }
+    var zoneEls = hudZones ? [].slice.call(hudZones.querySelectorAll('[data-zone]')) : [];
 
     var base = section.dataset.frameBase;
     var digits = parseInt(section.dataset.frameDigits, 10) || 4;
@@ -88,12 +109,73 @@
       if (frac > 0.01 && img1 && img1.complete && img1.naturalWidth) drawOne(img1, frac);
     }
 
-    function step(p) {
-      var n = caps.length || 1;
-      return Math.min(n - 1, Math.floor(p * n));
+    // Same cover math as drawCover, but in CSS pixels, so the screen panel
+    // lands exactly on the laptop's display no matter the viewport shape.
+    function screenRect() {
+      var SW = stage.clientWidth, SH = stage.clientHeight;
+      var img = frames[usableCount - 1];
+      var iw = (img && img.naturalWidth) || 1280, ih = (img && img.naturalHeight) || 720;
+      var scale = Math.max(SW / iw, SH / ih);
+      var dw = iw * scale, dh = ih * scale;
+      var dx = (SW - dw) / 2, dy = (SH - dh) / 2;
+      return {
+        x: dx + SCREEN.x * dw, y: dy + SCREEN.y * dh,
+        w: SCREEN.w * dw, h: SCREEN.h * dh,
+        SW: SW, SH: SH
+      };
     }
 
-    var latestP = 0, lastIdx0 = -1, lastFrac = -1, lastStep = -1, ticking = false;
+    // Accelerating push: the site sits on the display long enough to read as
+    // a screen, then the camera rushes the last of the way in.
+    function easeIn(t) { return t * t; }
+
+    // Grows the panel from the screen rect to the full viewport while the
+    // canvas scales around that same point, so both move as one camera push.
+    function enterScreen(t) {
+      if (!screenEl) return;
+      var r = screenRect();
+      var e = easeIn(Math.max(0, Math.min(1, t)));
+      var x = r.x + (0 - r.x) * e;
+      var y = r.y + (0 - r.y) * e;
+      var w = r.w + (r.SW - r.w) * e;
+      var h = r.h + (r.SH - r.h) * e;
+      screenEl.style.left = x + 'px';
+      screenEl.style.top = y + 'px';
+      screenEl.style.width = w + 'px';
+      screenEl.style.height = h + 'px';
+      screenEl.style.opacity = Math.min(1, t * 10).toFixed(3);
+      screenEl.classList.toggle('is-live', t > 0.92);
+      // Content rides up to full size with the panel instead of being squashed.
+      if (screenInner) {
+        var s = Math.max(0.35, w / r.SW);
+        screenInner.style.transform = 'scale(' + s.toFixed(3) + ')';
+        screenInner.style.opacity = Math.min(1, t * 8).toFixed(3);
+      }
+      if (ui) ui.style.opacity = Math.max(0, 1 - t * 7).toFixed(3);
+      // Push the frame past the camera, anchored on the screen's centre.
+      var cx = ((r.x + r.w / 2) / r.SW) * 100;
+      var cy = ((r.y + r.h / 2) / r.SH) * 100;
+      var K = Math.max(r.SW / r.w, r.SH / r.h);
+      canvas.style.transformOrigin = cx.toFixed(2) + '% ' + cy.toFixed(2) + '%';
+      canvas.style.transform = 'scale(' + (1 + (K - 1) * e).toFixed(4) + ')';
+    }
+
+    function resetScreen() {
+      if (ui) ui.style.opacity = '1';
+      if (screenEl) {
+        screenEl.style.opacity = '0';
+        screenEl.classList.remove('is-live');
+      }
+      canvas.style.transform = 'scale(1)';
+    }
+
+    function step(p) {
+      if (p >= ENTER_AT) return caps.length;           // inside the screen
+      var n = caps.length || 1;
+      return Math.min(n - 1, Math.floor((p / ENTER_AT) * n));
+    }
+
+    var latestP = 0, lastIdx0 = -1, lastFrac = -1, lastStep = -1, ticking = false, hudVisible = false;
     function onScroll() {
       var rect = section.getBoundingClientRect();
       var total = rect.height - window.innerHeight;
@@ -103,7 +185,12 @@
     function render() {
       ticking = false;
       var p = latestP;
-      var idxFloat = frameAt(p);
+
+      // Phase one scrubs the laptop open; phase two flies into the screen.
+      var scrubP = Math.min(1, p / ENTER_AT);
+      var enterP = p <= ENTER_AT ? 0 : (p - ENTER_AT) / (1 - ENTER_AT);
+
+      var idxFloat = frameAt(scrubP);
       var idx0 = Math.max(0, Math.min(usableCount - 1, Math.floor(idxFloat)));
       var idx1 = Math.min(usableCount - 1, idx0 + 1);
       var frac = idxFloat - idx0;
@@ -111,12 +198,31 @@
         drawBlend(idx0, idx1, frac);
         lastIdx0 = idx0; lastFrac = frac;
       }
-      if (grade) grade.style.opacity = (0.08 + p * 0.22).toFixed(3);
+
+      if (enterP > 0) enterScreen(enterP); else resetScreen();
+
+      // Grade lifts while opening, then clears so the screen reads bright.
+      if (grade) {
+        var g = enterP > 0 ? 0.3 * (1 - enterP) : 0.08 + scrubP * 0.22;
+        grade.style.opacity = g.toFixed(3);
+      }
       if (bar) bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+
+      if (hudPct) hudPct.textContent = String(Math.round(p * 100)).padStart(3, '0') + '%';
+      if (hudFill) hudFill.style.height = (p * 100).toFixed(2) + '%';
+
       var s = step(p);
       if (s !== lastStep) {
         caps.forEach(function (el, i) { el.classList.toggle('is-active', i === s); });
+        zoneEls.forEach(function (el, i) { el.classList.toggle('is-active', i === s); });
         lastStep = s;
+      }
+
+      var rect = section.getBoundingClientRect();
+      var inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (inView !== hudVisible) {
+        hudVisible = inView;
+        if (hud) hud.classList.toggle('is-visible', inView);
       }
     }
 
@@ -129,7 +235,7 @@
 
     render();
     if (!reduced) window.addEventListener('scroll', onScroll, { passive: true });
-    else caps.forEach(function (el, i) { el.classList.toggle('is-active', i === 0); });
+    else { caps.forEach(function (el, i) { el.classList.toggle('is-active', i === 0); }); resetScreen(); }
   })();
 
   // Scroll reveals.
