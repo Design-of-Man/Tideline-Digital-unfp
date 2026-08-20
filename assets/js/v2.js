@@ -32,7 +32,7 @@
     var hudFill = document.getElementById('heroHudFill');
     var hudZones = document.getElementById('heroHudZones');
 
-    var ZONES = ['The Bench', 'The Launch', 'Inside'];
+    var ZONES = ['The Bench', 'The Core', 'The Power', 'The Flow', 'The Awakening', 'The Opening', 'Inside'];
     if (hudZones) {
       hudZones.innerHTML = ZONES.map(function (z, i) {
         return '<span class="dla-hud-zone" data-zone="' + i + '">' + z + '</span>';
@@ -40,23 +40,19 @@
     }
     var zoneEls = hudZones ? [].slice.call(hudZones.querySelectorAll('[data-zone]')) : [];
 
-    var base = section.dataset.frameBase;
-    var digits = parseInt(section.dataset.frameDigits, 10) || 4;
-    var ext = section.dataset.frameExt || 'jpg';
-    if (!base) return;
+    // The full Higgsfield sequence, in story order: all five PC-build
+    // clips (bench, core, power, flow, awakening), then the laptop
+    // opening. Every frame of every clip, mapped linearly to scroll.
+    function pad(n) { return String(n).padStart(4, '0'); }
+    var srcUrls = [];
+    for (var a = 1; a <= 136; a++) srcUrls.push('/assets/img/pc-frames/f' + pad(a) + '.jpg');
+    for (var b2 = 1; b2 <= 121; b2++) srcUrls.push('/assets/img/laptop-frames/f' + pad(b2) + '.jpg');
+    var usableCount = srcUrls.length;
 
-    // Play the whole render straight through: every frame, in order,
-    // mapped linearly to scroll. Cross-fade blending between neighbouring
-    // frames keeps the motion continuous between them.
-    var usableCount = 121;
-    var srcFrames = [];
-    for (var s0 = 1; s0 <= usableCount; s0++) srcFrames.push(s0);
-
-    function pad(n) { return String(n).padStart(digits, '0'); }
     var frames = new Array(usableCount);
     for (var i = 0; i < usableCount; i++) {
       var img = new Image();
-      img.src = base + pad(srcFrames[i]) + '.' + ext;
+      img.src = srcUrls[i];
       frames[i] = img;
     }
 
@@ -99,10 +95,13 @@
       if (ui) ui.style.opacity = Math.max(0, 1 - v * 2).toFixed(3);
     }
 
+    // Captions track the footage: five build beats across the PC clips,
+    // the opening beat once the laptop appears, nothing once we're inside.
+    var pcFrac = 136 / usableCount;
     function step(p) {
       if (p >= REVEAL_AT) return caps.length;
-      var n = caps.length || 1;
-      return Math.min(n - 1, Math.floor((p / REVEAL_AT) * n));
+      if (p >= pcFrac) return 5;
+      return Math.min(4, Math.floor((p / pcFrac) * 5));
     }
 
     var latestP = 0, lastIdx0 = -1, lastFrac = -1, lastStep = -1, ticking = false, hudVisible = false;
