@@ -68,12 +68,6 @@
   .dla-hud .dla-hud-zone.is-active{color:var(--turquoise)}
   @media (max-width:900px){.dla-hud{display:none}}
 
-  .curtain{position:fixed;inset:0;z-index:10000;background:var(--ocean-abyss);display:flex;align-items:center;justify-content:center;transition:opacity .4s var(--ease),visibility .4s var(--ease)}
-  .curtain.done{opacity:0;visibility:hidden}
-  .curtain-video{width:100%;height:100%;object-fit:cover;background:var(--ocean-abyss)}
-  .curtain-skip{position:absolute;bottom:1.4rem;left:1.4rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,242,233,.72);background:rgba(14,21,36,.5);border:1px solid rgba(247,242,233,.25);padding:.55rem 1rem;border-radius:100px;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:color .3s var(--ease),border-color .3s var(--ease),opacity .3s var(--ease);opacity:0;animation:skipIn .6s var(--ease) 1.4s forwards}
-  .curtain-skip:hover{color:var(--foam);border-color:var(--turquoise)}
-  @keyframes skipIn{to{opacity:1}}
   @keyframes markIn{to{opacity:1}}
   @keyframes lineGrow{to{width:60px}}
 
@@ -602,14 +596,6 @@
 
 <div class="scroll-bar" id="scrollBar"></div>
 
-<div class="curtain" id="curtain">
-  <video class="curtain-video" id="curtainVideo" muted autoplay playsinline preload="auto" poster="/assets/video/intro-poster.jpg">
-    <source src="/assets/video/intro.v2.webm" type="video/webm">
-    <source src="/assets/video/intro.v2.mp4" type="video/mp4">
-  </video>
-  <button class="curtain-skip" id="curtainSkip" type="button" aria-label="Skip intro">Skip intro &rarr;</button>
-</div>
-
 <div class="topbar">
   <div class="wrap topbar-inner">
     <div class="tb-left">Website Creation &amp; Management · Serving Florida &amp; Beyond</div>
@@ -1014,47 +1000,9 @@
 
 <script>
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+</script>
 
-window.addEventListener('load', () => {
-  const curtain = document.getElementById('curtain');
-  if (!curtain) return;
-  const video = document.getElementById('curtainVideo');
-  const skip = document.getElementById('curtainSkip');
-  const SEEN = 'domIntroSeen';
-  let dismissed = false;
-
-  const dismiss = () => {
-    if (dismissed) return;
-    dismissed = true;
-    curtain.classList.add('done');
-    if (video) { try { video.pause(); } catch (e) {} }
-    try { sessionStorage.setItem(SEEN, '1'); } catch (e) {}
-    setTimeout(() => { try { curtain.remove(); } catch (e) {} }, 1100);
-  };
-
-  // The zoom into the site is baked into the video; the final frame IS the homepage.
-  // So we simply cross-fade to the live site as that last frame lands.
-  // Skip the intro entirely if it already played this browser session, or on reduced-motion.
-  let seen = false;
-  try { seen = sessionStorage.getItem(SEEN) === '1'; } catch (e) {}
-  if (seen || reduceMotion || !video) { dismiss(); return; }
-
-  // Safety net: never trap the visitor if playback stalls or autoplay is blocked.
-  const failsafe = setTimeout(dismiss, 12000);
-  const finish = () => { clearTimeout(failsafe); dismiss(); };
-  video.addEventListener('ended', finish);
-  video.addEventListener('error', finish);
-  // Hand off to the live site right as the baked zoom completes.
-  video.addEventListener('timeupdate', () => {
-    if (video.duration && video.currentTime >= video.duration - 0.12) finish();
-  });
-  if (skip) skip.addEventListener('click', finish);
-
-  video.muted = true;
-  const p = video.play();
-  if (p && typeof p.catch === 'function') p.catch(() => { clearTimeout(failsafe); dismiss(); });
-});
-
+<script>
 /* hero headline word reveal */
 (function(){
   const el = document.getElementById('heroTitle');
