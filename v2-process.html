@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Design of Man — a small studio building websites and web apps with obsessive craft. Strategy, design, build, and care, for businesses who want it done right.">
+<meta name="description" content="How Design of Man builds a website — planned, staged, and assembled piece by piece, then launched and looked after. Nothing ships until it's right.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#17140F">
-<title>Design of Man — Website Creation &amp; Management</title>
+<title>Process — Design of Man</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -23,8 +23,8 @@
       Design of Man
     </a>
     <nav class="nav-links" aria-label="Main">
-      <a href="/v2.html" aria-current="page">Home</a>
-      <a href="/v2-process.html">Process</a>
+      <a href="/v2.html">Home</a>
+      <a href="/v2-process.html" aria-current="page">Process</a>
       <a href="/v2-studio.html">Studio</a>
       <a href="/v2-contact.html">Contact</a>
     </nav>
@@ -33,70 +33,78 @@
 
 <main id="main">
 
-<section class="hero-scrub" id="heroScrub"
-     data-frame-base="/assets/img/laptop-frames/f" data-frame-digits="4" data-frame-ext="jpg">
-  <div class="hero-scrub-stage" id="heroScrubStage">
-    <canvas id="heroScrubCanvas" aria-hidden="true"></canvas>
-    <div class="hero-scrub-grade"></div>
-    <div class="hero-scrub-ui">
-      <div class="hero-scrub-head"><span>Design of Man — Website Creation &amp; Management</span><span>Scroll to open</span></div>
-      <div class="hero-scrub-caps" id="heroScrubCaps">
-        <article class="hero-scrub-cap is-active" data-cap="0">
-          <span class="n">01 — Precision</span>
-          <h1>Websites with <em>obsessive</em> craft.</h1>
-          <p>A small studio. One focus: sites that work, and keep working — designed, built, and cared for by people who read every line before they ship it.</p>
-          <a href="/v2-contact.html" class="hero-cta">Start a Project &rarr;</a>
-        </article>
-        <article class="hero-scrub-cap" data-cap="1">
-          <span class="n">02 — Launch</span>
-          <h1>It opens up<br>when it's ready.</h1>
-          <p>Domain connected, analytics wired, forms tested for real — we check it opens clean before we hand it to you.</p>
-        </article>
-        <article class="hero-scrub-cap" data-cap="2">
-          <span class="n">03 — Care</span>
-          <h1>And it<br>stays open.</h1>
-          <p>Hosting, updates, backups, changes. A site is not finished at launch — it is just open.</p>
-          <a href="/v2-process.html" class="hero-cta">See Our Process &rarr;</a>
-        </article>
-      </div>
-    </div>
-    <div class="hero-scrub-bar"><span id="heroScrubBar"></span></div>
+<section class="page-hero" data-parallax="0.16">
+  <div class="page-hero-media parallax-media" aria-hidden="true">
+    <video class="js-reel-video" muted loop playsinline preload="metadata" poster="/assets/video/pc-assembly-poster.jpg">
+      <source src="/assets/video/pc-assembly.webm" type="video/webm">
+      <source src="/assets/video/pc-assembly.mp4" type="video/mp4">
+    </video>
   </div>
-</section>
-
-<section class="manifesto" data-reveal>
-  <div class="wrap">
-    <blockquote>We build the foundation your business stands on — <em>not a template stretched to fit.</em></blockquote>
-    <div class="manifesto-sig">— measured, drafted, and built for the long haul</div>
+  <div class="page-hero-ui">
+    <div class="wrap">
+      <div class="eyebrow">Our Process</div>
+      <h1>Built piece<br>by <em>deliberate</em> piece.</h1>
+      <p>Every site we ship is assembled the way a machine is: components chosen on purpose, seated properly, tested under load. Nothing gets glued on at the end.</p>
+    </div>
   </div>
 </section>
 
 <section class="list" data-reveal>
   <div class="wrap">
     <div class="list-head">
-      <div class="eyebrow">What we do</div>
+      <div class="eyebrow">Four stages</div>
     </div>
     <div class="list-row">
       <span class="n">01</span>
-      <div><h3>Strategy &amp; Design</h3><p>Who you're talking to, what they need to see, and what you want them to do. Everything else sits on this.</p></div>
-      <span class="tag">Discover / Design</span>
+      <div><h3>The Bench</h3><p>Before anything is designed, we lay out what you sell, who is buying, and what has to happen on the page. The whole build is measured off this.</p></div>
+      <span class="tag">Discovery</span>
     </div>
     <div class="list-row">
       <span class="n">02</span>
-      <div><h3>Custom Build</h3><p>Clean markup, fast hosting, real accessibility. Websites and web apps built for what you actually sell.</p></div>
-      <span class="tag">Development</span>
+      <div><h3>The Core</h3><p>Structure and design together — layout, type, and the path a visitor takes. You see real pages with your words in them, not a mood board.</p></div>
+      <span class="tag">Design</span>
     </div>
     <div class="list-row">
       <span class="n">03</span>
-      <div><h3>Launch &amp; Care</h3><p>Domain, analytics, and forms tested for real before we say it's done — then hosting, updates, and monitoring after.</p></div>
-      <span class="tag">Launch / Maintain</span>
+      <div><h3>The Build</h3><p>Hand-written markup, fast hosting, real accessibility. No page builder bloat, no plugin stack holding the whole thing together.</p></div>
+      <span class="tag">Development</span>
     </div>
+    <div class="list-row">
+      <span class="n">04</span>
+      <div><h3>The Launch</h3><p>Domain connected, analytics wired, every form submitted for real. Then hosting, updates, backups, and changes for as long as you want us on it.</p></div>
+      <span class="tag">Launch / Care</span>
+    </div>
+  </div>
+</section>
+
+<section class="manifesto" data-reveal>
+  <div class="wrap">
+    <blockquote>A site is not finished at launch — <em>it is just open.</em></blockquote>
+    <div class="manifesto-sig">— which is why we stay on it after</div>
+  </div>
+</section>
+
+<section class="reel is-offset-right" data-reveal>
+  <div class="wrap">
+    <div class="reel-head">
+      <span class="reel-num">05</span>
+      <div>
+        <h2>Shot for shot,<br>start to finish.</h2>
+        <p class="reel-copy">The care we put into every build — planned, staged, and assembled piece by piece, the same way a film gets built in post. Nothing ships until it's right.</p>
+      </div>
+    </div>
+  </div>
+  <div class="reel-frame" data-parallax="0.12">
+    <video class="js-reel-video parallax-media" muted loop playsinline preload="metadata" poster="/assets/video/pc-assembly-poster.jpg">
+      <source src="/assets/video/pc-assembly.webm" type="video/webm">
+      <source src="/assets/video/pc-assembly.mp4" type="video/mp4">
+    </video>
   </div>
 </section>
 
 <section class="cta" data-reveal>
   <div class="wrap">
-    <h2>Let's build<br>something honest.</h2>
+    <h2>Ready to start<br>the build?</h2>
     <a href="/v2-contact.html" class="cta-link">Start a Project &rarr;</a>
   </div>
 </section>

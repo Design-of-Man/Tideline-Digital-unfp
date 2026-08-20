@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Design of Man — a small studio building websites and web apps with obsessive craft. Strategy, design, build, and care, for businesses who want it done right.">
+<meta name="description" content="Design of Man is a small studio — the person who scopes your project designs it, builds it, and answers the phone after launch.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#17140F">
-<title>Design of Man — Website Creation &amp; Management</title>
+<title>Studio — Design of Man</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -23,9 +23,9 @@
       Design of Man
     </a>
     <nav class="nav-links" aria-label="Main">
-      <a href="/v2.html" aria-current="page">Home</a>
+      <a href="/v2.html">Home</a>
       <a href="/v2-process.html">Process</a>
-      <a href="/v2-studio.html">Studio</a>
+      <a href="/v2-studio.html" aria-current="page">Studio</a>
       <a href="/v2-contact.html">Contact</a>
     </nav>
   </div>
@@ -33,34 +33,30 @@
 
 <main id="main">
 
-<section class="hero-scrub" id="heroScrub"
-     data-frame-base="/assets/img/laptop-frames/f" data-frame-digits="4" data-frame-ext="jpg">
-  <div class="hero-scrub-stage" id="heroScrubStage">
-    <canvas id="heroScrubCanvas" aria-hidden="true"></canvas>
-    <div class="hero-scrub-grade"></div>
-    <div class="hero-scrub-ui">
-      <div class="hero-scrub-head"><span>Design of Man — Website Creation &amp; Management</span><span>Scroll to open</span></div>
-      <div class="hero-scrub-caps" id="heroScrubCaps">
-        <article class="hero-scrub-cap is-active" data-cap="0">
-          <span class="n">01 — Precision</span>
-          <h1>Websites with <em>obsessive</em> craft.</h1>
-          <p>A small studio. One focus: sites that work, and keep working — designed, built, and cared for by people who read every line before they ship it.</p>
-          <a href="/v2-contact.html" class="hero-cta">Start a Project &rarr;</a>
-        </article>
-        <article class="hero-scrub-cap" data-cap="1">
-          <span class="n">02 — Launch</span>
-          <h1>It opens up<br>when it's ready.</h1>
-          <p>Domain connected, analytics wired, forms tested for real — we check it opens clean before we hand it to you.</p>
-        </article>
-        <article class="hero-scrub-cap" data-cap="2">
-          <span class="n">03 — Care</span>
-          <h1>And it<br>stays open.</h1>
-          <p>Hosting, updates, backups, changes. A site is not finished at launch — it is just open.</p>
-          <a href="/v2-process.html" class="hero-cta">See Our Process &rarr;</a>
-        </article>
-      </div>
+<section class="page-hero" data-parallax="0.16">
+  <div class="page-hero-media parallax-media" aria-hidden="true">
+    <img src="/assets/video/laptop-poster.jpg" alt="">
+  </div>
+  <div class="page-hero-ui">
+    <div class="wrap">
+      <div class="eyebrow">The Studio</div>
+      <h1>Small on purpose,<br><em>careful</em> by default.</h1>
+      <p>Design of Man is a small studio. The person who scopes your project is the person who designs it, builds it, and answers the phone after launch.</p>
     </div>
-    <div class="hero-scrub-bar"><span id="heroScrubBar"></span></div>
+  </div>
+</section>
+
+<section class="prose" data-reveal>
+  <div class="wrap prose-grid">
+    <div>
+      <div class="eyebrow">Why we're small</div>
+      <h2>No account layer between you and the build.</h2>
+    </div>
+    <div>
+      <p>Most agencies grow by adding people between the client and the work. We went the other way. Fewer projects at a time, each one handled start to finish by the people actually doing it.</p>
+      <p>That means you get straight answers about timelines, honest pushback when an idea will not serve you, and a site nobody has to reverse-engineer six months later.</p>
+      <p>We write our own markup. We do not stack plugins until something works. When a page is slow or an element is unreachable by keyboard, that is a defect we fix, not a trade-off we ask you to accept.</p>
+    </div>
   </div>
 </section>
 
