@@ -1,9 +1,9 @@
-/* Design of Man — right-edge HUD for the scroll-driven laptop assembly.
-   Independent of the 3D bundle: reads the same section geometry so the
-   percentage and zone ticks always agree with the assembly's own progress,
-   but never touches the WebGL scene itself. */
+/* Design of Man — right-edge HUD for the scroll-scrubbed PC-build assembly.
+   Independent of assets/js/pc-assembly.js: reads the same section geometry
+   so the percentage and zone ticks always agree with the video's own
+   scroll-driven progress, but never touches the <video> element itself. */
 (function () {
-  var root = document.querySelector('[data-laptop-assembly]');
+  var root = document.getElementById('pcAssembly');
   if (!root) return;
 
   var hud = document.getElementById('dlaHud');
@@ -12,7 +12,7 @@
   var zonesEl = document.getElementById('dlaHudZones');
   if (!hud || !pctEl || !fillEl || !zonesEl) return;
 
-  var zones = ['Discover', 'Design', 'Build', 'Launch', 'Maintain'];
+  var zones = ['The Bench', 'The Core', 'The Power', 'The Flow', 'The Awakening'];
   try {
     var parsed = JSON.parse(root.dataset.captions || '[]');
     if (parsed.length) zones = parsed.map(function (c) { return c[1] || c[0]; });
@@ -23,14 +23,10 @@
   }).join('');
   var zoneEls = [].slice.call(zonesEl.querySelectorAll('[data-zone]'));
 
-  // thresholds mirror the step logic in _dev/laptop-assembly.source.js
+  // mirrors the equal-fifths step logic in assets/js/pc-assembly.js
   function stepFor(p) {
-    if (zoneEls.length <= 1) return 0;
-    if (p < 0.20) return 0;
-    if (p < 0.52) return 1;
-    if (p < 0.72) return 2;
-    if (p < 0.88) return 3;
-    return zoneEls.length - 1;
+    var n = zoneEls.length || 1;
+    return Math.min(n - 1, Math.floor(p * n));
   }
 
   var visible = false;

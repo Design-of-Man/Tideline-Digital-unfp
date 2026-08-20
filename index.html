@@ -68,6 +68,20 @@
   .dla-hud .dla-hud-zone.is-active{color:var(--turquoise)}
   @media (max-width:900px){.dla-hud{display:none}}
 
+  /* ---------- PC-build scroll assembly (Higgsfield/Seedance render) ---------- */
+  .pc-assembly{position:relative;height:460vh;background:linear-gradient(180deg,#1b2226 0%,#0a0d10 60%,#020304 100%)}
+  .pc-assembly-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center;background:#000}
+  .pc-assembly-stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.92)}
+  .pc-assembly-grade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .05s linear}
+  .pc-assembly-ui{position:relative;z-index:3;width:100%;height:100%;pointer-events:none;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(1.25rem,1rem + 1.6vw,2.5rem);font-family:var(--body)}
+  .pc-assembly-ui::before{content:"";position:absolute;left:0;right:0;bottom:0;height:46%;pointer-events:none;background:linear-gradient(to top,rgba(2,3,4,.88),rgba(2,3,4,.4) 45%,transparent);z-index:-1}
+  .pc-assembly-head{display:flex;justify-content:space-between;gap:1.5rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,242,233,.55)}
+  .pc-assembly-caps{align-self:end;max-width:32ch}
+  .pc-assembly-cap{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+  .pc-assembly-cap.is-active{opacity:1;transform:none}
+  .pc-assembly-cap .n{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;color:var(--turquoise);display:block;margin-bottom:.5rem}
+  .pc-assembly-cap h2{font-family:var(--display);font-weight:600;line-height:1.1;color:var(--foam);font-size:clamp(1.8rem,1.3rem + 2vw,3rem);margin:0 0 .5rem}
+
   @keyframes markIn{to{opacity:1}}
   @keyframes lineGrow{to{width:60px}}
 
@@ -118,10 +132,7 @@
 
   /* ---------- HERO ---------- */
   .hero{position:relative;min-height:calc(100vh - 96px);min-height:calc(100dvh - 96px);display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding-top:3rem;margin-top:-96px;padding-top:calc(96px + 3rem);background:radial-gradient(90% 80% at 78% 16%, rgba(201,162,75,.12) 0%, rgba(201,162,75,0) 44%), linear-gradient(165deg,#1C2743 0%,#151E34 48%,#0E1524 100%)}
-  .hero-video{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;object-position:center center;pointer-events:none}
   .hero-content h1,.hero-content .lede,.hero-content .eyebrow,.hero-actions .callout,.trust .num,.trust .label{text-shadow:0 2px 18px rgba(6,10,18,.62),0 1px 4px rgba(6,10,18,.45)}
-  @media (prefers-reduced-motion:reduce){.hero-video{display:none}
-    .hero{background-image:url("/assets/video/hero-poster.jpg");background-size:cover;background-position:center}}
   .hero::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to right,rgba(6,20,32,.72) 0%,rgba(6,20,32,.46) 38%,rgba(6,20,32,.16) 62%,transparent 76%),linear-gradient(to top,rgba(6,20,32,.55) 0%,transparent 26%)}
   .hero-glow{display:none}
   .hero-content{position:relative;z-index:3;max-width:760px}
@@ -629,11 +640,6 @@
 
 
 <section class="hero" id="home">
-  <video id="heroVideo" class="hero-video" autoplay muted loop playsinline preload="metadata"
-         poster="/assets/video/hero-poster.jpg" aria-hidden="true" tabindex="-1">
-    <source src="/assets/video/hero.webm" type="video/webm">
-    <source src="/assets/video/hero.mp4" type="video/mp4">
-  </video>
   <div class="hero-glow"></div>
   <div class="wrap hero-content">
     <div class="eyebrow">Website Creation &amp; Management</div>
@@ -767,18 +773,28 @@
   </div>
 </section>
 
-<!-- ===== scroll assembly: the process, visualised ===== -->
-<div data-laptop-assembly
-     data-height="460vh"
-     data-title="Design of Man — the build"
-     data-label="Scroll to assemble"
-     data-captions='[["01 \u2014 Discover", "Discover", "We learn your business, your goals, and what your site actually needs to do."], ["02 \u2014 Design", "Design", "Wireframes and visual direction, refined together with your feedback."], ["03 \u2014 Build", "Build", "Development happens in the open, with regular check-ins along the way."], ["04 \u2014 Launch", "Launch", "We handle the technical rollout, start to finish, so nothing breaks."], ["05 \u2014 Maintain", "Maintain", "Ongoing hosting, monitoring, and updates. The work does not stop at launch."]]'></div>
+<!-- ===== scroll assembly: the build, visualised (Higgsfield/Seedance render) ===== -->
+<section class="pc-assembly" id="pcAssembly"
+     data-captions='[["01 — The Bench","THE BENCH","How far will you go?"],["02 — The Core","THE CORE","Every pixel starts with precision."],["03 — The Power","THE POWER","Power that never sleeps."],["04 — The Flow","THE FLOW","Cables as clean as our code."],["05 — The Awakening","THE AWAKENING","Built. Lit. Ready."]]'>
+  <div class="pc-assembly-stage">
+    <video id="pcAssemblyVideo" muted playsinline preload="auto" poster="/assets/video/pc-assembly-poster.jpg">
+      <source src="/assets/video/pc-assembly.webm" type="video/webm">
+      <source src="/assets/video/pc-assembly.mp4" type="video/mp4">
+    </video>
+    <div class="pc-assembly-grade" id="pcAssemblyGrade"></div>
+    <div class="pc-assembly-ui">
+      <div class="pc-assembly-head"><span>Design of Man &mdash; the build</span><span>Scroll to assemble</span></div>
+      <div></div>
+      <div class="pc-assembly-caps" id="pcAssemblyCaps"></div>
+    </div>
+  </div>
+</section>
 <div class="dla-hud" id="dlaHud" aria-hidden="true">
   <div class="dla-hud-pct" id="dlaHudPct">000%</div>
   <div class="dla-hud-track"><span class="dla-hud-fill" id="dlaHudFill"></span></div>
   <div class="dla-hud-zones" id="dlaHudZones"></div>
 </div>
-<script src="assets/js/dom-3d.bundle.v2.js" defer></script>
+<script src="assets/js/pc-assembly.js" defer></script>
 <script src="assets/js/scroll-hud.js" defer></script>
 <script src="assets/js/chat-widget.js"
         data-endpoint="https://formspree.io/f/REPLACE_CHAT_ID"
@@ -1029,9 +1045,6 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
     if(li<lines.length-1) el.appendChild(document.createElement('br'));
   });
 })();
-
-/* hero mark is rendered in 3D — see assets/js/dom-3d.bundle.v2.js */
-
 
 /* sticky nav + progress */
 const nav=document.getElementById('siteNav'); const scrollBar=document.getElementById('scrollBar');
