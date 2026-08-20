@@ -70,8 +70,8 @@
 
   /* ---------- PC-build scroll assembly (Higgsfield/Seedance render) ---------- */
   .pc-assembly{position:relative;height:460vh;background:linear-gradient(180deg,#1b2226 0%,#0a0d10 60%,#020304 100%)}
-  .pc-assembly-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center;background:#000}
-  .pc-assembly-stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.92)}
+  .pc-assembly-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center;background:#000 url("/assets/video/pc-assembly-poster.jpg") center/cover no-repeat}
+  .pc-assembly-stage canvas{position:absolute;inset:0;width:100%;height:100%;filter:brightness(.92)}
   .pc-assembly-grade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .05s linear}
   .pc-assembly-ui{position:relative;z-index:3;width:100%;height:100%;pointer-events:none;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(1.25rem,1rem + 1.6vw,2.5rem);font-family:var(--body)}
   .pc-assembly-ui::before{content:"";position:absolute;left:0;right:0;bottom:0;height:46%;pointer-events:none;background:linear-gradient(to top,rgba(2,3,4,.88),rgba(2,3,4,.4) 45%,transparent);z-index:-1}
@@ -775,12 +775,10 @@
 
 <!-- ===== scroll assembly: the build, visualised (Higgsfield/Seedance render) ===== -->
 <section class="pc-assembly" id="pcAssembly"
+     data-frame-base="/assets/img/pc-frames/f" data-frame-count="136" data-frame-digits="4" data-frame-ext="jpg"
      data-captions='[["01 — The Bench","THE BENCH","How far will you go?"],["02 — The Core","THE CORE","Every pixel starts with precision."],["03 — The Power","THE POWER","Power that never sleeps."],["04 — The Flow","THE FLOW","Cables as clean as our code."],["05 — The Awakening","THE AWAKENING","Built. Lit. Ready."]]'>
-  <div class="pc-assembly-stage">
-    <video id="pcAssemblyVideo" muted playsinline preload="auto" poster="/assets/video/pc-assembly-poster.jpg">
-      <source src="/assets/video/pc-assembly.webm" type="video/webm">
-      <source src="/assets/video/pc-assembly.mp4" type="video/mp4">
-    </video>
+  <div class="pc-assembly-stage" id="pcAssemblyStage">
+    <canvas id="pcAssemblyCanvas" aria-hidden="true"></canvas>
     <div class="pc-assembly-grade" id="pcAssemblyGrade"></div>
     <div class="pc-assembly-ui">
       <div class="pc-assembly-head"><span>Design of Man &mdash; the build</span><span>Scroll to assemble</span></div>
