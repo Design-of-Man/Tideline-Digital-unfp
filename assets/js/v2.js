@@ -32,12 +32,6 @@
     var hudFill = document.getElementById('heroHudFill');
     var hudZones = document.getElementById('heroHudZones');
 
-    // Where the lit screen sits inside the final frame, measured off the
-    // render itself (normalised to the 1280x720 source).
-    var SCREEN = { x: 0.1500, y: 0.0792, w: 0.6820, h: 0.6389 };
-    // Scroll is split: scrub the laptop open, then fly into the screen.
-    var ENTER_AT = 0.72;
-
     var ZONES = ['The Bench', 'The Launch', 'Inside'];
     if (hudZones) {
       hudZones.innerHTML = ZONES.map(function (z, i) {
@@ -51,19 +45,12 @@
     var ext = section.dataset.frameExt || 'jpg';
     if (!base) return;
 
-    // The source render was chained from several clips and never opens
-    // cleanly on its own: it restarts twice (frames 50 and 74 replay a
-    // darker, more-closed state), the camera breathes backwards inside the
-    // open shot, and past 105 the screen blows out to solid white. Any of
-    // those reads as the lid closing back up mid-scroll.
-    // These two lists are the frames that strictly progress, picked by
-    // measuring glow brightness over the closed build and lit-screen area
-    // over the open push-in, then keeping only frames that advance on it.
-    var closedFrames = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,30,31,32,33,34,35,36,37,38,40];
-    var openFrames = [85,86,87,88,89,90,91,96,100,101,103,104];
-    var srcFrames = closedFrames.concat(openFrames);
-    var usableCount = srcFrames.length;
-    var joinIdx = closedFrames.length - 1; // last frame before the cut to the open laptop
+    // Play the whole render straight through: every frame, in order,
+    // mapped linearly to scroll. Cross-fade blending between neighbouring
+    // frames keeps the motion continuous between them.
+    var usableCount = 121;
+    var srcFrames = [];
+    for (var s0 = 1; s0 <= usableCount; s0++) srcFrames.push(s0);
 
     function pad(n) { return String(n).padStart(digits, '0'); }
     var frames = new Array(usableCount);
@@ -71,15 +58,6 @@
       var img = new Image();
       img.src = base + pad(srcFrames[i]) + '.' + ext;
       frames[i] = img;
-    }
-
-    // Hold most of the scroll for the glow build, then spend a wide band
-    // dissolving across the one real cut so the laptop opens as a slow
-    // reveal rather than a jump, then ride the push-in.
-    function frameAt(p) {
-      if (p < 0.45) return (p / 0.45) * joinIdx;
-      if (p < 0.58) return joinIdx + ((p - 0.45) / 0.13);
-      return (joinIdx + 1) + ((p - 0.58) / 0.42) * (usableCount - 1 - (joinIdx + 1));
     }
 
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -109,70 +87,22 @@
       if (frac > 0.01 && img1 && img1.complete && img1.naturalWidth) drawOne(img1, frac);
     }
 
-    // Same cover math as drawCover, but in CSS pixels, so the screen panel
-    // lands exactly on the laptop's display no matter the viewport shape.
-    function screenRect() {
-      var SW = stage.clientWidth, SH = stage.clientHeight;
-      var img = frames[usableCount - 1];
-      var iw = (img && img.naturalWidth) || 1280, ih = (img && img.naturalHeight) || 720;
-      var scale = Math.max(SW / iw, SH / ih);
-      var dw = iw * scale, dh = ih * scale;
-      var dx = (SW - dw) / 2, dy = (SH - dh) / 2;
-      return {
-        x: dx + SCREEN.x * dw, y: dy + SCREEN.y * dh,
-        w: SCREEN.w * dw, h: SCREEN.h * dh,
-        SW: SW, SH: SH
-      };
-    }
-
-    // Accelerating push: the site sits on the display long enough to read as
-    // a screen, then the camera rushes the last of the way in.
-    function easeIn(t) { return t * t; }
-
-    // Grows the panel from the screen rect to the full viewport while the
-    // canvas scales around that same point, so both move as one camera push.
-    function enterScreen(t) {
+    // The footage's own final frames fly into the white screen. As that
+    // happens the site content simply fades in over it — one continuous
+    // camera move, no cut.
+    var REVEAL_AT = 0.88;
+    function reveal(t) {
       if (!screenEl) return;
-      var r = screenRect();
-      var e = easeIn(Math.max(0, Math.min(1, t)));
-      var x = r.x + (0 - r.x) * e;
-      var y = r.y + (0 - r.y) * e;
-      var w = r.w + (r.SW - r.w) * e;
-      var h = r.h + (r.SH - r.h) * e;
-      screenEl.style.left = x + 'px';
-      screenEl.style.top = y + 'px';
-      screenEl.style.width = w + 'px';
-      screenEl.style.height = h + 'px';
-      screenEl.style.opacity = Math.min(1, t * 10).toFixed(3);
-      screenEl.classList.toggle('is-live', t > 0.92);
-      // Content rides up to full size with the panel instead of being squashed.
-      if (screenInner) {
-        var s = Math.max(0.35, w / r.SW);
-        screenInner.style.transform = 'scale(' + s.toFixed(3) + ')';
-        screenInner.style.opacity = Math.min(1, t * 8).toFixed(3);
-      }
-      if (ui) ui.style.opacity = Math.max(0, 1 - t * 7).toFixed(3);
-      // Push the frame past the camera, anchored on the screen's centre.
-      var cx = ((r.x + r.w / 2) / r.SW) * 100;
-      var cy = ((r.y + r.h / 2) / r.SH) * 100;
-      var K = Math.max(r.SW / r.w, r.SH / r.h);
-      canvas.style.transformOrigin = cx.toFixed(2) + '% ' + cy.toFixed(2) + '%';
-      canvas.style.transform = 'scale(' + (1 + (K - 1) * e).toFixed(4) + ')';
-    }
-
-    function resetScreen() {
-      if (ui) ui.style.opacity = '1';
-      if (screenEl) {
-        screenEl.style.opacity = '0';
-        screenEl.classList.remove('is-live');
-      }
-      canvas.style.transform = 'scale(1)';
+      var v = Math.max(0, Math.min(1, t));
+      screenEl.style.opacity = v.toFixed(3);
+      screenEl.classList.toggle('is-live', v > 0.85);
+      if (ui) ui.style.opacity = Math.max(0, 1 - v * 2).toFixed(3);
     }
 
     function step(p) {
-      if (p >= ENTER_AT) return caps.length;           // inside the screen
+      if (p >= REVEAL_AT) return caps.length;
       var n = caps.length || 1;
-      return Math.min(n - 1, Math.floor((p / ENTER_AT) * n));
+      return Math.min(n - 1, Math.floor((p / REVEAL_AT) * n));
     }
 
     var latestP = 0, lastIdx0 = -1, lastFrac = -1, lastStep = -1, ticking = false, hudVisible = false;
@@ -186,11 +116,7 @@
       ticking = false;
       var p = latestP;
 
-      // Phase one scrubs the laptop open; phase two flies into the screen.
-      var scrubP = Math.min(1, p / ENTER_AT);
-      var enterP = p <= ENTER_AT ? 0 : (p - ENTER_AT) / (1 - ENTER_AT);
-
-      var idxFloat = frameAt(scrubP);
+      var idxFloat = p * (usableCount - 1);
       var idx0 = Math.max(0, Math.min(usableCount - 1, Math.floor(idxFloat)));
       var idx1 = Math.min(usableCount - 1, idx0 + 1);
       var frac = idxFloat - idx0;
@@ -199,13 +125,9 @@
         lastIdx0 = idx0; lastFrac = frac;
       }
 
-      if (enterP > 0) enterScreen(enterP); else resetScreen();
+      reveal(p <= REVEAL_AT ? 0 : (p - REVEAL_AT) / (1 - REVEAL_AT));
 
-      // Grade lifts while opening, then clears so the screen reads bright.
-      if (grade) {
-        var g = enterP > 0 ? 0.3 * (1 - enterP) : 0.08 + scrubP * 0.22;
-        grade.style.opacity = g.toFixed(3);
-      }
+      if (grade) grade.style.opacity = (p >= REVEAL_AT ? 0 : 0.08 + p * 0.2).toFixed(3);
       if (bar) bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
 
       if (hudPct) hudPct.textContent = String(Math.round(p * 100)).padStart(3, '0') + '%';
@@ -235,7 +157,7 @@
 
     render();
     if (!reduced) window.addEventListener('scroll', onScroll, { passive: true });
-    else { caps.forEach(function (el, i) { el.classList.toggle('is-active', i === 0); }); resetScreen(); }
+    else { caps.forEach(function (el, i) { el.classList.toggle('is-active', i === 0); }); reveal(0); }
   })();
 
   // Scroll reveals.
