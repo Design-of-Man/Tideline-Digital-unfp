@@ -57,6 +57,17 @@
 
   .scroll-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--turquoise),var(--coral));z-index:200;transition:width .1s linear}
 
+  /* ---------- assembly HUD (right-edge progress meter for the laptop build) ---------- */
+  .dla-hud{position:fixed;top:50%;right:clamp(1rem,3vw,2.75rem);transform:translateY(-50%);z-index:120;display:flex;flex-direction:column;align-items:flex-end;gap:1.1rem;opacity:0;pointer-events:none;transition:opacity .5s var(--ease);font-family:var(--mono)}
+  .dla-hud.is-visible{opacity:1}
+  .dla-hud .dla-hud-pct{font-size:clamp(1.1rem,.9rem + .8vw,1.7rem);font-weight:500;color:var(--foam);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+  .dla-hud .dla-hud-track{position:relative;width:2px;height:min(34vh,240px);background:rgba(247,242,233,.16);border-radius:2px}
+  .dla-hud .dla-hud-fill{position:absolute;left:0;top:0;width:100%;height:0%;background:linear-gradient(180deg,var(--turquoise),var(--coral));border-radius:2px;transition:height .05s linear}
+  .dla-hud .dla-hud-zones{display:flex;flex-direction:column;gap:.55rem;align-items:flex-end}
+  .dla-hud .dla-hud-zone{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(247,242,233,.32);transition:color .3s var(--ease)}
+  .dla-hud .dla-hud-zone.is-active{color:var(--turquoise)}
+  @media (max-width:900px){.dla-hud{display:none}}
+
   .curtain{position:fixed;inset:0;z-index:10000;background:var(--ocean-abyss);display:flex;align-items:center;justify-content:center;transition:opacity .4s var(--ease),visibility .4s var(--ease)}
   .curtain.done{opacity:0;visibility:hidden}
   .curtain-video{width:100%;height:100%;object-fit:cover;background:var(--ocean-abyss)}
@@ -776,7 +787,13 @@
      data-title="Design of Man — the build"
      data-label="Scroll to assemble"
      data-captions='[["01 \u2014 Discover", "Discover", "We learn your business, your goals, and what your site actually needs to do."], ["02 \u2014 Design", "Design", "Wireframes and visual direction, refined together with your feedback."], ["03 \u2014 Build", "Build", "Development happens in the open, with regular check-ins along the way."], ["04 \u2014 Launch", "Launch", "We handle the technical rollout, start to finish, so nothing breaks."], ["05 \u2014 Maintain", "Maintain", "Ongoing hosting, monitoring, and updates. The work does not stop at launch."]]'></div>
+<div class="dla-hud" id="dlaHud" aria-hidden="true">
+  <div class="dla-hud-pct" id="dlaHudPct">000%</div>
+  <div class="dla-hud-track"><span class="dla-hud-fill" id="dlaHudFill"></span></div>
+  <div class="dla-hud-zones" id="dlaHudZones"></div>
+</div>
 <script src="assets/js/dom-3d.bundle.v2.js" defer></script>
+<script src="assets/js/scroll-hud.js" defer></script>
 <script src="assets/js/chat-widget.js"
         data-endpoint="https://formspree.io/f/REPLACE_CHAT_ID"
         data-phone="+15615550100" data-phone-label="(561) 555-0100"
