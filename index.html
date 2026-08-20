@@ -82,6 +82,21 @@
   .pc-assembly-cap .n{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;color:var(--turquoise);display:block;margin-bottom:.5rem}
   .pc-assembly-cap h2{font-family:var(--display);font-weight:600;line-height:1.1;color:var(--foam);font-size:clamp(1.8rem,1.3rem + 2vw,3rem);margin:0 0 .5rem}
 
+  /* ---------- header opening sequence: photoreal laptop (Higgsfield/Seedance) ---------- */
+  .laptop-open{position:relative;height:460vh;background:linear-gradient(180deg,#1b2226 0%,#0a0d10 60%,#020304 100%)}
+  .laptop-open-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center;background:#000 url("/assets/video/laptop-poster.jpg") center/cover no-repeat}
+  .laptop-open-stage canvas{position:absolute;inset:0;width:100%;height:100%;filter:brightness(.94)}
+  .laptop-open-grade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .05s linear}
+  .laptop-open-ui{position:relative;z-index:3;width:100%;height:100%;pointer-events:none;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(1.25rem,1rem + 1.6vw,2.5rem);font-family:var(--body)}
+  .laptop-open-ui::before{content:"";position:absolute;left:0;right:0;bottom:0;height:46%;pointer-events:none;background:linear-gradient(to top,rgba(2,3,4,.88),rgba(2,3,4,.4) 45%,transparent);z-index:-1}
+  .laptop-open-head{display:flex;justify-content:space-between;gap:1.5rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,242,233,.55)}
+  .laptop-open-caps{align-self:end;max-width:32ch}
+  .laptop-open-cap{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+  .laptop-open-cap.is-active{opacity:1;transform:none}
+  .laptop-open-cap .n{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;color:var(--turquoise);display:block;margin-bottom:.5rem}
+  .laptop-open-cap h2{font-family:var(--display);font-weight:600;line-height:1.1;color:var(--foam);font-size:clamp(1.8rem,1.3rem + 2vw,3rem);margin:0 0 .5rem}
+  .laptop-open-cap p{color:rgba(247,242,233,.72);font-size:.98rem;max-width:34ch;margin:0;line-height:1.6}
+
   @keyframes markIn{to{opacity:1}}
   @keyframes lineGrow{to{width:60px}}
 
@@ -638,13 +653,26 @@
 </header>
 <main id="main">
 
-<!-- ===== opening sequence: laptop builds, opens, hands off to the hero below ===== -->
-<div data-laptop-assembly
-     data-height="480vh"
-     data-title="Design of Man"
-     data-label="Scroll to open"
-     data-captions='[["01 — Precision", "Built to spec", "Every project starts with a plan you can actually read. No templates stretched to fit."], ["02 — Craft", "Assembled by hand", "Custom markup, fast hosting, real accessibility. The parts nobody sees, done right."], ["03 — Design", "Made to fit your business", "Type, colour and layout chosen for what you actually sell — not a theme with your logo on it."], ["04 — Launch", "It opens up", "Domain connected, analytics wired, forms tested for real. We check it works before we say it does."], ["05 — Care", "And it stays open", "Hosting, updates, backups, changes. A site is not finished at launch — it is just open."]]'></div>
-<script src="assets/js/dom-3d.bundle.v2.js" defer></script>
+<!-- ===== opening sequence: photoreal laptop opens, hands off to the hero below (Higgsfield/Seedance render) ===== -->
+<section class="laptop-open" id="laptopOpen"
+     data-frame-base="/assets/img/laptop-frames/f" data-frame-count="121" data-frame-digits="4" data-frame-ext="jpg"
+     data-captions='[["01 — Precision","BUILT TO SPEC","Every project starts with a plan you can actually read. No templates stretched to fit."],["02 — Craft","ASSEMBLED BY HAND","Custom markup, fast hosting, real accessibility. The parts nobody sees, done right."],["03 — Design","MADE TO FIT","Type, colour and layout chosen for what you actually sell — not a theme with your logo on it."],["04 — Launch","IT OPENS UP","Domain connected, analytics wired, forms tested for real. We check it works before we say it does."],["05 — Care","AND IT STAYS OPEN","Hosting, updates, backups, changes. A site is not finished at launch — it is just open."]]'>
+  <div class="laptop-open-stage" id="laptopOpenStage">
+    <canvas id="laptopOpenCanvas" aria-hidden="true"></canvas>
+    <div class="laptop-open-grade" id="laptopOpenGrade"></div>
+    <div class="laptop-open-ui">
+      <div class="laptop-open-head"><span>Design of Man</span><span>Scroll to open</span></div>
+      <div></div>
+      <div class="laptop-open-caps" id="laptopOpenCaps"></div>
+    </div>
+  </div>
+  <div class="dla-hud" id="laptopHud" aria-hidden="true">
+    <div class="dla-hud-pct" id="laptopHudPct">000%</div>
+    <div class="dla-hud-track"><span class="dla-hud-fill" id="laptopHudFill"></span></div>
+    <div class="dla-hud-zones" id="laptopHudZones"></div>
+  </div>
+</section>
+<script src="assets/js/laptop-open.js" defer></script>
 
 <section class="hero" id="home">
   <div class="hero-glow"></div>
