@@ -1,1199 +1,899 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Design of Man designs, builds and maintains fast, custom websites and web apps. Clean design, honest scoping, and ongoing care long after launch day.">
-  <link rel="canonical" href="https://www.designofman.com/">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="author" content="Design of Man">
-  <meta name="theme-color" content="#16233B">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Design of Man">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Crect%20width%3D%2724%27%20height%3D%2724%27%20rx%3D%275%27%20fill%3D%27%2316233B%27%2F%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%2711.6%27%20r%3D%279%27%20fill%3D%27none%27%20stroke%3D%27%23C9A24B%27%20stroke-width%3D%271.3%27%2F%3E%3Cg%20stroke%3D%27%23F7F2E9%27%20stroke-width%3D%271.5%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cline%20x1%3D%2712%27%20y1%3D%277.8%27%20x2%3D%2712%27%20y2%3D%2714.6%27%2F%3E%3Cline%20x1%3D%2712%27%20y1%3D%279%27%20x2%3D%275.6%27%20y2%3D%276.2%27%2F%3E%3Cline%20x1%3D%2712%27%20y1%3D%279%27%20x2%3D%2718.4%27%20y2%3D%276.2%27%2F%3E%3Cline%20x1%3D%2712%27%20y1%3D%2714.6%27%20x2%3D%278.2%27%20y2%3D%2719.6%27%2F%3E%3Cline%20x1%3D%2712%27%20y1%3D%2714.6%27%20x2%3D%2715.8%27%20y2%3D%2719.6%27%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%275.4%27%20r%3D%271.8%27%20fill%3D%27%23C15F3C%27%2F%3E%3C%2Fsvg%3E">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Design of Man">
-  <meta property="og:title" content="Design of Man — Website Creation & Management">
-  <meta property="og:description" content="Design of Man designs, builds and maintains fast, custom websites and web apps. Clean design, honest scoping, and ongoing care long after launch day.">
-  <meta property="og:url" content="https://www.designofman.com/">
-  <meta property="og:image" content="https://www.designofman.com/og.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale" content="en_US">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Design of Man — Website Creation & Management">
-  <meta name="twitter:description" content="Design of Man designs, builds and maintains fast, custom websites and web apps. Clean design, honest scoping, and ongoing care long after launch day.">
-  <meta name="twitter:image" content="https://www.designofman.com/og.png">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design of Man — How far will you go?</title>
+<meta name="description" content="Design of Man crafts premium digital experiences and manages high-performance web platforms for ambitious clients. 8 seats available. Launching Q1 2027.">
+<link rel="canonical" href="https://www.designofman.com/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#04060A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%2304060A'/%3E%3Crect x='2' y='7' width='12' height='2' fill='%2335E4FF'/%3E%3C/svg%3E">
 
-<title>Design of Man — Website Creation &amp; Management</title>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Design of Man">
+<meta property="og:url" content="https://www.designofman.com/">
+<meta property="og:title" content="Design of Man — How far will you go?">
+<meta property="og:description" content="Premium digital experiences. High-performance platforms. Managed without pause.">
+<meta property="og:image" content="https://www.designofman.com/og.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Work+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@100;200;300;400;500&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-  :root{
-    --ocean-deep:#16233B;--ocean-abyss:#0C1424;--ocean-mid:#A9843C;
-    --turquoise:#C9A24B;--turquoise-soft:#E0C173;
-    --sand:#E4D5B8;--sand-light:#F4EEE0;
-    --coral:#C15F3C;--coral-dark:#A44B2C;
-    --foam:#F7F2E9;--ink:#2E2A22;--ink-soft:rgba(46,42,34,.66);
-    --display:'Fraunces',serif;--body:'Work Sans',sans-serif;--mono:'IBM Plex Mono',monospace;
-    --ease:cubic-bezier(.22,1,.36,1);
-  --dla-display:'Fraunces',serif; --dla-body:'Work Sans',sans-serif; --dla-mono:'IBM Plex Mono',monospace;
-  --dom-display:'Fraunces',serif; --dom-body:'Work Sans',sans-serif; --dom-mono:'IBM Plex Mono',monospace;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth;scroll-padding-top:88px}
-  body{font-family:var(--body);color:var(--ink);background:var(--ocean-abyss);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-  a{color:inherit;text-decoration:none}
-  ul{list-style:none}
-  button{font-family:inherit;cursor:pointer;border:none;background:none}
-  img,svg,canvas{display:block;max-width:100%}
-  ::selection{background:var(--turquoise);color:var(--ocean-deep)}
-  :focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+:root{
+  --void:#04060A;
+  --arctic:#0C1218;
+  --steel:#7C93A6;
+  --frost:#DCEAF2;
+  --cyan:#35E4FF;
+  --cyan-soft:rgba(53,228,255,.55);
+  --cyan-faint:rgba(53,228,255,.14);
+  --display:'Saira',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
 
-  body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.035;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-
-  .scroll-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--turquoise),var(--coral));z-index:200;transition:width .1s linear}
-
-  .curtain{position:fixed;inset:0;z-index:10000;background:var(--ocean-abyss);display:flex;align-items:center;justify-content:center;transition:opacity .4s var(--ease),visibility .4s var(--ease)}
-  .curtain.done{opacity:0;visibility:hidden}
-  .curtain-video{width:100%;height:100%;object-fit:cover;background:var(--ocean-abyss)}
-  .curtain-skip{position:absolute;bottom:1.4rem;left:1.4rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,242,233,.72);background:rgba(14,21,36,.5);border:1px solid rgba(247,242,233,.25);padding:.55rem 1rem;border-radius:100px;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:color .3s var(--ease),border-color .3s var(--ease),opacity .3s var(--ease);opacity:0;animation:skipIn .6s var(--ease) 1.4s forwards}
-  .curtain-skip:hover{color:var(--foam);border-color:var(--turquoise)}
-  @keyframes skipIn{to{opacity:1}}
-  @keyframes markIn{to{opacity:1}}
-  @keyframes lineGrow{to{width:60px}}
-
-  .eyebrow{font-family:var(--mono);font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ocean-mid);display:flex;align-items:center;gap:.65rem;margin-bottom:1.2rem}
-  .eyebrow::before{content:"";width:24px;height:1px;background:currentColor;display:inline-block}
-  .eyebrow.center{justify-content:center}
-  .eyebrow.center::before{display:none}
-
-  .wrap{max-width:1200px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3.2rem)}
-  h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.05;color:var(--ocean-deep);letter-spacing:-.01em}
-  h1{font-size:clamp(2.1rem,4.4vw,3.4rem)}h2{font-size:clamp(2.1rem,4.4vw,3.4rem)}
-  h3{font-size:1.4rem}
-  p{color:var(--ink-soft)}
-  .section-head{max-width:640px}
-  .section-head.center{max-width:660px;margin:0 auto;text-align:center}
-
-  .btn{display:inline-flex;align-items:center;gap:.55rem;padding:.95rem 1.8rem;border-radius:100px;font-weight:500;font-size:.96rem;position:relative;transition:transform .3s var(--ease),box-shadow .3s var(--ease),background .3s var(--ease);will-change:transform}
-  .btn-coral{background:var(--coral);color:var(--foam);box-shadow:0 10px 30px -10px rgba(193,95,60,.6)}
-  .btn-coral:hover{background:var(--coral-dark);box-shadow:0 16px 40px -12px rgba(193,95,60,.7)}
-  .btn-ghost{border:1.5px solid rgba(247,242,233,.5);color:var(--foam)}
-  .btn-ghost:hover{background:rgba(247,242,233,.1);border-color:var(--foam)}
-  .btn-ghost-dark{border:1.5px solid rgba(22,35,59,.25);color:var(--ocean-deep)}
-  .btn-ghost-dark:hover{background:rgba(22,35,59,.06)}
-  .btn svg{transition:transform .3s var(--ease)}
-  .btn:hover svg{transform:translateX(3px)}
-
-  /* ---------- TOP BAR ---------- */
-  .topbar{background:var(--ocean-abyss);color:rgba(247,242,233,.7);font-family:var(--mono);font-size:.78rem;letter-spacing:.03em;position:relative;z-index:151}
-  .topbar-inner{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0}
-  .topbar a{color:rgba(247,242,233,.8);transition:color .2s}
-  .topbar a:hover{color:var(--turquoise)}
-  .topbar .tb-right{display:flex;gap:1.6rem;align-items:center}
-  .topbar .tb-phone{color:var(--turquoise);font-weight:500}
-  @media (max-width:640px){.topbar .tb-left{display:none}.topbar-inner{justify-content:center}}
-
-  /* ---------- NAV ---------- */
-  header.nav{position:sticky;top:0;z-index:150;padding:1.1rem 0;transition:background .5s var(--ease),padding .5s var(--ease),box-shadow .5s var(--ease);background:rgba(12,20,36,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-  header.nav.scrolled{background:rgba(12,20,36,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);padding:.75rem 0;box-shadow:0 12px 40px -20px rgba(0,0,0,.7)}
-  .nav-inner{display:flex;align-items:center;justify-content:space-between}
-  .logo{font-family:var(--display);font-style:italic;font-weight:500;font-size:1.42rem;color:var(--foam);display:flex;align-items:center;gap:.55rem}
-  .logo svg,.logo img{width:54px;height:26px;flex-shrink:0}
-  .nav-links{display:flex;align-items:center;gap:1.5rem}
-  .nav-links a:not(.btn){font-size:.94rem;color:rgba(247,242,233,.82);position:relative;padding:.3rem 0;transition:color .2s var(--ease)}
-  .nav-links a:not(.btn)::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--turquoise);transition:width .3s var(--ease)}
-  .nav-links a:not(.btn):hover,.nav-links a.active:not(.btn){color:var(--foam)}
-  .nav-links a:not(.btn):hover::after,.nav-links a.active:not(.btn)::after{width:100%}
-  .nav-toggle{display:none}
-
-  /* ---------- HERO ---------- */
-  .hero{position:relative;min-height:calc(100vh - 96px);min-height:calc(100dvh - 96px);display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding-top:3rem;margin-top:-96px;padding-top:calc(96px + 3rem);background:radial-gradient(90% 80% at 78% 16%, rgba(201,162,75,.12) 0%, rgba(201,162,75,0) 44%), linear-gradient(165deg,#1C2743 0%,#151E34 48%,#0E1524 100%)}
-  .hero-video{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;object-position:center center;pointer-events:none}
-  .hero-content h1,.hero-content .lede,.hero-content .eyebrow,.hero-actions .callout,.trust .num,.trust .label{text-shadow:0 2px 18px rgba(6,10,18,.62),0 1px 4px rgba(6,10,18,.45)}
-  @media (prefers-reduced-motion:reduce){.hero-video{display:none}
-    .hero{background-image:url("/assets/video/hero-poster.jpg");background-size:cover;background-position:center}}
-  .hero::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to right,rgba(6,20,32,.72) 0%,rgba(6,20,32,.46) 38%,rgba(6,20,32,.16) 62%,transparent 76%),linear-gradient(to top,rgba(6,20,32,.55) 0%,transparent 26%)}
-  .hero-glow{display:none}
-  .hero-content{position:relative;z-index:3;max-width:760px}
-  .hero-content .eyebrow{color:var(--turquoise-soft);opacity:0;animation:rise .9s var(--ease) .2s forwards}
-  .hero-content h1{font-size:clamp(2.7rem,6.4vw,5rem);color:var(--foam);margin-bottom:1.5rem;font-weight:500;letter-spacing:-.02em}
-  .hero-content h1 .word{display:inline-block;overflow:hidden;vertical-align:top}
-  .hero-content h1 .word span{display:inline-block;transform:translateY(110%);animation:wordUp .9s var(--ease) forwards}
-  .hero-content h1 em{font-style:italic;color:var(--turquoise);font-weight:400}
-  @keyframes wordUp{to{transform:translateY(0)}}
-  .hero-content .lede{font-size:1.18rem;color:rgba(247,242,233,.78);max-width:540px;margin-bottom:2.2rem;opacity:0;animation:rise .9s var(--ease) .9s forwards}
-  .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;opacity:0;animation:rise .9s var(--ease) 1.05s forwards}
-  .hero-actions .callout{font-family:var(--mono);font-size:.82rem;color:rgba(247,242,233,.6);display:flex;align-items:center;gap:.5rem}
-  .hero-actions .callout b{color:var(--turquoise);font-weight:500}
-  @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-
-  .trust{position:relative;z-index:3;margin-top:auto;padding:2rem 0 2.6rem;border-top:1px solid rgba(247,242,233,.12);opacity:0;animation:rise .9s var(--ease) 1.3s forwards}
-  .trust-inner{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap}
-  .stat .num{font-family:var(--display);font-size:clamp(1.9rem,3.4vw,2.7rem);color:var(--foam);font-weight:500;line-height:1}
-  .stat .num .suffix{color:var(--turquoise);font-size:.7em}
-  .stat .label{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(247,242,233,.55);margin-top:.5rem}
-
-  /* ---------- ABOUT ---------- */
-  .about{background:var(--sand-light);padding:8rem 0 7rem}
-  .about-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:4.5rem;align-items:start}
-  .about-copy p{font-size:1.1rem;margin-top:1.3rem;max-width:490px}
-  .about-sig{margin-top:2.2rem;font-family:var(--display);font-style:italic;font-size:1.25rem;color:var(--ocean-mid)}
-  .values{display:flex;flex-direction:column;gap:1.4rem}
-  .value-card{background:var(--foam);border:1px solid rgba(22,35,59,.09);border-radius:16px;padding:1.6rem 1.8rem;display:flex;gap:1.2rem;align-items:flex-start;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease)}
-  .value-card:hover{transform:translateY(-6px);box-shadow:0 30px 55px -30px rgba(22,35,59,.4);border-color:rgba(169,132,60,.3)}
-  .value-icon{flex-shrink:0;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--sand),#F3E7CE);display:flex;align-items:center;justify-content:center;color:var(--ocean-mid)}
-  .value-card h3{font-size:1.12rem;margin-bottom:.35rem}
-  .value-card p{font-size:.95rem;margin:0}
-
-  /* ---------- SERVICES ---------- */
-  .services{background:var(--ocean-deep);padding:8rem 0 7rem;color:var(--foam);position:relative;overflow:hidden}
-  .services .eyebrow{color:var(--turquoise)}
-  .services h2{color:var(--foam)}
-  .services .intro{color:rgba(247,242,233,.66);max-width:560px;margin-top:1rem;margin-bottom:3.4rem;font-size:1.08rem}
-  /* flowchart */
-  .chart{display:flex;align-items:center;margin-top:3.6rem;padding:2.6rem 2.2rem;border:1px solid rgba(247,242,233,.08);border-radius:22px;background-color:rgba(247,242,233,.015);background-image:radial-gradient(rgba(224,193,115,.09) 1px,transparent 1px);background-size:22px 22px}
-  .chart-sources{flex:0 0 auto;width:268px;display:flex;flex-direction:column;gap:40px}
-  .chart-junction{flex:0 0 64px;height:368px;display:flex;align-items:center;justify-content:center}
-  .chart-junction svg{width:64px;height:368px;overflow:visible}
-  .chart-junction .cline{fill:none;stroke:var(--turquoise);stroke-width:2;stroke-linejoin:round;opacity:.7}
-  .merge-m{display:none}
-  .chart-flow{flex:1;display:flex;align-items:stretch;min-width:0}
-  .cbox{position:relative;background:rgba(247,242,233,.045);border:1px solid rgba(247,242,233,.15);border-radius:14px;padding:1.15rem 1.25rem 1.2rem 1.4rem;overflow:hidden;transition:transform .35s var(--ease),border-color .35s var(--ease),background .35s var(--ease)}
-  .cbox::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--turquoise)}
-  .cbox-source::before{background:var(--coral)}
-  .cbox::after{content:"";position:absolute;inset:0;opacity:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(201,162,75,.16),transparent 60%);transition:opacity .35s var(--ease)}
-  .cbox:hover{transform:translateY(-4px);border-color:rgba(201,162,75,.45);background:rgba(201,162,75,.05)}
-  .cbox:hover::after{opacity:1}
-  .cbox-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem;position:relative}
-  .cbox .ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .cbox .ic svg{width:18px;height:18px}
-  .cbox-stage .ic{background:rgba(201,162,75,.15);color:var(--turquoise)}
-  .cbox-source .ic{background:rgba(193,95,60,.15);color:var(--coral)}
-  .cbox .tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase}
-  .cbox-stage .tag{color:var(--turquoise)}
-  .cbox-source .tag{color:var(--coral)}
-  .cbox h3{color:var(--foam);font-size:1.02rem;margin:0 0 .4rem;position:relative;line-height:1.2}
-  .cbox p{color:rgba(247,242,233,.62);font-size:.84rem;margin:0;position:relative;line-height:1.45}
-  .chart-sources .cbox{height:164px;display:flex;flex-direction:column;justify-content:center}
-  .chart-flow .cbox{flex:1 1 0;min-width:0}
-  .carrow{flex:0 0 52px;align-self:center;height:2px;position:relative;background:rgba(201,162,75,.55)}
-  .carrow::after{content:"";position:absolute;right:-1px;top:50%;transform:translateY(-50%);border-left:9px solid var(--turquoise);border-top:6px solid transparent;border-bottom:6px solid transparent}
-
-  /* ---------- WHY US ---------- */
-  .why{background:var(--sand-light);padding:8rem 0 7rem}
-  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3.4rem}
-  .why-card{background:var(--foam);border:1px solid rgba(22,35,59,.09);border-radius:16px;padding:2rem 1.7rem;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
-  .why-card:hover{transform:translateY(-6px);box-shadow:0 30px 55px -30px rgba(22,35,59,.4)}
-  .why-num{font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;color:var(--coral);margin-bottom:1.1rem}
-  .why-card h3{font-size:1.16rem;margin-bottom:.55rem}
-  .why-card p{font-size:.94rem}
-  .trust-logos{margin-top:4rem;text-align:center}
-  .trust-logos .label{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:1.6rem}
-  .logo-row{display:flex;justify-content:center;align-items:center;gap:clamp(1.5rem,4vw,3.5rem);flex-wrap:wrap;opacity:.6}
-  .logo-row span{font-family:var(--display);font-weight:600;font-size:1.15rem;color:var(--ocean-deep);display:flex;align-items:center;gap:.45rem}
-  .logo-row svg{width:20px;height:20px;color:var(--ocean-mid)}
-
-  /* ---------- PROCESS ---------- */
-  .process{background:var(--ocean-deep);padding:8rem 0 8.5rem;color:var(--foam)}
-  .process .eyebrow{color:var(--turquoise)}
-  .process h2{color:var(--foam);margin-bottom:3.8rem}
-  .trail{display:grid;grid-template-columns:repeat(5,1fr);gap:1.3rem;position:relative}
-  .trail::before{content:"";position:absolute;top:23px;left:6%;right:6%;height:1px;background-image:linear-gradient(to right,rgba(224,193,115,.4) 0 6px,transparent 6px 15px);background-size:15px 1px;background-repeat:repeat-x}
-  .step-mark{width:46px;height:46px;border-radius:50%;background:var(--ocean-deep);border:1.5px solid var(--turquoise);color:var(--turquoise);display:flex;align-items:center;justify-content:center;margin-bottom:1.3rem;position:relative;z-index:2;transition:background .4s var(--ease),color .4s var(--ease),transform .4s var(--ease)}
-  .step:hover .step-mark{background:var(--turquoise);color:var(--ocean-deep);transform:scale(1.08)}
-  .step-mark svg{width:19px;height:19px}
-  .step h3{color:var(--foam);font-size:1.06rem;margin-bottom:.5rem}
-  .step p{font-size:.9rem;color:rgba(247,242,233,.64)}
-
-  /* ---------- PRICING ---------- */
-  .pricing{background:var(--sand-light);padding:8rem 0 7rem}
-  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;margin-top:3.6rem;align-items:stretch}
-  .plan{background:var(--foam);border:1px solid rgba(22,35,59,.1);border-radius:20px;padding:2.4rem 2rem;display:flex;flex-direction:column;position:relative;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
-  .plan:hover{transform:translateY(-6px);box-shadow:0 34px 60px -34px rgba(22,35,59,.42)}
-  .plan.featured{background:linear-gradient(170deg,var(--ocean-deep),var(--ocean-abyss));border-color:transparent;color:var(--foam);transform:scale(1.03)}
-  .plan.featured:hover{transform:scale(1.03) translateY(-6px)}
-  .plan-badge{position:absolute;top:1.3rem;right:1.3rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ocean-deep);background:var(--turquoise);padding:.3rem .7rem;border-radius:100px}
-  .plan-name{font-family:var(--mono);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ocean-mid);margin-bottom:1rem}
-  .plan.featured .plan-name{color:var(--turquoise)}
-  .plan-price{font-family:var(--display);font-size:2.6rem;font-weight:500;color:var(--ocean-deep);line-height:1;margin-bottom:.3rem}
-.plan-price--quote{font-size:1.55rem;letter-spacing:-.01em}
-  .plan.featured .plan-price{color:var(--foam)}
-  .plan-price .from{font-size:.9rem;font-family:var(--mono);color:var(--ink-soft);display:block;margin-bottom:.4rem;letter-spacing:.04em}
-  .plan.featured .plan-price .from{color:rgba(247,242,233,.6)}
-  .plan-price .per{font-size:1rem;font-family:var(--body);color:var(--ink-soft)}
-  .plan.featured .plan-price .per{color:rgba(247,242,233,.6)}
-  .plan-desc{font-size:.92rem;color:var(--ink-soft);margin:.9rem 0 1.6rem;padding-bottom:1.6rem;border-bottom:1px solid rgba(22,35,59,.1)}
-  .plan.featured .plan-desc{color:rgba(247,242,233,.68);border-color:rgba(247,242,233,.15)}
-  .plan-features{display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem;flex-grow:1}
-  .plan-features li{display:flex;align-items:flex-start;gap:.6rem;font-size:.92rem;color:var(--ink)}
-  .plan.featured .plan-features li{color:rgba(247,242,233,.85)}
-  .plan-features svg{width:16px;height:16px;color:var(--ocean-mid);flex-shrink:0;margin-top:.2rem}
-  .plan.featured .plan-features svg{color:var(--turquoise)}
-  .plan .btn{width:100%;justify-content:center}
-  .pricing-note{text-align:center;margin-top:2.4rem;font-size:.92rem;color:var(--ink-soft)}
-
-  /* ---------- TESTIMONIALS ---------- */
-  .testi{background:var(--ocean-deep);padding:8rem 0 7rem;color:var(--foam);position:relative;overflow:hidden}
-  .testi .eyebrow{color:var(--turquoise);justify-content:center}
-  .testi .eyebrow::before{display:none}
-  .testi h2{color:var(--foam);text-align:center;margin-bottom:3.6rem}
-  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
-  .quote-card{background:rgba(247,242,233,.04);border:1px solid rgba(247,242,233,.12);border-radius:18px;padding:2.2rem 2rem;display:flex;flex-direction:column;transition:transform .4s var(--ease),border-color .4s var(--ease)}
-  .quote-card:hover{transform:translateY(-5px);border-color:rgba(201,162,75,.35)}
-  .stars{display:flex;gap:.2rem;color:var(--coral);margin-bottom:1.1rem}
-  .stars svg{width:16px;height:16px}
-  .quote-card p{color:rgba(247,242,233,.85);font-size:1rem;font-style:italic;font-family:var(--display);font-weight:400;line-height:1.5;flex-grow:1}
-  .quote-author{margin-top:1.5rem;display:flex;align-items:center;gap:.8rem}
-  .quote-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--turquoise),var(--ocean-mid));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;color:var(--ocean-deep);font-size:1rem}
-  .quote-author .name{font-weight:500;color:var(--foam);font-size:.94rem}
-  .quote-author .role{font-family:var(--mono);font-size:.72rem;color:rgba(247,242,233,.55);letter-spacing:.03em}
-
-  /* ---------- FAQ ---------- */
-  .faq{background:var(--sand-light);padding:8rem 0 7rem}
-  .faq-wrap{max-width:820px;margin:3.4rem auto 0}
-  .faq-item{border-bottom:1px solid rgba(22,35,59,.14)}
-  .faq-q{width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;padding:1.5rem 0;font-family:var(--display);font-size:1.16rem;font-weight:600;color:var(--ocean-deep);cursor:pointer}
-  .faq-q .icon{flex-shrink:0;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--ocean-mid);color:var(--ocean-mid);display:flex;align-items:center;justify-content:center;transition:background .3s var(--ease),color .3s var(--ease),transform .3s var(--ease)}
-  .faq-q .icon svg{width:13px;height:13px;transition:transform .3s var(--ease)}
-  .faq-item.open .faq-q .icon{background:var(--ocean-mid);color:var(--foam)}
-  .faq-item.open .faq-q .icon svg{transform:rotate(45deg)}
-  .faq-a{max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
-  .faq-a p{padding:0 0 1.5rem;font-size:1rem;max-width:680px}
-
-  /* ---------- CONSULT ---------- */
-  .consult{background:var(--foam);padding:8rem 0 8rem;position:relative;overflow:hidden}
-  .consult-inner{display:grid;grid-template-columns:.85fr 1.15fr;gap:3.6rem;align-items:center}
-  .consult-copy h2{margin-bottom:1.2rem}
-  .consult-copy p{font-size:1.06rem;max-width:430px}
-  .consult-meta{margin-top:2.3rem;display:flex;flex-direction:column;gap:.9rem;font-family:var(--mono);font-size:.88rem;color:var(--ink-soft)}
-  .consult-meta span{display:flex;align-items:center;gap:.7rem}
-  .consult-meta svg{width:15px;height:15px;color:var(--ocean-mid);flex-shrink:0}
-  .postcard{background:linear-gradient(160deg,var(--sand-light),#F3E9D6);border:1.5px solid rgba(22,35,59,.14);border-radius:22px;padding:2.6rem;position:relative;box-shadow:0 40px 80px -50px rgba(22,35,59,.5)}
-  .postcard-stamp{position:absolute;top:1.5rem;right:1.5rem;width:54px;height:54px;border:1.5px solid rgba(22,35,59,.22);border-radius:7px;display:flex;align-items:center;justify-content:center;color:rgba(22,35,59,.32);transform:rotate(5deg)}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
-  .field{margin-bottom:1.1rem}
-  .field label{display:block;font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ocean-mid);margin-bottom:.45rem}
-  .field input,.field select,.field textarea{width:100%;background:var(--foam);border:1.5px solid rgba(22,35,59,.16);border-radius:10px;padding:.8rem .95rem;font-family:var(--body);font-size:.95rem;color:var(--ink);transition:border-color .25s var(--ease),box-shadow .25s var(--ease)}
-  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--ocean-mid);outline:none;box-shadow:0 0 0 4px rgba(169,132,60,.1)}
-  .field textarea{resize:vertical;min-height:105px}
-  .submit-row{display:flex;align-items:center;gap:1.2rem;margin-top:.6rem}
-  .form-note{font-size:.82rem;color:var(--ink-soft);margin:0}
-  .form-success{display:none;text-align:center;padding:2.4rem .5rem}
-  .form-success.show{display:block;animation:rise .6s var(--ease)}
-  .postcard.sent .postcard-form{display:none}
-  .form-success svg{margin:0 auto 1.2rem;width:48px;height:48px;color:var(--ocean-mid)}
-  .form-success h3{margin-bottom:.5rem}
-  .form-success p{font-size:.95rem;max-width:330px;margin:0 auto}
-
-  /* ---------- WORK / PAST PROJECTS ---------- */
-  .work{background:var(--ocean-deep);padding:8rem 0 7rem;color:var(--foam);position:relative;overflow:hidden}
-  .work .eyebrow{color:var(--turquoise)}
-  .work h2{color:var(--foam)}
-  .work .intro{color:rgba(247,242,233,.66);max-width:600px;margin-top:1rem;margin-bottom:3.6rem;font-size:1.08rem}
-  .project{display:grid;grid-template-columns:1.15fr 1fr;gap:2.6rem;align-items:center;padding:2.2rem;border:1px solid rgba(247,242,233,.12);border-radius:22px;background:rgba(247,242,233,.03);margin-bottom:2rem}
-  .project:last-child{margin-bottom:0}
-  .project.flip .ba-wrap{order:2}
-  /* before/after slider */
-  .ba{position:relative;width:100%;aspect-ratio:16/10;border-radius:14px;overflow:hidden;user-select:none;box-shadow:0 30px 60px -30px rgba(0,0,0,.6);cursor:ew-resize}
-  .ba-pane{position:absolute;inset:0;overflow:hidden}
-  .ba-after{z-index:1}
-  .ba-before{z-index:2;-webkit-clip-path:inset(0 calc(100% - var(--pos,50%)) 0 0);clip-path:inset(0 calc(100% - var(--pos,50%)) 0 0)}
-  .ba-handle{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;background:var(--foam);z-index:4;transform:translateX(-1px);pointer-events:none}
-  .ba-handle::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:var(--foam);box-shadow:0 4px 14px rgba(0,0,0,.4)}
-  .ba-handle::after{content:"⟺";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--ocean-deep);font-size:16px;font-weight:700}
-  .ba-tag{position:absolute;bottom:.7rem;z-index:3;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:.28rem .6rem;border-radius:100px;color:var(--foam);background:rgba(8,32,43,.7);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-  .ba-tag-before{left:.7rem}
-  .ba-tag-after{right:.7rem;background:rgba(193,95,60,.85)}
-  /* mock website screenshots */
-  .mock{position:absolute;inset:0;font-family:var(--body);overflow:hidden}
-  .mock-bar{height:16%;display:flex;align-items:center;gap:5px;padding:0 10px}
-  .mock-dot{width:7px;height:7px;border-radius:50%}
-  .mock-body{position:absolute;top:16%;left:0;right:0;bottom:0;padding:8% 7%}
-  .mock-before{background:#e9e7e2}
-  .mock-before .mock-bar{background:#c9c5bd}
-  .mock-before .mock-dot{background:#9a958c}
-  .mock-before .mb-h{height:14px;width:52%;background:#8a8f95;margin-bottom:9px;border-radius:2px}
-  .mock-before .mb-line{height:7px;background:#b7b3aa;margin-bottom:6px;border-radius:2px}
-  .mock-before .mb-blob{position:absolute;right:9%;top:26%;width:70px;height:44px;background:#c0392b;border-radius:3px;transform:rotate(-4deg)}
-  .mock-before .mb-cols{display:flex;gap:8px;margin-top:12px}
-  .mock-before .mb-col{flex:1;height:34px;background:#cfcbc2;border-radius:3px}
-  .mock-after{background:linear-gradient(160deg,#0C4256,#062430)}
-  .mock-after .mock-bar{background:rgba(255,255,255,.08)}
-  .mock-after .mock-dot{background:var(--turquoise);opacity:.7}
-  .mock-after .ma-h{height:15px;width:60%;background:var(--foam);border-radius:3px;margin-bottom:10px;opacity:.95}
-  .mock-after .ma-sub{height:7px;width:44%;background:var(--turquoise);border-radius:3px;margin-bottom:14px;opacity:.8}
-  .mock-after .ma-btn{width:74px;height:22px;background:var(--coral);border-radius:100px}
-  .mock-after .ma-cards{display:flex;gap:8px;margin-top:16px}
-  .mock-after .ma-card{flex:1;height:40px;background:rgba(255,255,255,.06);border:1px solid rgba(201,162,75,.3);border-radius:6px}
-  /* First Rehab case-study mocks */
-  .frm{position:absolute;inset:0;overflow:hidden;font-family:var(--body)}
-  .frm span,.frm i{display:block}
-  .frm .top{height:14%;display:flex;align-items:center;gap:4px;padding:0 10px}
-  .frm .top i{width:6px;height:6px;border-radius:50%}
-  .frm .nav{height:11%;display:flex;align-items:center;justify-content:space-between;padding:0 8%}
-  .frm .hero{position:relative}
-  .frb{background:#ece6da}
-  .frb .top{background:#c9c3b6}.frb .top i{background:#948d7e}
-  .frb .nav{background:#f6f3ec}
-  .frb .nav .lg{width:24%;height:5px;background:#2b6f74;border-radius:2px}
-  .frb .nav .mn{width:42%;height:4px;background:#b7b1a3;border-radius:2px}
-  .frb .hero{height:63%;background:linear-gradient(120deg,#b9b3a7,#8b857a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
-  .frb .hero .h1{width:66%;height:9px;background:#f4f0e8;border-radius:2px}
-  .frb .hero .h2{width:50%;height:9px;background:#f4f0e8;border-radius:2px}
-  .frb .hero .sb{width:40%;height:5px;background:rgba(244,240,232,.7);border-radius:2px;margin-top:3px}
-  .frb .welcome{height:12%;background:#e7e0d2;display:flex;align-items:center;justify-content:center}
-  .frb .welcome .w{width:40%;height:6px;background:#3a2f45;border-radius:2px}
-  .fra{background:#0C3A47}
-  .fra .top{background:rgba(255,255,255,.08)}.fra .top i{background:var(--turquoise);opacity:.75}
-  .fra .nav{background:#0E3A47}
-  .fra .nav .lg{width:26%;height:5px;background:var(--turquoise);border-radius:2px}
-  .fra .nav .pill{width:16%;height:9px;background:var(--coral);border-radius:100px}
-  .fra .hero{height:60%;background:linear-gradient(160deg,#0E4A5B,#062430);padding:0 8%;display:flex;flex-direction:column;justify-content:center;gap:6px}
-  .fra .hero .h1{width:58%;height:9px;background:var(--foam);border-radius:2px}
-  .fra .hero .h2{width:44%;height:9px;background:var(--turquoise);border-radius:2px}
-  .fra .hero .row{display:flex;gap:5px;margin-top:6px}
-  .fra .hero .b1{width:38px;height:11px;background:var(--coral);border-radius:100px}
-  .fra .hero .b2{width:44px;height:11px;border:1px solid rgba(255,255,255,.4);border-radius:100px}
-  .fra .stats{height:15%;background:#0A2E38;display:flex;align-items:center;justify-content:space-around;padding:0 6%}
-  .fra .stats .s{width:15%;height:7px;background:rgba(224,193,115,.5);border-radius:2px}
-  /* project analytics */
-  .proj-info h3{color:var(--foam);font-size:1.4rem;margin-bottom:.3rem}
-  .proj-info .proj-type{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--turquoise);margin-bottom:.9rem}
-  .proj-info>p{color:rgba(247,242,233,.7);font-size:.96rem;margin-bottom:1.5rem;max-width:420px}
-  .trend{width:100%;height:96px;margin-bottom:1.4rem}
-  .trend svg{width:100%;height:96px;overflow:visible}
-  .trend .t-area{opacity:.16}
-  .trend .t-line{fill:none;stroke:var(--turquoise);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s var(--ease)}
-  .trend.drawn .t-line{stroke-dashoffset:0}
-  .trend .t-caption{font-family:var(--mono);font-size:.66rem;fill:rgba(247,242,233,.5);letter-spacing:.05em}
-  .proj-metrics{display:flex;gap:1.6rem;flex-wrap:wrap}
-  .metric .m-val{font-family:var(--display);font-size:1.7rem;font-weight:500;color:var(--foam);line-height:1;display:flex;align-items:baseline;gap:.25rem}
-  .metric .m-val .up{color:var(--turquoise);font-size:.8rem}
-  .metric .m-val .down{color:var(--turquoise);font-size:.8rem}
-  .metric .m-label{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(247,242,233,.55);margin-top:.4rem}
-
-  /* ---------- BLOG ---------- */
-  .blog{background:var(--sand-light);padding:8rem 0 7rem}
-  .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;margin-top:3.6rem}
-  .post{background:var(--foam);border:1px solid rgba(22,35,59,.09);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .4s var(--ease),box-shadow .4s var(--ease);cursor:pointer}
-  .post:hover{transform:translateY(-6px);box-shadow:0 34px 60px -34px rgba(22,35,59,.42)}
-  .post-thumb{height:168px;position:relative;overflow:hidden}
-  .post-thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(22,35,59,.05),rgba(22,35,59,.25))}
-  .post-thumb.t1{background:linear-gradient(150deg,#0C4256,#A9843C)}
-  .post-thumb.t2{background:linear-gradient(150deg,#E8735A,#C15F3C)}
-  .post-thumb.t3{background:linear-gradient(150deg,#A9843C,#C9A24B)}
-  .post-cat{position:absolute;top:1rem;left:1rem;z-index:2;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ocean-deep);background:var(--foam);padding:.3rem .7rem;border-radius:100px}
-  .post-body{padding:1.5rem 1.5rem 1.7rem;display:flex;flex-direction:column;flex-grow:1}
-  .post-meta{font-family:var(--mono);font-size:.72rem;color:var(--ink-soft);margin-bottom:.7rem;display:flex;gap:.6rem}
-  .post h3{font-size:1.16rem;margin-bottom:.55rem;line-height:1.25}
-  .post p{font-size:.92rem;flex-grow:1}
-  .post-more{margin-top:1.1rem;font-family:var(--mono);font-size:.76rem;letter-spacing:.04em;color:var(--ocean-mid);display:flex;align-items:center;gap:.4rem}
-  .post-more svg{width:13px;height:13px;transition:transform .3s var(--ease)}
-  .post:hover .post-more svg{transform:translateX(3px)}
-  .blog-cta{text-align:center;margin-top:2.8rem}
-
-  /* areas we serve / social footer additions */
-  .foot-social{display:flex;gap:.7rem;margin-top:1.1rem}
-  .foot-social a{width:34px;height:34px;border-radius:50%;border:1px solid rgba(247,242,233,.2);display:flex;align-items:center;justify-content:center;color:rgba(247,242,233,.75);transition:background .25s var(--ease),border-color .25s var(--ease),color .25s var(--ease)}
-  .foot-social a:hover{background:var(--turquoise);border-color:var(--turquoise);color:var(--ocean-deep)}
-  .foot-social svg{width:16px;height:16px}
-  .rating-head{display:flex;flex-direction:column;align-items:center;gap:.3rem;margin-bottom:.6rem}
-  .rating-stars{color:var(--coral);display:flex;gap:.15rem}
-  .rating-stars svg{width:18px;height:18px}
-  .rating-text{font-family:var(--mono);font-size:.78rem;letter-spacing:.05em;color:rgba(247,242,233,.7)}
-
-
-  footer{background:var(--ocean-abyss);color:rgba(247,242,233,.75);padding:4rem 0 2rem}
-  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2.5rem;padding-bottom:2.6rem;border-bottom:1px solid rgba(247,242,233,.12)}
-  .footer-brand .logo{margin-bottom:.9rem}
-  .footer-brand p{color:rgba(247,242,233,.55);max-width:310px;font-size:.92rem}
-  .footer-links{display:flex;gap:3.8rem;flex-wrap:wrap}
-  .footer-col h4{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--turquoise);margin-bottom:1rem}
-  .footer-col a,.footer-col li{display:block;font-size:.9rem;color:rgba(247,242,233,.68);margin-bottom:.55rem;transition:color .2s var(--ease)}
-  .footer-col a:hover{color:var(--foam)}
-  .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:1.7rem;font-size:.82rem;color:rgba(247,242,233,.45);flex-wrap:wrap;gap:.6rem}
-
-  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-  .reveal.in{opacity:1;transform:translateY(0)}
-  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
-
-  @media (prefers-reduced-motion:reduce){
-    *{animation-duration:.001ms!important;animation-delay:0ms!important;transition-duration:.001ms!important}
-    .reveal{opacity:1;transform:none}
-    .hero-content h1 .word span{transform:none}
-  }
-
-  @media (max-width:920px){
-    .about-grid{grid-template-columns:1fr;gap:2.8rem}
-    .why-grid,.pricing-grid,.testi-grid,.blog-grid{grid-template-columns:1fr}
-    .project{grid-template-columns:1fr;gap:1.8rem;padding:1.5rem}
-    .project.flip .ba-wrap{order:0}
-    .why-grid{gap:1.2rem}
-    /* flow timeline -> vertical */
-    .chart{flex-direction:column;align-items:stretch;padding:2rem 1.4rem}
-    .chart-sources{flex-direction:row;width:100%;gap:14px}
-    .chart-sources .cbox{flex:1 1 0;height:auto}
-    .chart-junction{display:none}
-    .merge-m{display:block;position:relative;height:44px}
-    .merge-m::before{content:"";position:absolute;left:25%;top:0;width:2px;height:22px;background:var(--turquoise)}
-    .merge-m::after{content:"";position:absolute;right:25%;top:0;width:2px;height:22px;background:var(--turquoise)}
-    .merge-m .bus{position:absolute;left:25%;right:25%;top:21px;height:2px;background:var(--turquoise)}
-    .merge-m .down{position:absolute;left:50%;top:21px;width:2px;height:23px;background:var(--turquoise);transform:translateX(-50%)}
-    .merge-m .down::after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);border-top:9px solid var(--turquoise);border-left:6px solid transparent;border-right:6px solid transparent}
-    .chart-flow{flex-direction:column;width:100%}
-    .chart-flow .cbox{flex:none;width:100%}
-    .carrow{flex:none;width:2px;height:34px;margin:0 auto;background:rgba(201,162,75,.55)}
-    .carrow::after{right:auto;left:50%;top:auto;bottom:-1px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid var(--turquoise);border-bottom:none;transform:translateX(-50%)}
-    .plan.featured{transform:none}
-    .plan.featured:hover{transform:translateY(-6px)}
-    .trail{grid-template-columns:1fr;gap:2rem}
-    .trail::before{display:none}
-    .consult-inner{grid-template-columns:1fr}
-    .form-row{grid-template-columns:1fr}
-    .trust-inner{gap:1.4rem 2rem}
-    .stat{flex:1 1 40%}
-  }
-  @media (max-width:1000px){
-    .nav-links{position:fixed;top:0;right:0;height:100vh;width:min(80vw,330px);background:var(--ocean-deep);flex-direction:column;align-items:flex-start;justify-content:center;gap:1.9rem;padding:2rem;overflow-y:auto;transform:translateX(100%);transition:transform .4s var(--ease);box-shadow:-12px 0 50px rgba(0,0,0,.4);z-index:155}
-    .nav-links.open{transform:translateX(0)}
-    .nav-toggle{display:flex;flex-direction:column;gap:5px;z-index:160;width:26px}
-    .nav-toggle span{height:2px;background:var(--foam);border-radius:2px;transition:transform .3s var(--ease),opacity .3s var(--ease)}
-    .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-    .nav-toggle.open span:nth-child(2){opacity:0}
-    .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-    .footer-top{flex-direction:column}
-  }
-  @media (min-width:921px) and (max-width:1080px){.why-grid{grid-template-columns:repeat(2,1fr)}}
-  @media (min-width:921px) and (max-width:1140px){.chart-sources{width:210px}.carrow{flex-basis:34px}.chart{padding:2rem 1.6rem}}
-</style>
-<script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@graph": [
-  {
-   "@type": "ProfessionalService",
-   "@id": "https://www.designofman.com/#business",
-   "name": "Design of Man",
-   "description": "Website creation and management — custom website and app development, implementation, hosting, and ongoing maintenance for businesses across Florida and beyond.",
-   "url": "https://www.designofman.com/",
-   "email": "hello@designofman.com",
-   "telephone": "+1-561-555-0100",
-   "image": "https://www.designofman.com/og.png",
-   "priceRange": "$$",
-   "areaServed": {
-    "@type": "State",
-    "name": "Florida"
-   },
-   "address": {
-    "@type": "PostalAddress",
-    "addressRegion": "FL",
-    "addressCountry": "US"
-   },
-   "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Services",
-    "itemListElement": [
-     {
-      "@type": "Offer",
-      "itemOffered": {
-       "@type": "Service",
-       "name": "Custom Website Development"
-      }
-     },
-     {
-      "@type": "Offer",
-      "itemOffered": {
-       "@type": "Service",
-       "name": "Custom App Development"
-      }
-     },
-     {
-      "@type": "Offer",
-      "itemOffered": {
-       "@type": "Service",
-       "name": "Implementation"
-      }
-     },
-     {
-      "@type": "Offer",
-      "itemOffered": {
-       "@type": "Service",
-       "name": "Web Hosting & Ongoing Maintenance"
-      }
-     }
-    ]
-   }
-  },
-  {
-   "@type": "WebSite",
-   "@id": "https://www.designofman.com/#website",
-   "url": "https://www.designofman.com/",
-   "name": "Design of Man",
-   "publisher": {
-    "@id": "https://www.designofman.com/#business"
-   }
-  },
-  {
-   "@type": "FAQPage",
-   "mainEntity": [
-    {
-     "@type": "Question",
-     "name": "How much does a custom website cost?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "It depends on what the site has to do. A brochure site for a local business and a custom build with booking, payments and integrations are very different pieces of work. Every project is scoped individually, and your free consult gets you an exact, no-obligation quote before anything starts."
-     }
-    },
-    {
-     "@type": "Question",
-     "name": "How long does a project take?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Simple sites launch in 2–3 weeks. Most business sites run 4–6 weeks from kickoff, and larger custom or e-commerce builds take 8–12 weeks. You'll get a full timeline at the start of the project."
-     }
-    },
-    {
-     "@type": "Question",
-     "name": "Will my site work on mobile?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Always. Every site we build is fully responsive and tested across phones, tablets, and desktops. Mobile-first design is part of our process, not an add-on."
-     }
-    },
-    {
-     "@type": "Question",
-     "name": "Do you handle hosting and updates after launch?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Yes. Care plans cover managed hosting, security updates, backups, uptime monitoring and content updates. Each one is priced to the site it looks after, and every plan is month-to-month with no long-term contract."
-     }
-    },
-    {
-     "@type": "Question",
-     "name": "Can you redesign or migrate my existing site?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Absolutely. We regularly rebuild aging sites and migrate content, domains, and email from your old host with no downtime. We'll audit what you have and recommend the cleanest path forward."
-     }
-    }
-   ]
-  }
- ]
+  /* Where the laptop screen sits in the final frame — calibrated to the
+     last frame of THE REVELATION so the takeover zooms into the real screen. */
+  --screen-x:50%;
+  --screen-y:47%;
+  --screen-w:30%;
+  --screen-h:20%;
 }
-</script>
+
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0}
+html{-webkit-text-size-adjust:100%;background:var(--void)}
+body{
+  font-family:var(--display);
+  background:var(--void);
+  color:var(--frost);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,canvas{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--cyan);color:var(--void)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ============ FIXED CINEMATIC STAGE ============ */
+.stage{
+  position:fixed;inset:0;z-index:0;
+  overflow:hidden;
+  background:var(--void);
+  /* Parallax: the film plate itself drifts slower than the page. */
+  will-change:transform;
+}
+.stage__film{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  transform-origin:var(--screen-x) var(--screen-y);
+  will-change:transform,opacity;
+}
+/* Background ice-cliff parallax — slowest layer. */
+.layer{position:absolute;inset:-6%;pointer-events:none;will-change:transform}
+.layer--cliffs{
+  background:
+    radial-gradient(120% 70% at 50% 8%, rgba(120,170,200,.10), transparent 60%);
+  mix-blend-mode:screen;
+}
+/* Mid-ground atmospheric drift. */
+.layer--haze{
+  background:
+    radial-gradient(80% 50% at 20% 70%, rgba(180,210,230,.09), transparent 70%),
+    radial-gradient(70% 45% at 82% 62%, rgba(150,190,220,.07), transparent 70%);
+  mix-blend-mode:screen;
+}
+/* Foreground snow — its own canvas, fastest layer. */
+.stage__snow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* Colour grade: deep arctic charcoal at the top of the journey,
+   pure black by the bottom. Driven by --grade from JS. */
+.stage__grade{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(12,18,24,.30) 0%,
+    rgba(4,6,10,.10) 45%,
+    rgba(4,6,10,.55) 100%);
+  opacity:calc(.35 + var(--grade,0) * .65);
+}
+.stage__vignette{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(115% 85% at 50% 45%, transparent 42%, rgba(0,0,0,.72) 100%);
+}
+.stage__scanline{
+  position:absolute;inset:0;pointer-events:none;opacity:.05;
+  background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.5) 2px 3px);
+  mix-blend-mode:overlay;
+}
+
+/* Boot state */
+.boot{
+  position:fixed;inset:0;z-index:90;
+  display:grid;place-items:center;
+  background:var(--void);
+  transition:opacity .9s var(--ease),visibility .9s var(--ease);
+}
+.boot.is-ready{opacity:0;visibility:hidden}
+.boot__inner{text-align:center;width:min(78vw,420px)}
+.boot__label{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--steel);margin-bottom:1.2rem;
+}
+.boot__rail{height:1px;background:rgba(124,147,166,.25);overflow:hidden}
+.boot__fill{height:100%;width:0%;background:var(--cyan);box-shadow:0 0 12px var(--cyan-soft);transition:width .25s linear}
+.boot__pct{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--steel);margin-top:1rem}
+
+/* ============ HUD ============ */
+.hud{
+  position:fixed;top:50%;right:clamp(1rem,3vw,2.6rem);
+  transform:translateY(-50%);
+  z-index:40;
+  display:flex;align-items:center;gap:1rem;
+  pointer-events:none;
+  opacity:0;transition:opacity .8s var(--ease) .3s;
+}
+.hud.is-live{opacity:1}
+.hud__zones{list-style:none;padding:0;margin:0;text-align:right;display:grid;gap:1.05rem}
+.hud__zone{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(164,186,203,.72);
+  text-shadow:0 1px 3px rgba(0,0,0,.9), 0 2px 12px rgba(0,0,0,.7);
+  transition:color .45s var(--ease),opacity .45s var(--ease);
+  white-space:nowrap;
+  display:flex;align-items:center;justify-content:flex-end;gap:.55rem;
+}
+.hud__zone::after{
+  content:"";width:6px;height:1px;background:currentColor;opacity:.5;
+  transition:width .45s var(--ease);
+}
+.hud__zone.is-active{color:var(--cyan)}
+.hud__zone.is-active::after{width:16px;opacity:1;box-shadow:0 0 8px var(--cyan-soft)}
+.hud__zone.is-past{color:rgba(220,234,242,.4)}
+
+.hud__gauge{display:flex;flex-direction:column;align-items:center;gap:.7rem}
+.hud__rail{
+  position:relative;width:2px;height:min(42vh,320px);
+  background:rgba(124,147,166,.18);
+}
+.hud__fill{
+  position:absolute;left:0;top:0;width:100%;height:0%;
+  background:var(--cyan);box-shadow:0 0 10px var(--cyan-soft);
+}
+.hud__tick{position:absolute;left:-4px;width:10px;height:1px;background:rgba(124,147,166,.35)}
+.hud__pct{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;
+  color:var(--cyan);font-variant-numeric:tabular-nums;
+  text-shadow:0 1px 3px rgba(0,0,0,.9), 0 0 14px rgba(53,228,255,.35);
+}
+.hud__cap{
+  font-family:var(--mono);font-size:.54rem;letter-spacing:.28em;
+  color:rgba(164,186,203,.7);writing-mode:vertical-rl;
+  text-shadow:0 1px 3px rgba(0,0,0,.9);
+}
+@media (max-width:760px){
+  .hud__zones{display:none}
+  .hud__rail{height:30vh}
+}
+
+/* ============ JOURNEY TRACK ============ */
+.journey{position:relative;z-index:20}
+.beat{
+  height:100vh;
+  display:grid;align-content:center;
+  padding:0 clamp(1.4rem,7vw,7rem);
+  max-width:1500px;margin-inline:auto;width:100%;
+}
+.beat__inner{max-width:min(52ch,86vw)}
+.beat--right .beat__inner{margin-left:auto;text-align:right}
+
+.eyebrow{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--cyan);display:flex;align-items:center;gap:.7rem;margin-bottom:1.4rem;
+}
+.beat--right .eyebrow{justify-content:flex-end}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--cyan);opacity:.8}
+.beat--right .eyebrow::before{order:2}
+
+/* A local scrim behind each beat keeps type readable over bright snow
+   without darkening the whole plate. */
+.beat__inner{position:relative}
+.beat__inner::before{
+  content:"";position:absolute;inset:-9rem -12rem;z-index:-1;
+  background:radial-gradient(ellipse 60% 55% at 32% 42%, rgba(4,6,10,.55), rgba(4,6,10,.22) 45%, transparent 68%);
+}
+.beat--right .beat__inner::before{
+  background:radial-gradient(ellipse 60% 55% at 68% 42%, rgba(4,6,10,.55), rgba(4,6,10,.22) 45%, transparent 68%);
+}
+.beat h1,.beat h2{
+  font-weight:200;line-height:1.02;letter-spacing:-.015em;
+  text-wrap:balance;
+  text-shadow:0 1px 2px rgba(0,0,0,.9), 0 4px 26px rgba(0,0,0,.85), 0 12px 60px rgba(0,0,0,.7);
+}
+.beat h1{font-size:clamp(2.9rem,8.5vw,7.5rem)}
+.beat h2{font-size:clamp(2rem,5vw,4.2rem)}
+.beat p{
+  margin-top:1.5rem;font-size:clamp(.98rem,1.35vw,1.16rem);font-weight:300;
+  color:rgba(233,243,249,.88);max-width:44ch;line-height:1.65;
+  text-shadow:0 1px 2px rgba(0,0,0,.9), 0 3px 18px rgba(0,0,0,.8);
+}
+.beat--right p{margin-left:auto}
+
+/* Beats fade in/out as their zone passes — set by JS. */
+.beat__inner{
+  opacity:0;transform:translateY(28px);
+  transition:opacity .7s var(--ease),transform .7s var(--ease);
+}
+.beat.is-lit .beat__inner{opacity:1;transform:none}
+
+/* Escape hatch for repeat visitors — skip the film, enter the classic site. */
+.skipnav{
+  position:fixed;top:1.4rem;right:clamp(1rem,3vw,2.6rem);z-index:45;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(164,186,203,.75);padding:.55rem .9rem;
+  border:1px solid rgba(124,147,166,.25);
+  background:rgba(4,6,10,.35);backdrop-filter:blur(6px);
+  transition:color .35s var(--ease),border-color .35s var(--ease),opacity .6s var(--ease);
+  text-shadow:0 1px 3px rgba(0,0,0,.8);
+}
+.skipnav:hover{color:var(--cyan);border-color:var(--cyan-soft)}
+
+.scrollcue{
+  position:fixed;left:50%;bottom:2.2rem;transform:translateX(-50%);
+  z-index:40;display:grid;justify-items:center;gap:.6rem;
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(124,147,166,.7);
+  transition:opacity .6s var(--ease);
+}
+.scrollcue__line{width:1px;height:34px;background:linear-gradient(180deg,var(--cyan),transparent);animation:cue 2.4s var(--ease) infinite}
+@keyframes cue{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(.2);transform-origin:bottom}}
+
+/* ============ THE TAKEOVER — scroll into the laptop screen ============ */
+.takeover{position:relative;z-index:25;height:260vh}
+.portal{
+  position:fixed;inset:0;z-index:30;
+  display:grid;place-items:center;
+  pointer-events:none;
+  opacity:0;visibility:hidden;
+}
+.portal.is-active{visibility:visible;pointer-events:auto}
+.portal__frame{
+  position:relative;
+  width:100%;height:100%;
+  background:var(--void);
+  border:1px solid var(--cyan-faint);
+  box-shadow:0 0 0 1px rgba(53,228,255,.10), 0 0 90px rgba(53,228,255,.16);
+  overflow:hidden;
+  display:grid;place-items:center;
+  will-change:clip-path,transform;
+}
+.portal__content{
+  width:100%;max-width:1100px;padding:0 clamp(1.4rem,5vw,4rem);
+  text-align:center;
+}
+.portal__mark{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:1.8rem;
+}
+.portal__content h2{
+  font-weight:100;font-size:clamp(2.4rem,7.5vw,6.4rem);line-height:1;letter-spacing:.02em;
+}
+.portal__content h2 em{font-style:normal;color:var(--cyan)}
+.portal__content p{
+  margin-top:1.6rem;font-weight:300;color:rgba(220,234,242,.62);
+  font-size:clamp(.95rem,1.3vw,1.12rem);max-width:52ch;margin-inline:auto;line-height:1.7;
+}
+
+/* ============ THE SITE ============ */
+.site{position:relative;z-index:35;background:var(--void)}
+.wrap{width:100%;max-width:1240px;margin-inline:auto;padding-inline:clamp(1.4rem,5vw,4rem)}
+.section{padding-block:clamp(6rem,13vw,11rem)}
+.section__head{max-width:60ch;margin-bottom:clamp(3rem,6vw,5rem)}
+.section__head h2{
+  font-weight:200;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.06;letter-spacing:-.01em;
+}
+.section__head p{margin-top:1.2rem;color:rgba(220,234,242,.6);font-weight:300;line-height:1.7;max-width:48ch}
+
+/* Spec callouts — vessel style */
+.specs{display:grid;gap:1px;background:rgba(124,147,166,.15);border:1px solid rgba(124,147,166,.15)}
+@media (min-width:720px){.specs{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1040px){.specs{grid-template-columns:repeat(4,1fr)}}
+.spec{
+  background:var(--void);padding:clamp(1.8rem,3vw,2.6rem);
+  display:grid;gap:.9rem;align-content:start;
+  position:relative;transition:background .5s var(--ease);
+}
+.spec:hover{background:#070B11}
+.spec__id{font-family:var(--mono);font-size:.58rem;letter-spacing:.26em;color:var(--cyan);opacity:.85}
+.spec__val{font-weight:200;font-size:clamp(1.6rem,2.6vw,2.2rem);line-height:1.08;letter-spacing:-.01em}
+.spec__key{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(124,147,166,.85)}
+.spec__note{font-size:.9rem;font-weight:300;color:rgba(220,234,242,.5);line-height:1.6}
+
+/* Scarcity */
+.scarcity{border-top:1px solid rgba(124,147,166,.15);border-bottom:1px solid rgba(124,147,166,.15)}
+.scarcity__grid{display:grid;gap:2.5rem;align-items:center}
+@media (min-width:900px){.scarcity__grid{grid-template-columns:1.1fr .9fr}}
+.scarcity h2{font-weight:100;font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.02}
+.scarcity h2 em{font-style:normal;color:var(--cyan)}
+.seats{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:2rem}
+.seat{width:26px;height:3px;background:var(--cyan);box-shadow:0 0 10px var(--cyan-soft)}
+.seat.is-gone{background:rgba(124,147,166,.24);box-shadow:none}
+.scarcity__meta{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(124,147,166,.8);display:grid;gap:.9rem}
+.scarcity__meta span{display:flex;justify-content:space-between;gap:2rem;padding-bottom:.7rem;border-bottom:1px solid rgba(124,147,166,.14)}
+.scarcity__meta b{font-weight:400;color:var(--frost)}
+
+/* CTA */
+.cta{text-align:center}
+.cta h2{font-weight:100;font-size:clamp(2.6rem,8vw,6rem);line-height:1;margin-bottom:1.4rem}
+.cta p{color:rgba(220,234,242,.6);font-weight:300;max-width:46ch;margin:0 auto 3rem;line-height:1.7}
+.btn{
+  display:inline-flex;align-items:center;gap:.9rem;
+  padding:1.05rem 2.4rem;border:1px solid var(--cyan);
+  color:var(--cyan);font-family:var(--mono);font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;
+  transition:background .45s var(--ease),color .45s var(--ease),box-shadow .45s var(--ease);
+  background:transparent;cursor:pointer;
+}
+.btn:hover{background:var(--cyan);color:var(--void);box-shadow:0 0 40px rgba(53,228,255,.35)}
+.btn svg{width:14px;height:14px;transition:transform .45s var(--ease)}
+.btn:hover svg{transform:translateX(4px)}
+
+.foot{border-top:1px solid rgba(124,147,166,.15);padding-block:2.6rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(124,147,166,.6)}
+.foot__row{display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:space-between;align-items:center}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+</style>
 </head>
 <body>
 
-<div class="scroll-bar" id="scrollBar"></div>
-
-<div class="curtain" id="curtain">
-  <video class="curtain-video" id="curtainVideo" muted autoplay playsinline preload="auto" poster="/assets/video/intro-poster.jpg">
-    <source src="/assets/video/intro.v2.webm" type="video/webm">
-    <source src="/assets/video/intro.v2.mp4" type="video/mp4">
-  </video>
-  <button class="curtain-skip" id="curtainSkip" type="button" aria-label="Skip intro">Skip intro &rarr;</button>
-</div>
-
-<div class="topbar">
-  <div class="wrap topbar-inner">
-    <div class="tb-left">Website Creation &amp; Management · Serving Florida &amp; Beyond</div>
-    <div class="tb-right">
-      <a class="tb-phone" href="tel:+15615550100">📞 (561) 555-0100</a>
-      <a href="#consult">Book a Free Consult</a>
-    </div>
+<!-- BOOT -->
+<div class="boot" id="boot">
+  <div class="boot__inner">
+    <div class="boot__label">Design of Man — Expedition</div>
+    <div class="boot__rail"><div class="boot__fill" id="bootFill"></div></div>
+    <div class="boot__pct" id="bootPct">LOADING 0%</div>
   </div>
 </div>
 
-<header class="nav" id="siteNav">
-  <div class="wrap nav-inner">
-    <a href="#home" class="logo">
-      <img src="/assets/img/logo-mark.svg" alt="" width="54" height="26">
-      Design of Man
-    </a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
-    <nav class="nav-links" id="navLinks">
-      <a href="#home" class="tab-link active">Home</a>
-      <a href="#about" class="tab-link">About Us</a>
-      <a href="#services" class="tab-link">Services</a>
-      <a href="work.html" class="tab-link">Work</a>
-      <a href="#blog" class="tab-link">Blog</a>
-      <a href="#pricing" class="tab-link">Pricing</a>
-      <a href="#faq" class="tab-link">FAQ</a>
-      <a href="#consult" class="btn btn-coral magnetic">Book a Free Consult</a>
-    </nav>
+<!-- STAGE -->
+<div class="stage" id="stage" aria-hidden="true">
+  <canvas class="stage__film" id="film"></canvas>
+  <div class="layer layer--cliffs" id="layerCliffs"></div>
+  <div class="layer layer--haze" id="layerHaze"></div>
+  <canvas class="stage__snow" id="snow"></canvas>
+  <div class="stage__grade" id="grade"></div>
+  <div class="stage__vignette"></div>
+  <div class="stage__scanline"></div>
+</div>
+
+<!-- HUD -->
+<aside class="hud" id="hud" aria-hidden="true">
+  <ul class="hud__zones" id="hudZones">
+    <li class="hud__zone" data-zone="0">The Trek</li>
+    <li class="hud__zone" data-zone="1">The Discovery</li>
+    <li class="hud__zone" data-zone="2">The Approach</li>
+    <li class="hud__zone" data-zone="3">The Opening</li>
+    <li class="hud__zone" data-zone="4">The Revelation</li>
+  </ul>
+  <div class="hud__gauge">
+    <div class="hud__pct" id="hudPct">00%</div>
+    <div class="hud__rail" id="hudRail"><div class="hud__fill" id="hudFill"></div></div>
+    <div class="hud__cap">Progress</div>
   </div>
-</header>
-<main id="main">
+</aside>
 
+<a class="skipnav" href="/home" id="skipnav">Skip film — enter site</a>
 
-<section class="hero" id="home">
-  <video id="heroVideo" class="hero-video" autoplay muted loop playsinline preload="metadata"
-         poster="/assets/video/hero-poster.jpg" aria-hidden="true" tabindex="-1">
-    <source src="/assets/video/hero.webm" type="video/webm">
-    <source src="/assets/video/hero.mp4" type="video/mp4">
-  </video>
-  <div class="hero-glow"></div>
-  <div class="wrap hero-content">
-    <div class="eyebrow">Website Creation &amp; Management</div>
-    <h1 id="heroTitle"></h1>
-    <p class="lede">We design, build, and maintain websites and web apps for businesses who want something dependable — clean to look at, simple to use, and cared for long after launch.</p>
-    <div class="hero-actions">
-      <a href="#consult" class="btn btn-coral magnetic">Book a Free Consult <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a href="#services" class="btn btn-ghost magnetic">See Our Services</a>
-      <span class="callout">No pressure. <b>Free</b> 30-minute call.</span>
-    </div>
-  </div>
-  <div class="wrap trust">
-    <div class="trust-inner">
-      <div class="stat"><div class="num" data-count="120" data-suffix="+">0</div><div class="label">Sites Launched</div></div>
-      <div class="stat"><div class="num" data-count="99.9" data-suffix="%" data-decimals="1">0</div><div class="label">Uptime Delivered</div></div>
-      <div class="stat"><div class="num" data-count="14" data-suffix=" yrs">0</div><div class="label">Building the Web</div></div>
-      <div class="stat"><div class="num" data-count="1" data-prefix="&lt;" data-suffix=" day">0</div><div class="label">Support Response</div></div>
-    </div>
-  </div>
-</section>
+<div class="scrollcue" id="scrollcue">
+  <span>Scroll</span>
+  <span class="scrollcue__line"></span>
+</div>
 
-<section class="about" id="about">
-  <div class="wrap about-grid">
-    <div class="about-copy reveal">
-      <div class="eyebrow">About Us</div>
-      <h2>We build the foundation your business stands on.</h2>
-      <p>Design of Man is a small studio with one focus: websites that work, and keep working. We handle the full arc — design, development, launch, and the ongoing care most agencies leave behind.</p>
-      <p>No templates stretched to fit. No jargon-filled proposals. Just clear plans, honest timelines, and sites built to hold up as your business grows.</p>
-      <div class="about-sig">— measured, drafted, and built for the long haul.</div>
+<!-- JOURNEY -->
+<main class="journey" id="journey">
+  <section class="beat beat--hero" data-beat="0">
+    <div class="beat__inner">
+      <div class="eyebrow">67°N — Expedition Log</div>
+      <h1>How far will<br>you go?</h1>
+      <p>Most stop at the edge of what they know. The work that matters is always further out — past the weather, past the point where it stops being comfortable.</p>
     </div>
-    <div class="values">
-      <div class="value-card reveal"><div class="value-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div><div><h3>Clarity</h3><p>No jargon, no static. Every project starts with a plan you can actually read.</p></div></div>
-      <div class="value-card reveal d1"><div class="value-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 21c4-1 7-4 8-8-4 1-7 4-8 8z"/><path d="M12 13c1-5 4-8 9-9-1 5-4 8-9 9z"/></svg></div><div><h3>Craft</h3><p>Custom-built, not templated. Your site is made for your business, not shoehorned into one.</p></div></div>
-      <div class="value-card reveal d2"><div class="value-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div><div><h3>Care</h3><p>We don't disappear after launch. Hosting and maintenance are part of the deal.</p></div></div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="services" id="services">
-  <div class="wrap">
-    <div class="reveal section-head">
-      <div class="eyebrow">Services</div>
-      <h2>Two starting points, one proven blueprint.</h2>
-      <p class="intro">Whether you need a website, an app, or both, every build follows the same proven blueprint — design, implementation, and long-term care.</p>
+  <section class="beat beat--right" data-beat="1">
+    <div class="beat__inner">
+      <div class="eyebrow">020 — Precision</div>
+      <h2>Every pixel starts with precision</h2>
+      <p>Nothing is placed by accident. Type scale, rhythm, contrast, motion — each decision is measured before it ships.</p>
     </div>
+  </section>
 
-    <div class="chart reveal">
-      <div class="chart-sources">
-        <div class="cbox cbox-source">
-          <div class="cbox-head"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><span class="tag">Start</span></div>
-          <h3>Custom Website Development</h3>
-          <p>Responsive, custom-built sites.</p>
-        </div>
-        <div class="cbox cbox-source">
-          <div class="cbox-head"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div><span class="tag">Start</span></div>
-          <h3>Custom App Development</h3>
-          <p>Web &amp; mobile apps, built to scale.</p>
-        </div>
-      </div>
+  <section class="beat" data-beat="2">
+    <div class="beat__inner">
+      <div class="eyebrow">040 — Continuity</div>
+      <h2>Power that never sleeps</h2>
+      <p>Monitored, patched and defended around the clock. The platform holds whether anyone is watching or not.</p>
+    </div>
+  </section>
 
-      <div class="chart-junction" aria-hidden="true">
-        <svg viewBox="0 0 64 368" width="64" height="368">
-          <defs><marker id="ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="#C9A24B"/></marker></defs>
-          <path class="cline" d="M0,82 H32 M0,286 H32 M32,82 V286 M32,184 H58" marker-end="url(#ah)"/>
-        </svg>
-      </div>
+  <section class="beat beat--right" data-beat="3">
+    <div class="beat__inner">
+      <div class="eyebrow">060 — Standard</div>
+      <h2>Nothing leaves unfinished</h2>
+      <p>No placeholder copy. No dead links. No launch that quietly breaks a week later. It ships complete or it does not ship.</p>
+    </div>
+  </section>
 
-      <div class="merge-m" aria-hidden="true"><span class="bus"></span><span class="down"></span></div>
-
-      <div class="chart-flow">
-        <div class="cbox cbox-stage">
-          <div class="cbox-head"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20l4-1 10-10-3-3L5 16l-1 4z"/><path d="M14 6l3 3"/></svg></div><span class="tag">Step 01</span></div>
-          <h3>Design</h3>
-          <p>UX, wireframes &amp; visual direction, refined with your feedback.</p>
-        </div>
-        <div class="carrow" aria-hidden="true"></div>
-        <div class="cbox cbox-stage">
-          <div class="cbox-head"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div><span class="tag">Step 02</span></div>
-          <h3>Implementation</h3>
-          <p>Domains, migrations, payments, CRM &amp; analytics.</p>
-        </div>
-        <div class="carrow" aria-hidden="true"></div>
-        <div class="cbox cbox-stage">
-          <div class="cbox-head"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div><span class="tag">Step 03</span></div>
-          <h3>Web Hosting &amp; Ongoing Maintenance</h3>
-          <p>Hosting, security, backups, updates &amp; support.</p>
-        </div>
-      </div>
+  <section class="beat" data-beat="4">
+    <div class="beat__inner">
+      <div class="eyebrow">100 — Found</div>
+      <h2>And then you find it.</h2>
+      <p>Something built with such certainty it looks like it was always here.</p>
     </div>
-  </div>
-</section>
-
-<section class="why" id="why">
-  <div class="wrap">
-    <div class="reveal section-head">
-      <div class="eyebrow">Why Choose Us</div>
-      <h2>The Design of Man difference.</h2>
-    </div>
-    <div class="why-grid">
-      <div class="why-card reveal"><div class="why-num">01</div><h3>One team, start to finish</h3><p>Design, development, and maintenance under one roof. One point of contact, no finger-pointing between vendors.</p></div>
-      <div class="why-card reveal d1"><div class="why-num">02</div><h3>Built for outcomes</h3><p>Every choice ties back to your goals — more leads, more sales, a site people trust and actually use.</p></div>
-      <div class="why-card reveal d2"><div class="why-num">03</div><h3>No churn-and-burn</h3><p>We build lasting relationships, not one-off projects. We're here after launch, month after month.</p></div>
-      <div class="why-card reveal d3"><div class="why-num">04</div><h3>Honest &amp; transparent</h3><p>Clear timelines, clear pricing, clear communication. You always know where your project stands.</p></div>
-    </div>
-    <div class="trust-logos reveal">
-      <div class="label">Built with tools you can trust</div>
-      <div class="logo-row">
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 17l6-6-6-6M12 19h8"/></svg>React</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8"/></svg>Next.js</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/></svg>WordPress</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l9 5v10l-9 5-9-5V7z"/></svg>Shopify</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12a9 9 0 1018 0 9 9 0 00-18 0zM12 3v18"/></svg>Cloudflare</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="process" id="process">
-  <div class="wrap">
-    <div class="reveal section-head">
-      <div class="eyebrow">How We Work</div>
-      <h2>From first sketch to launch day.</h2>
-    </div>
-    <div class="trail">
-      <div class="step reveal"><div class="step-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div><h3>Discover</h3><p>We learn your business, your goals, and what your site actually needs to do.</p></div>
-      <div class="step reveal d1"><div class="step-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20l4-1 10-10-3-3L5 16l-1 4z"/></svg></div><h3>Design</h3><p>Wireframes and visual direction, refined together with your feedback.</p></div>
-      <div class="step reveal d2"><div class="step-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 4l-5 8 5 8M16 4l5 8-5 8"/></svg></div><h3>Build</h3><p>Development happens in the open, with regular check-ins along the way.</p></div>
-      <div class="step reveal d3"><div class="step-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div><h3>Launch</h3><p>We handle the technical rollout, start to finish, so nothing breaks.</p></div>
-      <div class="step reveal d3"><div class="step-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 21c4-1 7-4 8-8-4 1-7 4-8 8z"/><path d="M12 13c1-5 4-8 9-9-1 5-4 8-9 9z"/></svg></div><h3>Maintain</h3><p>Ongoing hosting, monitoring, and updates. The work does not stop at launch.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== scroll assembly: the process, visualised ===== -->
-<div data-laptop-assembly
-     data-height="460vh"
-     data-title="Design of Man — the build"
-     data-label="Scroll to assemble"
-     data-captions='[["01 \u2014 Discover", "Discover", "We learn your business, your goals, and what your site actually needs to do."], ["02 \u2014 Design", "Design", "Wireframes and visual direction, refined together with your feedback."], ["03 \u2014 Build", "Build", "Development happens in the open, with regular check-ins along the way."], ["04 \u2014 Launch", "Launch", "We handle the technical rollout, start to finish, so nothing breaks."], ["05 \u2014 Maintain", "Maintain", "Ongoing hosting, monitoring, and updates. The work does not stop at launch."]]'></div>
-<script src="assets/js/dom-3d.bundle.v2.js" defer></script>
-<script src="assets/js/chat-widget.js"
-        data-endpoint="https://formspree.io/f/REPLACE_CHAT_ID"
-        data-phone="+15615550100" data-phone-label="(561) 555-0100"
-        data-email="hello@designofman.com" defer></script>
-
-<!-- =================================================== -->
-
-
-<section class="pricing" id="pricing">
-  <div class="wrap">
-    <div class="reveal section-head center">
-      <div class="eyebrow center">Pricing</div>
-      <h2>Simple plans, no surprises.</h2>
-      <p class="intro" style="color:var(--ink-soft);margin:1rem auto 0;">Three ways we usually work. Every build is scoped to what it actually needs, so your free consult gets you an exact quote — not a number off a list.</p>
-    </div>
-    <div class="pricing-grid">
-      <div class="plan reveal">
-        <div class="plan-name">Launch</div>
-        <div class="plan-price plan-price--quote">Custom quote</div>
-        <p class="plan-desc">A clean, professional site to get your business online and converting.</p>
-        <ul class="plan-features">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>Up to 5 custom pages</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>Mobile-responsive design</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>Contact form &amp; basic SEO</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>Launch in 2–3 weeks</li>
-        </ul>
-        <a href="#consult" class="btn btn-ghost-dark magnetic">Get Started</a>
-      </div>
-      <div class="plan featured reveal d1">
-        <div class="plan-badge">Most Popular</div>
-        <div class="plan-name">Grow</div>
-        <div class="plan-price plan-price--quote">Custom quote</div>
-        <p class="plan-desc">A fully custom site with the integrations and features to scale with you.</p>
-        <ul class="plan-features">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>Everything in Launch</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>Unlimited custom pages</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>CRM, payments &amp; analytics</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>Content migration included</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>3 months maintenance free</li>
-        </ul>
-        <a href="#consult" class="btn btn-coral magnetic">Get Started</a>
-      </div>
-      <div class="plan reveal d2">
-        <div class="plan-name">Care</div>
-        <div class="plan-price plan-price--quote">Monthly plan</div>
-        <p class="plan-desc">Ongoing hosting and maintenance to keep your site fast, secure, and current.</p>
-        <ul class="plan-features">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>Managed hosting &amp; uptime alerts</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>Security updates &amp; backups</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>Monthly content updates</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l6 6L20 6"/></svg>Month-to-month, no contract</li>
-        </ul>
-        <a href="#consult" class="btn btn-ghost-dark magnetic">Get Started</a>
-      </div>
-    </div>
-    <p class="pricing-note reveal">Not sure which fits? <a href="#consult" style="color:var(--ocean-mid);font-weight:500;">Book a free consult</a> and we'll point you the right way.</p>
-  </div>
-</section>
-
-<section class="testi" id="testimonials">
-  <div class="wrap">
-    <div class="reveal section-head center" style="margin:0 auto">
-      <div class="eyebrow center">Client Feedback</div>
-      <div class="rating-head"><div class="rating-stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div><span class="rating-text">4.9 / 5 average from 60+ clients</span></div>
-      <h2>Built for them. <em>In their words.</em></h2>
-    </div>
-    <div class="testi-grid">
-      <div class="quote-card reveal">
-        <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div>
-        <p>They took our tired old site and turned it into something we're proud to send people to. Launched ahead of schedule, too.</p>
-        <div class="quote-author"><div class="quote-avatar">SJ</div><div><div class="name">Sophia Jones</div><div class="role">Owner, Coastal Collective</div></div></div>
-      </div>
-      <div class="quote-card reveal d1">
-        <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div>
-        <p>What sold me was that they didn't disappear after launch. The maintenance plan means I never think about my website — it just works.</p>
-        <div class="quote-author"><div class="quote-avatar">GH</div><div><div class="name">Grant Harvey</div><div class="role">Founder, Harbor Goods</div></div></div>
-      </div>
-      <div class="quote-card reveal d2">
-        <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div>
-        <p>Clear pricing, honest timelines, and a team that actually explained things. Our new site loads fast and our bookings are up.</p>
-        <div class="quote-author"><div class="quote-avatar">HG</div><div><div class="name">Harold Green</div><div class="role">Director, Green &amp; Co.</div></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="blog" id="blog">
-  <div class="wrap">
-    <div class="reveal section-head center" style="margin:0 auto">
-      <div class="eyebrow center">From the Blog</div>
-      <h2>Notes from the workshop.</h2>
-      <p class="intro" style="color:var(--ink-soft);margin:1rem auto 0;">Practical thinking on web design, performance, and running a site that keeps earning its keep.</p>
-    </div>
-    <div class="blog-grid">
-      <article class="post reveal">
-        <div class="post-thumb t1"><span class="post-cat">Performance</span></div>
-        <div class="post-body">
-          <div class="post-meta"><span>Jul 2026</span><span>·</span><span>5 min read</span></div>
-          <h3>Why your website speed is costing you customers</h3>
-          <p>A one-second delay can cut conversions by 7%. Here's how we squeeze sites under two seconds — and why it pays for itself.</p>
-          <span class="post-more">Read article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </article>
-      <article class="post reveal d1">
-        <div class="post-thumb t2"><span class="post-cat">Design</span></div>
-        <div class="post-body">
-          <div class="post-meta"><span>Jun 2026</span><span>·</span><span>6 min read</span></div>
-          <h3>Redesign vs. rebuild: which does your site actually need?</h3>
-          <p>Not every tired site needs to be torn down. A field guide to knowing when a facelift will do and when it's time to start fresh.</p>
-          <span class="post-more">Read article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </article>
-      <article class="post reveal d2">
-        <div class="post-thumb t3"><span class="post-cat">Maintenance</span></div>
-        <div class="post-body">
-          <div class="post-meta"><span>Jun 2026</span><span>·</span><span>4 min read</span></div>
-          <h3>The hidden cost of a "set it and forget it" website</h3>
-          <p>Launch day isn't the finish line. What ongoing care actually covers — and what happens to the sites that skip it.</p>
-          <span class="post-more">Read article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </article>
-    </div>
-    <div class="blog-cta reveal"><a href="#consult" class="btn btn-ghost-dark magnetic">Get these in your inbox</a></div>
-  </div>
-</section>
-
-<section class="faq" id="faq">
-  <div class="wrap">
-    <div class="reveal section-head center" style="margin:0 auto">
-      <div class="eyebrow center">Common Questions</div>
-      <h2>Everything you'd ask on the call.</h2>
-    </div>
-    <div class="faq-wrap reveal">
-      <div class="faq-item">
-        <button class="faq-q">How much does a custom website cost?<span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="faq-a"><p>It depends on what the site has to do. A brochure site for a local business and a custom build with booking, payments and integrations are very different pieces of work. Every project is scoped individually, and your free consult gets you an exact, no-obligation quote before anything starts.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">How long does a project take?<span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="faq-a"><p>Simple sites launch in 2–3 weeks. Most business sites run 4–6 weeks from kickoff, and larger custom or e-commerce builds take 8–12 weeks. You'll get a full timeline at the start of the project.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Will my site work on mobile?<span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="faq-a"><p>Always. Every site we build is fully responsive and tested across phones, tablets, and desktops. Mobile-first design is part of our process, not an add-on.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Do you handle hosting and updates after launch?<span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="faq-a"><p>Yes. Care plans cover managed hosting, security updates, backups, uptime monitoring and content updates. Each one is priced to the site it looks after, and every plan is month-to-month with no long-term contract.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Can you redesign or migrate my existing site?<span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="faq-a"><p>Absolutely. We regularly rebuild aging sites and migrate content, domains, and email from your old host with no downtime. We'll audit what you have and recommend the cleanest path forward.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="consult" id="consult">
-  <div class="wrap consult-inner">
-    <div class="consult-copy reveal">
-      <div class="eyebrow">Book a Free Consult</div>
-      <h2>Let's draw up the plan.</h2>
-      <p>Tell us a bit about your project. We'll get back to you within one business day to set up a free, no-pressure 30-minute call.</p>
-      <div class="consult-meta">
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A17 17 0 013 6a2 2 0 012-2z"/></svg>(561) 555-0100</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>hello@designofman.com</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Mon – Fri · 9am – 5pm ET</span>
-      </div>
-    </div>
-    <div class="postcard reveal d1" id="postcard">
-      <div class="postcard-stamp"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><rect x="5.6" y="5.6" width="12.8" height="12.8"/><path d="M12 3v18M3 12h18"/></svg></div>
-      <form class="postcard-form" id="consultForm" method="POST" action="https://formspree.io/f/YOUR_FORM_ID" novalidate>
-        <div class="form-row">
-          <div class="field"><label for="name">Name</label><input type="text" id="name" name="name" required placeholder="Jamie Rivera"></div>
-          <div class="field"><label for="email">Email</label><input type="email" id="email" name="email" required placeholder="jamie@company.com"></div>
-        </div>
-        <div class="form-row">
-          <div class="field"><label for="company">Company <span style="text-transform:none">(optional)</span></label><input type="text" id="company" name="company" placeholder="Company name"></div>
-          <div class="field"><label for="project">Project Type</label><select id="project" name="project" required><option value="" disabled selected>Choose one</option><option>New website</option><option>Web app</option><option>Redesign</option><option>Hosting &amp; maintenance</option><option>Not sure yet</option></select></div>
-        </div>
-        <div class="field"><label for="message">Message</label><textarea id="message" name="message" required placeholder="Tell us a bit about what you're looking for..."></textarea></div>
-        <div class="submit-row"><button type="submit" class="btn btn-coral magnetic">Book My Consult</button><p class="form-note">We'll reply within one business day.</p></div>
-      </form>
-      <div class="form-success" id="formSuccess">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12l6 6L20 6"/></svg>
-        <h3>Message received.</h3>
-        <p>We'll be in your inbox within one business day to set up your call. Thanks for reaching out.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
+  </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href="#home" class="logo"><img src="/assets/img/logo-mark.svg" alt="" width="54" height="26">Design of Man</a>
-        <p>Website creation and management, built to last past launch day.</p>
-        <div class="foot-social">
-          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
-          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 002.5 6a2.5 2.5 0 002.48 2.5A2.5 2.5 0 007.5 6a2.5 2.5 0 00-2.52-2.5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21H18v-5.3c0-1.26-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H10z"/></svg></a>
-          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V6.8c0-.7.5-.9 1-.9h2V3h-2.6C11.7 3 11 4.8 11 6.4V8.5H9V12h2v9h3v-9h2.3l.4-3.5z"/></svg></a>
-          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3l-6.6 7.6L22 21h-6l-4.3-5.6L6.7 21H3.6l7-8L2 3h6.2l3.9 5.1zm-1.1 16h1.7L7.7 4.8H5.9z"/></svg></a>
-        </div>
+<!-- TAKEOVER: scroll into the screen -->
+<section class="takeover" id="takeover" aria-hidden="true"></section>
+
+<div class="portal" id="portal">
+  <div class="portal__frame" id="portalFrame">
+    <div class="portal__content">
+      <div class="portal__mark">Design of Man</div>
+      <h2>We build the<br>thing worth <em>finding</em>.</h2>
+      <p>Premium digital experiences, and the disciplined management that keeps them fast, secure and alive long after launch day.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SITE -->
+<div class="site" id="site">
+  <section class="section" id="specs">
+    <div class="wrap">
+      <div class="section__head">
+        <div class="eyebrow">Specification</div>
+        <h2>Built to survive contact with the real world.</h2>
+        <p>Four commitments that hold on every engagement, from first wireframe to the fifth year of management.</p>
       </div>
-      <div class="footer-links">
-        <div class="footer-col"><h4>Site</h4><a href="#home">Home</a><a href="#about">About Us</a><a href="#services">Services</a><a href="work.html">Work</a><a href="#blog">Blog</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
-        <div class="footer-col"><h4>Services</h4><a href="#services">Website Development</a><a href="#services">App Development</a><a href="#services">Implementation</a><a href="#services">Hosting &amp; Maintenance</a></div>
-        
-        <div class="footer-col"><h4>Contact</h4><a href="tel:+15615550100">(561) 555-0100</a><a href="mailto:hello@designofman.com">hello@designofman.com</a></div>
+      <div class="specs">
+        <article class="spec">
+          <div class="spec__id">SPEC / 01</div>
+          <div class="spec__val">Custom design systems</div>
+          <div class="spec__key">Foundation</div>
+          <p class="spec__note">Tokens, components and rules — so the tenth page looks as considered as the first.</p>
+        </article>
+        <article class="spec">
+          <div class="spec__id">SPEC / 02</div>
+          <div class="spec__val">24/7 management</div>
+          <div class="spec__key">Operations</div>
+          <p class="spec__note">Updates, backups, monitoring and response. Handled before you notice.</p>
+        </article>
+        <article class="spec">
+          <div class="spec__id">SPEC / 03</div>
+          <div class="spec__val">99.9% uptime rating</div>
+          <div class="spec__key">Reliability</div>
+          <p class="spec__note">Edge-delivered and redundant. The site is up when the campaign lands.</p>
+        </article>
+        <article class="spec">
+          <div class="spec__id">SPEC / 04</div>
+          <div class="spec__val">Performance-first architecture</div>
+          <div class="spec__key">Engineering</div>
+          <p class="spec__note">Measured against Core Web Vitals, not opinions. Fast on the worst phone in the room.</p>
+        </article>
       </div>
     </div>
-    <div class="footer-bottom"><span>© 2026 Design of Man. All rights reserved.</span><span>Stuart, FL</span></div>
-  </div>
-</footer>
+  </section>
+
+  <section class="section scarcity">
+    <div class="wrap scarcity__grid">
+      <div>
+        <div class="eyebrow">Availability</div>
+        <h2><em>8 seats</em> available.<br>Launching Q1 2027.</h2>
+        <div class="seats" id="seats" aria-hidden="true"></div>
+      </div>
+      <div class="scarcity__meta">
+        <span>Intake <b>Q1 2027</b></span>
+        <span>Seats remaining <b>08 / 12</b></span>
+        <span>Engagement <b>Build + Manage</b></span>
+        <span>Response <b>Within 48h</b></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta">
+    <div class="wrap">
+      <div class="eyebrow" style="justify-content:center">Enlist</div>
+      <h2>Join the Build</h2>
+      <p>Tell us where you're trying to get to. If it's far enough out, we'll take the walk with you.</p>
+      <a class="btn" href="mailto:hello@designofman.com?subject=Join%20the%20Build">
+        Join the Build
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap foot__row">
+      <span>Design of Man</span>
+      <span><a href="/home">Site</a> &nbsp;·&nbsp; <a href="/work">Work</a> &nbsp;·&nbsp; <a href="/pay">Billing</a></span>
+      <span>hello@designofman.com</span>
+    </div>
+  </footer>
+</div>
 
 <script>
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+(() => {
+  "use strict";
 
-window.addEventListener('load', () => {
-  const curtain = document.getElementById('curtain');
-  if (!curtain) return;
-  const video = document.getElementById('curtainVideo');
-  const skip = document.getElementById('curtainSkip');
-  const SEEN = 'domIntroSeen';
-  let dismissed = false;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const dismiss = () => {
-    if (dismissed) return;
-    dismissed = true;
-    curtain.classList.add('done');
-    if (video) { try { video.pause(); } catch (e) {} }
-    try { sessionStorage.setItem(SEEN, '1'); } catch (e) {}
-    setTimeout(() => { try { curtain.remove(); } catch (e) {} }, 1100);
+  const ZONES = ["THE TREK","THE DISCOVERY","THE APPROACH","THE OPENING","THE REVELATION"];
+
+  const el = {
+    boot: document.getElementById("boot"),
+    bootFill: document.getElementById("bootFill"),
+    bootPct: document.getElementById("bootPct"),
+    film: document.getElementById("film"),
+    snow: document.getElementById("snow"),
+    stage: document.getElementById("stage"),
+    grade: document.getElementById("grade"),
+    cliffs: document.getElementById("layerCliffs"),
+    haze: document.getElementById("layerHaze"),
+    hud: document.getElementById("hud"),
+    hudPct: document.getElementById("hudPct"),
+    hudFill: document.getElementById("hudFill"),
+    hudRail: document.getElementById("hudRail"),
+    zones: [...document.querySelectorAll(".hud__zone")],
+    journey: document.getElementById("journey"),
+    beats: [...document.querySelectorAll(".beat")],
+    takeover: document.getElementById("takeover"),
+    portal: document.getElementById("portal"),
+    portalFrame: document.getElementById("portalFrame"),
+    scrollcue: document.getElementById("scrollcue"),
+    skipnav: document.getElementById("skipnav"),
+    seats: document.getElementById("seats"),
   };
 
-  // The zoom into the site is baked into the video; the final frame IS the homepage.
-  // So we simply cross-fade to the live site as that last frame lands.
-  // Skip the intro entirely if it already played this browser session, or on reduced-motion.
-  let seen = false;
-  try { seen = sessionStorage.getItem(SEEN) === '1'; } catch (e) {}
-  if (seen || reduceMotion || !video) { dismiss(); return; }
-
-  // Safety net: never trap the visitor if playback stalls or autoplay is blocked.
-  const failsafe = setTimeout(dismiss, 12000);
-  const finish = () => { clearTimeout(failsafe); dismiss(); };
-  video.addEventListener('ended', finish);
-  video.addEventListener('error', finish);
-  // Hand off to the live site right as the baked zoom completes.
-  video.addEventListener('timeupdate', () => {
-    if (video.duration && video.currentTime >= video.duration - 0.12) finish();
-  });
-  if (skip) skip.addEventListener('click', finish);
-
-  video.muted = true;
-  const p = video.play();
-  if (p && typeof p.catch === 'function') p.catch(() => { clearTimeout(failsafe); dismiss(); });
-});
-
-/* hero headline word reveal */
-(function(){
-  const el = document.getElementById('heroTitle');
-  const lines = ['Built by design,','<em>not by accident.</em>'];
-  let delay = 0.35;
-  lines.forEach((line, li) => {
-    const temp = document.createElement('span'); temp.innerHTML = line;
-    const walk = (node, target) => {
-      node.childNodes.forEach(child => {
-        if(child.nodeType === 3){
-          child.textContent.split(/(\s+)/).forEach(tok => {
-            if(tok.trim()===''){ target.appendChild(document.createTextNode(tok)); return; }
-            const w=document.createElement('span'); w.className='word';
-            const inner=document.createElement('span'); inner.textContent=tok;
-            inner.style.animationDelay=delay.toFixed(2)+'s'; delay+=0.08;
-            w.appendChild(inner); target.appendChild(w);
-          });
-        } else if(child.nodeType===1){
-          const em=document.createElement(child.tagName.toLowerCase()); walk(child,em); target.appendChild(em);
-        }
-      });
-    };
-    walk(temp, el);
-    if(li<lines.length-1) el.appendChild(document.createElement('br'));
-  });
-})();
-
-/* hero mark is rendered in 3D — see assets/js/dom-3d.bundle.v2.js */
-
-
-/* sticky nav + progress */
-const nav=document.getElementById('siteNav'); const scrollBar=document.getElementById('scrollBar');
-window.addEventListener('scroll',()=>{
-  nav.classList.toggle('scrolled',window.scrollY>40);
-  const st=document.documentElement.scrollTop; const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-  scrollBar.style.width=(st/sh*100)+'%';
-});
-
-/* mobile nav */
-const navToggle=document.getElementById('navToggle'); const navLinks=document.getElementById('navLinks');
-navToggle.addEventListener('click',()=>{const open=navLinks.classList.toggle('open'); navToggle.classList.toggle('open',open); navToggle.setAttribute('aria-expanded',open);});
-navLinks.querySelectorAll('a').forEach(l=>l.addEventListener('click',()=>{navLinks.classList.remove('open'); navToggle.classList.remove('open'); navToggle.setAttribute('aria-expanded',false);}));
-
-/* active tab */
-const tabLinks=document.querySelectorAll('.tab-link');
-['home','about','services','work','blog','pricing','faq'].map(id=>document.getElementById(id)).forEach(sec=>{
-  sec && new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting) tabLinks.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));}),{rootMargin:'-45% 0px -45% 0px'}).observe(sec);
-});
-
-/* reveal */
-const revObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); revObs.unobserve(e.target);}}),{threshold:0.12});
-document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
-
-/* count-up */
-const countObs=new IntersectionObserver(es=>es.forEach(e=>{
-  if(!e.isIntersecting) return; const el=e.target;
-  const target=parseFloat(el.dataset.count); const dec=parseInt(el.dataset.decimals||'0');
-  const suffix=el.dataset.suffix||''; const prefix=el.dataset.prefix||'';
-  const dur=1600; const start=performance.now();
-  function tick(now){const p=Math.min((now-start)/dur,1); const eased=1-Math.pow(1-p,3); const val=(target*eased).toFixed(dec); el.innerHTML=prefix+val+'<span class="suffix">'+suffix+'</span>'; if(p<1) requestAnimationFrame(tick);}
-  requestAnimationFrame(tick); countObs.unobserve(el);
-}),{threshold:0.5});
-document.querySelectorAll('[data-count]').forEach(el=>countObs.observe(el));
-
-/* flowchart node mouse glow */
-document.querySelectorAll('.cbox').forEach(node=>{
-  node.addEventListener('mousemove',e=>{const r=node.getBoundingClientRect(); node.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%'); node.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');});
-});
-
-
-/* faq accordion */
-document.querySelectorAll('.faq-q').forEach(q=>{
-  q.addEventListener('click',()=>{
-    const item=q.parentElement; const ans=item.querySelector('.faq-a'); const isOpen=item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight=null;});
-    if(!isOpen){item.classList.add('open'); ans.style.maxHeight=ans.scrollHeight+'px';}
-  });
-});
-
-/* magnetic buttons */
-if(!reduceMotion && window.matchMedia('(pointer:fine)').matches){
-  document.querySelectorAll('.magnetic').forEach(btn=>{
-    btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect(); const x=e.clientX-r.left-r.width/2; const y=e.clientY-r.top-r.height/2; btn.style.transform=`translate(${x*0.25}px, ${y*0.35}px)`;});
-    btn.addEventListener('mouseleave',()=>btn.style.transform='');
-  });
-}
-
-/* before/after sliders */
-document.querySelectorAll('[data-ba]').forEach(ba=>{
-  const setPos=(clientX)=>{
-    const r=ba.getBoundingClientRect();
-    let p=((clientX-r.left)/r.width)*100;
-    p=Math.max(2,Math.min(98,p));
-    ba.style.setProperty('--pos',p+'%');
-  };
-  let dragging=false;
-  ba.style.setProperty('--pos','50%');
-  const start=e=>{dragging=true; setPos((e.touches?e.touches[0]:e).clientX);};
-  const move=e=>{if(dragging) setPos((e.touches?e.touches[0]:e).clientX);};
-  const end=()=>{dragging=false;};
-  ba.addEventListener('mousedown',start); window.addEventListener('mousemove',move); window.addEventListener('mouseup',end);
-  ba.addEventListener('touchstart',start,{passive:true}); window.addEventListener('touchmove',move,{passive:true}); window.addEventListener('touchend',end);
-});
-
-/* animated trend charts */
-function buildTrend(el){
-  const vals=el.dataset.series.split(',').map(Number);
-  const label=el.dataset.label||'';
-  const w=320,h=96,pad=8, bottom=h-18;
-  const max=Math.max(...vals), min=Math.min(...vals), range=(max-min)||1;
-  const pts=vals.map((v,i)=>{
-    const x=pad+i*(w-2*pad)/(vals.length-1);
-    const y=(bottom-pad)-((v-min)/range)*(bottom-2*pad);
-    return [x,y];
-  });
-  const line=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
-  const area=line+` L${(w-pad).toFixed(1)} ${bottom} L${pad} ${bottom} Z`;
-  const last=pts[pts.length-1];
-  el.innerHTML=
-    `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">`+
-    `<defs><linearGradient id="tg-${Math.random().toString(36).slice(2,7)}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9A24B"/><stop offset="1" stop-color="#C9A24B" stop-opacity="0"/></linearGradient></defs>`+
-    `<path class="t-area" d="${area}" fill="#C9A24B"/>`+
-    `<path class="t-line" pathLength="1" d="${line}"/>`+
-    `<circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="3.5" fill="#C9A24B"/>`+
-    `<text class="t-caption" x="${pad}" y="${h-4}">${label}</text>`+
-    `</svg>`;
-}
-const trendObs=new IntersectionObserver(es=>es.forEach(e=>{
-  if(e.isIntersecting){buildTrend(e.target); requestAnimationFrame(()=>requestAnimationFrame(()=>e.target.classList.add('drawn'))); trendObs.unobserve(e.target);}
-}),{threshold:0.4});
-document.querySelectorAll('.trend').forEach(el=>trendObs.observe(el));
-
-/* form */
-const form=document.getElementById('consultForm'); const postcard=document.getElementById('postcard'); const success=document.getElementById('formSuccess');
-form.addEventListener('submit',async e=>{
-  e.preventDefault();
-  if(!form.checkValidity()){form.reportValidity(); return;}
-  const btn=form.querySelector('button[type="submit"]');
-  const note=form.querySelector('.form-note');
-  const prevBtn=btn.textContent, prevNote=note?note.textContent:'';
-  btn.disabled=true; btn.textContent='Sending…';
-  if(note){note.style.color=''; note.textContent="We'll reply within one business day.";}
-  try{
-    const res=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
-    if(res.ok){ postcard.classList.add('sent'); success.classList.add('show'); form.reset(); }
-    else{
-      const data=await res.json().catch(()=>({}));
-      const msg=(data.errors&&data.errors.map(x=>x.message).join(', '))||"Something went wrong — please email us directly.";
-      if(note){note.style.color='#ff8c69'; note.textContent=msg;} else { alert(msg); }
-      btn.disabled=false; btn.textContent=prevBtn;
-    }
-  }catch(err){
-    if(note){note.style.color='#ff8c69'; note.textContent="Network error — please check your connection or email us directly.";} else { alert('Network error.'); }
-    btn.disabled=false; btn.textContent=prevBtn;
+  /* ---------------- seat pips ---------------- */
+  for (let i = 0; i < 12; i++) {
+    const s = document.createElement("span");
+    s.className = "seat" + (i >= 8 ? " is-gone" : "");
+    el.seats.appendChild(s);
   }
-});
+
+  /* ---------------- HUD ticks ---------------- */
+  for (let i = 1; i < 5; i++) {
+    const t = document.createElement("span");
+    t.className = "hud__tick";
+    t.style.top = (i / 5 * 100) + "%";
+    el.hudRail.appendChild(t);
+  }
+
+  /* ================= FRAME SEQUENCE ================= */
+  const ctx = el.film.getContext("2d", { alpha: false });
+  let frames = [];        // HTMLImageElement | null, indexed
+  let frameCount = 0;
+  let manifest = null;
+  let loadedCount = 0;
+  let ready = false;
+
+  async function loadManifest() {
+    try {
+      const res = await fetch("assets/journey/manifest.json", { cache: "force-cache" });
+      if (!res.ok) throw new Error("no manifest");
+      return await res.json();
+    } catch {
+      return null;
+    }
+  }
+
+  function framePath(i) {
+    const n = String(i + 1).padStart(4, "0");
+    return `assets/journey/frames/f_${n}.jpg`;
+  }
+
+  function loadImage(src, attempt = 0) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.onload = () => resolve(img);
+      // One retry absorbs transient connection drops under burst load.
+      img.onerror = () =>
+        attempt < 1
+          ? setTimeout(() => loadImage(src, attempt + 1).then(resolve), 400)
+          : resolve(null);
+      img.src = src;
+    });
+  }
+
+  /* Two-pass load: a coarse stride first so scrubbing works almost
+     immediately, then everything else fills in behind it. */
+  async function loadFrames() {
+    const STRIDE = 8;
+    const primary = [];
+    for (let i = 0; i < frameCount; i += STRIDE) primary.push(i);
+    if (primary[primary.length - 1] !== frameCount - 1) primary.push(frameCount - 1);
+
+    let done = 0;
+    const total = frameCount;
+
+    const setProgress = () => {
+      const pct = Math.round((done / total) * 100);
+      el.bootFill.style.width = pct + "%";
+      el.bootPct.textContent = `LOADING ${pct}%`;
+    };
+
+    // Pass 1 — keyframes, in parallel batches.
+    await runPool(primary, 10, async (i) => {
+      frames[i] = await loadImage(framePath(i));
+      done++; loadedCount++; setProgress();
+    });
+
+    start();          // scrubbing is usable now
+    el.bootPct.textContent = "REFINING…";
+
+    // Pass 2 — everything else, lower concurrency so scroll stays smooth.
+    const rest = [];
+    for (let i = 0; i < frameCount; i++) if (!frames[i]) rest.push(i);
+    runPool(rest, 6, async (i) => {
+      frames[i] = await loadImage(framePath(i));
+      done++; loadedCount++; setProgress();
+    });
+  }
+
+  async function runPool(items, concurrency, worker) {
+    let cursor = 0;
+    const runners = Array.from({ length: Math.min(concurrency, items.length) }, async () => {
+      while (cursor < items.length) {
+        const idx = items[cursor++];
+        await worker(idx);
+      }
+    });
+    await Promise.all(runners);
+  }
+
+  /* Nearest already-loaded frame, so pass 1 never shows a gap. */
+  function resolveFrame(i) {
+    if (frames[i]) return frames[i];
+    for (let d = 1; d < frameCount; d++) {
+      if (frames[i - d]) return frames[i - d];
+      if (frames[i + d]) return frames[i + d];
+    }
+    return null;
+  }
+
+  let dpr = 1, cw = 0, ch = 0;
+  function sizeCanvas() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cw = window.innerWidth;
+    ch = window.innerHeight;
+    for (const c of [el.film, el.snow]) {
+      c.width = Math.round(cw * dpr);
+      c.height = Math.round(ch * dpr);
+      c.style.width = cw + "px";
+      c.style.height = ch + "px";
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    snowCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawFrame(currentFrame, true);
+  }
+
+  let lastDrawn = -1;
+  function drawFrame(index, force) {
+    const i = clamp(Math.round(index), 0, Math.max(0, frameCount - 1));
+    if (i === lastDrawn && !force) return;
+    const img = resolveFrame(i);
+    if (!img) return;
+    lastDrawn = i;
+
+    // cover-fit
+    const ir = img.width / img.height;
+    const cr = cw / ch;
+    let w, h, x, y;
+    if (ir > cr) { h = ch; w = h * ir; x = (cw - w) / 2; y = 0; }
+    else { w = cw; h = w / ir; x = 0; y = (ch - h) / 2; }
+    ctx.fillStyle = "#04060A";
+    ctx.fillRect(0, 0, cw, ch);
+    ctx.drawImage(img, x, y, w, h);
+  }
+
+  /* ================= SNOW (foreground parallax layer) ================= */
+  const snowCtx = el.snow.getContext("2d");
+  let flakes = [];
+  function seedSnow() {
+    const n = window.innerWidth < 760 ? 70 : 150;
+    flakes = Array.from({ length: n }, () => ({
+      x: Math.random(), y: Math.random(),
+      r: 0.4 + Math.random() * 1.9,
+      sp: 0.15 + Math.random() * 0.75,
+      dr: (Math.random() - 0.5) * 0.4,
+      a: 0.18 + Math.random() * 0.5,
+    }));
+  }
+  seedSnow();
+
+  function drawSnow(dt, velocity) {
+    snowCtx.clearRect(0, 0, cw, ch);
+    const drift = 1 + Math.abs(velocity) * 0.05;
+    for (const f of flakes) {
+      f.x += (f.dr * 0.0006 * dt) + velocity * 0.00002 * f.sp;
+      f.y += f.sp * 0.00016 * dt * drift;
+      if (f.y > 1.05) { f.y = -0.05; f.x = Math.random(); }
+      if (f.x > 1.05) f.x = -0.05;
+      if (f.x < -0.05) f.x = 1.05;
+      snowCtx.globalAlpha = f.a;
+      snowCtx.fillStyle = "#EAF6FF";
+      snowCtx.beginPath();
+      snowCtx.arc(f.x * cw, f.y * ch, f.r, 0, Math.PI * 2);
+      snowCtx.fill();
+    }
+    snowCtx.globalAlpha = 1;
+  }
+
+  /* ================= SCROLL / RENDER LOOP ================= */
+  let targetFrame = 0, currentFrame = 0;
+  let journeyP = 0, takeoverP = 0;
+  let lastY = 0, velocity = 0, lastT = performance.now();
+
+  function measure() {
+    const jTop = el.journey.offsetTop;
+    const jHeight = el.journey.offsetHeight - window.innerHeight;
+    const tTop = el.takeover.offsetTop;
+    const tHeight = el.takeover.offsetHeight - window.innerHeight;
+    return { jTop, jHeight, tTop, tHeight };
+  }
+  let M = measure();
+
+  function onScroll() {
+    const y = window.scrollY;
+    journeyP = clamp((y - M.jTop) / Math.max(1, M.jHeight), 0, 1);
+    takeoverP = clamp((y - M.tTop) / Math.max(1, M.tHeight), 0, 1);
+    targetFrame = journeyP * Math.max(0, frameCount - 1);
+  }
+
+  function updateHUD() {
+    const pct = Math.round(journeyP * 100);
+    el.hudPct.textContent = String(pct).padStart(2, "0") + "%";
+    el.hudFill.style.height = pct + "%";
+
+    const zi = clamp(Math.floor(journeyP * ZONES.length), 0, ZONES.length - 1);
+    el.zones.forEach((z, i) => {
+      z.classList.toggle("is-active", i === zi);
+      z.classList.toggle("is-past", i < zi);
+    });
+    el.hud.classList.toggle("is-live", ready && takeoverP < 0.6);
+    // The escape hatch is for the film — once the site takes over, it goes.
+    el.skipnav.style.opacity = takeoverP > 0.3 ? "0" : "";
+    el.skipnav.style.pointerEvents = takeoverP > 0.3 ? "none" : "";
+    el.grade.style.setProperty("--grade", journeyP.toFixed(3));
+    document.body.style.backgroundColor =
+      journeyP < 0.5 ? "#0C1218" : "#04060A";
+  }
+
+  function updateBeats() {
+    const vh = window.innerHeight;
+    for (const b of el.beats) {
+      const r = b.getBoundingClientRect();
+      const centred = r.top < vh * 0.62 && r.bottom > vh * 0.38;
+      b.classList.toggle("is-lit", centred && takeoverP < 0.25);
+    }
+  }
+
+  function updateParallax() {
+    // Three rates: cliffs slowest, haze mid, snow fastest (in drawSnow).
+    const p = journeyP;
+    el.cliffs.style.transform = `translate3d(0, ${(-p * 3.2).toFixed(2)}%, 0) scale(1.04)`;
+    el.haze.style.transform  = `translate3d(${(p * 2.4).toFixed(2)}%, ${(-p * 7).toFixed(2)}%, 0) scale(1.06)`;
+  }
+
+  function updateTakeover() {
+    const t = takeoverP;
+    const active = t > 0.001;
+    el.portal.classList.toggle("is-active", active);
+    el.stage.style.opacity = t > 0.92 ? String(clamp((1 - t) / 0.08, 0, 1)) : "1";
+
+    if (!active) {
+      el.film.style.transform = "";
+      el.portal.style.opacity = "0";
+      return;
+    }
+
+    // Push the film plate into the laptop screen — their POV leaning in.
+    // End scale is what makes the detected screen rect fill the viewport.
+    const sw = parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue("--screen-w")
+    ) || 30;
+    const endScale = clamp(100 / sw, 3, 12);
+    const scale = 1 + t * t * (endScale - 1);
+    el.film.style.transform = `scale(${scale.toFixed(3)})`;
+
+    // The portal opens out of the screen rect and fills the viewport.
+    const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    const inX = t >= 0.98 ? 0 : lerp(35, 0, ease);
+    const inY = t >= 0.98 ? 0 : lerp(40, 0, ease);
+    el.portalFrame.style.clipPath =
+      `inset(${inY.toFixed(2)}% ${inX.toFixed(2)}% round ${lerp(6, 0, ease).toFixed(2)}px)`;
+    el.portal.style.opacity = String(clamp((t - 0.12) / 0.35, 0, 1));
+
+    el.scrollcue.style.opacity = "0";
+  }
+
+  function frame(now) {
+    const dt = Math.min(48, now - lastT);
+    lastT = now;
+
+    const y = window.scrollY;
+    velocity = y - lastY;
+    lastY = y;
+
+    // Light smoothing gives the scrub its lens-like glide without
+    // ever losing sync with the pointer.
+    currentFrame = reduced ? targetFrame : lerp(currentFrame, targetFrame, 0.22);
+    if (Math.abs(currentFrame - targetFrame) < 0.01) currentFrame = targetFrame;
+
+    drawFrame(currentFrame);
+    if (!reduced) drawSnow(dt, velocity);
+    updateHUD();
+    updateBeats();
+    updateParallax();
+    updateTakeover();
+
+    requestAnimationFrame(frame);
+  }
+
+  function start() {
+    if (ready) return;
+    ready = true;
+    el.boot.classList.add("is-ready");
+    el.hud.classList.add("is-live");
+    sizeCanvas();
+    onScroll();
+    currentFrame = targetFrame;
+    drawFrame(currentFrame, true);
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", () => { M = measure(); sizeCanvas(); seedSnow(); onScroll(); });
+
+  /* ================= INIT ================= */
+  (async () => {
+    manifest = await loadManifest();
+    frameCount = manifest?.frameCount ?? 0;
+
+    // Calibrate the takeover zoom to the real position of the laptop screen
+    // in the final frame, measured by the frame-build step.
+    if (manifest?.screen) {
+      const s = manifest.screen;
+      const root = document.documentElement.style;
+      root.setProperty("--screen-x", (s.x * 100).toFixed(2) + "%");
+      root.setProperty("--screen-y", (s.y * 100).toFixed(2) + "%");
+      root.setProperty("--screen-w", (s.w * 100).toFixed(2) + "%");
+      root.setProperty("--screen-h", (s.h * 100).toFixed(2) + "%");
+    }
+
+    if (!frameCount) {
+      // No footage yet — keep the page usable rather than dead.
+      el.bootPct.textContent = "FOOTAGE PENDING";
+      el.boot.classList.add("is-ready");
+      el.hud.classList.add("is-live");
+      sizeCanvas();
+      onScroll();
+      requestAnimationFrame(frame);
+      return;
+    }
+
+    frames = new Array(frameCount).fill(null);
+    M = measure();
+    await loadFrames();
+    M = measure();
+  })();
+})();
 </script>
 </body>
 </html>
