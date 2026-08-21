@@ -25,7 +25,7 @@
       ]
     },
     {
-      "source": "/assets/(css|js)/(.*)",
+      "source": "/assets/css/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -34,7 +34,25 @@
       ]
     },
     {
-      "source": "/assets/(.*)",
+      "source": "/assets/js/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/video/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
