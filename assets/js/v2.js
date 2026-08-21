@@ -40,14 +40,23 @@
     }
     var zoneEls = hudZones ? [].slice.call(hudZones.querySelectorAll('[data-zone]')) : [];
 
-    // The laptop opening, played straight through: every frame, in order,
-    // mapped linearly to scroll.
+    // The render is three takes chained together, and two of them replay the
+    // same closed-lid build: frames 50-73 restart dark and re-climb, then
+    // 74-82 restart dark and re-climb again (frame 73 is the same shot as
+    // 49). Nothing opens in either repeat, so they read as the laptop
+    // resetting mid-scroll. Playing 1-49 then 83-121 is the same footage
+    // with the repeats removed — one continuous pass, closed to open.
     function pad(n) { return String(n).padStart(4, '0'); }
-    var usableCount = 121;
+    var srcNums = [];
+    for (var a = 1; a <= 49; a++) srcNums.push(a);
+    // 98 dips slightly as the camera breathes back; skip it so the push-in
+    // only ever moves forward.
+    for (var b2 = 83; b2 <= 121; b2++) { if (b2 !== 98) srcNums.push(b2); }
+    var usableCount = srcNums.length;
     var frames = new Array(usableCount);
     for (var i = 0; i < usableCount; i++) {
       var img = new Image();
-      img.src = '/assets/img/laptop-frames/f' + pad(i + 1) + '.jpg';
+      img.src = '/assets/img/laptop-frames/f' + pad(srcNums[i]) + '.jpg';
       frames[i] = img;
     }
 
