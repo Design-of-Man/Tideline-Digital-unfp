@@ -73,6 +73,31 @@ a{color:inherit;text-decoration:none}
   transform-origin:var(--screen-x) var(--screen-y);
   will-change:transform,opacity;
 }
+/* The runic wordmark pinned to the laptop screen. Positioned per frame from
+   the tracked screen rect, and scaled with the plate during the takeover so
+   it stays glued to the screen rather than sliding across it. */
+.stage__runes{
+  position:absolute;left:0;top:0;
+  display:none;place-items:center;
+  pointer-events:none;
+  opacity:0;
+  color:var(--frost);
+  filter:drop-shadow(0 0 14px rgba(53,228,255,.30));
+  will-change:transform,opacity,left,top,width;
+}
+.stage__runes.is-live{display:grid}
+/* The generated screen already has its own gibberish wordmark in this spot,
+   so the real one is laid over a soft patch of the screen's own background
+   colour — sampled from the footage — which hides it without reading as a
+   pasted-on rectangle. */
+.stage__runes::before{
+  content:"";position:absolute;
+  left:-32%;right:-32%;top:-58%;bottom:-58%;
+  z-index:-1;
+  background:radial-gradient(56% 56% at 50% 50%,
+    rgb(34,47,53) 0%, rgba(34,47,53,.99) 48%, rgba(34,47,53,0) 78%);
+}
+.stage__runes svg{width:100%;height:auto;overflow:visible}
 /* Background ice-cliff parallax — slowest layer. */
 .layer{position:absolute;inset:-6%;pointer-events:none;will-change:transform}
 .layer--cliffs{
@@ -362,6 +387,12 @@ a{color:inherit;text-decoration:none}
 <!-- STAGE -->
 <div class="stage" id="stage" aria-hidden="true">
   <canvas class="stage__film" id="film"></canvas>
+  <!-- The wordmark on the laptop screen. Veo cannot spell, so the screen it
+       generated shows rune-like gibberish; this pins the real thing to it.
+       Drawn as strokes because no rune font can be relied on. -->
+  <div class="stage__runes" id="runes" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 262" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="square" stroke-linejoin="miter"><g transform="translate(0 0)"><polyline points="5.0,0.0 5.0,100.0"/><polyline points="50.0,0.0 50.0,100.0"/><polyline points="5.0,0.0 50.0,100.0"/><polyline points="5.0,100.0 50.0,0.0"/><polyline points="82.0,0.0 82.0,100.0"/><polyline points="127.0,0.0 127.0,100.0"/><polyline points="82.0,0.0 104.5,42.0 127.0,0.0"/><polyline points="202.0,0.0 164.0,33.0 202.0,66.0 164.0,100.0"/><polyline points="258.5,0.0 258.5,100.0"/><polyline points="313.0,0.0 358.0,100.0"/><polyline points="358.0,0.0 313.0,100.0"/><polyline points="412.5,0.0 412.5,100.0"/><polyline points="390.0,68.0 435.0,32.0"/></g><g transform="translate(0 162)"><polyline points="43.0,0.0 65.5,34.0 43.0,68.0 20.5,34.0 43.0,0.0"/><polyline points="43.0,68.0 20.5,100.0"/><polyline points="43.0,68.0 65.5,100.0"/><polyline points="97.5,0.0 97.5,100.0"/><polyline points="97.5,30.0 142.5,10.0"/><polyline points="97.5,58.0 142.5,38.0"/><polyline points="220.5,0.0 220.5,100.0"/><polyline points="265.5,0.0 265.5,100.0"/><polyline points="220.5,8.0 265.5,52.0"/><polyline points="265.5,8.0 220.5,52.0"/><polyline points="297.5,0.0 297.5,100.0"/><polyline points="297.5,12.0 342.5,32.0"/><polyline points="297.5,42.0 342.5,62.0"/><polyline points="397.0,0.0 397.0,100.0"/><polyline points="374.5,68.0 419.5,32.0"/></g></svg>
+  </div>
   <div class="layer layer--cliffs" id="layerCliffs"></div>
   <div class="layer layer--haze" id="layerHaze"></div>
   <canvas class="stage__snow" id="snow"></canvas>
@@ -539,6 +570,7 @@ a{color:inherit;text-decoration:none}
     bootFill: document.getElementById("bootFill"),
     bootPct: document.getElementById("bootPct"),
     film: document.getElementById("film"),
+    runes: document.getElementById("runes"),
     snow: document.getElementById("snow"),
     stage: document.getElementById("stage"),
     grade: document.getElementById("grade"),
@@ -706,11 +738,7 @@ a{color:inherit;text-decoration:none}
    * the screen lands bigger than its frame fraction. Zooming by the raw
    * fraction would stop short of the screen edges on those displays.
    */
-  function stageScreen() {
-    const cs = getComputedStyle(document.documentElement);
-    const pc = (n) => (parseFloat(cs.getPropertyValue(n)) || 0) / 100;
-    const sx = pc("--screen-x"), sy = pc("--screen-y");
-    const sw = pc("--screen-w"), sh = pc("--screen-h");
+  function mapRect(sx, sy, sw, sh) {
     const cr = cw / ch;
     let w, h, x, y;
     if (frameAspect > cr) { h = ch; w = h * frameAspect; x = (cw - w) / 2; y = 0; }
@@ -721,6 +749,74 @@ a{color:inherit;text-decoration:none}
       w: (sw * w) / cw,
       h: (sh * h) / ch,
     };
+  }
+
+  function stageScreen() {
+    const cs = getComputedStyle(document.documentElement);
+    const pc = (n) => (parseFloat(cs.getPropertyValue(n)) || 0) / 100;
+    return mapRect(pc("--screen-x"), pc("--screen-y"), pc("--screen-w"), pc("--screen-h"));
+  }
+
+  /* ---- the runic wordmark that rides on the laptop screen ---- */
+  let screenTrack = null;
+  // viewBox of the embedded wordmark: 440 x 262
+  const RUNE_ASPECT = 440 / 262;
+  // Where the wordmark sits inside the screen, as fractions of the screen rect.
+  const WM_WIDTH = 0.34;   // of screen width
+  const WM_CENTRE_Y = 0.52; // down from the screen's top edge
+
+  function trackAt(f) {
+    if (!screenTrack || !screenTrack.length) return null;
+    if (f <= screenTrack[0].f) return null;
+    const last = screenTrack[screenTrack.length - 1];
+    if (f >= last.f) return last;
+    // the track is dense and ordered, so a scan is cheaper than a search
+    for (let i = 1; i < screenTrack.length; i++) {
+      const b = screenTrack[i];
+      if (b.f < f) continue;
+      const a = screenTrack[i - 1];
+      const t = (f - a.f) / (b.f - a.f);
+      return {
+        f, x: lerp(a.x, b.x, t), y: lerp(a.y, b.y, t),
+        w: lerp(a.w, b.w, t), h: lerp(a.h, b.h, t),
+      };
+    }
+    return last;
+  }
+
+  function updateRunes(takeoverScale, ox, oy, portalOpacity) {
+    const tr = trackAt(currentFrame);
+    if (!tr) { el.runes.classList.remove("is-live"); return; }
+    const r = mapRect(tr.x, tr.y, tr.w, tr.h);
+
+    const wPx = r.w * cw * WM_WIDTH;
+    const hPx = wPx / RUNE_ASPECT;
+    const left = r.cx * cw - wPx / 2;
+    const top = (r.cy - r.h / 2) * ch + r.h * ch * WM_CENTRE_Y - hPx / 2;
+
+    el.runes.classList.add("is-live");
+    el.runes.style.left = `${left.toFixed(1)}px`;
+    el.runes.style.top = `${top.toFixed(1)}px`;
+    el.runes.style.width = `${wPx.toFixed(1)}px`;
+
+    // Fade in as the screen grows legible, then hand off to the real site.
+    // The hand-off waits until the portal is nearly opaque: the mask goes with
+    // the wordmark, so fading early would uncover the gibberish it hides.
+    const span = screenTrack[screenTrack.length - 1].f - screenTrack[0].f;
+    const inP = clamp((currentFrame - screenTrack[0].f) / (span * 0.45), 0, 1);
+    const handoff = clamp((1 - portalOpacity) / 0.25, 0, 1);
+    el.runes.style.opacity = String(inP * handoff);
+
+    // Ride the takeover push so the wordmark stays welded to the screen. The
+    // plate scales about a viewport point, so the same point has to be named
+    // in this element's own coordinates for the two to move together.
+    if (takeoverScale > 1) {
+      el.runes.style.transformOrigin =
+        `${(ox - left).toFixed(1)}px ${(oy - top).toFixed(1)}px`;
+      el.runes.style.transform = `scale(${takeoverScale.toFixed(3)})`;
+    } else {
+      el.runes.style.transform = "";
+    }
   }
 
   function drawFrame(index, force) {
@@ -840,6 +936,8 @@ a{color:inherit;text-decoration:none}
     if (!active) {
       el.film.style.transform = "";
       el.portal.style.opacity = "0";
+      const rest = stageScreen();
+      updateRunes(1, rest.cx * cw, rest.cy * ch, 0);
       return;
     }
 
@@ -866,7 +964,9 @@ a{color:inherit;text-decoration:none}
     el.portalFrame.style.clipPath =
       `inset(${top.toFixed(2)}% ${right.toFixed(2)}% ${bottom.toFixed(2)}% ` +
       `${left.toFixed(2)}% round ${lerp(6, 0, ease).toFixed(2)}px)`;
-    el.portal.style.opacity = String(clamp((t - 0.12) / 0.35, 0, 1));
+    const portalOpacity = clamp((t - 0.12) / 0.35, 0, 1);
+    el.portal.style.opacity = String(portalOpacity);
+    updateRunes(scale, r.cx * cw, r.cy * ch, portalOpacity);
 
     el.scrollcue.style.opacity = "0";
   }
@@ -914,6 +1014,7 @@ a{color:inherit;text-decoration:none}
     manifest = await loadManifest();
     frameCount = manifest?.frameCount ?? 0;
     chooseVariant(manifest);
+    screenTrack = Array.isArray(manifest?.screenTrack) ? manifest.screenTrack : null;
 
     // Calibrate the takeover zoom to the real position of the laptop screen
     // in the final frame, measured by the frame-build step.
