@@ -1,27 +1,43 @@
 {
-  "frameCount": 240,
+  "frameCount": 400,
   "width": 1600,
-  "duration": 24,
+  "duration": 40,
   "pattern": "assets/journey/frames/f_%04d.jpg",
   "zones": [
     {
       "id": "01-the-trek",
       "start": 0,
-      "end": 0.33333
+      "end": 0.2
     },
     {
       "id": "02-the-discovery",
-      "start": 0.33333,
-      "end": 0.66667
+      "start": 0.2,
+      "end": 0.4
     },
     {
       "id": "03-the-approach",
-      "start": 0.66667,
+      "start": 0.4,
+      "end": 0.6
+    },
+    {
+      "id": "04-the-opening",
+      "start": 0.6,
+      "end": 0.8
+    },
+    {
+      "id": "05-the-revelation",
+      "start": 0.8,
       "end": 1
     }
   ],
-  "bytes": 29889722,
-  "complete": false,
-  "clipsPresent": 3,
-  "clipsExpected": 5
+  "bytes": 59616032,
+  "complete": true,
+  "clipsPresent": 5,
+  "clipsExpected": 5,
+  "screen": {
+    "x": 0.511,
+    "y": 0.489,
+    "w": 0.503,
+    "h": 0.578
+  }
 }

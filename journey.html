@@ -6,6 +6,7 @@
 <title>Design of Man — How far will you go?</title>
 <meta name="description" content="Design of Man crafts premium digital experiences and manages high-performance web platforms for ambitious clients. 8 seats available. Launching Q1 2027.">
 <meta name="theme-color" content="#04060A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%2304060A'/%3E%3Crect x='2' y='7' width='12' height='2' fill='%2335E4FF'/%3E%3C/svg%3E">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Design of Man">
@@ -577,12 +578,16 @@ a{color:inherit;text-decoration:none}
     return `assets/journey/frames/f_${n}.jpg`;
   }
 
-  function loadImage(src) {
+  function loadImage(src, attempt = 0) {
     return new Promise((resolve) => {
       const img = new Image();
       img.decoding = "async";
       img.onload = () => resolve(img);
-      img.onerror = () => resolve(null);
+      // One retry absorbs transient connection drops under burst load.
+      img.onerror = () =>
+        attempt < 1
+          ? setTimeout(() => loadImage(src, attempt + 1).then(resolve), 400)
+          : resolve(null);
       img.src = src;
     });
   }
