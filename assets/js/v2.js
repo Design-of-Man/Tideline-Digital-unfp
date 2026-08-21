@@ -40,19 +40,23 @@
     }
     var zoneEls = hudZones ? [].slice.call(hudZones.querySelectorAll('[data-zone]')) : [];
 
-    // The render is three takes chained together, and two of them replay the
-    // same closed-lid build: frames 50-73 restart dark and re-climb, then
-    // 74-82 restart dark and re-climb again (frame 73 is the same shot as
-    // 49). Nothing opens in either repeat, so they read as the laptop
-    // resetting mid-scroll. Playing 1-49 then 83-121 is the same footage
-    // with the repeats removed — one continuous pass, closed to open.
+    // The render's camera pushes in hard through frames 17-49, ending on an
+    // extreme closeup of the lit seam with the background wall out of frame.
+    // The open shot (83+) is framed wide again, wall visible. Cutting from
+    // that closeup to the wide shot snaps the camera backwards, which is what
+    // reads as the laptop resetting mid-scroll.
+    // Frames 1-16 are the wide part of the build (wall visible, glow rising),
+    // so they match the open shot's framing and the join stays forward.
+    // Frames 50-82 are two repeats of the same closed build and are dropped
+    // outright; 98 dips as the camera breathes back.
     function pad(n) { return String(n).padStart(4, '0'); }
     var srcNums = [];
-    for (var a = 1; a <= 49; a++) srcNums.push(a);
-    // 98 dips slightly as the camera breathes back; skip it so the push-in
-    // only ever moves forward.
+    for (var a = 1; a <= 16; a++) srcNums.push(a);
     for (var b2 = 83; b2 <= 121; b2++) { if (b2 !== 98) srcNums.push(b2); }
     var usableCount = srcNums.length;
+    var joinIdx = 15;                       // last closed frame
+    var joinP = joinIdx / (usableCount - 1);
+
     var frames = new Array(usableCount);
     for (var i = 0; i < usableCount; i++) {
       var img = new Image();
@@ -99,10 +103,10 @@
       if (ui) ui.style.opacity = Math.max(0, 1 - v * 2).toFixed(3);
     }
 
+    // Caption 2 lands exactly where the laptop opens.
     function step(p) {
       if (p >= REVEAL_AT) return caps.length;
-      var n = caps.length || 1;
-      return Math.min(n - 1, Math.floor((p / REVEAL_AT) * n));
+      return p < joinP ? 0 : 1;
     }
 
     var latestP = 0, lastIdx0 = -1, lastFrac = -1, lastStep = -1, ticking = false, hudVisible = false;
