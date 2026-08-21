@@ -1,0 +1,27 @@
+{
+  "frameCount": 240,
+  "width": 1600,
+  "duration": 24,
+  "pattern": "assets/journey/frames/f_%04d.jpg",
+  "zones": [
+    {
+      "id": "01-the-trek",
+      "start": 0,
+      "end": 0.33333
+    },
+    {
+      "id": "02-the-discovery",
+      "start": 0.33333,
+      "end": 0.66667
+    },
+    {
+      "id": "03-the-approach",
+      "start": 0.66667,
+      "end": 1
+    }
+  ],
+  "bytes": 29889722,
+  "complete": false,
+  "clipsPresent": 3,
+  "clipsExpected": 5
+}
