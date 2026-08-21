@@ -1,8 +1,14 @@
 {
   "frameCount": 400,
-  "width": 1680,
+  "width": 1920,
   "duration": 38,
-  "pattern": "assets/journey/frames/f_%04d.jpg",
+  "pattern": "assets/journey/frames/{w}/f_%04d.webp",
+  "variants": [
+    {
+      "width": 1920,
+      "bytes": 67029110
+    }
+  ],
   "zones": [
     {
       "id": "01-the-trek",
@@ -30,14 +36,14 @@
       "end": 1
     }
   ],
-  "bytes": 67178961,
+  "bytes": 67029110,
   "complete": true,
   "clipsPresent": 5,
   "clipsExpected": 5,
   "screen": {
-    "x": 0.4994,
-    "y": 0.4989,
-    "w": 0.9988,
-    "h": 0.9979
+    "x": 0.5047,
+    "y": 0.4222,
+    "w": 0.4375,
+    "h": 0.5611
   }
 }

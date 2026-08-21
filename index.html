@@ -592,9 +592,21 @@ a{color:inherit;text-decoration:none}
     }
   }
 
+  /* Pick the frame set that matches the display. A 4K screen gets the
+     high-DPI set; ordinary displays are not made to pay for pixels they
+     cannot show. Falls back to the legacy flat path for older manifests. */
+  let framePattern = "assets/journey/frames/f_%04d.jpg";
+  function chooseVariant(m) {
+    if (!m?.variants?.length || !m.pattern) return;
+    const target = window.innerWidth * Math.min(window.devicePixelRatio || 1, 2);
+    const sorted = [...m.variants].sort((a, b) => a.width - b.width);
+    const pick = sorted.find((v) => v.width >= target) || sorted[sorted.length - 1];
+    framePattern = m.pattern.replace("{w}", String(pick.width));
+  }
+
   function framePath(i) {
     const n = String(i + 1).padStart(4, "0");
-    return `assets/journey/frames/f_${n}.jpg`;
+    return framePattern.replace("%04d", n);
   }
 
   function loadImage(src, attempt = 0) {
@@ -684,12 +696,40 @@ a{color:inherit;text-decoration:none}
   }
 
   let lastDrawn = -1;
+  let frameAspect = 16 / 9;
+
+  /**
+   * Where the laptop screen actually sits on the stage, in viewport fractions.
+   *
+   * The manifest measures the screen against the FRAME, but the plate is drawn
+   * cover-fit, so on a viewport wider than the footage the plate overflows and
+   * the screen lands bigger than its frame fraction. Zooming by the raw
+   * fraction would stop short of the screen edges on those displays.
+   */
+  function stageScreen() {
+    const cs = getComputedStyle(document.documentElement);
+    const pc = (n) => (parseFloat(cs.getPropertyValue(n)) || 0) / 100;
+    const sx = pc("--screen-x"), sy = pc("--screen-y");
+    const sw = pc("--screen-w"), sh = pc("--screen-h");
+    const cr = cw / ch;
+    let w, h, x, y;
+    if (frameAspect > cr) { h = ch; w = h * frameAspect; x = (cw - w) / 2; y = 0; }
+    else { w = cw; h = w / frameAspect; x = 0; y = (ch - h) / 2; }
+    return {
+      cx: (x + sx * w) / cw,
+      cy: (y + sy * h) / ch,
+      w: (sw * w) / cw,
+      h: (sh * h) / ch,
+    };
+  }
+
   function drawFrame(index, force) {
     const i = clamp(Math.round(index), 0, Math.max(0, frameCount - 1));
     if (i === lastDrawn && !force) return;
     const img = resolveFrame(i);
     if (!img) return;
     lastDrawn = i;
+    frameAspect = img.width / img.height;
 
     // cover-fit
     const ir = img.width / img.height;
@@ -804,20 +844,28 @@ a{color:inherit;text-decoration:none}
     }
 
     // Push the film plate into the laptop screen — their POV leaning in.
-    // End scale is what makes the detected screen rect fill the viewport.
-    const sw = parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue("--screen-w")
-    ) || 30;
-    const endScale = clamp(100 / sw, 3, 12);
+    // The end scale is exactly what makes the screen cover the viewport, so
+    // the push lands on the screen edges instead of overshooting past them.
+    const r = stageScreen();
+    el.film.style.transformOrigin =
+      `${(r.cx * 100).toFixed(2)}% ${(r.cy * 100).toFixed(2)}%`;
+    const endScale = clamp(1 / Math.max(0.02, Math.min(r.w, r.h)), 1.2, 12);
     const scale = 1 + t * t * (endScale - 1);
     el.film.style.transform = `scale(${scale.toFixed(3)})`;
 
-    // The portal opens out of the screen rect and fills the viewport.
+    // The portal opens along the screen's own edges as they grow, so the site
+    // is revealed out of the screen rather than out of an arbitrary rectangle.
+    const vw = r.w * scale, vh = r.h * scale;
+    const snap = t >= 0.98;
+    const edge = (v) => (snap ? 0 : clamp(v * 100, 0, 49));
+    const top = edge(r.cy - vh / 2);
+    const right = edge(1 - (r.cx + vw / 2));
+    const bottom = edge(1 - (r.cy + vh / 2));
+    const left = edge(r.cx - vw / 2);
     const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-    const inX = t >= 0.98 ? 0 : lerp(35, 0, ease);
-    const inY = t >= 0.98 ? 0 : lerp(40, 0, ease);
     el.portalFrame.style.clipPath =
-      `inset(${inY.toFixed(2)}% ${inX.toFixed(2)}% round ${lerp(6, 0, ease).toFixed(2)}px)`;
+      `inset(${top.toFixed(2)}% ${right.toFixed(2)}% ${bottom.toFixed(2)}% ` +
+      `${left.toFixed(2)}% round ${lerp(6, 0, ease).toFixed(2)}px)`;
     el.portal.style.opacity = String(clamp((t - 0.12) / 0.35, 0, 1));
 
     el.scrollcue.style.opacity = "0";
@@ -865,6 +913,7 @@ a{color:inherit;text-decoration:none}
   (async () => {
     manifest = await loadManifest();
     frameCount = manifest?.frameCount ?? 0;
+    chooseVariant(manifest);
 
     // Calibrate the takeover zoom to the real position of the laptop screen
     // in the final frame, measured by the frame-build step.
