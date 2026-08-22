@@ -172,6 +172,7 @@
         screenEl.style.opacity = '0';
         screenEl.style.clipPath = '';
         if (screenInner) screenInner.style.transform = '';
+        video.style.transform = '';
         screenEl.classList.remove('is-live');
         if (ui) ui.style.opacity = '1';
         return;
@@ -189,14 +190,25 @@
       // centre. Without this the copy renders at full viewport size inside a
       // small window, which reads as looking THROUGH a hole at the site rather
       // than the site being what is on the laptop.
+      var cx = r.l + r.w / 2, cy = r.t + r.h / 2;
       if (screenInner) {
         var k = (r.w / cw) + e * (1 - r.w / cw);
-        var cx = r.l + r.w / 2, cy = r.t + r.h / 2;
         var ox = (cw / 2 - cx) * (1 - e), oy = (ch / 2 - cy) * (1 - e);
         screenInner.style.transformOrigin = '50% 50%';
         screenInner.style.transform = 'translate(' + (-ox).toFixed(1) + 'px,' + (-oy).toFixed(1) +
                                       'px) scale(' + k.toFixed(4) + ')';
       }
+      // Push the FOOTAGE into the screen as the panel opens. Without this the
+      // video sits frozen while a rectangle grows over it, which reads as a
+      // panel wiping on rather than the camera flying into the display. The
+      // video scales about the laptop screen's own centre so the growing
+      // aperture and the footage converge on the same point.
+      var ZOOM = 2.6;
+      var vk = 1 + (ZOOM - 1) * e;
+      video.style.transformOrigin = ((cx / cw) * 100).toFixed(2) + '% ' +
+                                    ((cy / ch) * 100).toFixed(2) + '%';
+      video.style.transform = 'scale(' + vk.toFixed(4) + ')';
+
       screenEl.style.opacity = Math.min(1, v * 4).toFixed(3);
       screenEl.classList.toggle('is-live', v > 0.6);
       if (ui) ui.style.opacity = Math.max(0, 1 - v * 2).toFixed(3);

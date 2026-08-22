@@ -40,7 +40,7 @@ header.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.6rem 0;mix-
 /* ---------- hero: scroll-scrubbed laptop opening (home) ---------- */
 .hero-scrub{position:relative;height:1100vh;background:#0b0904}
 .hero-scrub-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;background:#0b0904}
-.hero-scrub-stage canvas,.hero-scrub-stage .hero-scrub-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.hero-scrub-stage canvas,.hero-scrub-stage .hero-scrub-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;will-change:transform}
 .hero-scrub-grade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(11,9,4,.1) 0%,rgba(11,9,4,.02) 38%,rgba(11,9,4,.6) 100%)}
 .hero-scrub-ui{position:relative;z-index:2;width:100%;height:100%;display:flex;flex-direction:column;padding:clamp(6.5rem,10vw,8.5rem) clamp(1.5rem,4vw,4rem) clamp(3rem,6vw,5.5rem)}
 .hero-scrub-head{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(246,242,234,.55)}
