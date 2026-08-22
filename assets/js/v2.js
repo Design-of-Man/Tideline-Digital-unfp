@@ -33,7 +33,7 @@
     var hudFill = document.getElementById('heroHudFill');
     var hudZones = document.getElementById('heroHudZones');
 
-    var ZONES = ['The Search', 'The Journey', 'The Open', 'Inside'];
+    var ZONES = ['The Search', 'The Journey', 'Inside'];
     if (hudZones) {
       hudZones.innerHTML = ZONES.map(function (z, i) {
         return '<span class="dla-hud-zone" data-zone="' + i + '">' + z + '</span>';
@@ -53,9 +53,14 @@
     // short-GOP video is 2560px wide for a fraction of the bytes.
     var VIDEO_W = 2560, VIDEO_H = 1302;
 
-    // Clip boundaries in SECONDS (clip 4 is trimmed at 5.2s, before the camera
-    // descends far enough to lose both men out of frame).
-    var CLIP_ENDS_T = [8, 16, 24, 29.2];
+    // Clip boundaries in SECONDS. Three shots: the walk, the reveal of the
+    // laptop far off plus the approach, then arrival and opening it. There is
+    // deliberately no fourth "push into the screen" shot — Veo could not hold
+    // the camera behind the men without either orbiting to the keyboard side
+    // or losing both men out of frame. The push into the display is done in
+    // the browser instead, by scaling the video during the reveal, which is
+    // both more reliable and exactly on the laptop's screen centre.
+    var CLIP_ENDS_T = [8, 16, 24];
     var DURATION = CLIP_ENDS_T[CLIP_ENDS_T.length - 1];
     var REVEAL_AT = 0.88;
 
@@ -64,7 +69,7 @@
     // an earlier cut read as sped-up. SHARES is each clip's slice of total
     // scroll — the walk and the long approach deliberately get more scroll than
     // their share of footage, so they advance more slowly under the thumb.
-    var SHARES = [0.30, 0.30, 0.22, 0.18];
+    var SHARES = [0.32, 0.34, 0.34];
     var SEGMENTS = (function () {
       var sum = SHARES.reduce(function (a, b) { return a + b; }, 0);
       var out = [], p = 0, t0 = 0;
@@ -100,7 +105,7 @@
     video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
     video.setAttribute('aria-hidden', 'true');
     video.className = 'hero-scrub-video';
-    video.poster = '/assets/img/viking-poster.jpg?v=20260822b';
+    video.poster = '/assets/img/viking-poster.jpg?v=20260822c';
     if (canvas && canvas.parentNode) canvas.parentNode.replaceChild(video, canvas);
     else stage.insertBefore(video, stage.firstChild);
     (function () {
@@ -108,8 +113,8 @@
       var canMp4 = video.canPlayType('video/mp4; codecs="avc1.640028"');
       // mp4 first: smaller than the vp9 build here and hardware-decoded almost
       // everywhere. webm only covers builds without H.264 (e.g. some Linux).
-      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822b'
-                                                                : base + '.webm?v=20260822b';
+      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822c'
+                                                                : base + '.webm?v=20260822c';
     })();
 
     var frameReady = false;
@@ -154,7 +159,7 @@
     // the site reads as the thing running on the laptop.
     // Measured off the final frame; normalised to the frame, then mapped
     // through the same cover-fit maths the canvas uses.
-    var SCREEN = { x: 0.5469, y: 0.4378, w: 0.1719, h: 0.4301 };
+    var SCREEN = { x: 0.5609, y: 0.5146, w: 0.1734, h: 0.2842 };
 
     function screenRectCss() {
       var iw = VIDEO_W, ih = VIDEO_H;
@@ -203,7 +208,7 @@
       // panel wiping on rather than the camera flying into the display. The
       // video scales about the laptop screen's own centre so the growing
       // aperture and the footage converge on the same point.
-      var ZOOM = 2.6;
+      var ZOOM = 3.4;
       var vk = 1 + (ZOOM - 1) * e;
       video.style.transformOrigin = ((cx / cw) * 100).toFixed(2) + '% ' +
                                     ((cy / ch) * 100).toFixed(2) + '%';
