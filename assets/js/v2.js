@@ -54,13 +54,18 @@
     var VIDEO_W = 2560, VIDEO_H = 1302;
 
     // Clip boundaries in SECONDS. Three shots: the walk, the reveal of the
-    // laptop far off plus the approach, then arrival and opening it. There is
-    // deliberately no fourth "push into the screen" shot — Veo could not hold
-    // the camera behind the men without either orbiting to the keyboard side
-    // or losing both men out of frame. The push into the display is done in
-    // the browser instead, by scaling the video during the reveal, which is
-    // both more reliable and exactly on the laptop's screen centre.
-    var CLIP_ENDS_T = [8, 16, 24];
+    // laptop far off plus the approach, then the arrival.
+    //
+    // The arrival is only two thirds of a second because that is the whole of
+    // the take in which nobody is touching the laptop. The rest of that shot
+    // had a hand reach in and rotate the lid until the screen faced camera —
+    // physically backwards, since the man doing it stands with his back to us.
+    // Cutting in after the contact leaves exactly what the shot was supposed
+    // to be: they are at the slab, the screen is already facing them, and
+    // nothing moves. The push into the display is done in the browser instead,
+    // by scaling the video during the reveal, which is both more reliable and
+    // exactly on the laptop's screen centre.
+    var CLIP_ENDS_T = [8, 16, 16.6667];
     var DURATION = CLIP_ENDS_T[CLIP_ENDS_T.length - 1];
     var REVEAL_AT = 0.88;
 
@@ -69,7 +74,10 @@
     // an earlier cut read as sped-up. SHARES is each clip's slice of total
     // scroll — the walk and the long approach deliberately get more scroll than
     // their share of footage, so they advance more slowly under the thumb.
-    var SHARES = [0.32, 0.34, 0.34];
+    // The final beat holds on a near-static two thirds of a second, so it gets
+    // a small slice of scroll: enough for its caption to land before REVEAL_AT
+    // starts the zoom, with the zoom carrying the rest.
+    var SHARES = [0.40, 0.40, 0.20];
     var SEGMENTS = (function () {
       var sum = SHARES.reduce(function (a, b) { return a + b; }, 0);
       var out = [], p = 0, t0 = 0;
@@ -105,7 +113,7 @@
     video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
     video.setAttribute('aria-hidden', 'true');
     video.className = 'hero-scrub-video';
-    video.poster = '/assets/img/viking-poster.jpg?v=20260822c';
+    video.poster = '/assets/img/viking-poster.jpg?v=20260822d';
     if (canvas && canvas.parentNode) canvas.parentNode.replaceChild(video, canvas);
     else stage.insertBefore(video, stage.firstChild);
     (function () {
@@ -113,8 +121,8 @@
       var canMp4 = video.canPlayType('video/mp4; codecs="avc1.640028"');
       // mp4 first: smaller than the vp9 build here and hardware-decoded almost
       // everywhere. webm only covers builds without H.264 (e.g. some Linux).
-      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822c'
-                                                                : base + '.webm?v=20260822c';
+      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822d'
+                                                                : base + '.webm?v=20260822d';
     })();
 
     var frameReady = false;
@@ -159,7 +167,7 @@
     // the site reads as the thing running on the laptop.
     // Measured off the final frame; normalised to the frame, then mapped
     // through the same cover-fit maths the canvas uses.
-    var SCREEN = { x: 0.5609, y: 0.5146, w: 0.1734, h: 0.2842 };
+    var SCREEN = { x: 0.5563, y: 0.5315, w: 0.1641, h: 0.2634 };
 
     function screenRectCss() {
       var iw = VIDEO_W, ih = VIDEO_H;
@@ -180,50 +188,81 @@
         video.style.transform = '';
         screenEl.classList.remove('is-live');
         if (ui) ui.style.opacity = '1';
+        if (hud) hud.style.opacity = '';
+        if (bar) bar.parentNode.style.opacity = '';
         return;
       }
-      // ease-out so it lifts off the screen quickly then settles
-      var e = 1 - Math.pow(1 - v, 3);
+
       var r = screenRectCss();
       var cw = stage.clientWidth, ch = stage.clientHeight;
-      var l = r.l * (1 - e), tp = r.t * (1 - e);
-      var rt = (cw - (r.l + r.w)) * (1 - e), bt = (ch - (r.t + r.h)) * (1 - e);
+      var cx = r.l + r.w / 2, cy = r.t + r.h / 2;
+
+      // ONE scale factor drives the footage and the site panel. Scaling the
+      // video by k about the laptop screen's own centre leaves that centre
+      // fixed and puts the screen's edges at exactly r.w*k by r.h*k. Drawing
+      // the panel to that same rect is what welds it to the glass: the panel
+      // IS the screen, at every value of k, instead of a rectangle wiping on
+      // over frozen footage. kEnd is whatever it takes for the screen to fill
+      // the viewport exactly, computed from the measured rect rather than
+      // guessed, so the move lands on the site with nothing left over.
+      var kEnd = Math.max(cw / r.w, ch / r.h);
+      var e = 1 - Math.pow(1 - v, 3);
+      var k = 1 + (kEnd - 1) * e;
+
+      // The laptop screen does not sit at the centre of frame, so growing it
+      // about its own centre would run it off one edge and leave the opposite
+      // edge bare at full zoom. The footage therefore pans as it scales: the
+      // screen's centre travels to the viewport's centre over the same easing,
+      // so the last frame lands squarely full-bleed with nothing left over.
+      var dx = (cw / 2 - cx) * e, dy = (ch / 2 - cy) * e;
+      var px = cx + dx, py = cy + dy;
+
+      var pw = r.w * k, ph = r.h * k;
+      var l = Math.max(0, px - pw / 2);
+      var tp = Math.max(0, py - ph / 2);
+      var rt = Math.max(0, cw - (px + pw / 2));
+      var bt = Math.max(0, ch - (py + ph / 2));
       screenEl.style.clipPath = 'inset(' + tp.toFixed(1) + 'px ' + rt.toFixed(1) + 'px ' +
                                 bt.toFixed(1) + 'px ' + l.toFixed(1) + 'px)';
 
-      // Scale the content along with the aperture, anchored on the screen's
-      // centre. Without this the copy renders at full viewport size inside a
-      // small window, which reads as looking THROUGH a hole at the site rather
-      // than the site being what is on the laptop.
-      var cx = r.l + r.w / 2, cy = r.t + r.h / 2;
+      // The copy grows with the glass. Laid out at viewport size and scaled by
+      // the aperture's own fraction of the viewport, it reads as the site being
+      // what is displayed on the laptop rather than a hole punched through to
+      // a full-size page behind.
       if (screenInner) {
-        var k = (r.w / cw) + e * (1 - r.w / cw);
-        var ox = (cw / 2 - cx) * (1 - e), oy = (ch / 2 - cy) * (1 - e);
+        var sk = Math.min(1, pw / cw);
         screenInner.style.transformOrigin = '50% 50%';
-        screenInner.style.transform = 'translate(' + (-ox).toFixed(1) + 'px,' + (-oy).toFixed(1) +
-                                      'px) scale(' + k.toFixed(4) + ')';
+        screenInner.style.transform = 'translate(' + (px - cw / 2).toFixed(1) + 'px,' +
+                                      (py - ch / 2).toFixed(1) + 'px) scale(' + sk.toFixed(4) + ')';
       }
-      // Push the FOOTAGE into the screen as the panel opens. Without this the
-      // video sits frozen while a rectangle grows over it, which reads as a
-      // panel wiping on rather than the camera flying into the display. The
-      // video scales about the laptop screen's own centre so the growing
-      // aperture and the footage converge on the same point.
-      var ZOOM = 3.4;
-      var vk = 1 + (ZOOM - 1) * e;
-      video.style.transformOrigin = ((cx / cw) * 100).toFixed(2) + '% ' +
-                                    ((cy / ch) * 100).toFixed(2) + '%';
-      video.style.transform = 'scale(' + vk.toFixed(4) + ')';
 
-      screenEl.style.opacity = Math.min(1, v * 4).toFixed(3);
+      video.style.transformOrigin = ((cx / cw) * 100).toFixed(3) + '% ' +
+                                    ((cy / ch) * 100).toFixed(3) + '%';
+      video.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) +
+                              'px) scale(' + k.toFixed(4) + ')';
+
+      // Bring the site up early, while the screen is still small, so what grows
+      // is the site itself rather than a white card that swaps at the end.
+      screenEl.style.opacity = Math.min(1, v * 6).toFixed(3);
       screenEl.classList.toggle('is-live', v > 0.6);
-      if (ui) ui.style.opacity = Math.max(0, 1 - v * 2).toFixed(3);
+      // The HUD rail and the progress bar sit above the screen panel, so they
+      // have to go with it -- otherwise they stay painted over the revealed site.
+      var chrome = Math.max(0, 1 - v * 3).toFixed(3);
+      if (ui) ui.style.opacity = chrome;
+      if (hud) hud.style.opacity = chrome;
+      if (bar) bar.parentNode.style.opacity = chrome;
     }
 
     // Captions change on the clip boundaries, so the copy turns over exactly
     // when the shot does.
     function step(p) {
       if (p >= REVEAL_AT) return caps.length;
-      for (var i = 0; i < SEGMENTS.length; i++) if (p < SEGMENTS[i].p1) return i;
+      // SEGMENTS live in the same compressed space timeAt() uses -- all of the
+      // footage is spent by REVEAL_AT -- so the caption boundaries have to be
+      // read there too. Comparing raw scroll against them left each caption
+      // running on past the shot it belongs to.
+      var q = p / REVEAL_AT;
+      for (var i = 0; i < SEGMENTS.length; i++) if (q < SEGMENTS[i].p1) return i;
       return SEGMENTS.length - 1;
     }
 
