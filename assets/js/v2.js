@@ -108,7 +108,7 @@
     video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
     video.setAttribute('aria-hidden', 'true');
     video.className = 'hero-scrub-video';
-    video.poster = '/assets/img/viking-poster.jpg?v=20260822f';
+    video.poster = '/assets/img/viking-poster.jpg?v=20260822g';
     if (canvas && canvas.parentNode) canvas.parentNode.replaceChild(video, canvas);
     else stage.insertBefore(video, stage.firstChild);
     (function () {
@@ -116,8 +116,8 @@
       var canMp4 = video.canPlayType('video/mp4; codecs="avc1.640028"');
       // mp4 first: smaller than the vp9 build here and hardware-decoded almost
       // everywhere. webm only covers builds without H.264 (e.g. some Linux).
-      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822f'
-                                                                : base + '.webm?v=20260822f';
+      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822g'
+                                                                : base + '.webm?v=20260822g';
     })();
 
     var frameReady = false;
@@ -162,7 +162,7 @@
     // the site reads as the thing running on the laptop.
     // Measured off the final frame; normalised to the frame, then mapped
     // through the same cover-fit maths the canvas uses.
-    var SCREEN = { x: 0.3312, y: 0.2680, w: 0.3402, h: 0.4347 };
+    var SCREEN = { x: 0.3312, y: 0.2688, w: 0.3402, h: 0.4339 };
 
     function screenRectCss() {
       var iw = VIDEO_W, ih = VIDEO_H;
