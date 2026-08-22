@@ -47,8 +47,9 @@
     // FRAME_COUNT and the CLIP_ENDS boundaries are set from the real extraction
     // (16fps, letterbox cropped) — see scripts, not arithmetic.
     function pad(n) { return String(n).padStart(4, '0'); }
-    var FRAME_COUNT = 222;
-    var CLIP_ENDS = [127, 221];   // last 0-based index of each clip
+    var REVEAL_AT = 0.86;
+    var FRAME_COUNT = 350;
+    var CLIP_ENDS = [127, 221, 349];   // last 0-based index of each clip
 
     // Scroll is NOT spent evenly across footage time. A walk cycle needs more
     // scroll than a lid-lift to feel deliberate; mapping them 1:1 is what made
@@ -68,7 +69,12 @@
       return out;
     })();
 
+    // Frames are spent over [0, REVEAL_AT]; past that the footage HOLDS on its
+    // final frame while the site panel grows out of the screen. Without this
+    // the camera is still moving when the reveal starts and the panel does not
+    // line up with the laptop screen it is supposed to be growing from.
     function frameAt(p) {
+      p = Math.min(1, p / REVEAL_AT);
       for (var si = 0; si < SEGMENTS.length; si++) {
         var sg = SEGMENTS[si];
         if (p <= sg.p1 || si === SEGMENTS.length - 1) {
@@ -140,15 +146,58 @@
       drawOne(frames[a], 1);
     }
 
-    // The footage's own final frames fly into the white screen. As that
-    // happens the site content simply fades in over it — one continuous
-    // camera move, no cut.
-    var REVEAL_AT = 0.92;
+    // The last shot ends on the laptop centred with a clean white screen.
+    // Rather than fading the site in over the whole viewport, the site panel
+    // starts exactly on that screen rectangle and grows to fill the frame, so
+    // the site reads as the thing running on the laptop.
+    // Measured off the final frame; normalised to the frame, then mapped
+    // through the same cover-fit maths the canvas uses.
+    var SCREEN = { x: 0.3234, y: 0.1828, w: 0.3758, h: 0.5269 };
+
+    function screenRectCss() {
+      var img = frames[FRAME_COUNT - 1];
+      var iw = (img && img.naturalWidth) || 1280, ih = (img && img.naturalHeight) || 651;
+      var cw = stage.clientWidth, ch = stage.clientHeight;
+      var scale = Math.max(cw / iw, ch / ih);
+      var dw = iw * scale, dh = ih * scale;
+      var ox = (cw - dw) / 2, oy = (ch - dh) / 2;
+      return { l: ox + SCREEN.x * dw, t: oy + SCREEN.y * dh, w: SCREEN.w * dw, h: SCREEN.h * dh };
+    }
+
     function reveal(t) {
       if (!screenEl) return;
       var v = Math.max(0, Math.min(1, t));
-      screenEl.style.opacity = v.toFixed(3);
-      screenEl.classList.toggle('is-live', v > 0.85);
+      if (v <= 0) {
+        screenEl.style.opacity = '0';
+        screenEl.style.clipPath = '';
+        if (screenInner) screenInner.style.transform = '';
+        screenEl.classList.remove('is-live');
+        if (ui) ui.style.opacity = '1';
+        return;
+      }
+      // ease-out so it lifts off the screen quickly then settles
+      var e = 1 - Math.pow(1 - v, 3);
+      var r = screenRectCss();
+      var cw = stage.clientWidth, ch = stage.clientHeight;
+      var l = r.l * (1 - e), tp = r.t * (1 - e);
+      var rt = (cw - (r.l + r.w)) * (1 - e), bt = (ch - (r.t + r.h)) * (1 - e);
+      screenEl.style.clipPath = 'inset(' + tp.toFixed(1) + 'px ' + rt.toFixed(1) + 'px ' +
+                                bt.toFixed(1) + 'px ' + l.toFixed(1) + 'px)';
+
+      // Scale the content along with the aperture, anchored on the screen's
+      // centre. Without this the copy renders at full viewport size inside a
+      // small window, which reads as looking THROUGH a hole at the site rather
+      // than the site being what is on the laptop.
+      if (screenInner) {
+        var k = (r.w / cw) + e * (1 - r.w / cw);
+        var cx = r.l + r.w / 2, cy = r.t + r.h / 2;
+        var ox = (cw / 2 - cx) * (1 - e), oy = (ch / 2 - cy) * (1 - e);
+        screenInner.style.transformOrigin = '50% 50%';
+        screenInner.style.transform = 'translate(' + (-ox).toFixed(1) + 'px,' + (-oy).toFixed(1) +
+                                      'px) scale(' + k.toFixed(4) + ')';
+      }
+      screenEl.style.opacity = Math.min(1, v * 4).toFixed(3);
+      screenEl.classList.toggle('is-live', v > 0.6);
       if (ui) ui.style.opacity = Math.max(0, 1 - v * 2).toFixed(3);
     }
 

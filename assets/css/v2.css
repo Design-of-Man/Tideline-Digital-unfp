@@ -61,7 +61,7 @@ header.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.6rem 0;mix-
 
 /* The footage's own final frames fly into the white screen; the site
    content fades in over that white, so it reads as one continuous move. */
-.hero-screen{position:absolute;inset:0;z-index:4;overflow:hidden;background:var(--paper);opacity:0;pointer-events:none}
+.hero-screen{position:absolute;inset:0;z-index:4;overflow:hidden;background:var(--paper);opacity:0;pointer-events:none;will-change:clip-path,opacity}
 .hero-screen-inner{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:1.1rem;padding:clamp(1.5rem,5vw,5rem);transform-origin:50% 50%}
 .hero-screen .eyebrow{font-family:var(--mono);font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:.75rem}
 .hero-screen .eyebrow::before{content:"";width:34px;height:1px;background:var(--brass-deep)}
