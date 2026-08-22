@@ -12,15 +12,16 @@
     });
   }
 
-  // Home hero: scroll-scrubbed frame sequence of the laptop opening.
-  // Renders preloaded frames to canvas in step with scroll rather than seeking
-  // a <video>, which stutters on H.264 seeks between keyframes.
+  // Home hero: a scroll-scrubbed video of the viking sequence.
+  // Scroll position maps to video currentTime. The video is encoded with a
+  // short GOP (keyframe every 12 frames) so seeking lands fast; an earlier
+  // build used a JPEG frame sequence instead, but that forced a 1280px
+  // extraction to stay under budget and looked soft on high-DPR screens.
   (function () {
     var section = document.getElementById('heroScrub');
     var stage = document.getElementById('heroScrubStage');
     var canvas = document.getElementById('heroScrubCanvas');
-    if (!section || !stage || !canvas) return;
-    var ctx = canvas.getContext('2d');
+    if (!section || !stage) return;
     var grade = section.querySelector('.hero-scrub-grade');
     var bar = document.getElementById('heroScrubBar');
     var caps = [].slice.call(section.querySelectorAll('.hero-scrub-cap'));
@@ -32,7 +33,7 @@
     var hudFill = document.getElementById('heroHudFill');
     var hudZones = document.getElementById('heroHudZones');
 
-    var ZONES = ['The Search', 'The Open', 'Inside'];
+    var ZONES = ['The Search', 'The Journey', 'The Open', 'Inside'];
     if (hudZones) {
       hudZones.innerHTML = ZONES.map(function (z, i) {
         return '<span class="dla-hud-zone" data-zone="' + i + '">' + z + '</span>';
@@ -40,111 +41,112 @@
     }
     var zoneEls = hudZones ? [].slice.call(hudZones.querySelectorAll('[data-zone]')) : [];
 
-    // Three chained Veo takes of the same two men: the walk, the approach and
-    // open, then the push into the screen. Each shot's last frame seeded the
-    // next, so the camera only ever moves forward across the two joins and the
-    // sequence plays as one continuous move.
-    // FRAME_COUNT and the CLIP_ENDS boundaries are set from the real extraction
-    // (16fps, letterbox cropped) — see scripts, not arithmetic.
-    function pad(n) { return String(n).padStart(4, '0'); }
-    var REVEAL_AT = 0.86;
-    var FRAME_COUNT = 350;
-    var CLIP_ENDS = [127, 221, 349];   // last 0-based index of each clip
+    // Four chained Veo takes of the same two men: the walk, spotting the laptop
+    // far off and closing the distance, arriving and opening it, then the push
+    // into the screen. Each shot was seeded from the previous shot's frame, so
+    // the camera only moves forward across the three joins.
+    //
+    // This is scrubbed as VIDEO, not as a JPEG frame sequence. A frame sequence
+    // stores every frame standalone and throws away all temporal compression,
+    // which forced a 1280px extraction to stay under budget — on a 2x-DPR
+    // display that was a 2.7x upscale and looked soft. The same footage as
+    // short-GOP video is 2560px wide for a fraction of the bytes.
+    var VIDEO_W = 2560, VIDEO_H = 1302;
+
+    // Clip boundaries in SECONDS (clip 4 is trimmed at 5.2s, before the camera
+    // descends far enough to lose both men out of frame).
+    var CLIP_ENDS_T = [8, 16, 24, 29.2];
+    var DURATION = CLIP_ENDS_T[CLIP_ENDS_T.length - 1];
+    var REVEAL_AT = 0.88;
 
     // Scroll is NOT spent evenly across footage time. A walk cycle needs more
     // scroll than a lid-lift to feel deliberate; mapping them 1:1 is what made
-    // the previous hero's motion read as sped-up. SHARES is each clip's slice of
-    // total scroll — the walk deliberately gets more scroll than its share of
-    // frames, so it advances more slowly under the thumb.
-    var SHARES = [0.46, 0.26, 0.28].slice(0, CLIP_ENDS.length);
+    // an earlier cut read as sped-up. SHARES is each clip's slice of total
+    // scroll — the walk and the long approach deliberately get more scroll than
+    // their share of footage, so they advance more slowly under the thumb.
+    var SHARES = [0.30, 0.30, 0.22, 0.18];
     var SEGMENTS = (function () {
       var sum = SHARES.reduce(function (a, b) { return a + b; }, 0);
-      var out = [], p = 0, f = 0;
-      for (var c = 0; c < CLIP_ENDS.length; c++) {
-        var p1 = c === CLIP_ENDS.length - 1 ? 1 : p + SHARES[c] / sum;
-        var f1 = (CLIP_ENDS[c] + 1) / FRAME_COUNT;
-        out.push({ p0: p, p1: p1, f0: f, f1: f1 });
-        p = p1; f = f1;
+      var out = [], p = 0, t0 = 0;
+      for (var c = 0; c < CLIP_ENDS_T.length; c++) {
+        var p1 = c === CLIP_ENDS_T.length - 1 ? 1 : p + SHARES[c] / sum;
+        out.push({ p0: p, p1: p1, t0: t0, t1: CLIP_ENDS_T[c] });
+        p = p1; t0 = CLIP_ENDS_T[c];
       }
       return out;
     })();
 
     // Frames are spent over [0, REVEAL_AT]; past that the footage HOLDS on its
-    // final frame while the site panel grows out of the screen. Without this
-    // the camera is still moving when the reveal starts and the panel does not
-    // line up with the laptop screen it is supposed to be growing from.
-    function frameAt(p) {
+    // final frame while the site panel grows out of the screen, so the panel
+    // lines up with the laptop instead of growing from where it used to be.
+    function timeAt(p) {
       p = Math.min(1, p / REVEAL_AT);
-      for (var si = 0; si < SEGMENTS.length; si++) {
-        var sg = SEGMENTS[si];
-        if (p <= sg.p1 || si === SEGMENTS.length - 1) {
+      for (var i = 0; i < SEGMENTS.length; i++) {
+        var sg = SEGMENTS[i];
+        if (p <= sg.p1 || i === SEGMENTS.length - 1) {
           var t = Math.max(0, Math.min(1, (p - sg.p0) / (sg.p1 - sg.p0)));
-          return (sg.f0 + t * (sg.f1 - sg.f0)) * (FRAME_COUNT - 1);
+          return sg.t0 + t * (sg.t1 - sg.t0);
         }
       }
       return 0;
     }
 
-    // ~15MB of frames must not block first paint. The opening run loads eagerly
-    // so the hero is live immediately; the rest streams in after load.
-    var EAGER = 64;
-    var frames = new Array(FRAME_COUNT);
-    function loadFrame(i) {
-      if (frames[i]) return;
-      var img = new Image();
-      img.src = '/assets/img/viking-frames/f' + pad(i + 1) + '.jpg';
-      frames[i] = img;
-    }
-    for (var i = 0; i < Math.min(EAGER, FRAME_COUNT); i++) loadFrame(i);
-    function loadRest() {
-      var n = EAGER;
-      (function chunk() {
-        var stop = Math.min(n + 24, FRAME_COUNT);
-        for (; n < stop; n++) loadFrame(n);
-        if (n < FRAME_COUNT) setTimeout(chunk, 60);
-      })();
-    }
-    if (document.readyState === 'complete') loadRest();
-    else window.addEventListener('load', loadRest, { once: true });
+    // The video is the hero image itself, shown directly with object-fit:cover
+    // rather than drawn to a canvas. Two reasons: a detached <video> silently
+    // refuses to seek (readyState 4, currentTime stays 0), and native video
+    // scaling is sharper than canvas resampling at high DPR.
+    var video = document.createElement('video');
+    video.muted = true; video.playsInline = true; video.preload = 'auto';
+    video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
+    video.setAttribute('aria-hidden', 'true');
+    video.className = 'hero-scrub-video';
+    video.poster = '/assets/img/viking-poster.jpg?v=20260822b';
+    if (canvas && canvas.parentNode) canvas.parentNode.replaceChild(video, canvas);
+    else stage.insertBefore(video, stage.firstChild);
+    (function () {
+      var base = '/assets/video/viking-hero';
+      var canMp4 = video.canPlayType('video/mp4; codecs="avc1.640028"');
+      // mp4 first: smaller than the vp9 build here and hardware-decoded almost
+      // everywhere. webm only covers builds without H.264 (e.g. some Linux).
+      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822b'
+                                                                : base + '.webm?v=20260822b';
+    })();
 
-    // Nearest already-decoded frame, so scrubbing ahead of the stream shows the
-    // closest real frame instead of blanking.
-    function readyNear(idx) {
-      for (var d = 0; d < FRAME_COUNT; d++) {
-        var a = idx - d, b = idx + d;
-        if (a >= 0 && frames[a] && frames[a].complete && frames[a].naturalWidth) return a;
-        if (b < FRAME_COUNT && frames[b] && frames[b].complete && frames[b].naturalWidth) return b;
+    var frameReady = false;
+    window.__heroVideo = video;
+    video.addEventListener('loadeddata', function () { frameReady = true; draw(); });
+    video.addEventListener('seeked', function () { frameReady = true; draw(); release(); flush(); });
+
+    window.addEventListener('resize', function () { render(); }, { passive: true });
+
+    function draw() { /* video paints itself; nothing to blit */ }
+
+    // Seeks are coalesced, never queued. A queued seek backlog is what makes
+    // video scrubbing feel laggy — if a seek is in flight we just remember the
+    // newest target and issue it once the current one lands.
+    // Two things must be guarded or scrubbing deadlocks:
+    //  - seeking to the time the video is ALREADY at fires no 'seeked' event,
+    //    so `pending` would never clear and every later seek is blocked;
+    //  - a seek into an unbuffered range can stall, so a watchdog releases it.
+    var pending = false, wantT = -1, lastT = -1, watchdog = null;
+    function release() {
+      pending = false;
+      if (watchdog) { clearTimeout(watchdog); watchdog = null; }
+    }
+    function flush() {
+      if (pending || wantT < 0) return;
+      if (Math.abs(wantT - lastT) < 0.012) return;             // sub-frame, skip
+      if (Math.abs(wantT - video.currentTime) < 0.004) {        // already there
+        lastT = wantT; return;
       }
-      return -1;
+      lastT = wantT;
+      pending = true;
+      if (watchdog) clearTimeout(watchdog);
+      watchdog = setTimeout(function () { release(); flush(); }, 400);
+      try { video.currentTime = wantT; }
+      catch (e) { release(); }
     }
-
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    function resize() {
-      canvas.width = Math.round(stage.clientWidth * dpr);
-      canvas.height = Math.round(stage.clientHeight * dpr);
-    }
-    resize();
-    window.addEventListener('resize', function () { resize(); lastIdx0 = -1; render(); }, { passive: true });
-
-    function drawOne(img, alpha) {
-      var cw = canvas.width, ch = canvas.height, iw = img.naturalWidth, ih = img.naturalHeight;
-      if (!iw || !ih) return;
-      var scale = Math.max(cw / iw, ch / ih);
-      var dw = iw * scale, dh = ih * scale;
-      ctx.globalAlpha = alpha;
-      ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
-      ctx.globalAlpha = 1;
-    }
-
-    // Draw exactly one frame. An earlier version cross-faded adjacent frames to
-    // disguise a hard cut in the old laptop render; this footage is three
-    // continuous takes, so blending two moving frames only produces ghosting.
-    function drawBlend(idx0) {
-      var a = readyNear(idx0);
-      if (a < 0) return;                       // nothing decoded yet; keep last paint
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawOne(frames[a], 1);
-    }
+    function seekTo(t) { wantT = Math.max(0, Math.min(DURATION - 0.05, t)); flush(); }
 
     // The last shot ends on the laptop centred with a clean white screen.
     // Rather than fading the site in over the whole viewport, the site panel
@@ -152,11 +154,10 @@
     // the site reads as the thing running on the laptop.
     // Measured off the final frame; normalised to the frame, then mapped
     // through the same cover-fit maths the canvas uses.
-    var SCREEN = { x: 0.3234, y: 0.1828, w: 0.3758, h: 0.5269 };
+    var SCREEN = { x: 0.5469, y: 0.4378, w: 0.1719, h: 0.4301 };
 
     function screenRectCss() {
-      var img = frames[FRAME_COUNT - 1];
-      var iw = (img && img.naturalWidth) || 1280, ih = (img && img.naturalHeight) || 651;
+      var iw = VIDEO_W, ih = VIDEO_H;
       var cw = stage.clientWidth, ch = stage.clientHeight;
       var scale = Math.max(cw / iw, ch / ih);
       var dw = iw * scale, dh = ih * scale;
@@ -205,12 +206,11 @@
     // when the shot does.
     function step(p) {
       if (p >= REVEAL_AT) return caps.length;
-      if (p < SEGMENTS[0].p1) return 0;
-      if (p < SEGMENTS[1].p1) return 1;
-      return 2;
+      for (var i = 0; i < SEGMENTS.length; i++) if (p < SEGMENTS[i].p1) return i;
+      return SEGMENTS.length - 1;
     }
 
-    var latestP = 0, lastIdx0 = -1, lastStep = -1, ticking = false, hudVisible = false;
+    var latestP = 0, lastStep = -1, ticking = false, hudVisible = false;
     function onScroll() {
       var rect = section.getBoundingClientRect();
       var total = rect.height - window.innerHeight;
@@ -221,12 +221,7 @@
       ticking = false;
       var p = latestP;
 
-      var idxFloat = frameAt(p);
-      var idx0 = Math.max(0, Math.min(FRAME_COUNT - 1, Math.floor(idxFloat)));
-      if (idx0 !== lastIdx0) {
-        drawBlend(idx0);
-        lastIdx0 = idx0;
-      }
+      seekTo(timeAt(p));
 
       reveal(p <= REVEAL_AT ? 0 : (p - REVEAL_AT) / (1 - REVEAL_AT));
 
@@ -251,12 +246,11 @@
       }
     }
 
+    // Nudge the first real frame in so the hero is footage, not poster, asap.
     var primeTimer = setInterval(function () {
-      if (frames[0] && frames[0].complete && frames[0].naturalWidth) {
-        drawBlend(0); lastIdx0 = 0; clearInterval(primeTimer);
-      }
-    }, 60);
-    setTimeout(function () { clearInterval(primeTimer); }, 5000);
+      if (video.readyState >= 2) { draw(); clearInterval(primeTimer); }
+    }, 80);
+    setTimeout(function () { clearInterval(primeTimer); }, 8000);
 
     render();
     if (!reduced) window.addEventListener('scroll', onScroll, { passive: true });
