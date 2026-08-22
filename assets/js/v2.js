@@ -65,7 +65,7 @@
     // doing it has his back to us. With nothing to open there is no pretext.
     var CLIP_ENDS_T = [8, 16, 24];
     var DURATION = CLIP_ENDS_T[CLIP_ENDS_T.length - 1];
-    var REVEAL_AT = 0.88;
+    var REVEAL_AT = 0.84;
 
     // Scroll is NOT spent evenly across footage time. A walk cycle needs more
     // scroll than a lid-lift to feel deliberate; mapping them 1:1 is what made
@@ -108,7 +108,7 @@
     video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
     video.setAttribute('aria-hidden', 'true');
     video.className = 'hero-scrub-video';
-    video.poster = '/assets/img/viking-poster.jpg?v=20260822e';
+    video.poster = '/assets/img/viking-poster.jpg?v=20260822f';
     if (canvas && canvas.parentNode) canvas.parentNode.replaceChild(video, canvas);
     else stage.insertBefore(video, stage.firstChild);
     (function () {
@@ -116,8 +116,8 @@
       var canMp4 = video.canPlayType('video/mp4; codecs="avc1.640028"');
       // mp4 first: smaller than the vp9 build here and hardware-decoded almost
       // everywhere. webm only covers builds without H.264 (e.g. some Linux).
-      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822e'
-                                                                : base + '.webm?v=20260822e';
+      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822f'
+                                                                : base + '.webm?v=20260822f';
     })();
 
     var frameReady = false;
@@ -201,8 +201,17 @@
       // the viewport exactly, computed from the measured rect rather than
       // guessed, so the move lands on the site with nothing left over.
       var kEnd = Math.max(cw / r.w, ch / r.h);
-      var e = 1 - Math.pow(1 - v, 3);
-      var k = 1 + (kEnd - 1) * e;
+      // Smoothstep, not ease-out. An ease-out spends most of its travel in the
+      // first sliver of the reveal, so the site flashed past the glass and was
+      // full-bleed almost immediately -- you never got to see it sitting on the
+      // laptop. This eases in and out instead, so it holds on the screen, flies
+      // in through the middle, and settles.
+      var e = v * v * (3 - 2 * v);
+      // Scale grows geometrically. Interpolating k linearly makes the push look
+      // like it decelerates hard, because equal steps in k are progressively
+      // smaller steps in apparent size; raising kEnd to the eased power keeps
+      // the rate of approach even.
+      var k = Math.pow(kEnd, e);
 
       // The laptop screen does not sit at the centre of frame, so growing it
       // about its own centre would run it off one edge and leave the opposite
@@ -236,9 +245,10 @@
       video.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) +
                               'px) scale(' + k.toFixed(4) + ')';
 
-      // Bring the site up early, while the screen is still small, so what grows
-      // is the site itself rather than a white card that swaps at the end.
-      screenEl.style.opacity = Math.min(1, v * 6).toFixed(3);
+      // Come up fast and opaque. A slow fade left the copy translucent over the
+      // footage's blown-out screen, which reads as a ghost floating in front of
+      // the laptop rather than as the page the laptop is displaying.
+      screenEl.style.opacity = Math.min(1, v * 14).toFixed(3);
       screenEl.classList.toggle('is-live', v > 0.6);
       // The HUD rail and the progress bar sit above the screen panel, so they
       // have to go with it -- otherwise they stay painted over the revealed site.
