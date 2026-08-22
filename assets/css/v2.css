@@ -50,9 +50,9 @@ header.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.6rem 0;mix-
 .hero-scrub-cap{position:absolute;left:0;right:0;bottom:0;opacity:0;pointer-events:none;transform:translateY(16px);transition:opacity .28s var(--e-out),transform .28s var(--e-out)}
 .hero-scrub-cap.is-active{opacity:1;pointer-events:auto;transform:none;transition:opacity .55s var(--e-out) .22s,transform .55s var(--e-out) .22s}
 .hero-scrub-cap .n{display:block;font-family:var(--mono);font-size:.76rem;letter-spacing:.16em;color:var(--brass-lift);margin-bottom:.9rem}
-.hero-scrub-cap h1{font-family:var(--serif);font-weight:400;line-height:.96;letter-spacing:-.01em;font-size:clamp(2.6rem,1.9rem + 5vw,6.6rem);color:var(--paper);margin:0 0 1.1rem}
-.hero-scrub-cap h1 em{color:var(--brass-lift)}
-.hero-scrub-cap p{color:rgba(246,242,234,.72);font-size:1.04rem;max-width:36ch;margin:0 0 1.4rem}
+.hero-scrub-cap h1,.hero-scrub-cap .cap-title{font-family:var(--serif);font-weight:400;line-height:.96;letter-spacing:-.01em;font-size:clamp(2.6rem,1.9rem + 5vw,6.6rem);color:var(--paper);margin:0 0 1.1rem}
+.hero-scrub-cap h1 em,.hero-scrub-cap .cap-title em{color:var(--brass-lift)}
+.hero-scrub-cap p:not(.cap-title){color:rgba(246,242,234,.72);font-size:1.04rem;max-width:36ch;margin:0 0 1.4rem}
 .hero-scrub-cap .hero-cta{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--paper);white-space:nowrap;padding-bottom:.3rem;border-bottom:1px solid rgba(246,242,234,.55);transition:gap .4s var(--e-out),color .3s,border-color .3s}
 .hero-scrub-cap .hero-cta:hover{gap:1rem;color:var(--brass);border-color:var(--brass)}
 .hero-scrub-bar{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(246,242,234,.14);z-index:6}

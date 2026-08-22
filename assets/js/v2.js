@@ -108,7 +108,7 @@
     video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
     video.setAttribute('aria-hidden', 'true');
     video.className = 'hero-scrub-video';
-    video.poster = '/assets/img/viking-poster.jpg?v=20260822h';
+    video.poster = '/assets/img/viking-poster.jpg?v=20260822i';
     if (canvas && canvas.parentNode) canvas.parentNode.replaceChild(video, canvas);
     else stage.insertBefore(video, stage.firstChild);
     (function () {
@@ -116,8 +116,8 @@
       var canMp4 = video.canPlayType('video/mp4; codecs="avc1.640028"');
       // mp4 first: smaller than the vp9 build here and hardware-decoded almost
       // everywhere. webm only covers builds without H.264 (e.g. some Linux).
-      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822h'
-                                                                : base + '.webm?v=20260822h';
+      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822i'
+                                                                : base + '.webm?v=20260822i';
     })();
 
     var frameReady = false;
@@ -221,7 +221,17 @@
       var dx = (cw / 2 - cx) * e, dy = (ch / 2 - cy) * e;
       var px = cx + dx, py = cy + dy;
 
-      var pw = r.w * k, ph = r.h * k;
+      // The panel outruns the footage after the first moment. Locked exactly to
+      // the glass all the way to full-bleed, the middle of the move is a
+      // webpage sitting inside a thick laptop bezel -- a product mockup, not a
+      // camera going into a screen. Raising k by a small exponent for the panel
+      // only keeps them welded while it matters (at v=0.1 they differ by half a
+      // percent, invisible) and then lets the page edge run out past the bezel
+      // and off the viewport, so the frame is swallowed instead of framing the
+      // site. The exponent is set so the panel reaches full-bleed at ~3/4 of
+      // the reveal; the footage keeps pushing behind it for the rest.
+      var kp = Math.pow(k, 1.22);
+      var pw = r.w * kp, ph = r.h * kp;
       var l = Math.max(0, px - pw / 2);
       var tp = Math.max(0, py - ph / 2);
       var rt = Math.max(0, cw - (px + pw / 2));
