@@ -156,39 +156,122 @@
     }
     function seekTo(t) { wantT = Math.max(0, Math.min(DURATION - 0.05, t)); flush(); }
 
-    // The last shot ends on the laptop centred with a clean white screen.
-    // Rather than fading the site in over the whole viewport, the site panel
-    // starts exactly on that screen rectangle and grows to fill the frame, so
-    // the site reads as the thing running on the laptop.
-    // Measured off the final frame; normalised to the frame, then mapped
-    // through the same cover-fit maths the canvas uses.
-    var SCREEN = { x: 0.3312, y: 0.2688, w: 0.3402, h: 0.4339 };
+    // The site is drawn onto the laptop's actual glass, tracked per frame,
+    // from the moment the screen is big enough to read. Before this the final
+    // shot showed a blank blown-out white rectangle filling most of the frame
+    // for a third of the scroll, and the site only appeared once the reveal
+    // started -- so the payoff was a white slab, not a website.
+    //
+    // Each row is [videoTime, x, y, w, h], the lit area normalised to the
+    // frame. Measured by tracking the display through the final shot: it is
+    // the only large SOLID bright shape, so taking the longest run of bright
+    // pixels per row finds it without a seed or a search window. Entries start
+    // where the men stop clipping its edge; the last row is the final frame,
+    // which is where the reveal takes over, so the two agree exactly.
+    var SCREEN_TRACK = [
+      [20.458, 0.46884, 0.46535, 0.12963, 0.16479],
+      [20.583, 0.46748, 0.46225, 0.13455, 0.17013],
+      [20.708, 0.46438, 0.45874, 0.1403, 0.17721],
+      [20.833, 0.45943, 0.45467, 0.14648, 0.18467],
+      [20.958, 0.45349, 0.44946, 0.15276, 0.19202],
+      [21.083, 0.447, 0.44223, 0.15956, 0.20008],
+      [21.208, 0.44026, 0.43477, 0.16691, 0.20942],
+      [21.333, 0.43324, 0.42818, 0.17488, 0.21907],
+      [21.458, 0.42697, 0.42122, 0.18287, 0.22953],
+      [21.583, 0.42131, 0.41338, 0.19128, 0.24027],
+      [21.708, 0.41643, 0.40509, 0.19989, 0.25027],
+      [21.833, 0.41173, 0.39478, 0.20867, 0.26169],
+      [21.958, 0.40613, 0.38402, 0.21822, 0.27338],
+      [22.083, 0.40038, 0.37294, 0.22773, 0.28474],
+      [22.208, 0.39422, 0.36257, 0.23726, 0.2968],
+      [22.333, 0.38779, 0.35336, 0.24654, 0.30837],
+      [22.458, 0.38126, 0.34529, 0.25572, 0.31989],
+      [22.583, 0.37502, 0.33833, 0.26474, 0.33141],
+      [22.708, 0.3692, 0.3318, 0.27353, 0.34255],
+      [22.833, 0.36383, 0.32531, 0.28212, 0.35342],
+      [22.958, 0.35899, 0.319, 0.29019, 0.3632],
+      [23.083, 0.3545, 0.31281, 0.29789, 0.37263],
+      [23.208, 0.35039, 0.30629, 0.3052, 0.38188],
+      [23.333, 0.3465, 0.30052, 0.31218, 0.39033],
+      [23.458, 0.34303, 0.29476, 0.31859, 0.3984],
+      [23.583, 0.33999, 0.28901, 0.32442, 0.40645],
+      [23.708, 0.33731, 0.28423, 0.32974, 0.41315],
+      [23.833, 0.33512, 0.28055, 0.33441, 0.41837],
+      [23.958, 0.33358, 0.27761, 0.33773, 0.42257],
+      [23.958, 0.33358, 0.27761, 0.33773, 0.42257]
+    ];
+    var GLASS_FROM_T = SCREEN_TRACK[0][0];
 
-    function screenRectCss() {
-      var iw = VIDEO_W, ih = VIDEO_H;
+    function screenNorm(t) {
+      var a = SCREEN_TRACK[0], b = SCREEN_TRACK[SCREEN_TRACK.length - 1];
+      if (t <= a[0]) return a;
+      if (t >= b[0]) return b;
+      for (var i = 1; i < SCREEN_TRACK.length; i++) {
+        var q = SCREEN_TRACK[i];
+        if (t <= q[0]) {
+          var p0 = SCREEN_TRACK[i - 1];
+          var f = (t - p0[0]) / (q[0] - p0[0]);
+          return [t, p0[1] + (q[1] - p0[1]) * f, p0[2] + (q[2] - p0[2]) * f,
+                     p0[3] + (q[3] - p0[3]) * f, p0[4] + (q[4] - p0[4]) * f];
+        }
+      }
+      return b;
+    }
+
+    function screenRectCss(t) {
+      var s = screenNorm(t);
       var cw = stage.clientWidth, ch = stage.clientHeight;
-      var scale = Math.max(cw / iw, ch / ih);
-      var dw = iw * scale, dh = ih * scale;
+      var scale = Math.max(cw / VIDEO_W, ch / VIDEO_H);
+      var dw = VIDEO_W * scale, dh = VIDEO_H * scale;
       var ox = (cw - dw) / 2, oy = (ch - dh) / 2;
-      return { l: ox + SCREEN.x * dw, t: oy + SCREEN.y * dh, w: SCREEN.w * dw, h: SCREEN.h * dh };
+      return { l: ox + s[1] * dw, t: oy + s[2] * dh, w: s[3] * dw, h: s[4] * dh };
+    }
+
+    function hideScreen() {
+      screenEl.style.opacity = '0';
+      screenEl.style.clipPath = '';
+      if (screenInner) screenInner.style.transform = '';
+      video.style.transform = '';
+      screenEl.classList.remove('is-live');
+      if (ui) ui.style.opacity = '1';
+      if (hud) hud.style.opacity = '';
+      if (bar) bar.parentNode.style.opacity = '';
+    }
+
+    // Phase one of the hand-off: the site simply IS what the laptop is
+    // displaying, welded to the tracked glass while the camera keeps pushing
+    // in. Nothing zooms here and the footage is untouched -- the page just
+    // rides the screen as it grows in shot.
+    function onGlass(t, fade) {
+      if (!screenEl) return;
+      var r = screenRectCss(t);
+      var cw = stage.clientWidth, ch = stage.clientHeight;
+      var px = r.l + r.w / 2, py = r.t + r.h / 2;
+      screenEl.style.clipPath = 'inset(' + Math.max(0, r.t).toFixed(1) + 'px ' +
+        Math.max(0, cw - (r.l + r.w)).toFixed(1) + 'px ' +
+        Math.max(0, ch - (r.t + r.h)).toFixed(1) + 'px ' +
+        Math.max(0, r.l).toFixed(1) + 'px)';
+      if (screenInner) {
+        screenInner.style.transformOrigin = '50% 50%';
+        screenInner.style.transform = 'translate(' + (px - cw / 2).toFixed(1) + 'px,' +
+          (py - ch / 2).toFixed(1) + 'px) scale(' + Math.min(1, r.w / cw).toFixed(4) + ')';
+      }
+      video.style.transform = '';
+      screenEl.style.opacity = fade.toFixed(3);
+      screenEl.classList.remove('is-live');
+      if (ui) ui.style.opacity = '1';
+      if (hud) hud.style.opacity = '';
+      if (bar) bar.parentNode.style.opacity = '';
     }
 
     function reveal(t) {
       if (!screenEl) return;
       var v = Math.max(0, Math.min(1, t));
-      if (v <= 0) {
-        screenEl.style.opacity = '0';
-        screenEl.style.clipPath = '';
-        if (screenInner) screenInner.style.transform = '';
-        video.style.transform = '';
-        screenEl.classList.remove('is-live');
-        if (ui) ui.style.opacity = '1';
-        if (hud) hud.style.opacity = '';
-        if (bar) bar.parentNode.style.opacity = '';
-        return;
-      }
+      if (v <= 0) { hideScreen(); return; }
 
-      var r = screenRectCss();
+      // Seeded from the tracked rect on the final frame, which is exactly
+      // where onGlass() leaves the panel, so the two phases meet with no jump.
+      var r = screenRectCss(DURATION);
       var cw = stage.clientWidth, ch = stage.clientHeight;
       var cx = r.l + r.w / 2, cy = r.t + r.h / 2;
 
@@ -258,7 +341,7 @@
       // Come up fast and opaque. A slow fade left the copy translucent over the
       // footage's blown-out screen, which reads as a ghost floating in front of
       // the laptop rather than as the page the laptop is displaying.
-      screenEl.style.opacity = Math.min(1, v * 14).toFixed(3);
+      screenEl.style.opacity = '1';
       screenEl.classList.toggle('is-live', v > 0.6);
       // The HUD rail and the progress bar sit above the screen panel, so they
       // have to go with it -- otherwise they stay painted over the revealed site.
@@ -292,9 +375,19 @@
       ticking = false;
       var p = latestP;
 
-      seekTo(timeAt(p));
+      var t = timeAt(p);
+      seekTo(t);
 
-      reveal(p <= REVEAL_AT ? 0 : (p - REVEAL_AT) / (1 - REVEAL_AT));
+      if (p > REVEAL_AT) {
+        reveal((p - REVEAL_AT) / (1 - REVEAL_AT));
+      } else if (t >= GLASS_FROM_T) {
+        // Fade the page up over the first half-second of footage after the
+        // screen becomes legible, so it reads as the display resolving rather
+        // than a panel being switched on.
+        onGlass(t, Math.min(1, (t - GLASS_FROM_T) / 0.5));
+      } else {
+        hideScreen();
+      }
 
       if (grade) grade.style.opacity = (p >= REVEAL_AT ? 0 : 0.08 + p * 0.2).toFixed(3);
       if (bar) bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
