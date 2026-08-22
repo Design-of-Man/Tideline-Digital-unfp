@@ -54,18 +54,16 @@
     var VIDEO_W = 2560, VIDEO_H = 1302;
 
     // Clip boundaries in SECONDS. Three shots: the walk, the reveal of the
-    // laptop far off plus the approach, then the arrival.
+    // laptop far off plus the approach, then the arrival and the push into the
+    // screen.
     //
-    // The arrival is only two thirds of a second because that is the whole of
-    // the take in which nobody is touching the laptop. The rest of that shot
-    // had a hand reach in and rotate the lid until the screen faced camera —
-    // physically backwards, since the man doing it stands with his back to us.
-    // Cutting in after the contact leaves exactly what the shot was supposed
-    // to be: they are at the slab, the screen is already facing them, and
-    // nothing moves. The push into the display is done in the browser instead,
-    // by scaling the video during the reveal, which is both more reliable and
-    // exactly on the laptop's screen centre.
-    var CLIP_ENDS_T = [8, 16, 16.6667];
+    // The arrival was reshot with the laptop already open and its screen
+    // already facing the direction they walk in from, and with contact banned
+    // outright rather than specific verbs of moving it. Earlier takes all
+    // resolved "camera behind the men" plus "screen toward camera" by having a
+    // hand reach in and rotate the object, which is backwards when the man
+    // doing it has his back to us. With nothing to open there is no pretext.
+    var CLIP_ENDS_T = [8, 16, 24];
     var DURATION = CLIP_ENDS_T[CLIP_ENDS_T.length - 1];
     var REVEAL_AT = 0.88;
 
@@ -74,10 +72,7 @@
     // an earlier cut read as sped-up. SHARES is each clip's slice of total
     // scroll — the walk and the long approach deliberately get more scroll than
     // their share of footage, so they advance more slowly under the thumb.
-    // The final beat holds on a near-static two thirds of a second, so it gets
-    // a small slice of scroll: enough for its caption to land before REVEAL_AT
-    // starts the zoom, with the zoom carrying the rest.
-    var SHARES = [0.40, 0.40, 0.20];
+    var SHARES = [0.34, 0.34, 0.32];
     var SEGMENTS = (function () {
       var sum = SHARES.reduce(function (a, b) { return a + b; }, 0);
       var out = [], p = 0, t0 = 0;
@@ -113,7 +108,7 @@
     video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
     video.setAttribute('aria-hidden', 'true');
     video.className = 'hero-scrub-video';
-    video.poster = '/assets/img/viking-poster.jpg?v=20260822d';
+    video.poster = '/assets/img/viking-poster.jpg?v=20260822e';
     if (canvas && canvas.parentNode) canvas.parentNode.replaceChild(video, canvas);
     else stage.insertBefore(video, stage.firstChild);
     (function () {
@@ -121,8 +116,8 @@
       var canMp4 = video.canPlayType('video/mp4; codecs="avc1.640028"');
       // mp4 first: smaller than the vp9 build here and hardware-decoded almost
       // everywhere. webm only covers builds without H.264 (e.g. some Linux).
-      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822d'
-                                                                : base + '.webm?v=20260822d';
+      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822e'
+                                                                : base + '.webm?v=20260822e';
     })();
 
     var frameReady = false;
@@ -167,7 +162,7 @@
     // the site reads as the thing running on the laptop.
     // Measured off the final frame; normalised to the frame, then mapped
     // through the same cover-fit maths the canvas uses.
-    var SCREEN = { x: 0.5563, y: 0.5315, w: 0.1641, h: 0.2634 };
+    var SCREEN = { x: 0.3312, y: 0.2680, w: 0.3402, h: 0.4347 };
 
     function screenRectCss() {
       var iw = VIDEO_W, ih = VIDEO_H;
