@@ -71,7 +71,7 @@ p{text-wrap:pretty}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;min-height:74px}
 .logo{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--display);font-weight:600;font-size:1.12rem;
   color:var(--ocean-deep);text-decoration:none;letter-spacing:-.01em}
-.logo svg{width:34px;height:34px;flex:none;color:var(--ocean-deep)}
+.logo svg,.logo img{width:34px;height:34px;flex:none;color:var(--ocean-deep)}
 .nav-links{display:flex;align-items:center;gap:.25rem}
 .tab-link{padding:.55rem .7rem;font-size:.92rem;font-weight:500;color:var(--ink);text-decoration:none;border-radius:6px}
 .tab-link:hover,.tab-link.active{color:var(--coral-dark);background:rgba(228,213,184,.42)}
@@ -214,7 +214,6 @@ p{text-wrap:pretty}
 /* ---- footer ---- */
 footer{background:var(--ocean-abyss);color:rgba(247,242,233,.6);padding-top:clamp(3rem,2.2rem + 3vw,4.5rem)}
 footer .logo{color:var(--foam)}
-footer .logo svg{color:var(--foam)}
 .footer-top{display:grid;gap:2.5rem;padding-bottom:2.5rem}
 @media (min-width:900px){.footer-top{grid-template-columns:1.3fr 2fr}}
 .footer-brand p{margin-top:1rem;font-size:.93rem;max-width:38ch}
@@ -241,26 +240,26 @@ footer .logo svg{color:var(--foam)}
     <div class="tb-left">Website Creation &amp; Management · Serving Florida &amp; Beyond</div>
     <div class="tb-right">
       <a href="tel:+15615550100">📞 (561) 555-0100</a>
-      <a href="index.html#consult">Book a Free Consult</a>
+      <a href="/home#consult">Book a Free Consult</a>
     </div>
   </div>
 </div>
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a href="index.html#home" class="logo">
-      <svg viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg>
+    <a href="/home#home" class="logo">
+      <img src="/assets/img/logo-mark-dark.svg" alt="" width="34" height="34">
       Design of Man
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
-      <a href="index.html#home" class="tab-link">Home</a>
-      <a href="index.html#about" class="tab-link">About Us</a>
-      <a href="index.html#services" class="tab-link">Services</a>
+      <a href="/home#home" class="tab-link">Home</a>
+      <a href="/home#about" class="tab-link">About Us</a>
+      <a href="/home#services" class="tab-link">Services</a>
       <a href="work.html" class="tab-link">Work</a>
-      <a href="index.html#pricing" class="tab-link">Pricing</a>
+      <a href="/home#pricing" class="tab-link">Pricing</a>
       <a href="pay.html" class="tab-link active" aria-current="page">Billing</a>
-      <a href="index.html#consult" class="btn btn-coral">Book a Free Consult</a>
+      <a href="/home#consult" class="btn btn-coral">Book a Free Consult</a>
     </nav>
   </div>
 </header>
@@ -269,7 +268,7 @@ footer .logo svg{color:var(--foam)}
 
 <section class="hero on-dark">
   <div class="wrap hero-inner">
-    <p class="crumb"><a href="index.html#home">Home</a> &nbsp;/&nbsp; Client Billing</p>
+    <p class="crumb"><a href="/home#home">Home</a> &nbsp;/&nbsp; Client Billing</p>
     <p class="eyebrow">Client Billing</p>
     <h1>Settle up in <em>about a minute.</em></h1>
     <p>Pay an invoice or manage your monthly plan. Everything runs through Stripe, so your card and bank details never touch our servers.</p>
@@ -490,11 +489,11 @@ footer .logo svg{color:var(--foam)}
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="index.html#home" class="logo"><svg viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg>Design of Man</a>
+        <a href="/home#home" class="logo"><img src="/assets/img/logo-mark.svg" alt="" width="54" height="26">Design of Man</a>
         <p>Website creation and management, built to last past launch day.</p>
       </div>
       <div class="footer-links">
-        <div class="footer-col"><h4>Site</h4><a href="index.html#home">Home</a><a href="index.html#about">About Us</a><a href="index.html#services">Services</a><a href="work.html">Work</a><a href="index.html#pricing">Pricing</a><a href="index.html#faq">FAQ</a></div>
+        <div class="footer-col"><h4>Site</h4><a href="/home#home">Home</a><a href="/home#about">About Us</a><a href="/home#services">Services</a><a href="work.html">Work</a><a href="/home#pricing">Pricing</a><a href="/home#faq">FAQ</a></div>
         <div class="footer-col"><h4>Billing</h4><a href="#invoice">Pay an invoice</a><a href="#manage">Manage my plan</a><a href="#resend">Resend an invoice</a><a href="tel:+15615550100">Billing questions</a></div>
         <div class="footer-col"><h4>Contact</h4><a href="tel:+15615550100">(561) 555-0100</a><a href="mailto:hello@designofman.com">hello@designofman.com</a></div>
       </div>

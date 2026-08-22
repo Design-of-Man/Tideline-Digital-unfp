@@ -69,5 +69,17 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/journey",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/journey.html",
+      "destination": "/",
+      "permanent": true
+    }
   ]
 }
