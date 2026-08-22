@@ -73,29 +73,27 @@ a{color:inherit;text-decoration:none}
   transform-origin:var(--screen-x) var(--screen-y);
   will-change:transform,opacity;
 }
-/* The runic wordmark pinned to the laptop screen. Positioned per frame from
-   the tracked screen rect, and scaled with the plate during the takeover so
-   it stays glued to the screen rather than sliding across it. */
+/* The runic wordmark pinned to the artefact's glow. Positioned per frame from
+   the tracked glow rect, and scaled with the plate during the takeover so it
+   stays glued to the light rather than sliding across it. The glow itself is
+   bright cyan-white — the opposite of the old dark laptop screen — so the
+   mark is dark ink with a soft darkening scrim behind it for contrast, not
+   pale strokes on a dark patch. */
 .stage__runes{
   position:absolute;left:0;top:0;
   display:none;place-items:center;
   pointer-events:none;
   opacity:0;
-  color:var(--frost);
-  filter:drop-shadow(0 0 14px rgba(53,228,255,.30));
+  color:var(--void);
   will-change:transform,opacity,left,top,width;
 }
 .stage__runes.is-live{display:grid}
-/* The generated screen already has its own gibberish wordmark in this spot,
-   so the real one is laid over a soft patch of the screen's own background
-   colour — sampled from the footage — which hides it without reading as a
-   pasted-on rectangle. */
 .stage__runes::before{
   content:"";position:absolute;
-  left:-32%;right:-32%;top:-58%;bottom:-58%;
+  left:-30%;right:-30%;top:-45%;bottom:-45%;
   z-index:-1;
-  background:radial-gradient(56% 56% at 50% 50%,
-    rgb(34,47,53) 0%, rgba(34,47,53,.99) 48%, rgba(34,47,53,0) 78%);
+  background:radial-gradient(58% 58% at 50% 50%,
+    rgba(4,6,10,.40) 0%, rgba(4,6,10,.22) 50%, rgba(4,6,10,0) 78%);
 }
 .stage__runes svg{width:100%;height:auto;overflow:visible}
 /* Background ice-cliff parallax — slowest layer. */
