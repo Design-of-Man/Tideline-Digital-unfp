@@ -30,6 +30,34 @@
     }
   })();
 
+  /* ─────────────────────────────────────────────── the gateway, not a wall ──
+     The film is how you arrive at the site, but nobody should be made to scroll
+     it twice. It plays once per session; after that, and for any deep link,
+     `/` opens straight at the content. The film and the peak are removed BEFORE
+     the engine mounts so their scroll height never exists rather than being
+     hidden after the fact, which would leave a dead gap at the top of the page.
+
+     sessionStorage rather than localStorage on purpose: coming back tomorrow
+     should feel like arriving again. Wrapped because Safari private mode throws
+     on access rather than returning null. */
+  var KEY = 'dom.film.seen';
+  function seen(v) {
+    try { return v === undefined ? sessionStorage.getItem(KEY) === '1'
+                                 : sessionStorage.setItem(KEY, v ? '1' : '0'); }
+    catch (e) { return false; }
+  }
+  var deepLink = location.hash && location.hash.length > 1;
+  var skipFilm = seen() || deepLink;
+  if (skipFilm) {
+    document.documentElement.classList.add('no-film');
+    ['film', 'peak'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.parentNode.removeChild(el);
+    });
+    var g0 = document.getElementById('glass');
+    if (g0) g0.parentNode.removeChild(g0);
+  }
+
   ScrollCraft.mount(document.body);
 
   var glass  = document.getElementById('glass');
@@ -41,7 +69,35 @@
   var close  = document.getElementById('closeStage');
   var closeCta = document.querySelector('.close__inner .btn');
   var video  = document.querySelector('video[data-sc-scrub]');
+
+  /* No film this visit: the close act still needs its moor and the bezel still
+     needs to retreat, so run a reduced loop rather than bailing out entirely. */
+  if (skipFilm) {
+    if (!join || !close) return;
+    close.style.setProperty('--moor-src', 'url("/assets/video/sc/film-end.jpg' + V + '")');
+    var rafB = 0;
+    var paintClose = function () {
+      rafB = 0;
+      var vh2 = window.innerHeight;
+      var y2 = window.pageYOffset || document.documentElement.scrollTop;
+      var jT = absTop(join), jTr = Math.max(join.offsetHeight - vh2, 1);
+      var c2 = clamp01((y2 - jT) / jTr);
+      if (bezel) bezel.style.opacity = String(1 - ease(clamp01(c2 / 0.7)));
+      close.style.setProperty('--moor', ease(clamp01(c2 / 0.7)).toFixed(3));
+      syncCloseCta();
+    };
+    addEventListener('scroll', function () { if (!rafB) rafB = requestAnimationFrame(paintClose); }, { passive: true });
+    addEventListener('resize', paintClose);
+    paintClose();
+    return;
+  }
+
   if (!glass || !peak || !join) return;
+
+  /* Once the payoff has been seen, remember it. Set at the moment the boot
+     completes rather than on load, so a reader who bounces in the first two
+     seconds still gets the film next time. */
+  function markSeen() { seen(true); }
 
   close.style.setProperty('--moor-src', 'url("/assets/video/sc/film-end.jpg' + V + '")');
 
@@ -168,6 +224,7 @@
       still.style.opacity = String(1 - boot);
       panel.style.setProperty('--mark', mark.toFixed(3));
       panel.style.setProperty('--boot', boot.toFixed(3));
+      if (boot > 0.98) markSeen();
       /* Hand off to act 4 on the same ground rather than cutting. */
       panel.style.opacity = String(1 - clamp01((g - 0.95) / 0.05));
       setInert(boot < 0.5);

@@ -57,10 +57,25 @@
 .mark { display: inline-flex; align-items: center; gap: var(--sc-3);
   font-family: var(--sc-font-display); font-size: var(--sc-t-lg); letter-spacing: var(--sc-track-snug); }
 .mark svg { width: 46px; height: auto; }
-.bar nav { display: flex; gap: var(--sc-5); font-size: var(--sc-t-sm); }
-.bar nav a { color: var(--sc-ink-soft); }
-.bar nav a[aria-current], .bar nav a:hover { color: var(--sc-ink); }
-@media (max-width: 640px) { .bar nav { gap: var(--sc-4); } .bar .mark span { display: none; } }
+.bar nav { display: flex; gap: var(--sc-4); font-size: var(--sc-t-sm); }
+/* WCAG 2.2 SC 2.5.8: every target at least 24x24. These measured 19-23px tall,
+   which is the kind of miss that only shows up on a phone. Padding buys the
+   height without moving the type, and the negative margin keeps the optical
+   alignment of the bar unchanged. */
+.bar nav a, .foot nav a {
+  color: var(--sc-ink-soft);
+  display: inline-flex; align-items: center;
+  min-height: 24px; padding-inline: var(--sc-2); margin-inline: calc(var(--sc-2) * -1);
+}
+.mark { min-height: 24px; }
+.bar nav a[aria-current], .bar nav a:hover, .foot nav a:hover { color: var(--sc-ink); }
+@media (max-width: 640px) {
+  .bar { padding-inline: var(--sc-4); gap: var(--sc-3); }
+  .bar nav { gap: var(--sc-2); }
+  /* The wordmark wraps to two lines under ~430px and collides with the links.
+     The glyph alone carries it at that size. */
+  .bar .mark span { display: none; }
+}
 
 /* ------------------------------------------------------ act 1+2 · film -- */
 /* The engine's --lead scrim is tuned for display type. This page puts body
@@ -247,4 +262,91 @@
   background-size: cover, cover;
   background-position: center, center;
   opacity: var(--moor, 0);
+}
+
+
+/* ══════════════════════════════════════════════════ THE SITE ══════════════
+   Everything the film delivers you into. Same tokens as the gateway, so the
+   boot resolves onto this ground with no second transition. */
+
+.band { padding-block: clamp(4rem, 11vh, 9rem); }
+.band--alt { background: var(--sc-surface); }
+.band > .sc-wrap > h2 { margin: 0 0 var(--sc-6); }
+.sc-wrap.narrow { max-width: 62rem; }
+.lede { display: grid; gap: var(--sc-4); margin-bottom: var(--sc-8); }
+.lede .sc-body, p.lede { max-width: 62ch; }
+.note { margin-top: var(--sc-6); color: var(--sc-ink-soft); }
+
+/* Cards are a grid of statements, not boxes with borders on every side. One
+   hairline on top is enough to group them and keeps the page quiet. */
+.cards { display: grid; gap: var(--sc-5); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+.cards.two   { grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr)); }
+.cards.three { grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.card { border-top: 1px solid var(--sc-hairline); padding-top: var(--sc-5); }
+.card h3 { margin: 0 0 var(--sc-3); font-family: var(--sc-font-display);
+  font-weight: 400; font-size: var(--sc-t-xl); letter-spacing: var(--sc-track-snug); }
+.card p { margin: 0; color: var(--sc-ink-soft); max-width: 46ch; }
+
+/* Numbered stages. The rule runs down the numerals so the sequence reads as
+   one movement rather than five unrelated cards. */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.steps li { display: grid; grid-template-columns: auto 1fr; gap: var(--sc-5);
+  padding: var(--sc-5) 0; border-top: 1px solid var(--sc-hairline); }
+.steps li:last-child { border-bottom: 1px solid var(--sc-hairline); }
+.step__n { font-family: var(--sc-font-display); font-size: var(--sc-t-lg);
+  color: var(--sc-accent); line-height: 1; }
+.steps h3 { margin: 0 0 var(--sc-2); font-family: var(--sc-font-display);
+  font-weight: 400; font-size: var(--sc-t-xl); letter-spacing: var(--sc-track-snug); }
+.steps p { margin: 0; color: var(--sc-ink-soft); max-width: 56ch; }
+
+.plans { align-items: start; }
+.plan { display: grid; gap: var(--sc-4); }
+.plan--lead { border-top-color: var(--sc-accent); }
+.plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sc-2);
+  color: var(--sc-ink-soft); font-size: var(--sc-t-sm); }
+.plan li { padding-left: var(--sc-4); position: relative; }
+.plan li::before { content: ""; position: absolute; left: 0; top: 0.62em;
+  width: 6px; height: 1px; background: var(--sc-accent); }
+.plan .btn { justify-self: start; }
+
+.quote { font-style: normal; }
+.quote p { color: var(--sc-ink); font-family: var(--sc-font-display);
+  font-size: var(--sc-t-lg); line-height: 1.34; letter-spacing: var(--sc-track-snug); max-width: none; }
+
+/* Native disclosure: keyboard, screen-reader and find-in-page all work without
+   a line of script. */
+.qa { border-top: 1px solid var(--sc-hairline); }
+.qa:last-of-type { border-bottom: 1px solid var(--sc-hairline); }
+.qa summary { cursor: pointer; list-style: none; padding: var(--sc-5) var(--sc-6) var(--sc-5) 0;
+  position: relative; font-family: var(--sc-font-display); font-size: var(--sc-t-lg);
+  letter-spacing: var(--sc-track-snug); min-height: 24px; }
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::after { content: ""; position: absolute; right: 0; top: 50%;
+  width: 11px; height: 11px; margin-top: -6px;
+  border-right: 1px solid var(--sc-ink-soft); border-bottom: 1px solid var(--sc-ink-soft);
+  transform: rotate(45deg); transition: transform .28s var(--sc-ease-out); }
+.qa[open] summary::after { transform: rotate(-135deg); }
+.qa p { margin: 0 0 var(--sc-5); color: var(--sc-ink-soft); max-width: 68ch; }
+
+.form { display: grid; gap: var(--sc-4); max-width: 40rem; }
+.field { display: grid; gap: var(--sc-2); }
+.field label { font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+.field .opt { opacity: .6; }
+.field input, .field select, .field textarea {
+  font: inherit; color: var(--sc-ink); background: var(--sc-canvas);
+  border: 1px solid var(--sc-hairline); border-radius: 2px;
+  padding: 0.8rem 0.9rem; min-height: 44px; width: 100%;
+}
+.field textarea { min-height: 8rem; resize: vertical; }
+.field :is(input, select, textarea):focus-visible {
+  outline: 2px solid var(--sc-accent); outline-offset: 2px; border-color: transparent; }
+.form__note { margin: 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+.form__note a { color: var(--sc-ink); }
+
+.btn--quiet { background: transparent; color: var(--sc-ink);
+  box-shadow: inset 0 0 0 1px var(--sc-hairline-strong); }
+
+@media (max-width: 640px) {
+  .steps li { grid-template-columns: 1fr; gap: var(--sc-2); }
+  .band { padding-block: clamp(3rem, 8vh, 5rem); }
 }
