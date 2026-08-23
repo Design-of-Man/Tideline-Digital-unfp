@@ -1,6 +1,6 @@
-/* Design of Man — the signature move.
-   The engine is never edited per project, so everything bespoke lives here and
-   is driven off scroll geometry and the engine's own act elements. */
+/* Design of Man — the signature move: the site IS what is on the laptop screen.
+   The engine is never edited per project, so everything bespoke lives here and is
+   driven off the film's own playback time plus page scroll geometry. */
 (function () {
   'use strict';
 
@@ -40,18 +40,20 @@
   var join   = document.getElementById('join');
   var close  = document.getElementById('closeStage');
   var closeCta = document.querySelector('.close__inner .btn');
+  var video  = document.querySelector('video[data-sc-scrub]');
   if (!glass || !peak || !join) return;
 
   close.style.setProperty('--moor-src', 'url("/assets/video/sc/film-end.jpg' + V + '")');
 
-  /* The laptop's lit screen on the film's final frame, normalised to the frame,
-     from the same track that welded the panel to the glass in the previous
-     build: [x, y, w, h]. film-end.jpg IS that frame, so the panel opens exactly
-     on the display and the cut from film to still is invisible. */
-  var QUAD = [0.33358, 0.27761, 0.33773, 0.42257];
+  /* The screen on the film's LAST frame, normalised to the video frame, as
+     [x, y, w, h]. One rectangle is all this needs now: nothing is drawn on the
+     glass while the film runs -- the white screen you see is the footage's own.
+     This rect only says where to aim the push-in. Measured by fitting the four
+     edges of the blown-out screen region and taking their bounding box. */
+  var SCREEN = [0.32621, 0.26920, 0.34530, 0.44052];
   var AR = 2560 / 1302;
 
-  /* Where the flight finishes. The remaining scroll is dwell: the payoff needs
+  /* Where the flight finishes. The rest of the peak is dwell: the payoff needs
      room to be read, not just room to arrive. */
   var FLIGHT = 0.58;
 
@@ -66,20 +68,45 @@
     return t;
   }
 
-  /* The screen quad in CSS pixels, matching object-fit:cover on the viewport. */
-  function quadRect(vw, vh) {
+  /* Where the laptop's screen sits on the last frame, in CSS pixels, matching
+     object-fit:cover on the stage. */
+  function screenRect(vw, vh) {
     var dw, dh;
     if (vw / vh > AR) { dw = vw; dh = vw / AR; } else { dh = vh; dw = vh * AR; }
     var ox = (vw - dw) / 2, oy = (vh - dh) / 2;
-    return { l: ox + QUAD[0] * dw, t: oy + QUAD[1] * dh, w: QUAD[2] * dw, h: QUAD[3] * dh };
+    return { l: ox + SCREEN[0] * dw, t: oy + SCREEN[1] * dh,
+             w: SCREEN[2] * dw,      h: SCREEN[3] * dh };
+  }
+
+  /* How far to push in before the screen has swallowed the viewport. Scaling
+     happens about the screen's own centre, so the reach in each direction is to
+     the furthest viewport edge FROM THAT CENTRE, not half the viewport. */
+  function zoomTo(vw, vh) {
+    var r = screenRect(vw, vh);
+    var cx = r.l + r.w / 2, cy = r.t + r.h / 2;
+    var sx = 2 * Math.max(cx, vw - cx) / r.w;
+    var sy = 2 * Math.max(cy, vh - cy) / r.h;
+    return { cx: cx, cy: cy, s: Math.max(sx, sy) * 1.04 };
   }
 
   var live = false, inert = true, ctaOff = false, raf = 0;
 
+  function setLive(on) {
+    if (on === live) return;
+    live = on;
+    glass.classList.toggle('is-live', on);
+  }
+  /* The panel holds a real CTA. A link nobody can see must not be tabbable
+     (WCAG 4.1.2), so it comes back only once the site is actually up. */
+  function setInert(on) {
+    if (on === inert) return;
+    inert = on;
+    if (on) { glass.setAttribute('inert', ''); glass.setAttribute('aria-hidden', 'true'); }
+    else { glass.removeAttribute('inert'); glass.removeAttribute('aria-hidden'); }
+    glass.style.pointerEvents = on ? 'none' : 'auto';
+  }
   /* The closing CTA is itself a cue, so the engine parks it at opacity 0 until
-     its act is live. Opacity alone does not remove a link from the tab order,
-     which is the WCAG 4.1.2 failure of a keyboard user landing on something
-     nobody can see. Mirror the engine's own opacity into inertness. */
+     its act is live. Opacity alone does not remove a link from the tab order. */
   function syncCloseCta() {
     if (!closeCta) return;
     var op = closeCta.style.opacity;
@@ -89,80 +116,81 @@
     if (hide) closeCta.setAttribute('inert', ''); else closeCta.removeAttribute('inert');
   }
 
-  function setLive(on) {
-    if (on === live) return;
-    live = on;
-    glass.classList.toggle('is-live', on);
-  }
-  /* The panel holds a real CTA. A link nobody can see must not be tabbable
-     (WCAG 4.1.2), so it comes back only once the panel is big enough to use. */
-  function setInert(on) {
-    if (on === inert) return;
-    inert = on;
-    if (on) { glass.setAttribute('inert', ''); glass.setAttribute('aria-hidden', 'true'); }
-    else { glass.removeAttribute('inert'); glass.removeAttribute('aria-hidden'); }
-    glass.style.pointerEvents = on ? 'none' : 'auto';
-  }
+  /* The three beats of the payoff, as fractions of the peak act's travel. */
+  var ZOOM_END = 0.52;   /* push-in finishes: the viewport is the white screen */
+  var MARK_IN  = 0.46, MARK_FULL = 0.60;
+  var BOOT_IN  = 0.72, BOOT_FULL = 0.92;
 
   function render() {
     raf = 0;
     var vh = window.innerHeight, vw = window.innerWidth;
     var y = window.pageYOffset || document.documentElement.scrollTop;
 
-    /* The peak owns the whole life of its stage on screen: one viewport before
-       the pin (the film stage sliding away, which the glass hides because the
-       still under it is the frame the film ended on) and the pinned travel.
-       It deliberately stops at the pin rather than covering the exit slide too:
-       stretched over the slide, the payoff sits still for a third of the page,
-       and a peak you can hold at a standstill is not a peak. The dark beat the
-       slide leaves behind is the breath before act 4. */
     var pTop = absTop(peak), pH = peak.offsetHeight;
     var g = clamp01((y - (pTop - vh)) / Math.max(pH, 1));
 
-    setLive(g > 0 && g < 1);
-
-    if (live) {
-      if (reduce) {
-        /* Every position change is dropped; opacity carries the reveal. */
-        panel.style.left = '0px'; panel.style.top = '0px';
-        panel.style.width = vw + 'px'; panel.style.height = vh + 'px';
-        panel.style.opacity = '1';
+    if (reduce) {
+      /* Every position change is dropped; opacity carries the reveal. */
+      var on = g > 0 && g < 1;
+      setLive(on);
+      if (on) {
+        still.style.transform = 'none';
         still.style.opacity = '0';
+        panel.style.setProperty('--boot', '1');
+        panel.style.setProperty('--mark', '0');
+        panel.style.opacity = '1';
         setInert(false);
-      } else {
-        var f = ease(clamp01(g / FLIGHT));
-        var q = quadRect(vw, vh);
-        var l = q.l + (0 - q.l) * f;
-        var t = q.t + (0 - q.t) * f;
-        var w = q.w + (vw - q.w) * f;
-        var h = q.h + (vh - q.h) * f;
-        panel.style.left = l.toFixed(1) + 'px';
-        panel.style.top = t.toFixed(1) + 'px';
-        panel.style.width = w.toFixed(1) + 'px';
-        panel.style.height = h.toFixed(1) + 'px';
-        /* Hand off to act 4 on the same ground rather than cutting. */
-        panel.style.opacity = String(1 - clamp01((g - 0.93) / 0.07));
-        still.style.opacity = String(1 - f);
-        setInert(f < 0.5);
-      }
-    } else {
+      } else { setInert(true); }
+    } else if (g <= 0) {
+      /* THE FILM RUNS UNTOUCHED. Nothing is drawn on the glass: the white screen
+         on the laptop is the footage's own, so there is no composite to
+         mis-track and nothing to give the trick away. */
+      setLive(false);
       setInert(true);
+    } else {
+      /* PUSH IN, then the mark, then the site.
+         The still is the film's own final frame, so it takes over from the scrub
+         stage without a seam and can then be scaled past the frame edge. Scaling
+         about the screen's centre is what turns the machine's screen into the
+         page: at the end of the push-in the viewport IS the white screen. */
+      setLive(true);
+      var z = ease(clamp01(g / ZOOM_END));
+      var zt = zoomTo(vw, vh);
+      var sc = 1 + (zt.s - 1) * z;
+      still.style.transformOrigin = zt.cx.toFixed(1) + 'px ' + zt.cy.toFixed(1) + 'px';
+      still.style.transform = 'scale(' + sc.toFixed(4) + ')';
+
+      var mark = ease(clamp01((g - MARK_IN) / (MARK_FULL - MARK_IN)));
+      var boot = ease(clamp01((g - BOOT_IN) / (BOOT_FULL - BOOT_IN)));
+      /* The white goes out with the boot. Leaving it up meant that when the
+         panel released at the very end of the act, the machine's screen came
+         back from underneath the site. */
+      still.style.opacity = String(1 - boot);
+      panel.style.setProperty('--mark', mark.toFixed(3));
+      panel.style.setProperty('--boot', boot.toFixed(3));
+      /* Hand off to act 4 on the same ground rather than cutting. */
+      panel.style.opacity = String(1 - clamp01((g - 0.95) / 0.05));
+      setInert(boot < 0.5);
     }
 
-    /* The frame that never breaks. It arrives as the site takes the screen and
-       stays for act 4, then act 5 pulls back out of the machine. */
+    /* The frame that never breaks. It arrives as the site comes up and stays for
+       act 4, then act 5 pulls back out of the machine. */
     var jTop = absTop(join), jTravel = Math.max(join.offsetHeight - vh, 1);
     var c = clamp01((y - jTop) / jTravel);
-    var on = clamp01((g - 0.55) / 0.23);
-    var b = Math.min(g >= 1 ? 1 : on, 1 - ease(clamp01(c / 0.7)));
+    var bOn = clamp01((g - BOOT_IN) / 0.20);
+    var b = Math.min(g >= 1 ? 1 : bOn, 1 - ease(clamp01(c / 0.7)));
     bezel.style.opacity = b.toFixed(3);
-    syncCloseCta();
     close.style.setProperty('--moor', ease(clamp01(c / 0.7)).toFixed(3));
+    syncCloseCta();
   }
 
   function onScroll() { if (!raf) raf = requestAnimationFrame(render); }
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
   addEventListener('orientationchange', onScroll);
+  /* The scrub video settles asynchronously after a scroll stops, so a
+     scroll-only loop leaves the panel on a stale frame. Keep rendering while
+     the overlay is live. */
+  (function tick() { if (live) render(); requestAnimationFrame(tick); })();
   render();
 })();

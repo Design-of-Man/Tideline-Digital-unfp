@@ -28,7 +28,7 @@ changes only grammar and world will fail it.
 
 | Build | Grammar | Nav treatment | Hero device | Act-sequence shape | Close pattern | Signature move | World | Port |
 |---|---|---|---|---|---|---|---|---|
-| design-of-man (v2.html) | filmic one-shot | fixed bar, difference-free, own scrim, no index or progress readout | full-bleed `scrub`, one 15s clip carrying two beats | 5 acts, 10.1vh, one peak at act 3 (quiet-quiet-LOUD-steady-quiet) | pinned CTA with the world returning behind it, footer inside the stage | the site is what is on the laptop screen: welded to the tracked glass, flown out to the viewport, and the bezel stays as the frame the rest of the page reads inside | cold Icelandic moor, wet stone and moss | H.264 + VP9, dense GOP 8 |
+| design-of-man (v2.html) | filmic one-shot | fixed bar, difference-free, own scrim, no index or progress readout | full-bleed `scrub`, one 15s clip carrying two beats | 5 acts, 10.1vh, one peak at act 3 (quiet-quiet-LOUD-steady-quiet) | pinned CTA with the world returning behind it, footer inside the stage | the site is what is on the laptop screen: a white machine screen welded to the display's four tracked corners by a per-frame homography, resolving into a loading screen as the camera arrives, booting into the site once it fills the viewport, and leaving the bezel as the frame the rest of the page reads inside | cold Icelandic moor, wet stone and moss | H.264 + VP9, dense GOP 8 |
 
 *(one row. It was written against an empty registry, so it cleared the gate by
 having nothing to differ from rather than on merit. From the second build
@@ -45,9 +45,10 @@ as a constraint, so writing them down is the whole point.
 
 - **filmic one-shot** as a grammar, paired with a single full-bleed `scrub` act
   carrying more than one beat.
-- **The screen as the page**: a tracked laptop display that the site is welded
-  to, flown out to fill the viewport, with the bezel kept as a persistent frame
-  for every act after it.
+- **The screen as the page**: a laptop display tracked as a four-corner quad and
+  matched to the plate's own blown-out white, so the weld cannot betray itself;
+  it resolves into a loading screen, boots into the site, and leaves the bezel as
+  a persistent frame for every act after it.
 - **5 acts totalling ~10vh.** The band to avoid remains 13.6-13.8vh; this build
   does not sit in it, but it now occupies 10.1.
 - **Close pattern**: pinned CTA with the opening world fading back in behind it,

@@ -284,3 +284,102 @@ Make the site panel track the laptop's display continuously from the first frame
 display is cleanly on camera (~`t = 10.3s`) through to the end of the flight, driven
 by the video element's own `currentTime`, with the existing 28-row track extended
 backwards and the overlay made transparent during the tracking phase.
+
+---
+
+# AS BUILT
+
+The defect is fixed. What follows is what was actually wrong, because only one
+of the two causes in §1–§3 above turned out to be the whole story.
+
+## The four real causes
+
+**1. Wrong driver (as diagnosed).** The overlay ran off the peak act's scroll
+position, so it switched on at one instant instead of following the screen. Now
+driven off `video.currentTime`.
+
+**2. Missing tracking data (as diagnosed).** The table started at 11.583s. It now
+starts at 10.333s — the first frame the screen is fully in shot — with 9.833s to
+10.291s linearly extrapolated (the screen is still entering at the right frame
+edge there; the motion is linear to 3.0px over the anchor frames).
+
+**3. NOT a rectangle — a perspective quad.** The screen is a strongly tilted
+parallelogram through the whole wide shot and a keystoned trapezoid even in the
+close one (at t=14.958 its bottom edge is 884px against 849px at the top). Any
+axis-aligned box reads as a flat sticker at the wrong angle. The table is now
+four corners per frame and the panel is placed with a matrix3d homography solved
+per frame (verified exact: 0.0000px corner error on a synthetic keystone).
+
+**4. Frame quantisation — the one that mattered most, and was not in the plan.**
+A scrubbed `<video>` displays a DISCRETE frame held for 1/24s while
+`currentTime` advances continuously through it. Interpolating the track against
+a continuous time slides the panel up to a whole frame of motion away from the
+picture it is welded to. The close shot moves ~3px/frame and hid this; the wide
+shot moves ~23px/frame and it showed as a wedge of un-covered screen. Snapping
+the lookup to `floor(t * 24) / 24` cut measured un-covered bright pixels from
+7932 to 914 — `round()` is 8.7x worse than `floor()`, measured, not assumed.
+
+Two further findings worth keeping:
+
+- **The cut is at ~11.44s, not 11.5s, and t=11.458 is a BLENDED transition
+  frame** whose corners are an average of both shots. The original 0.125s grid
+  had a row exactly there; smoothing then dragged that average backwards through
+  the entire wide shot. It is excluded from the table.
+- **Sampling at 0.125s was too coarse.** At ~23px of motion per frame, any window
+  wide enough to suppress noise also lags and shrinks the quad. The table is now
+  one row per frame at 24fps with a symmetric ±1 window (0.083s), giving max
+  second-differences of 2.7px (wide shot) and 4.0px (close).
+
+## What shipped, and why it is simpler than the plan
+
+The final design does not composite anything onto the laptop at all.
+
+The plate's screen is blown out to a measured rgb(244,250,243). Rather than try
+to put content on that screen while it is 300px wide and moving 23px a frame,
+the page leaves the footage alone and **pushes into it**: at the end of the film
+the last frame is scaled about the screen's own centre until the screen has
+swallowed the viewport. What you are looking at is then, literally, the machine's
+screen. The mark comes up on that white, and the site boots on it.
+
+That removes the entire defect class. There is no panel welded to a moving quad,
+so there is no sub-pixel alignment to get wrong, no dilation to tune, no frame
+quantisation to compensate for, and nothing that can betray itself as a
+composite. The 123-row track was reduced to the ONE rectangle the push-in needs
+to aim at, and roughly 120 lines of homography, interpolation and frame-snapping
+machinery were deleted.
+
+The findings above are kept because they are true of the footage and would be
+needed again by anyone who does want to track something onto it.
+
+## The design change that made it robust
+
+Grading a dark panel into a daylit plate was the wrong problem to solve, and so,
+in the end, was welding anything to the glass. The sequence is: the film runs
+untouched → the last frame is scaled about the screen's centre until the screen
+IS the viewport → the mark comes up on the white → the site boots. `--mark` and
+`--boot` carry the last two states.
+
+## Decision on the clipped entry stretch (§2 asked for this explicitly)
+
+Moot in the shipped design: nothing is drawn on the screen while the film runs,
+so the stretch where the screen is entering at the right frame edge needs no
+tracking data and no fade. It is simply the film.
+
+## Contrast, which the redesign broke and then fixed
+
+Making the screen white put a large blown-out object in the same frame as the
+copy, and re-shaping the film scrim to stop it crushing the laptop pulled density
+off the copy at the same time. Worst frame went to 1.40:1. Three things were
+wrong and each had to be measured rather than guessed:
+
+- A pad placed INSIDE the cue element fades with the text while the plate behind
+  it does not, so it buys nothing at the frames that matter. The scrim has to be
+  independent of the reveal.
+- The failing line was white body copy over a pale cream cloak, not the accent
+  italic — removing the accent changed the number by zero, which is how that was
+  ruled out.
+- On viewports under 860px the engine spans the copy full width, so a
+  corner-weighted scrim leaves the right end of every line unprotected.
+
+Final: every cue clears 4.5:1 at its worst frame on desktop, at 390x844, and
+under reduced motion.
