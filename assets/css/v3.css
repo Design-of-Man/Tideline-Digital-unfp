@@ -1,0 +1,196 @@
+/* Design of Man — theme layer over scrollcraft.css.
+   Six colour roles and two faces. Everything below the token block is this
+   page's own markup; nothing here restyles .sc-stage, .sc-copy or a
+   [data-sc-*] selector, because those are the engine's mechanism. */
+
+:root {
+  /* Cold silver on off-black with one warm ember. The cream/brass palette the
+     old build used is the exact combination that makes every craft studio look
+     like the same studio. */
+  --sc-canvas:     #0b0c0e;
+  --sc-surface:    #14161a;
+  --sc-ink:        #edeff2;
+  --sc-ink-soft:   #99a0aa;
+  --sc-accent:     #e5763d;
+  --sc-accent-ink: #0b0c0e;
+
+  --sc-font-display: "Instrument Serif", Georgia, serif;
+  --sc-font-text:    "DM Sans", system-ui, sans-serif;
+
+  --sc-measure: 64ch;
+
+  /* The bezel the site is trapped inside from the peak onward. */
+  --frame: clamp(10px, 1.6vw, 22px);
+}
+
+/* Instrument Serif has no bold, so weight cannot carry hierarchy here; size
+   and tracking do. Its cap height also runs tall, hence the tighter leading. */
+.sc-display { font-weight: 400; line-height: 0.98; }
+.sc-display em { font-style: italic; color: var(--sc-accent); }
+
+.skip-link {
+  position: absolute; left: var(--sc-4); top: var(--sc-4); z-index: 200;
+  padding: var(--sc-2) var(--sc-4); background: var(--sc-accent);
+  color: var(--sc-accent-ink); border-radius: var(--sc-r-sm);
+  transform: translateY(-160%); transition: transform var(--sc-d-base) var(--sc-ease-out);
+}
+.skip-link:focus-visible { transform: none; }
+
+/* ------------------------------------------------------------- chrome -- */
+.bar {
+  position: fixed; inset: 0 0 auto; z-index: var(--sc-z-chrome);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sc-5);
+  padding: var(--sc-4) max(var(--sc-gutter), calc(var(--frame) + var(--sc-4)));
+}
+/* The bar sits over the film, over the peak and over body copy in turn. A
+   blend mode cannot serve all three, and heading-over-nav is unreadable, so
+   the chrome carries its own ground. */
+.bar::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(to bottom,
+    color-mix(in oklab, var(--sc-canvas) 86%, transparent) 0%,
+    color-mix(in oklab, var(--sc-canvas) 58%, transparent) 52%,
+    transparent 100%);
+}
+.bar a { text-decoration: none; }
+.mark { display: inline-flex; align-items: center; gap: var(--sc-3);
+  font-family: var(--sc-font-display); font-size: var(--sc-t-lg); letter-spacing: var(--sc-track-snug); }
+.mark svg { width: 46px; height: auto; }
+.bar nav { display: flex; gap: var(--sc-5); font-size: var(--sc-t-sm); }
+.bar nav a { color: var(--sc-ink-soft); }
+.bar nav a[aria-current], .bar nav a:hover { color: var(--sc-ink); }
+@media (max-width: 640px) { .bar nav { gap: var(--sc-4); } .bar .mark span { display: none; } }
+
+/* ------------------------------------------------------ act 1+2 · film -- */
+/* The engine's --lead scrim is tuned for display type. This page puts body
+   copy in the same corner over a snow-bright plate, which measures 3.3:1, so
+   the density is pushed down and further up the frame to cover the paragraph
+   too. Page-owned element, not an override of .sc-scrim. */
+.film__scrim {
+  position: absolute; inset: 0; z-index: 10; pointer-events: none;
+  background:
+    linear-gradient(to top,
+      color-mix(in oklab, var(--sc-canvas) 96%, transparent) 0%,
+      color-mix(in oklab, var(--sc-canvas) 88%, transparent) 26%,
+      color-mix(in oklab, var(--sc-canvas) 52%, transparent) 48%,
+      transparent 72%),
+    linear-gradient(to right,
+      color-mix(in oklab, var(--sc-canvas) 78%, transparent) 0%,
+      color-mix(in oklab, var(--sc-canvas) 30%, transparent) 42%,
+      transparent 68%);
+}
+
+.film .sc-copy { max-width: min(46rem, 82vw); }
+.film h1, .film .beat { margin: 0 0 var(--sc-4); }
+.film p { color: var(--sc-ink); max-width: 42ch; }
+
+/* --------------------------------------------------- act 3 · the glass --
+   The peak. A fixed layer, not an act stage: the still it opens on is the
+   film's own last frame, so it can cover the moment the scrub act's sticky
+   stage unsticks and slides away. Without it the payoff has a seam in it. */
+.glass {
+  position: fixed; inset: 0; z-index: 40;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  background: var(--sc-canvas);
+}
+.glass.is-live { opacity: 1; visibility: visible; }
+.glass__still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* The panel is welded to the laptop's real glass, then flown out to fill the
+   viewport. JS writes left/top/width/height every frame from the tracked quad. */
+.panel {
+  position: absolute; overflow: hidden;
+  background: var(--sc-canvas);
+  display: grid; place-items: center;
+  container-type: size;
+}
+.panel__inner {
+  /* On a portrait viewport the laptop's screen quad is WIDER than the phone,
+     because the frame is 1.97:1 and cover-crops hard. Type measured against the
+     panel then wraps at a width nobody can see and reads as clipped. Wrapping
+     to the viewport puts it back inside the visible slice, and the quad happens
+     to be near-centred there, so the copy still reads as being on the glass. */
+  max-width: 100vw;
+  padding: 8cqmin; text-align: center;
+  display: grid; gap: 3cqmin; justify-items: center;
+  /* Type is sized against the panel, not the viewport, so the copy grows with
+     the screen instead of popping in at full size on a postage stamp. */
+  font-size: clamp(9px, 4.4cqmin, 1.125rem);
+}
+.panel__inner h2 { font-family: var(--sc-font-display); font-weight: 400;
+  font-size: 3.4em; line-height: 0.98; letter-spacing: var(--sc-track-tight);
+  margin: 0; text-wrap: balance; }
+.panel__inner h2 em { font-style: italic; color: var(--sc-accent); }
+.panel__inner p { margin: 0; color: var(--sc-ink-soft); max-width: 46ch; font-size: 1em; }
+@media (max-width: 640px) { .panel__inner h2 { font-size: 2.6em; } }
+
+.btn {
+  display: inline-block; text-decoration: none;
+  padding: 0.7em 1.5em; border-radius: var(--sc-r-pill);
+  background: var(--sc-accent); color: var(--sc-accent-ink);
+  transition: transform var(--sc-d-base) var(--sc-ease-out);
+}
+.btn:hover { transform: translateY(-2px); }
+
+/* The frame that never breaks: once the site has taken the screen, a hairline
+   of the machine stays at the viewport edge for the rest of the page. */
+.bezel {
+  position: fixed; inset: 0; z-index: 50; pointer-events: none;
+  opacity: 0;
+  border: var(--frame) solid #060708;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--sc-ink) 34%, transparent),
+    inset 0 0 0 calc(var(--frame) + 1px) #060708,
+    inset 0 0 0 calc(var(--frame) + 2px) color-mix(in oklab, var(--sc-ink) 10%, transparent),
+    inset 0 0 90px -26px #000;
+}
+
+/* -------------------------------------------------- act 4 · what we do -- */
+/* No lead-in padding: act 4 follows the peak's exit slide, which is already a
+   viewport of dark. Padding on top of that turns a breath into a hole. */
+.work { padding-block: var(--sc-5) var(--sc-section); }
+.work h2 { margin: 0 0 var(--sc-8); }
+.row {
+  display: grid; grid-template-columns: 1fr auto; gap: var(--sc-3) var(--sc-6);
+  align-items: baseline;
+  padding: var(--sc-6) 0; border-top: 1px solid var(--sc-hairline);
+}
+.row:last-child { border-bottom: 1px solid var(--sc-hairline); }
+.row h3 { margin: 0 0 var(--sc-2); font-family: var(--sc-font-display);
+  font-weight: 400; font-size: var(--sc-t-xl); letter-spacing: var(--sc-track-snug); }
+.row p { margin: 0; color: var(--sc-ink-soft); max-width: 58ch; }
+.row .tag { color: var(--sc-ink-soft); font-size: var(--sc-t-xs);
+  letter-spacing: var(--sc-track-wide); text-transform: uppercase; white-space: nowrap; }
+@media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
+
+/* ------------------------------------------------ act 5 · the one action -- */
+.close { display: grid; place-items: center; text-align: center;
+  padding: var(--sc-gutter); }
+.close__inner { display: grid; gap: var(--sc-6); justify-items: center; }
+.close .sc-body { color: var(--sc-ink); max-width: 40ch; margin-inline: auto; }
+.foot {
+  position: absolute; inset: auto 0 0; padding: var(--sc-5) var(--sc-gutter);
+  display: flex; flex-wrap: wrap; gap: var(--sc-4);
+  align-items: center; justify-content: space-between;
+  font-size: var(--sc-t-xs); color: var(--sc-ink-soft);
+}
+.foot nav { display: flex; gap: var(--sc-4); }
+
+/* Act 5 pulls back out of the machine: the moor returns behind the close as
+   the bezel retreats, so the page resolves by leaving rather than fading. */
+ /* No position on .close: the engine sticks the stage with position:sticky and
+   a `position: relative` here silently beats it, un-pinning the whole act.
+   Sticky is already a containing block for the absolute children below. */
+.close::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  /* The engine owns .close::after (data-sc-spotlight), so the scrim rides in
+     this element's own background stack rather than a second pseudo. */
+  background-image:
+    linear-gradient(color-mix(in oklab, var(--sc-canvas) 88%, transparent),
+                    color-mix(in oklab, var(--sc-canvas) 88%, transparent)),
+    var(--moor-src);
+  background-size: cover, cover;
+  background-position: center, center;
+  opacity: var(--moor, 0);
+}
