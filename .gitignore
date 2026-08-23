@@ -7,3 +7,7 @@ Thumbs.db
 *.log
 .idea/
 .vscode/
+
+# scrollcraft verification
+node_modules/
+lab/

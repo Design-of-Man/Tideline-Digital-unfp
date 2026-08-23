@@ -1,1047 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Design of Man — How far will you go?</title>
-<meta name="description" content="Design of Man crafts premium digital experiences and manages high-performance web platforms for ambitious clients. 8 seats available. Launching Q1 2027.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Design of Man is a small studio in Jupiter, Florida building websites and web apps with obsessive craft. Strategy, design, build, and care that does not stop at launch.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0b0c0e">
+<title>Design of Man &mdash; Website Creation &amp; Management</title>
 <link rel="canonical" href="https://www.designofman.com/">
-<meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="theme-color" content="#04060A">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%2304060A'/%3E%3Crect x='2' y='7' width='12' height='2' fill='%2335E4FF'/%3E%3C/svg%3E">
-
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Design of Man">
 <meta property="og:url" content="https://www.designofman.com/">
-<meta property="og:title" content="Design of Man — How far will you go?">
-<meta property="og:description" content="Premium digital experiences. High-performance platforms. Managed without pause.">
+<meta property="og:site_name" content="Design of Man">
+<meta property="og:title" content="Design of Man &mdash; Website Creation &amp; Management">
+<meta property="og:description" content="A small studio building websites and web apps with obsessive craft. Strategy, design, build, and care that does not stop at launch.">
 <meta property="og:image" content="https://www.designofman.com/og.png">
-
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Design of Man &mdash; Website Creation &amp; Management">
+<meta name="twitter:description" content="A small studio building websites and web apps with obsessive craft.">
+<meta name="twitter:image" content="https://www.designofman.com/og.png">
+<link rel="icon" href="/favicon.svg?v=20260824a" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260824a">
+<link rel="manifest" href="/site.webmanifest?v=20260824a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Saira:wght@100;200;300;400;500&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --void:#04060A;
-  --arctic:#0C1218;
-  --steel:#7C93A6;
-  --frost:#DCEAF2;
-  --cyan:#35E4FF;
-  --cyan-soft:rgba(53,228,255,.55);
-  --cyan-faint:rgba(53,228,255,.14);
-  --display:'Saira',system-ui,sans-serif;
-  --mono:'IBM Plex Mono',ui-monospace,monospace;
-  --ease:cubic-bezier(.22,1,.36,1);
-
-  /* Where the laptop screen sits in the final frame — calibrated to the
-     last frame of THE REVELATION so the takeover zooms into the real screen. */
-  --screen-x:50%;
-  --screen-y:47%;
-  --screen-w:30%;
-  --screen-h:20%;
-}
-
-*,*::before,*::after{box-sizing:border-box}
-*{margin:0}
-html{-webkit-text-size-adjust:100%;background:var(--void)}
-body{
-  font-family:var(--display);
-  background:var(--void);
-  color:var(--frost);
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}
-img,canvas{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
-::selection{background:var(--cyan);color:var(--void)}
-:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
-
-.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-
-/* ============ FIXED CINEMATIC STAGE ============ */
-.stage{
-  position:fixed;inset:0;z-index:0;
-  overflow:hidden;
-  background:var(--void);
-  /* Parallax: the film plate itself drifts slower than the page. */
-  will-change:transform;
-}
-.stage__film{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  transform-origin:var(--screen-x) var(--screen-y);
-  will-change:transform,opacity;
-}
-/* The runic wordmark pinned to the artefact's glow. Positioned per frame from
-   the tracked glow rect, and scaled with the plate during the takeover so it
-   stays glued to the light rather than sliding across it. The glow itself is
-   bright cyan-white — the opposite of the old dark laptop screen — so the
-   mark is dark ink with a soft darkening scrim behind it for contrast, not
-   pale strokes on a dark patch. */
-.stage__runes{
-  position:absolute;left:0;top:0;
-  display:none;place-items:center;
-  pointer-events:none;
-  opacity:0;
-  color:var(--void);
-  will-change:transform,opacity,left,top,width;
-}
-.stage__runes.is-live{display:grid}
-.stage__runes::before{
-  content:"";position:absolute;
-  left:-30%;right:-30%;top:-45%;bottom:-45%;
-  z-index:-1;
-  background:radial-gradient(58% 58% at 50% 50%,
-    rgba(4,6,10,.40) 0%, rgba(4,6,10,.22) 50%, rgba(4,6,10,0) 78%);
-}
-.stage__runes svg{width:100%;height:auto;overflow:visible}
-/* Background ice-cliff parallax — slowest layer. */
-.layer{position:absolute;inset:-6%;pointer-events:none;will-change:transform}
-.layer--cliffs{
-  background:
-    radial-gradient(120% 70% at 50% 8%, rgba(120,170,200,.10), transparent 60%);
-  mix-blend-mode:screen;
-}
-/* Mid-ground atmospheric drift. */
-.layer--haze{
-  background:
-    radial-gradient(80% 50% at 20% 70%, rgba(180,210,230,.09), transparent 70%),
-    radial-gradient(70% 45% at 82% 62%, rgba(150,190,220,.07), transparent 70%);
-  mix-blend-mode:screen;
-}
-/* Foreground snow — its own canvas, fastest layer. */
-.stage__snow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-
-/* Colour grade: deep arctic charcoal at the top of the journey,
-   pure black by the bottom. Driven by --grade from JS. */
-.stage__grade{
-  position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(180deg,
-    rgba(12,18,24,.30) 0%,
-    rgba(4,6,10,.10) 45%,
-    rgba(4,6,10,.55) 100%);
-  opacity:calc(.35 + var(--grade,0) * .65);
-}
-.stage__vignette{
-  position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(115% 85% at 50% 45%, transparent 42%, rgba(0,0,0,.72) 100%);
-}
-.stage__scanline{
-  position:absolute;inset:0;pointer-events:none;opacity:.05;
-  background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.5) 2px 3px);
-  mix-blend-mode:overlay;
-}
-
-/* Boot state */
-.boot{
-  position:fixed;inset:0;z-index:90;
-  display:grid;place-items:center;
-  background:var(--void);
-  transition:opacity .9s var(--ease),visibility .9s var(--ease);
-}
-.boot.is-ready{opacity:0;visibility:hidden}
-.boot__inner{text-align:center;width:min(78vw,420px)}
-.boot__label{
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;
-  color:var(--steel);margin-bottom:1.2rem;
-}
-.boot__rail{height:1px;background:rgba(124,147,166,.25);overflow:hidden}
-.boot__fill{height:100%;width:0%;background:var(--cyan);box-shadow:0 0 12px var(--cyan-soft);transition:width .25s linear}
-.boot__pct{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--steel);margin-top:1rem}
-
-/* ============ HUD ============ */
-.hud{
-  position:fixed;top:50%;right:clamp(1rem,3vw,2.6rem);
-  transform:translateY(-50%);
-  z-index:40;
-  display:flex;align-items:center;gap:1rem;
-  pointer-events:none;
-  opacity:0;transition:opacity .8s var(--ease) .3s;
-}
-.hud.is-live{opacity:1}
-.hud__zones{list-style:none;padding:0;margin:0;text-align:right;display:grid;gap:1.05rem}
-.hud__zone{
-  font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
-  color:rgba(164,186,203,.72);
-  text-shadow:0 1px 3px rgba(0,0,0,.9), 0 2px 12px rgba(0,0,0,.7);
-  transition:color .45s var(--ease),opacity .45s var(--ease);
-  white-space:nowrap;
-  display:flex;align-items:center;justify-content:flex-end;gap:.55rem;
-}
-.hud__zone::after{
-  content:"";width:6px;height:1px;background:currentColor;opacity:.5;
-  transition:width .45s var(--ease);
-}
-.hud__zone.is-active{color:var(--cyan)}
-.hud__zone.is-active::after{width:16px;opacity:1;box-shadow:0 0 8px var(--cyan-soft)}
-.hud__zone.is-past{color:rgba(220,234,242,.4)}
-
-.hud__gauge{display:flex;flex-direction:column;align-items:center;gap:.7rem}
-.hud__rail{
-  position:relative;width:2px;height:min(42vh,320px);
-  background:rgba(124,147,166,.18);
-}
-.hud__fill{
-  position:absolute;left:0;top:0;width:100%;height:0%;
-  background:var(--cyan);box-shadow:0 0 10px var(--cyan-soft);
-}
-.hud__tick{position:absolute;left:-4px;width:10px;height:1px;background:rgba(124,147,166,.35)}
-.hud__pct{
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;
-  color:var(--cyan);font-variant-numeric:tabular-nums;
-  text-shadow:0 1px 3px rgba(0,0,0,.9), 0 0 14px rgba(53,228,255,.35);
-}
-.hud__cap{
-  font-family:var(--mono);font-size:.54rem;letter-spacing:.28em;
-  color:rgba(164,186,203,.7);writing-mode:vertical-rl;
-  text-shadow:0 1px 3px rgba(0,0,0,.9);
-}
-@media (max-width:760px){
-  .hud__zones{display:none}
-  .hud__rail{height:30vh}
-}
-
-/* ============ JOURNEY TRACK ============ */
-.journey{position:relative;z-index:20}
-.beat{
-  height:100vh;
-  display:grid;align-content:center;
-  padding:0 clamp(1.4rem,7vw,7rem);
-  max-width:1500px;margin-inline:auto;width:100%;
-}
-.beat__inner{max-width:min(52ch,86vw)}
-.beat--right .beat__inner{margin-left:auto;text-align:right}
-
-.eyebrow{
-  font-family:var(--mono);font-size:.64rem;letter-spacing:.32em;text-transform:uppercase;
-  color:var(--cyan);display:flex;align-items:center;gap:.7rem;margin-bottom:1.4rem;
-}
-.beat--right .eyebrow{justify-content:flex-end}
-.eyebrow::before{content:"";width:22px;height:1px;background:var(--cyan);opacity:.8}
-.beat--right .eyebrow::before{order:2}
-
-/* A local scrim behind each beat keeps type readable over bright snow
-   without darkening the whole plate. */
-.beat__inner{position:relative}
-.beat__inner::before{
-  content:"";position:absolute;inset:-9rem -12rem;z-index:-1;
-  background:radial-gradient(ellipse 60% 55% at 32% 42%, rgba(4,6,10,.55), rgba(4,6,10,.22) 45%, transparent 68%);
-}
-.beat--right .beat__inner::before{
-  background:radial-gradient(ellipse 60% 55% at 68% 42%, rgba(4,6,10,.55), rgba(4,6,10,.22) 45%, transparent 68%);
-}
-.beat h1,.beat h2{
-  font-weight:200;line-height:1.02;letter-spacing:-.015em;
-  text-wrap:balance;
-  text-shadow:0 1px 2px rgba(0,0,0,.9), 0 4px 26px rgba(0,0,0,.85), 0 12px 60px rgba(0,0,0,.7);
-}
-.beat h1{font-size:clamp(2.9rem,8.5vw,7.5rem)}
-.beat h2{font-size:clamp(2rem,5vw,4.2rem)}
-.beat p{
-  margin-top:1.5rem;font-size:clamp(.98rem,1.35vw,1.16rem);font-weight:300;
-  color:rgba(233,243,249,.88);max-width:44ch;line-height:1.65;
-  text-shadow:0 1px 2px rgba(0,0,0,.9), 0 3px 18px rgba(0,0,0,.8);
-}
-.beat--right p{margin-left:auto}
-
-/* Beats fade in/out as their zone passes — set by JS. */
-.beat__inner{
-  opacity:0;transform:translateY(28px);
-  transition:opacity .7s var(--ease),transform .7s var(--ease);
-}
-.beat.is-lit .beat__inner{opacity:1;transform:none}
-
-/* Escape hatch for repeat visitors — skip the film, enter the classic site. */
-.skipnav{
-  position:fixed;top:1.4rem;right:clamp(1rem,3vw,2.6rem);z-index:45;
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;
-  color:rgba(164,186,203,.75);padding:.55rem .9rem;
-  border:1px solid rgba(124,147,166,.25);
-  background:rgba(4,6,10,.35);backdrop-filter:blur(6px);
-  transition:color .35s var(--ease),border-color .35s var(--ease),opacity .6s var(--ease);
-  text-shadow:0 1px 3px rgba(0,0,0,.8);
-}
-.skipnav:hover{color:var(--cyan);border-color:var(--cyan-soft)}
-
-.scrollcue{
-  position:fixed;left:50%;bottom:2.2rem;transform:translateX(-50%);
-  z-index:40;display:grid;justify-items:center;gap:.6rem;
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;
-  color:rgba(124,147,166,.7);
-  transition:opacity .6s var(--ease);
-}
-.scrollcue__line{width:1px;height:34px;background:linear-gradient(180deg,var(--cyan),transparent);animation:cue 2.4s var(--ease) infinite}
-@keyframes cue{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(.2);transform-origin:bottom}}
-
-/* ============ THE TAKEOVER — scroll into the laptop screen ============ */
-.takeover{position:relative;z-index:25;height:260vh}
-.portal{
-  position:fixed;inset:0;z-index:30;
-  display:grid;place-items:center;
-  pointer-events:none;
-  opacity:0;visibility:hidden;
-}
-.portal.is-active{visibility:visible;pointer-events:auto}
-.portal__frame{
-  position:relative;
-  width:100%;height:100%;
-  background:var(--void);
-  border:1px solid var(--cyan-faint);
-  box-shadow:0 0 0 1px rgba(53,228,255,.10), 0 0 90px rgba(53,228,255,.16);
-  overflow:hidden;
-  display:grid;place-items:center;
-  will-change:clip-path,transform;
-}
-.portal__content{
-  width:100%;max-width:1100px;padding:0 clamp(1.4rem,5vw,4rem);
-  text-align:center;
-}
-.portal__mark{
-  font-family:var(--mono);font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;
-  color:var(--cyan);margin-bottom:1.8rem;
-}
-.portal__content h2{
-  font-weight:100;font-size:clamp(2.4rem,7.5vw,6.4rem);line-height:1;letter-spacing:.02em;
-}
-.portal__content h2 em{font-style:normal;color:var(--cyan)}
-.portal__content p{
-  margin-top:1.6rem;font-weight:300;color:rgba(220,234,242,.62);
-  font-size:clamp(.95rem,1.3vw,1.12rem);max-width:52ch;margin-inline:auto;line-height:1.7;
-}
-
-/* ============ THE SITE ============ */
-.site{position:relative;z-index:35;background:var(--void)}
-.wrap{width:100%;max-width:1240px;margin-inline:auto;padding-inline:clamp(1.4rem,5vw,4rem)}
-.section{padding-block:clamp(6rem,13vw,11rem)}
-.section__head{max-width:60ch;margin-bottom:clamp(3rem,6vw,5rem)}
-.section__head h2{
-  font-weight:200;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.06;letter-spacing:-.01em;
-}
-.section__head p{margin-top:1.2rem;color:rgba(220,234,242,.6);font-weight:300;line-height:1.7;max-width:48ch}
-
-/* Spec callouts — vessel style */
-.specs{display:grid;gap:1px;background:rgba(124,147,166,.15);border:1px solid rgba(124,147,166,.15)}
-@media (min-width:720px){.specs{grid-template-columns:repeat(2,1fr)}}
-@media (min-width:1040px){.specs{grid-template-columns:repeat(4,1fr)}}
-.spec{
-  background:var(--void);padding:clamp(1.8rem,3vw,2.6rem);
-  display:grid;gap:.9rem;align-content:start;
-  position:relative;transition:background .5s var(--ease);
-}
-.spec:hover{background:#070B11}
-.spec__id{font-family:var(--mono);font-size:.58rem;letter-spacing:.26em;color:var(--cyan);opacity:.85}
-.spec__val{font-weight:200;font-size:clamp(1.6rem,2.6vw,2.2rem);line-height:1.08;letter-spacing:-.01em}
-.spec__key{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(124,147,166,.85)}
-.spec__note{font-size:.9rem;font-weight:300;color:rgba(220,234,242,.5);line-height:1.6}
-
-/* Scarcity */
-.scarcity{border-top:1px solid rgba(124,147,166,.15);border-bottom:1px solid rgba(124,147,166,.15)}
-.scarcity__grid{display:grid;gap:2.5rem;align-items:center}
-@media (min-width:900px){.scarcity__grid{grid-template-columns:1.1fr .9fr}}
-.scarcity h2{font-weight:100;font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.02}
-.scarcity h2 em{font-style:normal;color:var(--cyan)}
-.seats{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:2rem}
-.seat{width:26px;height:3px;background:var(--cyan);box-shadow:0 0 10px var(--cyan-soft)}
-.seat.is-gone{background:rgba(124,147,166,.24);box-shadow:none}
-.scarcity__meta{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(124,147,166,.8);display:grid;gap:.9rem}
-.scarcity__meta span{display:flex;justify-content:space-between;gap:2rem;padding-bottom:.7rem;border-bottom:1px solid rgba(124,147,166,.14)}
-.scarcity__meta b{font-weight:400;color:var(--frost)}
-
-/* CTA */
-.cta{text-align:center}
-.cta h2{font-weight:100;font-size:clamp(2.6rem,8vw,6rem);line-height:1;margin-bottom:1.4rem}
-.cta p{color:rgba(220,234,242,.6);font-weight:300;max-width:46ch;margin:0 auto 3rem;line-height:1.7}
-.btn{
-  display:inline-flex;align-items:center;gap:.9rem;
-  padding:1.05rem 2.4rem;border:1px solid var(--cyan);
-  color:var(--cyan);font-family:var(--mono);font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;
-  transition:background .45s var(--ease),color .45s var(--ease),box-shadow .45s var(--ease);
-  background:transparent;cursor:pointer;
-}
-.btn:hover{background:var(--cyan);color:var(--void);box-shadow:0 0 40px rgba(53,228,255,.35)}
-.btn svg{width:14px;height:14px;transition:transform .45s var(--ease)}
-.btn:hover svg{transform:translateX(4px)}
-
-.foot{border-top:1px solid rgba(124,147,166,.15);padding-block:2.6rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(124,147,166,.6)}
-.foot__row{display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:space-between;align-items:center}
-
-@media (prefers-reduced-motion:reduce){
-  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
-}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/vendor/scrollcraft.css?v=20260824a">
+<link rel="stylesheet" href="/assets/css/v3.css?v=20260824a">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"Design of Man",
+"description":"Website creation and management. Strategy, design, build, and ongoing care.",
+"url":"https://www.designofman.com/","email":"hello@designofman.com","telephone":"+1-561-555-0100",
+"areaServed":"United States","priceRange":"$$",
+"address":{"@type":"PostalAddress","addressLocality":"Jupiter","addressRegion":"FL","addressCountry":"US"},
+"serviceType":["Website Development","Web App Development","Web Hosting and Maintenance"]}
+</script>
 </head>
 <body>
 
-<!-- BOOT -->
-<div class="boot" id="boot">
-  <div class="boot__inner">
-    <div class="boot__label">Design of Man — Expedition</div>
-    <div class="boot__rail"><div class="boot__fill" id="bootFill"></div></div>
-    <div class="boot__pct" id="bootPct">LOADING 0%</div>
-  </div>
-</div>
+<!-- The film is a gateway, not a wall. This is the first focusable thing on the
+     page, so a keyboard or screen-reader user is never made to scroll ten
+     viewports of scrubbed video to reach the content. -->
+<a class="skip-link" href="#site">Skip film, enter site</a>
+<span data-sc-progress></span>
 
-<!-- STAGE -->
-<div class="stage" id="stage" aria-hidden="true">
-  <canvas class="stage__film" id="film"></canvas>
-  <!-- The wordmark on the laptop screen. Veo cannot spell, so the screen it
-       generated shows rune-like gibberish; this pins the real thing to it.
-       Drawn as strokes because no rune font can be relied on. -->
-  <div class="stage__runes" id="runes" aria-hidden="true">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 262" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="square" stroke-linejoin="miter"><g transform="translate(0 0)"><polyline points="5.0,0.0 5.0,100.0"/><polyline points="50.0,0.0 50.0,100.0"/><polyline points="5.0,0.0 50.0,100.0"/><polyline points="5.0,100.0 50.0,0.0"/><polyline points="82.0,0.0 82.0,100.0"/><polyline points="127.0,0.0 127.0,100.0"/><polyline points="82.0,0.0 104.5,42.0 127.0,0.0"/><polyline points="202.0,0.0 164.0,33.0 202.0,66.0 164.0,100.0"/><polyline points="258.5,0.0 258.5,100.0"/><polyline points="313.0,0.0 358.0,100.0"/><polyline points="358.0,0.0 313.0,100.0"/><polyline points="412.5,0.0 412.5,100.0"/><polyline points="390.0,68.0 435.0,32.0"/></g><g transform="translate(0 162)"><polyline points="43.0,0.0 65.5,34.0 43.0,68.0 20.5,34.0 43.0,0.0"/><polyline points="43.0,68.0 20.5,100.0"/><polyline points="43.0,68.0 65.5,100.0"/><polyline points="97.5,0.0 97.5,100.0"/><polyline points="97.5,30.0 142.5,10.0"/><polyline points="97.5,58.0 142.5,38.0"/><polyline points="220.5,0.0 220.5,100.0"/><polyline points="265.5,0.0 265.5,100.0"/><polyline points="220.5,8.0 265.5,52.0"/><polyline points="265.5,8.0 220.5,52.0"/><polyline points="297.5,0.0 297.5,100.0"/><polyline points="297.5,12.0 342.5,32.0"/><polyline points="297.5,42.0 342.5,62.0"/><polyline points="397.0,0.0 397.0,100.0"/><polyline points="374.5,68.0 419.5,32.0"/></g></svg>
-  </div>
-  <div class="layer layer--cliffs" id="layerCliffs"></div>
-  <div class="layer layer--haze" id="layerHaze"></div>
-  <canvas class="stage__snow" id="snow"></canvas>
-  <div class="stage__grade" id="grade"></div>
-  <div class="stage__vignette"></div>
-  <div class="stage__scanline"></div>
-</div>
+<header class="bar">
+  <a href="/" class="mark"><svg viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg><span>Design of Man</span></a>
+  <nav aria-label="Main">
+    <a href="#services">Services</a>
+    <a href="/work">Work</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#consult">Contact</a>
+  </nav>
+</header>
 
-<!-- HUD -->
-<aside class="hud" id="hud" aria-hidden="true">
-  <ul class="hud__zones" id="hudZones">
-    <li class="hud__zone" data-zone="0">The Trek</li>
-    <li class="hud__zone" data-zone="1">The Discovery</li>
-    <li class="hud__zone" data-zone="2">The Approach</li>
-    <li class="hud__zone" data-zone="3">The Opening</li>
-    <li class="hud__zone" data-zone="4">The Revelation</li>
-  </ul>
-  <div class="hud__gauge">
-    <div class="hud__pct" id="hudPct">00%</div>
-    <div class="hud__rail" id="hudRail"><div class="hud__fill" id="hudFill"></div></div>
-    <div class="hud__cap">Progress</div>
-  </div>
-</aside>
+<main>
 
-<a class="skipnav" href="/home" id="skipnav">Skip film — enter site</a>
+  <!-- 1+2 · THE CROSSING, then ARRIVAL. One scrub device, two beats: the film
+       is a single unbroken shot and splitting it into two acts would put the
+       same device family twice in a row for no gain. clip-map="travel" lands
+       the last frame exactly at the end of the pin, which is where the glass
+       layer below takes over. -->
+  <section class="film" id="film" data-sc-act="scrub" data-sc-span="5.2"
+           data-sc-dwell="0.30" data-sc-clip-map="travel" data-sc-drift="#0b0c0e">
+    <div data-sc-stage>
+      <img class="sc-stage__poster" src="/assets/video/sc/film-poster.jpg?v=20260824a" alt="">
+      <video data-sc-scrub
+             data-sc-src="/assets/video/sc/film.mp4?v=20260824a"
+             data-sc-src-mobile="/assets/video/sc/film-m.mp4?v=20260824a"
+             muted playsinline preload="none"></video>
+      <div class="film__scrim" aria-hidden="true"></div>
 
-<div class="scrollcue" id="scrollcue">
-  <span>Scroll</span>
-  <span class="scrollcue__line"></span>
-</div>
+      <div class="sc-copy sc-copy--lead" data-sc-cue="0 0.30 0">
+        <h1 class="sc-display sc-display--xl" data-sc-kinetic="lines">Most people are <em>looking</em> for it.</h1>
+        <p class="sc-body">Your customers are already searching. The only question is whether they find you.</p>
+      </div>
 
-<!-- JOURNEY -->
-<main class="journey" id="journey">
-  <section class="beat beat--hero" data-beat="0">
-    <div class="beat__inner">
-      <div class="eyebrow">67°N — Expedition Log</div>
-      <h1>How far will<br>you go?</h1>
-      <p>Most stop at the edge of what they know. The work that matters is always further out — past the weather, past the point where it stops being comfortable.</p>
+      <div class="sc-copy sc-copy--lead" data-sc-cue="0.46 0.70">
+        <p class="beat sc-display sc-display--lg" data-sc-kinetic="lines">Getting found takes <em>ground</em>.</p>
+        <p class="sc-body">Search, structure, speed, and content that earns its place. Nobody arrives by accident.</p>
+      </div>
     </div>
   </section>
 
-  <section class="beat beat--right" data-beat="1">
-    <div class="beat__inner">
-      <div class="eyebrow">020 — Precision</div>
-      <h2>Every pixel starts with precision</h2>
-      <p>Nothing is placed by accident. Type scale, rhythm, contrast, motion — each decision is measured before it ships.</p>
+  <!-- 3 · THE SCREEN. The peak, and the largest span on the page. This section
+       owns the scroll; what draws is the fixed .glass layer below, because the
+       payoff has to survive the scrub stage unsticking underneath it. -->
+  <section id="peak" data-sc-act="pin" data-sc-span="2.4" data-sc-drift="#0b0c0e">
+    <div data-sc-stage aria-hidden="true"></div>
+  </section>
+
+
+  <!-- ══ THE SITE ══ Everything below is what the film delivers you into. The
+       boot resolves the white screen to this ground, so there is no second
+       transition: you are simply inside. -->
+  <div id="site">
+
+  <section class="sc-section band" id="about">
+    <div class="sc-wrap">
+      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">We build the foundation your business stands on.</h2>
+      <div class="lede" data-sc-in data-sc-stagger="80">
+        <p class="sc-body">Design of Man is a small studio with one focus: websites that work, and keep working. We handle the full arc, from design and development to launch and the ongoing care after it.</p>
+        <p class="sc-body">No templates stretched to fit. No jargon-filled proposals. Clear plans, honest timelines, and sites built to hold up as your business grows.</p>
+      </div>
+      <div class="cards three" data-sc-in data-sc-stagger="90">
+      <div class="card"><h3>Clarity</h3><p>No jargon, no static. Every project starts with a plan you can actually read.</p></div>
+      <div class="card"><h3>Craft</h3><p>Custom-built, not templated. Your site is made for your business, not shoehorned into one.</p></div>
+      <div class="card"><h3>Care</h3><p>We do not disappear after launch. Hosting and maintenance are part of the deal.</p></div>
+      </div>
     </div>
   </section>
 
-  <section class="beat" data-beat="2">
-    <div class="beat__inner">
-      <div class="eyebrow">040 — Continuity</div>
-      <h2>Power that never sleeps</h2>
-      <p>Monitored, patched and defended around the clock. The platform holds whether anyone is watching or not.</p>
+  <section class="sc-section band band--alt" id="services">
+    <div class="sc-wrap">
+      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Two starting points, one proven blueprint.</h2>
+      <p class="sc-body lede" data-sc-in>Whether you need a website, an app, or both, every build follows the same route: design, implementation, and long-term care.</p>
+      <div class="cards" data-sc-in data-sc-stagger="80">
+      <div class="card"><h3>Custom Website Development</h3><p>Responsive, custom-built sites, written by hand rather than assembled from plugins.</p></div>
+      <div class="card"><h3>Custom App Development</h3><p>Web and mobile apps, built to scale with what you actually sell.</p></div>
+      <div class="card"><h3>Design</h3><p>UX, wireframes and visual direction, refined with your feedback rather than presented at you.</p></div>
+      <div class="card"><h3>Implementation</h3><p>Domains, migrations, payments, CRM and analytics, wired up and tested for real.</p></div>
+      <div class="card"><h3>Hosting and Maintenance</h3><p>Hosting, security, backups, updates and support, for as long as you want us on it.</p></div>
+      </div>
     </div>
   </section>
 
-  <section class="beat beat--right" data-beat="3">
-    <div class="beat__inner">
-      <div class="eyebrow">060 — Standard</div>
-      <h2>Nothing leaves unfinished</h2>
-      <p>No placeholder copy. No dead links. No launch that quietly breaks a week later. It ships complete or it does not ship.</p>
+  <section class="sc-section band" id="why">
+    <div class="sc-wrap">
+      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">The difference, plainly.</h2>
+      <div class="cards two" data-sc-in data-sc-stagger="90">
+      <div class="card"><h3>One team, start to finish</h3><p>Design, development and maintenance under one roof. One point of contact, no finger-pointing between vendors.</p></div>
+      <div class="card"><h3>Built for outcomes</h3><p>Every choice ties back to your goals: more leads, more sales, a site people trust and actually use.</p></div>
+      <div class="card"><h3>No churn and burn</h3><p>We build lasting relationships, not one-off projects. We are here after launch, month after month.</p></div>
+      <div class="card"><h3>Honest and transparent</h3><p>Clear timelines, clear pricing, clear communication. You always know where your project stands.</p></div>
+      </div>
     </div>
   </section>
 
-  <section class="beat" data-beat="4">
-    <div class="beat__inner">
-      <div class="eyebrow">100 — Found</div>
-      <h2>And then you find it.</h2>
-      <p>Something built with such certainty it looks like it was always here.</p>
+  <section class="sc-section band band--alt" id="process">
+    <div class="sc-wrap">
+      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">From first sketch to launch day.</h2>
+      <ol class="steps" data-sc-in data-sc-stagger="70">
+        <li><span class="step__n">01</span><div><h3>Discover</h3><p>We learn your business, your goals, and what your site actually needs to do.</p></div></li>
+        <li><span class="step__n">02</span><div><h3>Design</h3><p>Wireframes and visual direction, refined together with your feedback.</p></div></li>
+        <li><span class="step__n">03</span><div><h3>Build</h3><p>Development happens in the open, with regular check-ins along the way.</p></div></li>
+        <li><span class="step__n">04</span><div><h3>Launch</h3><p>We handle the technical rollout, start to finish, so nothing breaks.</p></div></li>
+        <li><span class="step__n">05</span><div><h3>Maintain</h3><p>Ongoing hosting, monitoring and updates. The work does not stop at launch.</p></div></li>
+      </ol>
     </div>
   </section>
+
+  <section class="sc-section band" id="pricing">
+    <div class="sc-wrap">
+      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Simple plans, no surprises.</h2>
+      <p class="sc-body lede" data-sc-in>Three ways we usually work. Every build is scoped to what it actually needs, so your free consult gets you an exact quote, not a number off a list.</p>
+      <div class="cards three plans" data-sc-in data-sc-stagger="90">
+        <div class="card plan">
+          <h3>Launch</h3>
+          <p>A clean, professional site to get your business online and converting.</p>
+          <ul><li>Up to 5 custom pages</li><li>Mobile-responsive design</li><li>Contact form and basic SEO</li><li>Live in 2 to 3 weeks</li></ul>
+          <a class="btn btn--quiet" href="#consult">Get started</a>
+        </div>
+        <div class="card plan plan--lead">
+          <h3>Scale</h3>
+          <p>A fully custom site with the integrations and features to grow with you.</p>
+          <ul><li>Everything in Launch</li><li>Unlimited custom pages</li><li>CRM, payments and analytics</li><li>Content migration included</li><li>Three months of care included</li></ul>
+          <a class="btn" href="#consult">Get started</a>
+        </div>
+        <div class="card plan">
+          <h3>Care</h3>
+          <p>Ongoing hosting and maintenance to keep your site fast, secure and current.</p>
+          <ul><li>Managed hosting and uptime alerts</li><li>Security updates and backups</li><li>Monthly content updates</li><li>Month to month, no contract</li></ul>
+          <a class="btn btn--quiet" href="#consult">Get started</a>
+        </div>
+      </div>
+      <p class="sc-body note" data-sc-in>Not sure which fits? Book a free consult and we will point you the right way.</p>
+    </div>
+  </section>
+
+  <section class="sc-section band band--alt" id="testimonials">
+    <div class="sc-wrap">
+      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Built for them. In their words.</h2>
+      <div class="cards three" data-sc-in data-sc-stagger="90">
+        <blockquote class="card quote"><p>They took our tired old site and turned it into something we are proud to send people to. Launched ahead of schedule, too.</p></blockquote>
+        <blockquote class="card quote"><p>What sold me was that they did not disappear after launch. The maintenance plan means I never think about my website. It just works.</p></blockquote>
+        <blockquote class="card quote"><p>Clear pricing, honest timelines, and a team that actually explained things. Our new site loads fast and our bookings are up.</p></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="sc-section band" id="faq">
+    <div class="sc-wrap narrow">
+      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Everything you would ask on the call.</h2>
+      <div data-sc-in data-sc-stagger="60">
+      <details class="qa"><summary>How much does a custom website cost?</summary><p>It depends on what the site has to do. A brochure site for a local business and a custom build with booking, payments and integrations are very different jobs. The consult ends with an exact number for your scope.</p></details>
+      <details class="qa"><summary>How long does a project take?</summary><p>Simple sites launch in two to three weeks. Most business sites run four to six weeks from kickoff, and larger custom or e-commerce builds take eight to twelve. You get the schedule before we start.</p></details>
+      <details class="qa"><summary>Will my site work on mobile?</summary><p>Always. Every site we build is responsive and tested across phones, tablets and desktops. Mobile is part of the process, not an afterthought.</p></details>
+      <details class="qa"><summary>Do you handle hosting and updates after launch?</summary><p>Yes. Care plans cover managed hosting, security updates, backups, uptime monitoring and content updates, priced to the site they look after.</p></details>
+      <details class="qa"><summary>Can you redesign or migrate my existing site?</summary><p>Absolutely. We regularly rebuild aging sites and migrate content, domains and email from your old host with no downtime. We audit what you have and tell you honestly what is worth keeping.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="sc-section band band--alt" id="consult">
+    <div class="sc-wrap narrow">
+      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Let us draw up the plan.</h2>
+      <p class="sc-body lede" data-sc-in>Tell us about your project. We reply within one business day to set up a free, no-pressure 30-minute call.</p>
+      <!-- PRE-LAUNCH: action still carries Formspree's YOUR_FORM_ID placeholder.
+           See PRELAUNCH.md. The form degrades to the mailto link below it. -->
+      <form class="form" id="consultForm" method="POST"
+            action="https://formspree.io/f/YOUR_FORM_ID" data-sc-in>
+        <div class="field"><label for="cf-name">Name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="cf-company">Business <span class="opt">optional</span></label><input id="cf-company" name="company" type="text" autocomplete="organization"></div>
+        <div class="field"><label for="cf-project">What do you need?</label>
+          <select id="cf-project" name="project" required>
+            <option value="">Choose one</option>
+            <option>A new website</option>
+            <option>A rebuild of an existing site</option>
+            <option>A web or mobile app</option>
+            <option>Hosting and maintenance only</option>
+            <option>Something else</option>
+          </select></div>
+        <div class="field"><label for="cf-message">Tell us a little about it</label><textarea id="cf-message" name="message" rows="5" required></textarea></div>
+        <button class="btn" type="submit">Book my consult</button>
+        <p class="form__note" role="status">We reply within one business day. Prefer email? <a href="mailto:hello@designofman.com">hello@designofman.com</a></p>
+      </form>
+    </div>
+  </section>
+
+  </div><!-- /#site -->
+
+  <!-- THE CLOSE. Last element on the page. The moor comes back behind it and the
+       bezel retreats, so the page resolves by leaving the machine rather than
+       fading to a footer. -->
+  <section id="join" data-sc-act="pin" data-sc-span="1.4" data-sc-drift="#0b0c0e">
+    <div data-sc-stage class="close" id="closeStage" data-sc-spotlight>
+      <div class="close__inner">
+        <h2 class="sc-display sc-display--lg" data-sc-cue="0 1 0 0" data-sc-kinetic="lines">Let&rsquo;s build something <em>honest</em>.</h2>
+        <p class="sc-body" data-sc-cue="0 1 0 0">One studio, from the first sketch to the hosting bill.</p>
+        <a class="btn" href="#consult" data-sc-magnet="0.24" data-sc-cue="0 1 0 0" data-sc-rise="0">Start a Project</a>
+      </div>
+      <div class="foot">
+        <span>&copy; 2026 Design of Man. Website creation and management.</span>
+        <nav aria-label="Footer">
+          <a href="/work">Work</a>
+          <a href="#pricing">Pricing</a>
+          <a href="mailto:hello@designofman.com">Email</a>
+        </nav>
+      </div>
+    </div>
+  </section>
+
 </main>
 
-<!-- TAKEOVER: scroll into the screen -->
-<section class="takeover" id="takeover" aria-hidden="true"></section>
-
-<div class="portal" id="portal">
-  <div class="portal__frame" id="portalFrame">
-    <div class="portal__content">
-      <div class="portal__mark">Design of Man</div>
-      <h2>We build the<br>thing worth <em>finding</em>.</h2>
-      <p>Premium digital experiences, and the disciplined management that keeps them fast, secure and alive long after launch day.</p>
+<!-- The signature move. Opens on the film's own final frame so the cut is
+     invisible, then flies the site off the laptop's real glass until it is the
+     viewport. inert until the panel is big enough to read and click. -->
+<div class="glass" id="glass" aria-hidden="true" inert>
+  <img class="glass__still" id="glassStill" src="/assets/video/sc/film-end.jpg?v=20260824a" alt="">
+  <div class="panel" id="panel">
+    <!-- What the machine is showing while you are still walking up to it. The
+         plate's screen is blown out to rgb(244,250,243), so the panel matches
+         that exactly: white on white means the weld cannot betray itself. -->
+    <div class="panel__boot" aria-hidden="true">
+      <svg class="panel__mark" viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg>
+      <span class="panel__word">Design of Man</span>
+      <span class="panel__bar"><i></i></span>
+    </div>
+    <div class="panel__inner">
+      <h2>Websites that work, and <em>keep</em> working.</h2>
+      <p>A small studio. Strategy, design, build, and care, by the people who read every line before they ship it.</p>
+      <a class="btn" href="#consult" id="panelCta">Start a Project</a>
     </div>
   </div>
 </div>
+<div class="bezel" id="bezel" aria-hidden="true"></div>
 
-<!-- SITE -->
-<div class="site" id="site">
-  <section class="section" id="specs">
-    <div class="wrap">
-      <div class="section__head">
-        <div class="eyebrow">Specification</div>
-        <h2>Built to survive contact with the real world.</h2>
-        <p>Four commitments that hold on every engagement, from first wireframe to the fifth year of management.</p>
-      </div>
-      <div class="specs">
-        <article class="spec">
-          <div class="spec__id">SPEC / 01</div>
-          <div class="spec__val">Custom design systems</div>
-          <div class="spec__key">Foundation</div>
-          <p class="spec__note">Tokens, components and rules — so the tenth page looks as considered as the first.</p>
-        </article>
-        <article class="spec">
-          <div class="spec__id">SPEC / 02</div>
-          <div class="spec__val">24/7 management</div>
-          <div class="spec__key">Operations</div>
-          <p class="spec__note">Updates, backups, monitoring and response. Handled before you notice.</p>
-        </article>
-        <article class="spec">
-          <div class="spec__id">SPEC / 03</div>
-          <div class="spec__val">99.9% uptime rating</div>
-          <div class="spec__key">Reliability</div>
-          <p class="spec__note">Edge-delivered and redundant. The site is up when the campaign lands.</p>
-        </article>
-        <article class="spec">
-          <div class="spec__id">SPEC / 04</div>
-          <div class="spec__val">Performance-first architecture</div>
-          <div class="spec__key">Engineering</div>
-          <p class="spec__note">Measured against Core Web Vitals, not opinions. Fast on the worst phone in the room.</p>
-        </article>
-      </div>
-    </div>
-  </section>
 
-  <section class="section scarcity">
-    <div class="wrap scarcity__grid">
-      <div>
-        <div class="eyebrow">Availability</div>
-        <h2><em>8 seats</em> available.<br>Launching Q1 2027.</h2>
-        <div class="seats" id="seats" aria-hidden="true"></div>
-      </div>
-      <div class="scarcity__meta">
-        <span>Intake <b>Q1 2027</b></span>
-        <span>Seats remaining <b>08 / 12</b></span>
-        <span>Engagement <b>Build + Manage</b></span>
-        <span>Response <b>Within 48h</b></span>
-      </div>
-    </div>
-  </section>
-
-  <section class="section cta">
-    <div class="wrap">
-      <div class="eyebrow" style="justify-content:center">Enlist</div>
-      <h2>Join the Build</h2>
-      <p>Tell us where you're trying to get to. If it's far enough out, we'll take the walk with you.</p>
-      <a class="btn" href="mailto:hello@designofman.com?subject=Join%20the%20Build">
-        Join the Build
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-    </div>
-  </section>
-
-  <footer class="foot">
-    <div class="wrap foot__row">
-      <span>Design of Man</span>
-      <span><a href="/home">Site</a> &nbsp;·&nbsp; <a href="/work">Work</a> &nbsp;·&nbsp; <a href="/pay">Billing</a></span>
-      <span>hello@designofman.com</span>
-    </div>
-  </footer>
-</div>
-
-<script>
-(() => {
-  "use strict";
-
-  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-  const lerp = (a, b, t) => a + (b - a) * t;
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const ZONES = ["THE TREK","THE DISCOVERY","THE APPROACH","THE OPENING","THE REVELATION"];
-
-  const el = {
-    boot: document.getElementById("boot"),
-    bootFill: document.getElementById("bootFill"),
-    bootPct: document.getElementById("bootPct"),
-    film: document.getElementById("film"),
-    runes: document.getElementById("runes"),
-    snow: document.getElementById("snow"),
-    stage: document.getElementById("stage"),
-    grade: document.getElementById("grade"),
-    cliffs: document.getElementById("layerCliffs"),
-    haze: document.getElementById("layerHaze"),
-    hud: document.getElementById("hud"),
-    hudPct: document.getElementById("hudPct"),
-    hudFill: document.getElementById("hudFill"),
-    hudRail: document.getElementById("hudRail"),
-    zones: [...document.querySelectorAll(".hud__zone")],
-    journey: document.getElementById("journey"),
-    beats: [...document.querySelectorAll(".beat")],
-    takeover: document.getElementById("takeover"),
-    portal: document.getElementById("portal"),
-    portalFrame: document.getElementById("portalFrame"),
-    scrollcue: document.getElementById("scrollcue"),
-    skipnav: document.getElementById("skipnav"),
-    seats: document.getElementById("seats"),
-  };
-
-  /* ---------------- seat pips ---------------- */
-  for (let i = 0; i < 12; i++) {
-    const s = document.createElement("span");
-    s.className = "seat" + (i >= 8 ? " is-gone" : "");
-    el.seats.appendChild(s);
-  }
-
-  /* ---------------- HUD ticks ---------------- */
-  for (let i = 1; i < 5; i++) {
-    const t = document.createElement("span");
-    t.className = "hud__tick";
-    t.style.top = (i / 5 * 100) + "%";
-    el.hudRail.appendChild(t);
-  }
-
-  /* ================= FRAME SEQUENCE ================= */
-  const ctx = el.film.getContext("2d", { alpha: false });
-  let frames = [];        // HTMLImageElement | null, indexed
-  let frameCount = 0;
-  let manifest = null;
-  let loadedCount = 0;
-  let ready = false;
-
-  async function loadManifest() {
-    try {
-      const res = await fetch("assets/journey/manifest.json", { cache: "force-cache" });
-      if (!res.ok) throw new Error("no manifest");
-      return await res.json();
-    } catch {
-      return null;
-    }
-  }
-
-  /* Pick the frame set that matches the display. A 4K screen gets the
-     high-DPI set; ordinary displays are not made to pay for pixels they
-     cannot show. Falls back to the legacy flat path for older manifests. */
-  let framePattern = "assets/journey/frames/f_%04d.jpg";
-  function chooseVariant(m) {
-    if (!m?.variants?.length || !m.pattern) return;
-    const target = window.innerWidth * Math.min(window.devicePixelRatio || 1, 2);
-    const sorted = [...m.variants].sort((a, b) => a.width - b.width);
-    const pick = sorted.find((v) => v.width >= target) || sorted[sorted.length - 1];
-    framePattern = m.pattern.replace("{w}", String(pick.width));
-  }
-
-  function framePath(i) {
-    const n = String(i + 1).padStart(4, "0");
-    return framePattern.replace("%04d", n);
-  }
-
-  function loadImage(src, attempt = 0) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.decoding = "async";
-      img.onload = () => resolve(img);
-      // One retry absorbs transient connection drops under burst load.
-      img.onerror = () =>
-        attempt < 1
-          ? setTimeout(() => loadImage(src, attempt + 1).then(resolve), 400)
-          : resolve(null);
-      img.src = src;
-    });
-  }
-
-  /* Two-pass load: a coarse stride first so scrubbing works almost
-     immediately, then everything else fills in behind it. */
-  async function loadFrames() {
-    const STRIDE = 8;
-    const primary = [];
-    for (let i = 0; i < frameCount; i += STRIDE) primary.push(i);
-    if (primary[primary.length - 1] !== frameCount - 1) primary.push(frameCount - 1);
-
-    let done = 0;
-    const total = frameCount;
-
-    const setProgress = () => {
-      const pct = Math.round((done / total) * 100);
-      el.bootFill.style.width = pct + "%";
-      el.bootPct.textContent = `LOADING ${pct}%`;
-    };
-
-    // Pass 1 — keyframes, in parallel batches.
-    await runPool(primary, 10, async (i) => {
-      frames[i] = await loadImage(framePath(i));
-      done++; loadedCount++; setProgress();
-    });
-
-    start();          // scrubbing is usable now
-    el.bootPct.textContent = "REFINING…";
-
-    // Pass 2 — everything else, lower concurrency so scroll stays smooth.
-    const rest = [];
-    for (let i = 0; i < frameCount; i++) if (!frames[i]) rest.push(i);
-    runPool(rest, 6, async (i) => {
-      frames[i] = await loadImage(framePath(i));
-      done++; loadedCount++; setProgress();
-    });
-  }
-
-  async function runPool(items, concurrency, worker) {
-    let cursor = 0;
-    const runners = Array.from({ length: Math.min(concurrency, items.length) }, async () => {
-      while (cursor < items.length) {
-        const idx = items[cursor++];
-        await worker(idx);
-      }
-    });
-    await Promise.all(runners);
-  }
-
-  /* Nearest already-loaded frame, so pass 1 never shows a gap. */
-  function resolveFrame(i) {
-    if (frames[i]) return frames[i];
-    for (let d = 1; d < frameCount; d++) {
-      if (frames[i - d]) return frames[i - d];
-      if (frames[i + d]) return frames[i + d];
-    }
-    return null;
-  }
-
-  let dpr = 1, cw = 0, ch = 0;
-  function sizeCanvas() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    cw = window.innerWidth;
-    ch = window.innerHeight;
-    for (const c of [el.film, el.snow]) {
-      c.width = Math.round(cw * dpr);
-      c.height = Math.round(ch * dpr);
-      c.style.width = cw + "px";
-      c.style.height = ch + "px";
-    }
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    snowCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    drawFrame(currentFrame, true);
-  }
-
-  let lastDrawn = -1;
-  let frameAspect = 16 / 9;
-
-  /**
-   * Where the laptop screen actually sits on the stage, in viewport fractions.
-   *
-   * The manifest measures the screen against the FRAME, but the plate is drawn
-   * cover-fit, so on a viewport wider than the footage the plate overflows and
-   * the screen lands bigger than its frame fraction. Zooming by the raw
-   * fraction would stop short of the screen edges on those displays.
-   */
-  function mapRect(sx, sy, sw, sh) {
-    const cr = cw / ch;
-    let w, h, x, y;
-    if (frameAspect > cr) { h = ch; w = h * frameAspect; x = (cw - w) / 2; y = 0; }
-    else { w = cw; h = w / frameAspect; x = 0; y = (ch - h) / 2; }
-    return {
-      cx: (x + sx * w) / cw,
-      cy: (y + sy * h) / ch,
-      w: (sw * w) / cw,
-      h: (sh * h) / ch,
-    };
-  }
-
-  function stageScreen() {
-    const cs = getComputedStyle(document.documentElement);
-    const pc = (n) => (parseFloat(cs.getPropertyValue(n)) || 0) / 100;
-    return mapRect(pc("--screen-x"), pc("--screen-y"), pc("--screen-w"), pc("--screen-h"));
-  }
-
-  /* ---- the runic wordmark that rides on the laptop screen ---- */
-  let screenTrack = null;
-  // viewBox of the embedded wordmark: 440 x 262
-  const RUNE_ASPECT = 440 / 262;
-  // Where the wordmark sits inside the screen, as fractions of the screen rect.
-  const WM_WIDTH = 0.34;   // of screen width
-  const WM_CENTRE_Y = 0.52; // down from the screen's top edge
-
-  function trackAt(f) {
-    if (!screenTrack || !screenTrack.length) return null;
-    if (f <= screenTrack[0].f) return null;
-    const last = screenTrack[screenTrack.length - 1];
-    if (f >= last.f) return last;
-    // the track is dense and ordered, so a scan is cheaper than a search
-    for (let i = 1; i < screenTrack.length; i++) {
-      const b = screenTrack[i];
-      if (b.f < f) continue;
-      const a = screenTrack[i - 1];
-      const t = (f - a.f) / (b.f - a.f);
-      return {
-        f, x: lerp(a.x, b.x, t), y: lerp(a.y, b.y, t),
-        w: lerp(a.w, b.w, t), h: lerp(a.h, b.h, t),
-      };
-    }
-    return last;
-  }
-
-  function updateRunes(takeoverScale, ox, oy, portalOpacity) {
-    const tr = trackAt(currentFrame);
-    if (!tr) { el.runes.classList.remove("is-live"); return; }
-    const r = mapRect(tr.x, tr.y, tr.w, tr.h);
-
-    const wPx = r.w * cw * WM_WIDTH;
-    const hPx = wPx / RUNE_ASPECT;
-    const left = r.cx * cw - wPx / 2;
-    const top = (r.cy - r.h / 2) * ch + r.h * ch * WM_CENTRE_Y - hPx / 2;
-
-    el.runes.classList.add("is-live");
-    el.runes.style.left = `${left.toFixed(1)}px`;
-    el.runes.style.top = `${top.toFixed(1)}px`;
-    el.runes.style.width = `${wPx.toFixed(1)}px`;
-
-    // Fade in as the screen grows legible, then hand off to the real site.
-    // The hand-off waits until the portal is nearly opaque: the mask goes with
-    // the wordmark, so fading early would uncover the gibberish it hides.
-    const span = screenTrack[screenTrack.length - 1].f - screenTrack[0].f;
-    const inP = clamp((currentFrame - screenTrack[0].f) / (span * 0.45), 0, 1);
-    const handoff = clamp((1 - portalOpacity) / 0.25, 0, 1);
-    el.runes.style.opacity = String(inP * handoff);
-
-    // Ride the takeover push so the wordmark stays welded to the screen. The
-    // plate scales about a viewport point, so the same point has to be named
-    // in this element's own coordinates for the two to move together.
-    if (takeoverScale > 1) {
-      el.runes.style.transformOrigin =
-        `${(ox - left).toFixed(1)}px ${(oy - top).toFixed(1)}px`;
-      el.runes.style.transform = `scale(${takeoverScale.toFixed(3)})`;
-    } else {
-      el.runes.style.transform = "";
-    }
-  }
-
-  function drawFrame(index, force) {
-    const i = clamp(Math.round(index), 0, Math.max(0, frameCount - 1));
-    if (i === lastDrawn && !force) return;
-    const img = resolveFrame(i);
-    if (!img) return;
-    lastDrawn = i;
-    frameAspect = img.width / img.height;
-
-    // cover-fit
-    const ir = img.width / img.height;
-    const cr = cw / ch;
-    let w, h, x, y;
-    if (ir > cr) { h = ch; w = h * ir; x = (cw - w) / 2; y = 0; }
-    else { w = cw; h = w / ir; x = 0; y = (ch - h) / 2; }
-    ctx.fillStyle = "#04060A";
-    ctx.fillRect(0, 0, cw, ch);
-    ctx.drawImage(img, x, y, w, h);
-  }
-
-  /* ================= SNOW (foreground parallax layer) ================= */
-  const snowCtx = el.snow.getContext("2d");
-  let flakes = [];
-  function seedSnow() {
-    const n = window.innerWidth < 760 ? 70 : 150;
-    flakes = Array.from({ length: n }, () => ({
-      x: Math.random(), y: Math.random(),
-      r: 0.4 + Math.random() * 1.9,
-      sp: 0.15 + Math.random() * 0.75,
-      dr: (Math.random() - 0.5) * 0.4,
-      a: 0.18 + Math.random() * 0.5,
-    }));
-  }
-  seedSnow();
-
-  function drawSnow(dt, velocity) {
-    snowCtx.clearRect(0, 0, cw, ch);
-    const drift = 1 + Math.abs(velocity) * 0.05;
-    for (const f of flakes) {
-      f.x += (f.dr * 0.0006 * dt) + velocity * 0.00002 * f.sp;
-      f.y += f.sp * 0.00016 * dt * drift;
-      if (f.y > 1.05) { f.y = -0.05; f.x = Math.random(); }
-      if (f.x > 1.05) f.x = -0.05;
-      if (f.x < -0.05) f.x = 1.05;
-      snowCtx.globalAlpha = f.a;
-      snowCtx.fillStyle = "#EAF6FF";
-      snowCtx.beginPath();
-      snowCtx.arc(f.x * cw, f.y * ch, f.r, 0, Math.PI * 2);
-      snowCtx.fill();
-    }
-    snowCtx.globalAlpha = 1;
-  }
-
-  /* ================= SCROLL / RENDER LOOP ================= */
-  let targetFrame = 0, currentFrame = 0;
-  let journeyP = 0, takeoverP = 0;
-  let lastY = 0, velocity = 0, lastT = performance.now();
-
-  function measure() {
-    const jTop = el.journey.offsetTop;
-    const jHeight = el.journey.offsetHeight - window.innerHeight;
-    const tTop = el.takeover.offsetTop;
-    const tHeight = el.takeover.offsetHeight - window.innerHeight;
-    return { jTop, jHeight, tTop, tHeight };
-  }
-  let M = measure();
-
-  function onScroll() {
-    const y = window.scrollY;
-    journeyP = clamp((y - M.jTop) / Math.max(1, M.jHeight), 0, 1);
-    takeoverP = clamp((y - M.tTop) / Math.max(1, M.tHeight), 0, 1);
-    targetFrame = journeyP * Math.max(0, frameCount - 1);
-  }
-
-  function updateHUD() {
-    const pct = Math.round(journeyP * 100);
-    el.hudPct.textContent = String(pct).padStart(2, "0") + "%";
-    el.hudFill.style.height = pct + "%";
-
-    const zi = clamp(Math.floor(journeyP * ZONES.length), 0, ZONES.length - 1);
-    el.zones.forEach((z, i) => {
-      z.classList.toggle("is-active", i === zi);
-      z.classList.toggle("is-past", i < zi);
-    });
-    el.hud.classList.toggle("is-live", ready && takeoverP < 0.6);
-    // The escape hatch is for the film — once the site takes over, it goes.
-    el.skipnav.style.opacity = takeoverP > 0.3 ? "0" : "";
-    el.skipnav.style.pointerEvents = takeoverP > 0.3 ? "none" : "";
-    el.grade.style.setProperty("--grade", journeyP.toFixed(3));
-    document.body.style.backgroundColor =
-      journeyP < 0.5 ? "#0C1218" : "#04060A";
-  }
-
-  function updateBeats() {
-    const vh = window.innerHeight;
-    for (const b of el.beats) {
-      const r = b.getBoundingClientRect();
-      const centred = r.top < vh * 0.62 && r.bottom > vh * 0.38;
-      b.classList.toggle("is-lit", centred && takeoverP < 0.25);
-    }
-  }
-
-  function updateParallax() {
-    // Three rates: cliffs slowest, haze mid, snow fastest (in drawSnow).
-    const p = journeyP;
-    el.cliffs.style.transform = `translate3d(0, ${(-p * 3.2).toFixed(2)}%, 0) scale(1.04)`;
-    el.haze.style.transform  = `translate3d(${(p * 2.4).toFixed(2)}%, ${(-p * 7).toFixed(2)}%, 0) scale(1.06)`;
-  }
-
-  function updateTakeover() {
-    const t = takeoverP;
-    const active = t > 0.001;
-    el.portal.classList.toggle("is-active", active);
-    el.stage.style.opacity = t > 0.92 ? String(clamp((1 - t) / 0.08, 0, 1)) : "1";
-
-    if (!active) {
-      el.film.style.transform = "";
-      el.portal.style.opacity = "0";
-      const rest = stageScreen();
-      updateRunes(1, rest.cx * cw, rest.cy * ch, 0);
-      return;
-    }
-
-    // Push the film plate into the laptop screen — their POV leaning in.
-    // The end scale is exactly what makes the screen cover the viewport, so
-    // the push lands on the screen edges instead of overshooting past them.
-    const r = stageScreen();
-    el.film.style.transformOrigin =
-      `${(r.cx * 100).toFixed(2)}% ${(r.cy * 100).toFixed(2)}%`;
-    const endScale = clamp(1 / Math.max(0.02, Math.min(r.w, r.h)), 1.2, 12);
-    const scale = 1 + t * t * (endScale - 1);
-    el.film.style.transform = `scale(${scale.toFixed(3)})`;
-
-    // The portal opens along the screen's own edges as they grow, so the site
-    // is revealed out of the screen rather than out of an arbitrary rectangle.
-    const vw = r.w * scale, vh = r.h * scale;
-    const snap = t >= 0.98;
-    const edge = (v) => (snap ? 0 : clamp(v * 100, 0, 49));
-    const top = edge(r.cy - vh / 2);
-    const right = edge(1 - (r.cx + vw / 2));
-    const bottom = edge(1 - (r.cy + vh / 2));
-    const left = edge(r.cx - vw / 2);
-    const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-    el.portalFrame.style.clipPath =
-      `inset(${top.toFixed(2)}% ${right.toFixed(2)}% ${bottom.toFixed(2)}% ` +
-      `${left.toFixed(2)}% round ${lerp(6, 0, ease).toFixed(2)}px)`;
-    const portalOpacity = clamp((t - 0.12) / 0.35, 0, 1);
-    el.portal.style.opacity = String(portalOpacity);
-    updateRunes(scale, r.cx * cw, r.cy * ch, portalOpacity);
-
-    el.scrollcue.style.opacity = "0";
-  }
-
-  function frame(now) {
-    const dt = Math.min(48, now - lastT);
-    lastT = now;
-
-    const y = window.scrollY;
-    velocity = y - lastY;
-    lastY = y;
-
-    // Light smoothing gives the scrub its lens-like glide without
-    // ever losing sync with the pointer.
-    currentFrame = reduced ? targetFrame : lerp(currentFrame, targetFrame, 0.22);
-    if (Math.abs(currentFrame - targetFrame) < 0.01) currentFrame = targetFrame;
-
-    drawFrame(currentFrame);
-    if (!reduced) drawSnow(dt, velocity);
-    updateHUD();
-    updateBeats();
-    updateParallax();
-    updateTakeover();
-
-    requestAnimationFrame(frame);
-  }
-
-  function start() {
-    if (ready) return;
-    ready = true;
-    el.boot.classList.add("is-ready");
-    el.hud.classList.add("is-live");
-    sizeCanvas();
-    onScroll();
-    currentFrame = targetFrame;
-    drawFrame(currentFrame, true);
-    requestAnimationFrame(frame);
-  }
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", () => { M = measure(); sizeCanvas(); seedSnow(); onScroll(); });
-
-  /* ================= INIT ================= */
-  (async () => {
-    manifest = await loadManifest();
-    frameCount = manifest?.frameCount ?? 0;
-    chooseVariant(manifest);
-    screenTrack = Array.isArray(manifest?.screenTrack) ? manifest.screenTrack : null;
-
-    // Calibrate the takeover zoom to the real position of the laptop screen
-    // in the final frame, measured by the frame-build step.
-    if (manifest?.screen) {
-      const s = manifest.screen;
-      const root = document.documentElement.style;
-      root.setProperty("--screen-x", (s.x * 100).toFixed(2) + "%");
-      root.setProperty("--screen-y", (s.y * 100).toFixed(2) + "%");
-      root.setProperty("--screen-w", (s.w * 100).toFixed(2) + "%");
-      root.setProperty("--screen-h", (s.h * 100).toFixed(2) + "%");
-    }
-
-    if (!frameCount) {
-      // No footage yet — keep the page usable rather than dead.
-      el.bootPct.textContent = "FOOTAGE PENDING";
-      el.boot.classList.add("is-ready");
-      el.hud.classList.add("is-live");
-      sizeCanvas();
-      onScroll();
-      requestAnimationFrame(frame);
-      return;
-    }
-
-    frames = new Array(frameCount).fill(null);
-    M = measure();
-    await loadFrames();
-    M = measure();
-  })();
-})();
-</script>
+<script src="/assets/js/vendor/scrollcraft.js?v=20260824a"></script>
+<script src="/assets/js/v3.js?v=20260824a"></script>
+<script src="/assets/js/form.js?v=20260824a" defer></script>
 </body>
 </html>

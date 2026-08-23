@@ -25,16 +25,34 @@
       ]
     },
     {
-      "source": "/assets/js/dom-3d.bundle.v2.js",
+      "source": "/assets/css/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     },
     {
-      "source": "/assets/(.*)",
+      "source": "/assets/js/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/video/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
