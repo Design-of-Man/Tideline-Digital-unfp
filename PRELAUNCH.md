@@ -15,16 +15,20 @@ waiting on a real value.
 
 `grep -rn "555-0100" --include="*.html" .`
 
-### 2. Contact form posts nowhere
-`index.html` → `#consult` form action is
-`https://formspree.io/f/YOUR_FORM_ID`. Until a real Formspree form ID is set,
-**a submission is accepted by the browser and goes nowhere.** The visible
-`mailto:` fallback under the form is the only working path right now.
+### 2. Contact form has no endpoint yet
+`index.html` → `#consult` form action is still
+`https://formspree.io/f/YOUR_FORM_ID`.
+
+`assets/js/form.js` keeps this from losing leads: while the action carries the
+placeholder, submitting hands the filled-in fields to the visitor's mail client
+addressed to `hello@designofman.com`, and the note under the form says so. The
+moment the action becomes a real Formspree URL the handler steps aside and the
+native POST runs — no other change needed.
 
 `grep -rn "YOUR_FORM_ID" --include="*.html" .`
 
-> A form that looks like it worked and did not is worse than no form. Either
-> set the ID or remove the form before the domain goes live.
+> The fallback is a stopgap, not the plan. A visitor on a device with no mail
+> client configured still cannot send. Set the real ID.
 
 ### 3. Email address unconfirmed
 `hello@designofman.com` is used in the JSON-LD, the form fallback and the
