@@ -1,6 +1,17 @@
 /* Design of Man — shared behaviour for the v2 site.
    Every block is guarded, so each page only runs what it actually has. */
 (function () {
+  // The media URLs used to carry their own hardcoded ?v= stamp, which drifted
+  // twice behind the one the HTML puts on this script -- so the browser kept
+  // serving a cached video from an older deploy while happily taking the new
+  // JS. Read the stamp off our own src instead; document.currentScript is only
+  // valid during parse, so capture it here rather than inside a callback.
+  var ASSET_V = (function () {
+    var s = document.currentScript;
+    var q = s && s.src ? s.src.split('?v=')[1] : '';
+    return q ? '?v=' + q.split('&')[0] : '';
+  })();
+
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Decorative, muted loops only autoplay when motion is welcome — each shows
@@ -24,6 +35,7 @@
     if (!section || !stage) return;
     var grade = section.querySelector('.hero-scrub-grade');
     var bar = document.getElementById('heroScrubBar');
+    var capsWrap = document.getElementById('heroScrubCaps');
     var caps = [].slice.call(section.querySelectorAll('.hero-scrub-cap'));
     var ui = section.querySelector('.hero-scrub-ui');
     var screenEl = document.getElementById('heroScreen');
@@ -108,7 +120,7 @@
     video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
     video.setAttribute('aria-hidden', 'true');
     video.className = 'hero-scrub-video';
-    video.poster = '/assets/img/viking-poster.jpg?v=20260822i';
+    video.poster = '/assets/img/viking-poster.jpg' + ASSET_V;
     if (canvas && canvas.parentNode) canvas.parentNode.replaceChild(video, canvas);
     else stage.insertBefore(video, stage.firstChild);
     (function () {
@@ -116,8 +128,8 @@
       var canMp4 = video.canPlayType('video/mp4; codecs="avc1.640028"');
       // mp4 first: smaller than the vp9 build here and hardware-decoded almost
       // everywhere. webm only covers builds without H.264 (e.g. some Linux).
-      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4?v=20260822i'
-                                                                : base + '.webm?v=20260822i';
+      video.src = (canMp4 === 'probably' || canMp4 === 'maybe') ? base + '.mp4' + ASSET_V
+                                                                : base + '.webm' + ASSET_V;
     })();
 
     var frameReady = false;
@@ -227,7 +239,19 @@
       return { l: ox + s[1] * dw, t: oy + s[2] * dh, w: s[3] * dw, h: s[4] * dh };
     }
 
+    // The panel holds a real CTA link. It used to sit under aria-hidden while
+    // still being tabbable, which is the exact combination axe flags and WCAG
+    // 4.1.2 forbids -- a keyboard user could land on a link nobody can see.
+    // inert takes it out of both the a11y tree and the tab order, and comes
+    // back only when the site is actually filling the viewport.
+    function setInert(on) {
+      if (on === screenEl.inert) return;
+      screenEl.inert = on;
+      if (on) screenEl.setAttribute('inert', ''); else screenEl.removeAttribute('inert');
+    }
+
     function hideScreen() {
+      setInert(true);
       screenEl.style.opacity = '0';
       screenEl.style.clipPath = '';
       if (screenInner) screenInner.style.transform = '';
@@ -259,6 +283,7 @@
       video.style.transform = '';
       screenEl.style.opacity = fade.toFixed(3);
       screenEl.classList.remove('is-live');
+      setInert(true);
       if (ui) ui.style.opacity = '1';
       if (hud) hud.style.opacity = '';
       if (bar) bar.parentNode.style.opacity = '';
@@ -342,7 +367,9 @@
       // footage's blown-out screen, which reads as a ghost floating in front of
       // the laptop rather than as the page the laptop is displaying.
       screenEl.style.opacity = '1';
-      screenEl.classList.toggle('is-live', v > 0.6);
+      var live = v > 0.6;
+      screenEl.classList.toggle('is-live', live);
+      setInert(!live);
       // The HUD rail and the progress bar sit above the screen panel, so they
       // have to go with it -- otherwise they stay painted over the revealed site.
       var chrome = Math.max(0, 1 - v * 3).toFixed(3);
@@ -389,7 +416,9 @@
         hideScreen();
       }
 
-      if (grade) grade.style.opacity = (p >= REVEAL_AT ? 0 : 0.08 + p * 0.2).toFixed(3);
+      // Flow mode owns the scrim from CSS -- it needs a real one behind a tall
+      // stack of copy, not the 8% wash that suits a single cinematic frame.
+      if (grade && !reduced) grade.style.opacity = (p >= REVEAL_AT ? 0 : 0.08 + p * 0.2).toFixed(3);
       if (bar) bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
 
       if (hudPct) hudPct.textContent = String(Math.round(p * 100)).padStart(3, '0') + '%';
@@ -418,7 +447,15 @@
 
     render();
     if (!reduced) window.addEventListener('scroll', onScroll, { passive: true });
-    else { caps.forEach(function (el, i) { el.classList.toggle('is-active', i === 0); }); reveal(0); }
+    else {
+      // No scrub without motion, so the captions become a static stack rather
+      // than one visible caption and two hidden from everyone including AT.
+      if (capsWrap) capsWrap.classList.add('is-static');
+      section.classList.add('is-flow');
+      if (grade) grade.style.opacity = '';
+      caps.forEach(function (el) { el.classList.remove('is-active'); });
+      reveal(0);
+    }
   })();
 
   // Scroll reveals.
