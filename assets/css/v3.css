@@ -21,6 +21,10 @@
 
   /* The bezel the site is trapped inside from the peak onward. */
   --frame: clamp(10px, 1.6vw, 22px);
+
+  /* The fixed header's own height. `/` scrolls the film behind it, but an
+     interior page has to reserve the space or the h1 starts underneath it. */
+  --bar-h: 4.5rem;
 }
 
 /* Instrument Serif has no bold, so weight cannot carry hierarchy here; size
@@ -368,4 +372,194 @@
 @media (max-width: 640px) {
   .steps li { grid-template-columns: 1fr; gap: var(--sc-2); }
   .band { padding-block: clamp(3rem, 8vh, 5rem); }
+}
+
+/* ─────────────────────────────────────────────────────── interior pages ──
+   Everything below serves the pages that are NOT the film. They share the
+   header, the footer and the token set with `/`, and load the same engine,
+   but they declare no [data-sc-act], so scrollcraft only runs its reveal
+   observer over them. No page owns a second palette or a third font. */
+
+/* The header is fixed over the film on `/`, where the moor scrolls behind it.
+   On a document page there is nothing behind it, so it needs its own ground
+   and the content below needs to clear it. */
+.has-bar .bar { background: color-mix(in srgb, var(--sc-canvas) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.has-bar main { padding-top: var(--bar-h); }
+
+/* PAGE HERO. One statement, one paragraph, nothing else. The rule underneath
+   is the only ornament, and it doubles as the seam to the first band. */
+.phero { padding-block: clamp(4.5rem, 14vh, 10rem) clamp(3rem, 8vh, 6rem);
+  border-bottom: 1px solid var(--sc-hairline); }
+.phero h1 { margin: 0 0 var(--sc-6); max-width: 18ch; }
+.phero .sc-body { font-size: var(--sc-t-lg); color: var(--sc-ink); max-width: 54ch; }
+.phero__meta { display: flex; flex-wrap: wrap; gap: var(--sc-3) var(--sc-5);
+  margin-top: var(--sc-7); font-size: var(--sc-t-sm); color: var(--sc-ink-soft);
+  letter-spacing: var(--sc-track-wide); text-transform: uppercase; }
+.phero__cta { display: flex; flex-wrap: wrap; gap: var(--sc-4); margin-top: var(--sc-7); }
+
+/* Back link on a leaf page. Inline-link sized, so SC 2.5.8's inline exception
+   applies, but it still gets a comfortable box. */
+.back { display: inline-flex; align-items: center; gap: var(--sc-2);
+  min-height: 24px; margin-bottom: var(--sc-5); color: var(--sc-ink-soft);
+  font-size: var(--sc-t-sm); letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase; text-decoration: none; }
+.back:hover { color: var(--sc-ink); }
+
+/* SPLIT. A heading held on the left while its argument runs down the right.
+   Collapses to one column before the measure gets too narrow to read. */
+.split { display: grid; gap: var(--sc-6) var(--sc-8);
+  grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: start; }
+.split > :first-child h2 { margin: 0; }
+.split p + p { margin-top: var(--sc-4); }
+@media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
+
+/* PULL QUOTE. The studio's own voice, not a client's, so it is set in the
+   display face at band scale rather than in the quote card. */
+.pull { margin: 0; padding-block: clamp(3rem, 9vh, 7rem);
+  border-block: 1px solid var(--sc-hairline); }
+.pull p { margin: 0; font-family: var(--sc-font-display); font-weight: 400;
+  font-size: var(--sc-t-2xl); line-height: 1.12; color: var(--sc-ink);
+  letter-spacing: var(--sc-track-snug); max-width: 24ch; }
+.pull em { font-style: italic; color: var(--sc-accent); }
+.pull footer { margin-top: var(--sc-5); font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft); letter-spacing: var(--sc-track-wide); }
+
+/* DEFINITION ROWS for contact details. <dl> because that is what it is. */
+.rows { margin: 0; display: grid; gap: 0; }
+.rows > div { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+  gap: var(--sc-4); padding-block: var(--sc-4);
+  border-top: 1px solid var(--sc-hairline); }
+.rows > div:last-child { border-bottom: 1px solid var(--sc-hairline); }
+.rows dt { margin: 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm);
+  letter-spacing: var(--sc-track-wide); text-transform: uppercase; }
+.rows dd { margin: 0; color: var(--sc-ink); }
+.rows a { color: var(--sc-ink); text-underline-offset: 3px; }
+@media (max-width: 560px) { .rows > div { grid-template-columns: 1fr; gap: var(--sc-1); } }
+
+/* NEXT. The last thing on every interior page: one onward door, never a
+   dead end. Full-bleed hairline box so it reads as a destination. */
+.next { display: block; text-decoration: none; color: inherit;
+  border-top: 1px solid var(--sc-hairline); padding-block: clamp(3rem, 8vh, 6rem); }
+.next .sc-wrap { display: grid; gap: var(--sc-4); }
+.next span { font-size: var(--sc-t-sm); color: var(--sc-ink-soft);
+  letter-spacing: var(--sc-track-wide); text-transform: uppercase; }
+.next strong { font-family: var(--sc-font-display); font-weight: 400;
+  font-size: var(--sc-t-2xl); line-height: 1.05; letter-spacing: var(--sc-track-snug); }
+.next:hover strong { color: var(--sc-accent); }
+.next:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: -4px; }
+
+/* SITE FOOTER. `/` ends inside the pinned close, which carries its own .foot.
+   Every other page needs a real one. */
+.site-foot { border-top: 1px solid var(--sc-hairline); padding-block: var(--sc-7); }
+.site-foot .sc-wrap { display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: var(--sc-5); }
+.site-foot nav { display: flex; flex-wrap: wrap; gap: var(--sc-2); }
+.site-foot small { color: var(--sc-ink-soft); font-size: var(--sc-t-xs); }
+.site-foot .mark { color: var(--sc-ink); text-decoration: none; }
+
+/* PROJECTS. Image on one side, the argument on the other, alternating. */
+.proj { display: grid; gap: var(--sc-6) var(--sc-8);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center; padding-block: clamp(3rem, 8vh, 6rem);
+  border-top: 1px solid var(--sc-hairline); }
+.proj:last-of-type { border-bottom: 1px solid var(--sc-hairline); }
+.proj--flip > :first-child { order: 2; }
+@media (max-width: 900px) {
+  .proj { grid-template-columns: 1fr; }
+  .proj--flip > :first-child { order: 0; }
+}
+.proj__kind { font-size: var(--sc-t-xs); color: var(--sc-ink-soft);
+  letter-spacing: var(--sc-track-wide); text-transform: uppercase; }
+.proj h3 { margin: var(--sc-2) 0 var(--sc-3); font-family: var(--sc-font-display);
+  font-weight: 400; font-size: var(--sc-t-xl); letter-spacing: var(--sc-track-snug); }
+.proj p { margin: 0; color: var(--sc-ink-soft); max-width: 52ch; }
+.proj__scope { display: flex; flex-wrap: wrap; gap: var(--sc-2);
+  margin-top: var(--sc-5); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); }
+.proj__scope span { border: 1px solid var(--sc-hairline); border-radius: 2px;
+  padding: 0.3rem 0.6rem; }
+.proj__links { display: flex; flex-wrap: wrap; gap: var(--sc-5); margin-top: var(--sc-5); }
+.proj__links a { display: inline-flex; align-items: center; min-height: 24px;
+  color: var(--sc-accent); font-size: var(--sc-t-sm);
+  letter-spacing: var(--sc-track-wide); text-underline-offset: 4px; }
+
+/* BEFORE / AFTER. A range input drives the reveal, so the control is a real
+   focusable slider with arrow keys for free rather than a div that only
+   answers to a mouse. The visual handle is the input's own thumb. */
+/* --ratio is the aspect of the SHORTEST screenshot in the pair. Set it that way
+   and `cover` scales every frame by width and crops the bottom, so both shots
+   sit at one magnification and neither leaves a strip of the other showing
+   through underneath it. A 16/9 default covers the single-image case. */
+.shot { position: relative; overflow: hidden; border-radius: 2px;
+  border: 1px solid var(--sc-hairline); background: var(--sc-surface);
+  aspect-ratio: var(--ratio, 16 / 9); }
+.shot img { display: block; width: 100%; height: 100%;
+  object-fit: cover; object-position: top center; }
+.ba { --split: 50%; position: relative; }
+.ba__pane { position: absolute; inset: 0; }
+.ba__pane--before { clip-path: inset(0 calc(100% - var(--split)) 0 0); }
+.ba__line { position: absolute; top: 0; bottom: 0; left: var(--split); width: 1px;
+  background: var(--sc-ink); opacity: .85; pointer-events: none; }
+.ba__tag { position: absolute; bottom: var(--sc-3); font-size: var(--sc-t-xs);
+  letter-spacing: var(--sc-track-wide); text-transform: uppercase;
+  background: color-mix(in srgb, var(--sc-canvas) 82%, transparent);
+  color: var(--sc-ink); padding: 0.25rem 0.5rem; border-radius: 2px;
+  pointer-events: none; }
+.ba__tag--before { left: var(--sc-3); }
+.ba__tag--after  { right: var(--sc-3); }
+.ba__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0;
+  appearance: none; background: transparent; cursor: ew-resize; }
+.ba__range:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 2px; }
+.ba__range::-webkit-slider-thumb { appearance: none; width: 30px; height: 30px;
+  border-radius: 50%; background: var(--sc-ink); border: 3px solid var(--sc-canvas);
+  cursor: ew-resize; }
+.ba__range::-moz-range-thumb { width: 30px; height: 30px; border: 3px solid var(--sc-canvas);
+  border-radius: 50%; background: var(--sc-ink); cursor: ew-resize; }
+.ba__range::-moz-range-track { background: transparent; }
+.ba__hint { margin-top: var(--sc-3); font-size: var(--sc-t-xs); color: var(--sc-ink-soft);
+  letter-spacing: var(--sc-track-wide); }
+
+/* METRICS. Numbers get the display face because they are the argument. */
+.metrics { display: grid; gap: var(--sc-5);
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); margin-top: var(--sc-6); }
+.metric { border-top: 1px solid var(--sc-hairline); padding-top: var(--sc-3); }
+.metric b { display: block; font-family: var(--sc-font-display); font-weight: 400;
+  font-size: var(--sc-t-xl); letter-spacing: var(--sc-track-snug); color: var(--sc-ink); }
+.metric span { display: block; margin-top: var(--sc-1); font-size: var(--sc-t-xs);
+  color: var(--sc-ink-soft); letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase; }
+
+/* GALLERY. Captioned stills, two up. */
+.gallery { display: grid; gap: var(--sc-5);
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+.gallery figure { margin: 0; }
+.gallery img { display: block; width: 100%; height: auto; border-radius: 2px;
+  border: 1px solid var(--sc-hairline); }
+.gallery figcaption { margin-top: var(--sc-3); font-size: var(--sc-t-sm);
+  color: var(--sc-ink-soft); }
+
+/* PAY. A single-column document with a form at the end of it. */
+.doc { max-width: 46rem; }
+.doc h2 { margin: 0 0 var(--sc-5); }
+.doc p { color: var(--sc-ink-soft); }
+.doc p + p { margin-top: var(--sc-4); }
+.doc strong { color: var(--sc-ink); font-weight: 400; }
+.warn { border-left: 2px solid var(--sc-accent); padding-left: var(--sc-5); }
+.warn p { color: var(--sc-ink); }
+
+/* 404. The film's own poster stands behind it so the page still feels like
+   this site rather than a server default. */
+.lost { min-height: calc(100svh - var(--bar-h)); display: grid; place-items: center;
+  text-align: center; padding-block: var(--sc-section); }
+.lost .sc-wrap { display: grid; gap: var(--sc-6); justify-items: center; }
+.lost p { margin: 0 auto; }
+.lost nav { display: flex; flex-wrap: wrap; gap: var(--sc-4); justify-content: center; }
+
+/* SC 2.5.8 again. A link that is the only thing inside its paragraph or its
+   <dd> is not an inline link in a sentence, so the exception does not cover it
+   and a 21px line box fails. These are the four onward links on `/` and the
+   phone and email on the contact pages. */
+.note > a:only-child,
+.rows dd > a:only-child {
+  display: inline-flex; align-items: center; min-height: 24px;
 }
