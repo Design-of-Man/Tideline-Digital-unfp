@@ -343,8 +343,27 @@
 .form__note { margin: 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
 .form__note a { color: var(--sc-ink); }
 
+/* The one button. It was never defined -- .btn--quiet modified a class that did
+   not exist -- so every CTA on the page rendered as plain text or a default
+   browser button. */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--sc-2);
+  font: inherit; font-size: var(--sc-t-sm); letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase; text-decoration: none; cursor: pointer;
+  color: var(--sc-accent-ink); background: var(--sc-accent);
+  border: 0; border-radius: 2px;
+  padding: 0.85rem 1.6rem; min-height: 44px;
+  transition: background 220ms var(--sc-ease-out), color 220ms var(--sc-ease-out);
+}
+.btn:hover { background: color-mix(in oklab, var(--sc-accent) 84%, white); }
+.btn:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 3px; }
 .btn--quiet { background: transparent; color: var(--sc-ink);
   box-shadow: inset 0 0 0 1px var(--sc-hairline-strong); }
+.btn--quiet:hover { background: color-mix(in oklab, var(--sc-ink) 8%, transparent); }
+/* A grid child stretches to the column by default, which turned the form's
+   submit into a full-width slab. */
+.form .btn { justify-self: start; }
 
 @media (max-width: 640px) {
   .steps li { grid-template-columns: 1fr; gap: var(--sc-2); }

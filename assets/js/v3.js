@@ -209,7 +209,15 @@
          stage without a seam and can then be scaled past the frame edge. Scaling
          about the screen's centre is what turns the machine's screen into the
          page: at the end of the push-in the viewport IS the white screen. */
-      setLive(true);
+      /* Stand down once the peak is finished. g clamps to 1, so `g > 0` stays
+         true for the whole rest of the document: leaving the overlay live left
+         an opaque canvas-coloured sheet fixed over every section below, which
+         is exactly as visible as it sounds and shipped once already. The
+         harness could not catch it -- "no dead scroll" measures whether the
+         clip advances, not whether something is painted on top of the page. */
+      setLive(g < 1);
+      if (g >= 1) { setInert(true); syncCloseCta(); paintFrame(y, vh); return; }
+
       var z = ease(clamp01(g / ZOOM_END));
       var zt = zoomTo(vw, vh);
       var sc = 1 + (zt.s - 1) * z;
@@ -230,15 +238,18 @@
       setInert(boot < 0.5);
     }
 
-    /* The frame that never breaks. It arrives as the site comes up and stays for
-       act 4, then act 5 pulls back out of the machine. */
+    paintFrame(y, vh, g);
+    syncCloseCta();
+  }
+
+  /* The frame that never breaks. It arrives as the site comes up and stays for
+     everything below, then the close pulls back out of the machine. */
+  function paintFrame(y, vh, g) {
     var jTop = absTop(join), jTravel = Math.max(join.offsetHeight - vh, 1);
     var c = clamp01((y - jTop) / jTravel);
-    var bOn = clamp01((g - BOOT_IN) / 0.20);
-    var b = Math.min(g >= 1 ? 1 : bOn, 1 - ease(clamp01(c / 0.7)));
-    bezel.style.opacity = b.toFixed(3);
+    var on = (g === undefined || g >= 1) ? 1 : clamp01((g - BOOT_IN) / 0.20);
+    bezel.style.opacity = Math.min(on, 1 - ease(clamp01(c / 0.7))).toFixed(3);
     close.style.setProperty('--moor', ease(clamp01(c / 0.7)).toFixed(3));
-    syncCloseCta();
   }
 
   function onScroll() { if (!raf) raf = requestAnimationFrame(render); }

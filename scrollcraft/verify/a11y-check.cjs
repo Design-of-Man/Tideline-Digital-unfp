@@ -4,7 +4,7 @@ const L=c=>{const f=v=>{v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.05
 const ratio=(a,b)=>{const x=L(a),y=L(b);return ((Math.max(x,y)+0.05)/(Math.min(x,y)+0.05))};
 (async()=>{
 const b=await chromium.launch({executablePath:"/opt/pw-browsers/chromium",headless:true});
-for (const page of ["v2.html","v2-process.html","v2-studio.html","v2-contact.html"]){
+for (const page of ["index.html","v2.html","v2-process.html","v2-studio.html","v2-contact.html"]){
  const p=await b.newPage({viewport:{width:1440,height:900}});
  const errs=[];p.on("pageerror",e=>errs.push(String(e)));
  const bad=[];p.on("response",r=>{if(r.status()>=400)bad.push(r.status()+" "+r.url())});
