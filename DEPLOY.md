@@ -139,7 +139,4 @@ your own Core Web Vitals are a sales asset.
   `.nav-links { visibility: hidden }` and `visible` when open.
 - **Placeholder content.** Phone `(561) 555-0100`, the testimonials, and the
   stats (120+ sites, 99.9% uptime, 14 yrs) are still from the original build.
-- **Brand split.** Visible copy says *Design of Man*; canonicals, schema `@id`
-  and the email domain say `tidelinedigital.com`. Search engines will read those
-  as two businesses. Decide which is canonical and do a find-and-replace.
 - **Four dead `href="#"` links** in the footer social icons.
