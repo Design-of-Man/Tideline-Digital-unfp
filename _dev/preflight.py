@@ -16,7 +16,7 @@ import sys
 from html.parser import HTMLParser
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-DOMAIN = "https://www.tidelinedigital.com"
+DOMAIN = "https://www.designofman.com"
 
 blockers, notes = [], []
 seen_titles, seen_descs = {}, {}
