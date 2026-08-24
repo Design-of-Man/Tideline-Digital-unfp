@@ -87,8 +87,9 @@ every page, and the 404. Confirm the mailbox exists and is monitored.
 - **Testimonials on `/` are unattributed.** Three quotes with no name, business
   or photograph read as invented whether or not they are. Attribute them or
   cut them.
-- **`_dev/` ships.** It is served at `/_dev/` on the live site. Nothing there is
-  secret, but it is scratch work. Consider a `.vercelignore`.
+- ~~**`_dev/` ships.**~~ Struck. I claimed this without checking and it is not
+  true: `.vercelignore` already excludes `_dev/`, `books/` and `*.md`, and
+  `/_dev/*` returns 404 in production. Nothing to do.
 - **The runic wordmark** you picked is still not built. Elder Futhark risks
   tofu on a device without the glyphs, so it wants inline SVG runes rather than
   a third font family.
