@@ -379,6 +379,49 @@
 @media (max-width: 640px) {
   .steps li { grid-template-columns: 1fr; gap: var(--sc-2); }
   .band { padding-block: clamp(3rem, 8vh, 5rem); }
+
+  /* The boot has just released directly above this, and the bezel is still
+     drawn around the viewport, so the first band does not need a full band's
+     worth of air on top of that. Brings the first heading up about half a
+     viewport on a phone. */
+  #site > section:first-of-type { padding-top: var(--sc-5); }
+
+  /* Two-up the shortest cards. `about` and `why` carry a heading and one
+     sentence each, so a full column width on a phone buys nothing and costs
+     about a viewport between them. Everything with longer copy — services,
+     the plans, the quotes — stays one column, because 163px of measure is
+     where a sentence stops being readable. */
+  #about .cards, #why .cards { grid-template-columns: 1fr 1fr; gap: var(--sc-4); }
+  #about .card, #why .card { padding-top: var(--sc-4); }
+  #about .card h3, #why .card h3 { font-size: var(--sc-t-base); }
+  #about .card p, #why .card p { font-size: var(--sc-t-sm); }
+
+  /* The plan bullets are the tallest block on the page and /pricing carries
+     them in full one tap away, so they tighten here rather than sprawl. */
+  .plan ul { gap: var(--sc-1); font-size: var(--sc-t-sm); }
+  .plan { gap: var(--sc-3); }
+}
+
+/* Below 380px two columns stop being readable at any size, so the short-card
+   grids fall back to one. */
+@media (max-width: 379px) {
+  #about .cards, #why .cards { grid-template-columns: 1fr; }
+}
+
+/* THE PHONE'S LOOP.
+   v3.js strips data-sc-scrub on a coarse pointer so the engine leaves the clip
+   alone, but that attribute is also what the engine's stylesheet sizes the video
+   with (`.sc-stage :is(video[data-sc-scrub], ...)`). Dropping it would leave an
+   unstyled inline video at its natural size. This restores the same box under a
+   class the engine never looks at, so the swap needs no engine edit.
+
+   It sits above the poster rather than replacing it: the poster stays underneath
+   as the fallback for iOS Low Power Mode, where autoplay is refused outright and
+   nothing here will ever paint. */
+.sc-stage video.film-loop {
+  position: absolute; inset: 0; z-index: 1;
+  width: 100%; height: 100%;
+  object-fit: cover;
 }
 
 /* ─────────────────────────────────────────────────────── interior pages ──
