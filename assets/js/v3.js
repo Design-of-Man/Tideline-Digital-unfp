@@ -12,6 +12,67 @@
 
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ────────────────────────────────────────────────── the phone gets a loop ──
+     A scroll-scrubbed video is a desktop technique. Measured on a real iPhone
+     profile rather than a narrow desktop window, the scrub failed three ways at
+     once: the decoder stalled mid-scroll at readyState 1 with no frame to paint,
+     the mobile file was 8.1MB before anything moved, and the act spans are
+     device-blind, so a phone was asked for the same 7.6 viewports of scrolling
+     as a desktop — about eight thumb swipes before a single word of copy.
+
+     So on a coarse pointer the film stops being scrubbed and becomes what every
+     studio that ships this technique actually ships to phones: a short muted
+     loop that plays itself. 4.5s, cross-faded at the seam, 1.1MB.
+
+     The signature move is untouched. The push-in and the boot already run on
+     film-end.jpg, not on the video, so scaling into the white screen, the
+     wordmark and the runes all still happen exactly as they do on desktop.
+
+     Dropping data-sc-scrub is what makes this work without editing the engine:
+     its act builder guards with `if (v) act.video = makeClip(...)`, so a scrub
+     act with no scrub video degrades to a plain pinned stage and the two cue
+     beats keep firing. */
+  var coarse = matchMedia('(hover: none) and (pointer: coarse)').matches
+            || matchMedia('(max-width: 860px)').matches;
+
+  (function phoneLoop() {
+    if (!coarse) return;
+    var v = document.querySelector('video[data-sc-scrub]');
+    var film = document.getElementById('film');
+    if (!v || !film) return;
+
+    /* The engine's own stylesheet sizes the clip off data-sc-scrub, so the
+       class goes on before the attribute comes off or the video drops to its
+       natural inline size. */
+    v.classList.add('film-loop');
+    v.removeAttribute('data-sc-scrub');
+    v.removeAttribute('data-sc-src');
+    v.removeAttribute('data-sc-src-mobile');
+
+    var probe = document.createElement('video');
+    var webm = !probe.canPlayType('video/mp4; codecs="avc1.640028"')
+            && probe.canPlayType('video/webm; codecs="vp9"');
+    v.src = '/assets/video/sc/film-loop.' + (webm ? 'webm' : 'mp4') + V;
+
+    /* iOS Low Power Mode refuses autoplay outright, so the poster is not a
+       nicety here: it is the hero for anyone in that state. It is the loop's
+       own first frame, not the film's, or the fallback would show a shot the
+       loop never plays. */
+    v.poster = '/assets/video/sc/film-loop-poster.jpg' + V;
+    v.autoplay = true; v.loop = true; v.muted = true;
+    v.setAttribute('autoplay', ''); v.setAttribute('loop', '');
+    v.setAttribute('playsinline', ''); v.setAttribute('preload', 'metadata');
+    if (reduce) { v.removeAttribute('autoplay'); v.autoplay = false; }
+
+    /* Two cue beats over 2.2 viewports instead of 5.2. The footage no longer
+       has to be scrubbed through, so the span only has to give each beat long
+       enough to be read. */
+    film.setAttribute('data-sc-span', '2.2');
+
+    var go = v.play();
+    if (go && go.catch) go.catch(function () { /* blocked: the poster stands */ });
+  })();
+
   /* Format pick before mount. The engine takes one src per clip, so the choice
      of container is the page's job. Plenty of builds ship only H.264 and lose
      the entire scrub on any browser without the licensed decoder: Firefox, and

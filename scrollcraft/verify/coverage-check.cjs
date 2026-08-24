@@ -1,8 +1,20 @@
 const {chromium}=require("/home/user/Tideline-Digital-unfp/node_modules/playwright-core");
+/* A NARROW DESKTOP WINDOW IS NOT A PHONE.
+   Four rounds of this harness reported "mobile passes" from a desktop Chromium
+   resized to 390px. That has a fine pointer, hover, a desktop user-agent and a
+   desktop media decoder, so every media query keyed to (pointer: coarse) took
+   the desktop branch and the scrub video was never asked to seek on a phone
+   decoder. It hid a hero that stalled mid-scroll, an 8MB download and eight
+   thumb-swipes of video before any copy. Any width at or below 860 now gets a
+   real device descriptor. */
+const PHONE = require("/home/user/Tideline-Digital-unfp/node_modules/playwright-core").devices['iPhone 13'];
+const ctxFor = (W, H, extra) => (W <= 860)
+  ? Object.assign({}, PHONE, { hasTouch: true, isMobile: true }, extra || {})
+  : Object.assign({ viewport: { width: W, height: H } }, extra || {});
 const PAGE=process.argv[2], W=+process.argv[3]||1440, H=+process.argv[4]||900;
 (async()=>{
 const b=await chromium.launch({executablePath:"/opt/pw-browsers/chromium",headless:true});
-const p=await b.newPage({viewport:{width:W,height:H},deviceScaleFactor:1});
+const p=await b.newPage(ctxFor(W,H));
 await p.goto(`http://127.0.0.1:4500/${PAGE}`,{waitUntil:"domcontentloaded"});
 await p.waitForSelector("html.sc-ready");await p.evaluate(()=>document.fonts.ready);
 await p.waitForTimeout(1800);
