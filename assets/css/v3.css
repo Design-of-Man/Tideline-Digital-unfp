@@ -185,12 +185,19 @@
   letter-spacing: 0.58em; text-transform: uppercase;
   padding-left: 0.58em; color: #14161a; white-space: nowrap;
 }
-.panel__bar {
-  display: block; width: clamp(150px, 26vmin, 340px); height: 1px;
-  background: rgb(20 22 26 / 0.28);
-}
-.panel__bar i { display: block; height: 100%; background: var(--sc-accent);
-  width: calc(var(--mark) * 100%); }
+/* The runic divider, which is also the loading bar. The three glyphs sit at a
+   faint 0.18 from the first frame so the thing reads as a rule with a mark in
+   it, then each ignites in turn as --mark crosses its third. One element doing
+   both jobs beats a divider with a progress bar underneath it. */
+.panel__rune { display: block; width: clamp(150px, 26vmin, 340px); height: auto; }
+.panel__rule { opacity: 0.26; }
+.panel__rune g { opacity: calc(0.18 + 0.82 * var(--lit, 0)); }
+.panel__rune g:nth-of-type(1) { --lit: clamp(0, var(--mark) / 0.34, 1); }
+.panel__rune g:nth-of-type(2) { --lit: clamp(0, (var(--mark) - 0.33) / 0.34, 1); }
+.panel__rune g:nth-of-type(3) { --lit: clamp(0, (var(--mark) - 0.66) / 0.34, 1); }
+/* The last one to light is the one that carries the accent, so the sequence
+   finishes on the brand colour rather than on more grey. */
+.panel__rune g:nth-of-type(3) { stroke: color-mix(in oklab, var(--sc-accent) calc(var(--lit) * 100%), currentColor); }
 
 .panel__inner {
   position: relative; z-index: 3;
