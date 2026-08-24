@@ -3,12 +3,19 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from pages import *
 
 FORM = """
-      <!-- PRE-LAUNCH: action still carries Formspree's YOUR_FORM_ID placeholder.
-           See PRELAUNCH.md. assets/js/form.js keeps a submission from being lost
-           while that is true: it hands the filled-in fields to the visitor's mail
-           client and steps aside the moment a real endpoint is set. -->
+      <!-- FormSubmit, posting natively. NO AJAX ON PURPOSE.
+           FormSubmit's known failure is that it accepts a submission with HTTP 200
+           and {"success":"false"} until the address is activated. That is only
+           silent if the page fabricates a thank-you on top of it, which is what an
+           AJAX handler does. A native POST hands the visitor FormSubmit's own
+           response, so an unactivated form is visible to whoever submits it rather
+           than looking like it worked. See PRELAUNCH.md. -->
       <form class="form" id="consultForm" method="POST"
-            action="https://formspree.io/f/YOUR_FORM_ID" data-sc-in>
+            action="https://formsubmit.co/hello@designofman.com" data-sc-in>
+        <!-- _honey is FormSubmit's honeypot: bots fill it, people never see it. -->
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="_subject" value="Consult request from designofman.com">
+        <input type="hidden" name="_template" value="table">
         <div class="field"><label for="cf-name">Name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
         <div class="field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
         <div class="field"><label for="cf-company">Business <span class="opt">optional</span></label><input id="cf-company" name="company" type="text" autocomplete="organization"></div>
@@ -23,7 +30,7 @@ FORM = """
           </select></div>
         <div class="field"><label for="cf-message">Tell us a little about it</label><textarea id="cf-message" name="message" rows="5" required></textarea></div>
         <button class="btn" type="submit">Book my consult</button>
-        <p class="form__note" role="status">This form opens your email app with your answers filled in — nothing sends until you send it there. No email app? Write to <a href="mailto:%s">%s</a>.</p>
+        <p class="form__note" role="status">Goes to <a href="mailto:%s">%s</a>. You will see confirmation once it sends.</p>
       </form>
 """ % (MAIL, MAIL)
 
