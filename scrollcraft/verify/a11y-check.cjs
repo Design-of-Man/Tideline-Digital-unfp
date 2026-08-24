@@ -4,7 +4,8 @@ const L=c=>{const f=v=>{v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.05
 const ratio=(a,b)=>{const x=L(a),y=L(b);return ((Math.max(x,y)+0.05)/(Math.min(x,y)+0.05))};
 (async()=>{
 const b=await chromium.launch({executablePath:"/opt/pw-browsers/chromium",headless:true});
-for (const page of ["index.html","v2.html","v2-process.html","v2-studio.html","v2-contact.html"]){
+const PAGES=process.argv.slice(2);
+for (const page of (PAGES.length?PAGES:["index.html"])){
  const p=await b.newPage({viewport:{width:1440,height:900}});
  const errs=[];p.on("pageerror",e=>errs.push(String(e)));
  const bad=[];p.on("response",r=>{if(r.status()>=400)bad.push(r.status()+" "+r.url())});
@@ -35,6 +36,10 @@ for (const page of ["index.html","v2.html","v2-process.html","v2-studio.html","v
   // failure is one that is still reachable while being invisible.
   return f.filter(e=>{
     if(e.closest("[inert]")) return false;
+    // An explicit tabindex="-1" takes the element out of the tab order, so it
+    // cannot be "reachable while invisible" by definition. This is what a
+    // form honeypot is, and flagging it was a false positive.
+    if(e.getAttribute("tabindex")==="-1") return false;
     const cs=getComputedStyle(e);
     const invisible = cs.visibility==="hidden" || parseFloat(cs.opacity)===0
                    || e.closest('[aria-hidden="true"]');

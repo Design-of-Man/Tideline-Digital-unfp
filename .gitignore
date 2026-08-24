@@ -11,3 +11,7 @@ Thumbs.db
 # scrollcraft verification
 node_modules/
 lab/
+
+# Python bytecode from the page generator in scripts/.
+__pycache__/
+*.pyc

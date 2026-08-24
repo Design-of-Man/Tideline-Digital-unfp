@@ -1,61 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Pay an invoice or manage your monthly plan. Everything runs through Stripe. Includes what to do if something looks wrong.">
-<meta name="robots" content="noindex, follow">
-<meta name="theme-color" content="#0b0c0e">
-<title>Design of Man &mdash; Billing</title>
-<link rel="canonical" href="https://www.designofman.com/pay">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.designofman.com/pay">
-<meta property="og:site_name" content="Design of Man">
-<meta property="og:title" content="Design of Man &mdash; Billing">
-<meta property="og:description" content="Pay an invoice or manage your monthly plan. Everything runs through Stripe. Includes what to do if something looks wrong.">
-<meta property="og:image" content="https://www.designofman.com/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Design of Man &mdash; Billing">
-<meta name="twitter:description" content="Pay an invoice or manage your monthly plan. Everything runs through Stripe. Includes what to do if something looks wrong.">
-<meta name="twitter:image" content="https://www.designofman.com/og.png">
-<link rel="icon" href="/favicon.svg?v=20260825a" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260825a">
-<link rel="manifest" href="/site.webmanifest?v=20260825a">
-<link rel="preload" href="/assets/fonts/instrument-serif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/dm-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/fonts.css?v=20260825a">
-<link rel="stylesheet" href="/assets/css/vendor/scrollcraft.css?v=20260825a">
-<link rel="stylesheet" href="/assets/css/v3.css?v=20260825a">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"ProfessionalService","name":"Design of Man","description":"Website creation and management. Strategy, design, build, and ongoing care.","url":"https://www.designofman.com/","email":"hello@designofman.com","telephone":"+1-561-555-0100","areaServed":"United States","priceRange":"$$","address":{"@type":"PostalAddress","addressLocality":"Jupiter","addressRegion":"FL","addressCountry":"US"},"serviceType":["Website Development","Web App Development","Web Hosting and Maintenance"]}
-</script>
-</head>
-<body class="has-bar">
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from pages import *
 
-<a class="skip-link" href="#main">Skip to content</a>
-
-<header class="bar">
-  <a href="/" class="mark"><svg viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg><span>Design of Man</span></a>
-  <nav aria-label="Main">
-    <a href="/work">Work</a>
-    <a href="/services">Services</a>
-    <a href="/studio">Studio</a>
-    <a href="/contact">Contact</a>
-  </nav>
-</header>
-
-<main id="main">
-<section class="phero">
-  <div class="sc-wrap">
-    <h1 class="sc-display sc-display--lg" data-sc-kinetic="lines">Settle up in <em>about a minute</em>.</h1>
-    <p class="sc-body" data-sc-in>Pay an invoice or manage your monthly plan. Everything runs through Stripe, so your card and bank details never touch our servers.</p>
-    <div class="phero__meta" data-sc-in><span>256-bit TLS</span><span>PCI DSS Level 1 via Stripe</span><span>Bank transfer or card</span></div>
-    <div class="phero__cta" data-sc-in><a class="btn" href="#resend">Resend my invoice</a><a class="btn btn--quiet" href="#manage">Manage my plan</a></div>
-  </div>
-</section>
-
+BODY = phero(
+    "Settle up in <em>about a minute</em>.",
+    "Pay an invoice or manage your monthly plan. Everything runs through Stripe, "
+    "so your card and bank details never touch our servers.",
+    meta=["256-bit TLS", "PCI DSS Level 1 via Stripe", "Bank transfer or card"],
+    cta=[("#resend", "Resend my invoice", ""),
+         ("#manage", "Manage my plan", " btn--quiet")],
+) + """
 <section class="sc-section band">
   <div class="sc-wrap">
     <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Two things happen here.</h2>
@@ -106,7 +60,7 @@
     <div class="doc warn" data-sc-in>
       <h2 class="sc-display sc-display--md">Before you send money, read this.</h2>
       <p><strong>We will never email you new bank details.</strong> Our payment instructions do not change. If a message appears to come from us asking you to wire funds elsewhere, or claiming our banking has been updated, it is fraud.</p>
-      <p>Stop, do not reply, and call <a href="tel:+15615550100">(561) 555-0100</a>, the number on this page, not one in the email. Invoice redirection fraud is common and the money is rarely recoverable once sent.</p>
+      <p>Stop, do not reply, and call <a href="tel:%s">%s</a>, the number on this page, not one in the email. Invoice redirection fraud is common and the money is rarely recoverable once sent.</p>
       <p>Every real invoice from us arrives from our own domain and is paid through Stripe. If a payment page is not on <strong>stripe.com</strong> or on this site, do not enter anything into it.</p>
     </div>
   </div>
@@ -160,33 +114,17 @@
       <div data-sc-in>
         <p class="sc-body">If an invoice looks wrong or a payment did not go through, call. You will get one of us, not a queue.</p>
         <div class="phero__cta">
-          <a class="btn" href="tel:+15615550100">Call (561) 555-0100</a>
-          <a class="btn btn--quiet" href="mailto:hello@designofman.com">Email us</a>
+          <a class="btn" href="tel:%s">Call %s</a>
+          <a class="btn btn--quiet" href="mailto:%s">Email us</a>
         </div>
       </div>
     </div>
   </div>
 </section>
-</main>
+""" % (TELH, TELD, TELH, TELD, MAIL)
 
-<footer class="site-foot">
-  <div class="sc-wrap">
-    <a href="/" class="mark"><svg viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg><span>Design of Man</span></a>
-    <nav aria-label="Footer">
-      <a href="/work">Work</a>
-      <a href="/services">Services</a>
-      <a href="/process">Process</a>
-      <a href="/studio">Studio</a>
-      <a href="/pricing">Pricing</a>
-      <a href="/contact">Contact</a>
-      <a href="/pay">Pay</a>
-    </nav>
-    <small>&copy; 2026 Design of Man. Website creation and management. Jupiter, Florida.</small>
-  </div>
-</footer>
-
-<script src="/assets/js/vendor/scrollcraft.js?v=20260825a"></script>
-<script src="/assets/js/page.js?v=20260825a"></script>
-<script src="/assets/js/form.js?v=20260825a" defer></script>
-</body>
-</html>
+write("pay.html",
+      head("Billing",
+           "Pay an invoice or manage your monthly plan. Everything runs through Stripe. "
+           "Includes what to do if something looks wrong.",
+           "/pay", robots="noindex, follow") + BODY + foot())

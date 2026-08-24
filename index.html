@@ -23,9 +23,9 @@
 <link rel="icon" href="/favicon.svg?v=20260824a" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260824a">
 <link rel="manifest" href="/site.webmanifest?v=20260824a">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&amp;display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/instrument-serif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/fonts.css?v=20260824a">
 <link rel="stylesheet" href="/assets/css/vendor/scrollcraft.css?v=20260824a">
 <link rel="stylesheet" href="/assets/css/v3.css?v=20260824a">
 <script type="application/ld+json">
@@ -48,10 +48,10 @@
 <header class="bar">
   <a href="/" class="mark"><svg viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg><span>Design of Man</span></a>
   <nav aria-label="Main">
-    <a href="#services">Services</a>
     <a href="/work">Work</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#consult">Contact</a>
+    <a href="/services">Services</a>
+    <a href="/studio">Studio</a>
+    <a href="/contact">Contact</a>
   </nav>
 </header>
 
@@ -109,6 +109,7 @@
       <div class="card"><h3>Craft</h3><p>Custom-built, not templated. Your site is made for your business, not shoehorned into one.</p></div>
       <div class="card"><h3>Care</h3><p>We do not disappear after launch. Hosting and maintenance are part of the deal.</p></div>
       </div>
+      <p class="sc-body note" data-sc-in><a href="/studio">More about the studio</a></p>
     </div>
   </section>
 
@@ -123,6 +124,7 @@
       <div class="card"><h3>Implementation</h3><p>Domains, migrations, payments, CRM and analytics, wired up and tested for real.</p></div>
       <div class="card"><h3>Hosting and Maintenance</h3><p>Hosting, security, backups, updates and support, for as long as you want us on it.</p></div>
       </div>
+      <p class="sc-body note" data-sc-in><a href="/services">Everything we do, in detail</a></p>
     </div>
   </section>
 
@@ -148,6 +150,7 @@
         <li><span class="step__n">04</span><div><h3>Launch</h3><p>We handle the technical rollout, start to finish, so nothing breaks.</p></div></li>
         <li><span class="step__n">05</span><div><h3>Maintain</h3><p>Ongoing hosting, monitoring and updates. The work does not stop at launch.</p></div></li>
       </ol>
+      <p class="sc-body note" data-sc-in><a href="/process">What happens at each stage</a></p>
     </div>
   </section>
 
@@ -175,7 +178,7 @@
           <a class="btn btn--quiet" href="#consult">Get started</a>
         </div>
       </div>
-      <p class="sc-body note" data-sc-in>Not sure which fits? Book a free consult and we will point you the right way.</p>
+      <p class="sc-body note" data-sc-in>Not sure which fits? Book a free consult and we will point you the right way, or read <a href="/pricing">what actually moves the price</a>.</p>
     </div>
   </section>
 
@@ -187,6 +190,7 @@
         <blockquote class="card quote"><p>What sold me was that they did not disappear after launch. The maintenance plan means I never think about my website. It just works.</p></blockquote>
         <blockquote class="card quote"><p>Clear pricing, honest timelines, and a team that actually explained things. Our new site loads fast and our bookings are up.</p></blockquote>
       </div>
+      <p class="sc-body note" data-sc-in><a href="/work">See the before and after</a></p>
     </div>
   </section>
 
@@ -246,8 +250,12 @@
         <span>&copy; 2026 Design of Man. Website creation and management.</span>
         <nav aria-label="Footer">
           <a href="/work">Work</a>
-          <a href="#pricing">Pricing</a>
-          <a href="mailto:hello@designofman.com">Email</a>
+          <a href="/services">Services</a>
+          <a href="/process">Process</a>
+          <a href="/studio">Studio</a>
+          <a href="/pricing">Pricing</a>
+          <a href="/contact">Contact</a>
+          <a href="/pay">Pay</a>
         </nav>
       </div>
     </div>
@@ -267,7 +275,28 @@
     <div class="panel__boot" aria-hidden="true">
       <svg class="panel__mark" viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg>
       <span class="panel__word">Design of Man</span>
-      <span class="panel__bar"><i></i></span>
+      <!-- DAGAZ, OTHALA, MANNAZ. Elder Futhark for D, O, M, which is also
+           daybreak, homestead and man: the film is two men crossing a dark moor
+           toward a light, so the initials happen to say the right thing.
+
+           Drawn, not typed. The Runic block is real Unicode but almost nothing
+           ships a font for it outside Segoe UI Historic, so setting these as
+           characters would hand a lot of visitors three tofu boxes at the exact
+           moment the page is trying to land. Runes are straight lines, so they
+           are <line> elements like the mark above them. The proportions are
+           traced off FreeMono's own outlines, measured column by column.
+
+           It is also the progress bar: each glyph sits at a faint 0.18 until
+           --mark reaches it, so the same element reads as a divider first and a
+           loading indicator second. -->
+      <svg class="panel__rune" viewBox="0 0 150 18" fill="none" stroke="currentColor"
+           stroke-width="1.05" stroke-linecap="round" aria-hidden="true">
+        <line class="panel__rule" x1="0" y1="9.0" x2="40.61" y2="9.0" stroke-width="0.75"/>
+        <line class="panel__rule" x1="109.38" y1="9.0" x2="150" y2="9.0" stroke-width="0.75"/>
+        <g><!-- dagaz --><line x1="50.99" y1="0.00" x2="50.99" y2="18.00"/><line x1="61.63" y1="0.00" x2="61.63" y2="18.00"/><line x1="50.99" y1="0.00" x2="61.63" y2="18.00"/><line x1="50.99" y1="18.00" x2="61.63" y2="0.00"/></g>
+        <g><!-- othala --><line x1="76.74" y1="0.00" x2="72.61" y2="5.40"/><line x1="76.74" y1="0.00" x2="80.88" y2="5.40"/><line x1="72.61" y1="5.40" x2="76.74" y2="12.24"/><line x1="80.88" y1="5.40" x2="76.74" y2="12.24"/><line x1="76.74" y1="12.24" x2="71.69" y2="18.00"/><line x1="76.74" y1="12.24" x2="81.80" y2="18.00"/></g>
+        <g><!-- mannaz --><line x1="91.88" y1="0.00" x2="91.88" y2="18.00"/><line x1="98.99" y1="0.00" x2="98.99" y2="18.00"/><line x1="91.88" y1="0.00" x2="98.99" y2="9.00"/><line x1="98.99" y1="0.00" x2="91.88" y2="9.00"/></g>
+      </svg>
     </div>
     <div class="panel__inner">
       <h2>Websites that work, and <em>keep</em> working.</h2>

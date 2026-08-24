@@ -80,6 +80,66 @@
       "source": "/journey.html",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/home.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/v2",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/v2.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/v2-process",
+      "destination": "/process",
+      "permanent": true
+    },
+    {
+      "source": "/v2-process.html",
+      "destination": "/process",
+      "permanent": true
+    },
+    {
+      "source": "/v2-studio",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/v2-studio.html",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/v2-contact",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/v2-contact.html",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/",
+      "permanent": true
     }
   ]
 }
