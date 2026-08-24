@@ -1,4 +1,4 @@
-const {chromium}=require("/home/user/Tideline-Digital-unfp/node_modules/playwright-core");
+const {chromium}=require("playwright-core");
 const PAGE=process.argv[2], W=+process.argv[3]||1440, H=+process.argv[4]||900;
 (async()=>{
 const b=await chromium.launch({executablePath:"/opt/pw-browsers/chromium",headless:true});

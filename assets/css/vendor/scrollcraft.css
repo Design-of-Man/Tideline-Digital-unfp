@@ -175,6 +175,17 @@ button, input, select, textarea { font: inherit; color: inherit; }
    Driven by the engine. Restyle your own markup, not these.                */
 
 .sc-act--pinned { position: relative; }
+/* Reserve a pinned act's scroll height before the engine boots.
+   scrollcraft.js writes `height: Nvh` on every pinned act at init. Until that
+   runs the act is only as tall as its content, so everything below it sits
+   several screens too high and jumps down when the engine starts — measured at
+   0.56 CLS on a CPU- and network-throttled phone, which is a failing grade on
+   its own. `--sc-span` mirrors `data-sc-span` in the markup because CSS cannot
+   read an attribute as a number; keep the two in step. */
+[data-sc-act="scrub"],
+[data-sc-act="pin"],
+[data-sc-act="pan"] { min-height: calc(var(--sc-span, 1.5) * 100vh); }
+
 .sc-stage {
   position: sticky; top: 0;
   height: 100vh; height: 100svh;
