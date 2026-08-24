@@ -23,7 +23,7 @@ FORM = """
           </select></div>
         <div class="field"><label for="cf-message">Tell us a little about it</label><textarea id="cf-message" name="message" rows="5" required></textarea></div>
         <button class="btn" type="submit">Book my consult</button>
-        <p class="form__note" role="status">We reply within one business day. Prefer email? <a href="mailto:%s">%s</a></p>
+        <p class="form__note" role="status">This form opens your email app with your answers filled in — nothing sends until you send it there. No email app? Write to <a href="mailto:%s">%s</a>.</p>
       </form>
 """ % (MAIL, MAIL)
 
@@ -31,7 +31,7 @@ BODY = phero(
     "Tell us what you are <em>building</em>.",
     "A new site, a rebuild, or an existing one that needs someone reliable looking "
     "after it. Start with a conversation, not a contract.",
-    meta=["Free 30-minute consult", "Replies within one business day", "Jupiter, Florida"],
+    meta=["Free 30-minute consult", "A real person reads every enquiry", "Jupiter, Florida"],
 ) + """
 <section class="sc-section band" id="consult">
   <div class="sc-wrap">
@@ -58,7 +58,7 @@ BODY = phero(
   <div class="sc-wrap">
     <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">What happens after you send this.</h2>
     <ol class="steps" data-sc-in data-sc-stagger="70">
-      <li><span class="step__n">01</span><div><h3>We read it and reply</h3><p>A real person, within one business day. If what you need is outside what we do, we will say so and point you somewhere better.</p></div></li>
+      <li><span class="step__n">01</span><div><h3>We read it and reply</h3><p>A real person, not an autoresponder. If what you need is outside what we do, we will say so and point you somewhere better.</p></div></li>
       <li><span class="step__n">02</span><div><h3>Thirty minutes on a call</h3><p>What you sell, who is buying, and what the site has to do. No deck, no pitch. Bring your current site if you have one.</p></div></li>
       <li><span class="step__n">03</span><div><h3>A written scope and one number</h3><p>Exactly what gets built, exactly when, and exactly what it costs. Yours to keep whether or not you go ahead.</p></div></li>
     </ol>
