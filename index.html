@@ -25,6 +25,10 @@
 <link rel="manifest" href="/site.webmanifest?v=20260826b">
 <link rel="preload" href="/assets/fonts/instrument-serif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/dm-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<!-- The film poster is the LCP element on this page. Without a preload the
+     browser only discovers it after the three stylesheets parse, which put
+     LCP at 4.1s on a throttled phone. -->
+<link rel="preload" href="/assets/video/sc/film-poster.jpg?v=20260826b" as="image" fetchpriority="high">
 <link rel="stylesheet" href="/assets/css/fonts.css?v=20260826b">
 <link rel="stylesheet" href="/assets/css/vendor/scrollcraft.css?v=20260826b">
 <link rel="stylesheet" href="/assets/css/v3.css?v=20260826b">
@@ -63,7 +67,7 @@
        the last frame exactly at the end of the pin, which is where the glass
        layer below takes over. -->
   <section class="film" id="film" data-sc-act="scrub" data-sc-span="5.2"
-           data-sc-dwell="0.30" data-sc-clip-map="travel" data-sc-drift="#0b0c0e">
+           data-sc-dwell="0.30" data-sc-clip-map="travel" data-sc-drift="#0b0c0e" style="--sc-span:5.2">
     <div data-sc-stage>
       <img class="sc-stage__poster" src="/assets/video/sc/film-poster.jpg?v=20260826b" alt="">
       <video data-sc-scrub
@@ -87,7 +91,7 @@
   <!-- 3 · THE SCREEN. The peak, and the largest span on the page. This section
        owns the scroll; what draws is the fixed .glass layer below, because the
        payoff has to survive the scrub stage unsticking underneath it. -->
-  <section id="peak" data-sc-act="pin" data-sc-span="2.4" data-sc-drift="#0b0c0e">
+  <section id="peak" data-sc-act="pin" data-sc-span="2.4" data-sc-drift="#0b0c0e" style="--sc-span:2.4">
     <div data-sc-stage aria-hidden="true"></div>
   </section>
 
@@ -248,7 +252,7 @@
   <!-- THE CLOSE. Last element on the page. The moor comes back behind it and the
        bezel retreats, so the page resolves by leaving the machine rather than
        fading to a footer. -->
-  <section id="join" data-sc-act="pin" data-sc-span="1.4" data-sc-drift="#0b0c0e">
+  <section id="join" data-sc-act="pin" data-sc-span="1.4" data-sc-drift="#0b0c0e" style="--sc-span:1.4">
     <div data-sc-stage class="close" id="closeStage" data-sc-spotlight>
       <div class="close__inner">
         <h2 class="sc-display sc-display--lg" data-sc-cue="0 1 0 0" data-sc-kinetic="lines">Let&rsquo;s build something <em>honest</em>.</h2>

@@ -2,7 +2,7 @@
    unless it is an inline link inside a sentence, which is exempt. This is the
    check that caught the 19px nav links the previous build shipped on all four
    pages, so it is a harness rule now rather than something to remember. */
-const { chromium } = require("/home/user/Tideline-Digital-unfp/node_modules/playwright-core");
+const { chromium } = require("playwright-core");
 const PAGES = process.argv.slice(2);
 (async () => {
   const b = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium", headless: true });

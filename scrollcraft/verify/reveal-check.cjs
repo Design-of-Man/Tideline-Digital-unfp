@@ -8,7 +8,7 @@
    reports a reveal that works as a reveal that failed. Reduced motion is the
    harder case, so that is what is tested: the engine keeps the opacity fade
    there and only drops the movement. */
-const { chromium } = require("/home/user/Tideline-Digital-unfp/node_modules/playwright-core");
+const { chromium } = require("playwright-core");
 const PAGES = process.argv.slice(2);
 (async () => {
   const b = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium", headless: true });

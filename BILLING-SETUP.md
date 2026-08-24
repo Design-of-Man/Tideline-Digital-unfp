@@ -201,5 +201,5 @@ Search for `REPLACE_` to find all of them:
 | `REPLACE_FORM_ID` | Step 7 — Formspree endpoint |
 
 Also still placeholder from the original build: the phone number
-`(561) 555-0100`, the email `hello@tidelinedigital.com`, and the domain
-`tidelinedigital.com`.
+`(561) 555-0100`. The email (`hello@designofman.com`) and domain
+(`designofman.com`) are final.

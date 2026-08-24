@@ -17,7 +17,10 @@
   --sc-font-display: "Instrument Serif", Georgia, serif;
   --sc-font-text:    "DM Sans", system-ui, sans-serif;
 
-  --sc-measure: 64ch;
+  --sc-measure: 46ch; /* Corrected for DM Sans: its "0" glyph (the ch unit basis) is ~1.47x its
+     average lowercase-letter width, so a naive 64ch here rendered lines at
+     ~94 real characters -- far past the 75ch ceiling. 46ch targets ~68 real
+     characters, the readable band. */
 
   /* The bezel the site is trapped inside from the peak onward. */
   --frame: clamp(10px, 1.6vw, 22px);
@@ -239,7 +242,7 @@
 .row:last-child { border-bottom: 1px solid var(--sc-hairline); }
 .row h3 { margin: 0 0 var(--sc-2); font-family: var(--sc-font-display);
   font-weight: 400; font-size: var(--sc-t-xl); letter-spacing: var(--sc-track-snug); }
-.row p { margin: 0; color: var(--sc-ink-soft); max-width: 58ch; }
+.row p { margin: 0; color: var(--sc-ink-soft); max-width: 40ch; } /* same DM Sans ch-inflation correction */
 .row .tag { color: var(--sc-ink-soft); font-size: var(--sc-t-xs);
   letter-spacing: var(--sc-track-wide); text-transform: uppercase; white-space: nowrap; }
 @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
@@ -285,7 +288,7 @@
 .band > .sc-wrap > h2 { margin: 0 0 var(--sc-6); }
 .sc-wrap.narrow { max-width: 62rem; }
 .lede { display: grid; gap: var(--sc-4); margin-bottom: var(--sc-8); }
-.lede .sc-body, p.lede { max-width: 62ch; }
+.lede .sc-body, p.lede { max-width: 44ch; } /* same DM Sans ch-inflation correction as --sc-measure */
 .note { margin-top: var(--sc-6); color: var(--sc-ink-soft); }
 
 /* Cards are a grid of statements, not boxes with borders on every side. One
@@ -308,7 +311,7 @@
   color: var(--sc-accent); line-height: 1; }
 .steps h3 { margin: 0 0 var(--sc-2); font-family: var(--sc-font-display);
   font-weight: 400; font-size: var(--sc-t-xl); letter-spacing: var(--sc-track-snug); }
-.steps p { margin: 0; color: var(--sc-ink-soft); max-width: 56ch; }
+.steps p { margin: 0; color: var(--sc-ink-soft); max-width: 40ch; } /* same DM Sans ch-inflation correction */
 
 .plans { align-items: start; }
 .plan { display: grid; gap: var(--sc-4); }
@@ -337,7 +340,7 @@
   border-right: 1px solid var(--sc-ink-soft); border-bottom: 1px solid var(--sc-ink-soft);
   transform: rotate(45deg); transition: transform .28s var(--sc-ease-out); }
 .qa[open] summary::after { transform: rotate(-135deg); }
-.qa p { margin: 0 0 var(--sc-5); color: var(--sc-ink-soft); max-width: 68ch; }
+.qa p { margin: 0 0 var(--sc-5); color: var(--sc-ink-soft); max-width: 46ch; } /* same DM Sans ch-inflation correction */
 
 .form { display: grid; gap: var(--sc-4); max-width: 40rem; }
 .field { display: grid; gap: var(--sc-2); }
@@ -351,7 +354,7 @@
 .field textarea { min-height: 8rem; resize: vertical; }
 .field :is(input, select, textarea):focus-visible {
   outline: 2px solid var(--sc-accent); outline-offset: 2px; border-color: transparent; }
-.form__note { margin: 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+.form__note { margin: 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); max-width: var(--sc-measure); } /* was uncapped: ran to ~88 real chars, bounded only by .form's width */
 .form__note a { color: var(--sc-ink); }
 
 /* The one button. It was never defined -- .btn--quiet modified a class that did
@@ -399,7 +402,7 @@
 .phero { padding-block: clamp(4.5rem, 14vh, 10rem) clamp(3rem, 8vh, 6rem);
   border-bottom: 1px solid var(--sc-hairline); }
 .phero h1 { margin: 0 0 var(--sc-6); max-width: 18ch; }
-.phero .sc-body { font-size: var(--sc-t-lg); color: var(--sc-ink); max-width: 54ch; }
+.phero .sc-body { font-size: var(--sc-t-lg); color: var(--sc-ink); max-width: 38ch; } /* same DM Sans ch-inflation correction; larger --sc-t-lg type reads well slightly tighter too */
 .phero__meta { display: flex; flex-wrap: wrap; gap: var(--sc-3) var(--sc-5);
   margin-top: var(--sc-7); font-size: var(--sc-t-sm); color: var(--sc-ink-soft);
   letter-spacing: var(--sc-track-wide); text-transform: uppercase; }
@@ -480,7 +483,7 @@
   letter-spacing: var(--sc-track-wide); text-transform: uppercase; }
 .proj h3 { margin: var(--sc-2) 0 var(--sc-3); font-family: var(--sc-font-display);
   font-weight: 400; font-size: var(--sc-t-xl); letter-spacing: var(--sc-track-snug); }
-.proj p { margin: 0; color: var(--sc-ink-soft); max-width: 52ch; }
+.proj p { margin: 0; color: var(--sc-ink-soft); max-width: 36ch; } /* same DM Sans ch-inflation correction */
 .proj__scope { display: flex; flex-wrap: wrap; gap: var(--sc-2);
   margin-top: var(--sc-5); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); }
 .proj__scope span { border: 1px solid var(--sc-hairline); border-radius: 2px;
@@ -524,7 +527,7 @@
   border-radius: 50%; background: var(--sc-ink); cursor: ew-resize; }
 .ba__range::-moz-range-track { background: transparent; }
 .ba__hint { margin-top: var(--sc-3); font-size: var(--sc-t-xs); color: var(--sc-ink-soft);
-  letter-spacing: var(--sc-track-wide); }
+  letter-spacing: var(--sc-track-wide); max-width: var(--sc-measure); } /* was uncapped: ran to 199 real chars on wide viewports */
 
 /* METRICS. Numbers get the display face because they are the argument. */
 .metrics { display: grid; gap: var(--sc-5);

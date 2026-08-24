@@ -16,7 +16,7 @@ import sys
 from html.parser import HTMLParser
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-DOMAIN = "https://www.tidelinedigital.com"
+DOMAIN = "https://www.designofman.com"
 
 blockers, notes = [], []
 seen_titles, seen_descs = {}, {}
@@ -83,7 +83,13 @@ class Doc(HTMLParser):
 
 def resolve(page, href):
     base = os.path.dirname(os.path.join(ROOT, page))
-    t = os.path.normpath(os.path.join(base, href.split("#")[0].split("?")[0]))
+    clean = href.split("#")[0].split("?")[0]
+    # A leading slash means site-root-relative. os.path.join would treat it as an
+    # absolute filesystem path and silently drop ROOT, so join it to ROOT by hand.
+    if clean.startswith("/"):
+        t = os.path.normpath(os.path.join(ROOT, clean.lstrip("/")))
+    else:
+        t = os.path.normpath(os.path.join(base, clean))
     if os.path.isdir(t):
         t = os.path.join(t, "index.html")
     # cleanUrls: /work resolves to work.html
@@ -127,7 +133,9 @@ for rel in pages:
     elif not (110 <= len(desc) <= 170):
         note("SEO", "meta description %d chars" % len(desc))
     if not d.canonical:
-        bad("SEO", "missing canonical")
+        # A 404 is a status response, not a destination — it correctly has none.
+        if rel != "404.html":
+            bad("SEO", "missing canonical")
     elif not d.canonical.startswith(DOMAIN):
         bad("SEO", "canonical not on production domain: %s" % d.canonical)
 
@@ -178,7 +186,15 @@ for f in ["vercel.json", "robots.txt", "sitemap.xml", "og.png"]:
 
 sm = open(os.path.join(ROOT, "sitemap.xml"), encoding="utf-8").read()
 locs = set(re.findall(r"<loc>(.*?)</loc>", sm))
+noindexed = set()
 for rel in pages:
+    html = open(os.path.join(ROOT, rel), encoding="utf-8").read()
+    if re.search(r'<meta[^>]+name=["\']robots["\'][^>]+noindex', html, re.I):
+        noindexed.add(rel)
+for rel in pages:
+    # 404 and any deliberately noindexed page are not sitemap candidates.
+    if rel == "404.html" or rel in noindexed:
+        continue
     slug = "" if rel == "index.html" else rel[:-5]
     url = DOMAIN + "/" + slug
     if url not in locs:
