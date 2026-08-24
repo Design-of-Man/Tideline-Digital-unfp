@@ -19,20 +19,45 @@ everywhere at once.
 
 `grep -rn "555-0100" --include="*.html" .`
 
-### 2. The contact form has no endpoint
-`index.html` and `contact.html` both post to
-`https://formspree.io/f/YOUR_FORM_ID`.
+### 2. The contact form needs its address activated — ONE CLICK, ONCE
 
-`assets/js/form.js` keeps this from losing leads: while the action carries the
-placeholder, submitting hands the filled-in fields to the visitor's mail client
-addressed to `hello@designofman.com`, and the note under the form says so. The
-moment the action becomes a real Formspree URL the handler steps aside and the
-native POST runs. No other change needed.
+**Wired, not yet proven.** `index.html` and `contact.html` now post to
+FormSubmit at `https://formsubmit.co/hello@designofman.com`. FormSubmit needs no
+account and no form ID, but it **will not deliver to an address until that
+address is activated**, and activation happens by clicking a one-time link it
+emails on the first submission.
 
-`grep -rn "YOUR_FORM_ID" --include="*.html" .`
+**Until someone clicks it, submissions are accepted and discarded.** FormSubmit
+returns HTTP `200` with a body of `{"success":"false"}` in that state. This is
+the failure mode that leaves two client sites unable to tell whether their forms
+work at all.
 
-> The fallback is a stopgap, not the plan. A visitor on a device with no mail
-> client configured still cannot send. Set the real ID.
+`assets/js/form.js` is written so it cannot happen quietly here. It checks the
+**response body**, not the status:
+
+```js
+if (data && String(data.success) === 'true') { …sent… }
+else { …hand the visitor the mailto path with their answers preserved… }
+```
+
+`String()` because FormSubmit returns that field as a string in some responses
+and a real boolean in others. Anything that is not an explicit success — a
+network error, an unreadable body, or a 200 saying `success:false` — is treated
+as a failure and the visitor is told, never thanked.
+
+A visitor without JavaScript posts natively to FormSubmit's normal endpoint and
+gets FormSubmit's own response page, so an unactivated address is visible to them
+too. The `/ajax/` endpoint is used only by the handler.
+
+**To finish this:**
+
+1. Submit the form once on the live site.
+2. Click the activation link FormSubmit emails to `hello@designofman.com`.
+3. Submit again and **confirm the email actually arrives in the inbox** — a `200`
+   is not evidence, which is the entire point of this item.
+
+Until step 3 passes, no page may promise a reply time. The copy has been reduced
+to what the form can back up.
 
 ### 3. `/pay` has two live placeholders that take money
 Worse than a dead form, because a client is trying to pay you. **Both still need

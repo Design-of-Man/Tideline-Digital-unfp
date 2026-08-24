@@ -3,12 +3,19 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from pages import *
 
 FORM = """
-      <!-- PRE-LAUNCH: action still carries Formspree's YOUR_FORM_ID placeholder.
-           See PRELAUNCH.md. assets/js/form.js keeps a submission from being lost
-           while that is true: it hands the filled-in fields to the visitor's mail
-           client and steps aside the moment a real endpoint is set. -->
+      <!-- FormSubmit, posting natively. NO AJAX ON PURPOSE.
+           FormSubmit's known failure is that it accepts a submission with HTTP 200
+           and {"success":"false"} until the address is activated. That is only
+           silent if the page fabricates a thank-you on top of it, which is what an
+           AJAX handler does. A native POST hands the visitor FormSubmit's own
+           response, so an unactivated form is visible to whoever submits it rather
+           than looking like it worked. See PRELAUNCH.md. -->
       <form class="form" id="consultForm" method="POST"
-            action="https://formspree.io/f/YOUR_FORM_ID" data-sc-in>
+            action="https://formsubmit.co/hello@designofman.com" data-sc-in>
+        <!-- _honey is FormSubmit's honeypot: bots fill it, people never see it. -->
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="_subject" value="Consult request from designofman.com">
+        <input type="hidden" name="_template" value="table">
         <div class="field"><label for="cf-name">Name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
         <div class="field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
         <div class="field"><label for="cf-company">Business <span class="opt">optional</span></label><input id="cf-company" name="company" type="text" autocomplete="organization"></div>
@@ -23,7 +30,7 @@ FORM = """
           </select></div>
         <div class="field"><label for="cf-message">Tell us a little about it</label><textarea id="cf-message" name="message" rows="5" required></textarea></div>
         <button class="btn" type="submit">Book my consult</button>
-        <p class="form__note" role="status">We reply within one business day. Prefer email? <a href="mailto:%s">%s</a></p>
+        <p class="form__note" role="status">Goes to <a href="mailto:%s">%s</a>. You will see confirmation once it sends.</p>
       </form>
 """ % (MAIL, MAIL)
 
@@ -31,7 +38,7 @@ BODY = phero(
     "Tell us what you are <em>building</em>.",
     "A new site, a rebuild, or an existing one that needs someone reliable looking "
     "after it. Start with a conversation, not a contract.",
-    meta=["Free 30-minute consult", "Replies within one business day", "Jupiter, Florida"],
+    meta=["Free 30-minute consult", "A real person reads every enquiry", "Jupiter, Florida"],
 ) + """
 <section class="sc-section band" id="consult">
   <div class="sc-wrap">
@@ -58,7 +65,7 @@ BODY = phero(
   <div class="sc-wrap">
     <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">What happens after you send this.</h2>
     <ol class="steps" data-sc-in data-sc-stagger="70">
-      <li><span class="step__n">01</span><div><h3>We read it and reply</h3><p>A real person, within one business day. If what you need is outside what we do, we will say so and point you somewhere better.</p></div></li>
+      <li><span class="step__n">01</span><div><h3>We read it and reply</h3><p>A real person, not an autoresponder. If what you need is outside what we do, we will say so and point you somewhere better.</p></div></li>
       <li><span class="step__n">02</span><div><h3>Thirty minutes on a call</h3><p>What you sell, who is buying, and what the site has to do. No deck, no pitch. Bring your current site if you have one.</p></div></li>
       <li><span class="step__n">03</span><div><h3>A written scope and one number</h3><p>Exactly what gets built, exactly when, and exactly what it costs. Yours to keep whether or not you go ahead.</p></div></li>
     </ol>

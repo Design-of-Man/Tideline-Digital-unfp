@@ -20,18 +20,18 @@
 <meta name="twitter:title" content="Design of Man &mdash; Website Creation &amp; Management">
 <meta name="twitter:description" content="A small studio building websites and web apps with obsessive craft.">
 <meta name="twitter:image" content="https://www.designofman.com/og.png">
-<link rel="icon" href="/favicon.svg?v=20260824a" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260824a">
-<link rel="manifest" href="/site.webmanifest?v=20260824a">
+<link rel="icon" href="/favicon.svg?v=20260826b" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260826b">
+<link rel="manifest" href="/site.webmanifest?v=20260826b">
 <link rel="preload" href="/assets/fonts/instrument-serif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/dm-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <!-- The film poster is the LCP element on this page. Without a preload the
      browser only discovers it after the three stylesheets parse, which put
      LCP at 4.1s on a throttled phone. -->
-<link rel="preload" href="/assets/video/sc/film-poster.jpg?v=20260824a" as="image" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/fonts.css?v=20260824a">
-<link rel="stylesheet" href="/assets/css/vendor/scrollcraft.css?v=20260824a">
-<link rel="stylesheet" href="/assets/css/v3.css?v=20260824a">
+<link rel="preload" href="/assets/video/sc/film-poster.jpg?v=20260826b" as="image" fetchpriority="high">
+<link rel="stylesheet" href="/assets/css/fonts.css?v=20260826b">
+<link rel="stylesheet" href="/assets/css/vendor/scrollcraft.css?v=20260826b">
+<link rel="stylesheet" href="/assets/css/v3.css?v=20260826b">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"ProfessionalService","name":"Design of Man",
 "description":"Website creation and management. Strategy, design, build, and ongoing care.",
@@ -69,10 +69,10 @@
   <section class="film" id="film" data-sc-act="scrub" data-sc-span="5.2"
            data-sc-dwell="0.30" data-sc-clip-map="travel" data-sc-drift="#0b0c0e" style="--sc-span:5.2">
     <div data-sc-stage>
-      <img class="sc-stage__poster" src="/assets/video/sc/film-poster.jpg?v=20260824a" alt="">
+      <img class="sc-stage__poster" src="/assets/video/sc/film-poster.jpg?v=20260826b" alt="">
       <video data-sc-scrub
-             data-sc-src="/assets/video/sc/film.mp4?v=20260824a"
-             data-sc-src-mobile="/assets/video/sc/film-m.mp4?v=20260824a"
+             data-sc-src="/assets/video/sc/film.mp4?v=20260826b"
+             data-sc-src-mobile="/assets/video/sc/film-m.mp4?v=20260826b"
              muted playsinline preload="none"></video>
       <div class="film__scrim" aria-hidden="true"></div>
 
@@ -214,11 +214,20 @@
   <section class="sc-section band band--alt" id="consult">
     <div class="sc-wrap narrow">
       <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Let us draw up the plan.</h2>
-      <p class="sc-body lede" data-sc-in>Tell us about your project. We reply within one business day to set up a free, no-pressure 30-minute call.</p>
-      <!-- PRE-LAUNCH: action still carries Formspree's YOUR_FORM_ID placeholder.
-           See PRELAUNCH.md. The form degrades to the mailto link below it. -->
+      <p class="sc-body lede" data-sc-in>Tell us about your project and we will set up a free, no-pressure 30-minute call.</p>
+      <!-- FormSubmit, posting natively. NO AJAX ON PURPOSE.
+           FormSubmit's known failure is that it accepts a submission with HTTP 200
+           and {"success":"false"} until the address is activated. That is only
+           silent if the page fabricates a thank-you on top of it, which is what an
+           AJAX handler does. A native POST hands the visitor FormSubmit's own
+           response, so an unactivated form is visible to whoever submits it rather
+           than looking like it worked. See PRELAUNCH.md. -->
       <form class="form" id="consultForm" method="POST"
-            action="https://formspree.io/f/YOUR_FORM_ID" data-sc-in>
+            action="https://formsubmit.co/hello@designofman.com" data-sc-in>
+        <!-- _honey is FormSubmit's honeypot: bots fill it, people never see it. -->
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="_subject" value="Consult request from designofman.com">
+        <input type="hidden" name="_template" value="table">
         <div class="field"><label for="cf-name">Name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
         <div class="field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
         <div class="field"><label for="cf-company">Business <span class="opt">optional</span></label><input id="cf-company" name="company" type="text" autocomplete="organization"></div>
@@ -233,7 +242,7 @@
           </select></div>
         <div class="field"><label for="cf-message">Tell us a little about it</label><textarea id="cf-message" name="message" rows="5" required></textarea></div>
         <button class="btn" type="submit">Book my consult</button>
-        <p class="form__note" role="status">We reply within one business day. Prefer email? <a href="mailto:hello@designofman.com">hello@designofman.com</a></p>
+        <p class="form__note" role="status">Goes to <a href="mailto:hello@designofman.com">hello@designofman.com</a>. You will see confirmation once it sends.</p>
       </form>
     </div>
   </section>
@@ -271,7 +280,7 @@
      invisible, then flies the site off the laptop's real glass until it is the
      viewport. inert until the panel is big enough to read and click. -->
 <div class="glass" id="glass" aria-hidden="true" inert>
-  <img class="glass__still" id="glassStill" src="/assets/video/sc/film-end.jpg?v=20260824a" alt="">
+  <img class="glass__still" id="glassStill" src="/assets/video/sc/film-end.jpg?v=20260826b" alt="">
   <div class="panel" id="panel">
     <!-- What the machine is showing while you are still walking up to it. The
          plate's screen is blown out to rgb(244,250,243), so the panel matches
@@ -312,8 +321,8 @@
 <div class="bezel" id="bezel" aria-hidden="true"></div>
 
 
-<script src="/assets/js/vendor/scrollcraft.js?v=20260824a"></script>
-<script src="/assets/js/v3.js?v=20260824a"></script>
-<script src="/assets/js/form.js?v=20260824a" defer></script>
+<script src="/assets/js/vendor/scrollcraft.js?v=20260826b"></script>
+<script src="/assets/js/v3.js?v=20260826b"></script>
+<script src="/assets/js/form.js?v=20260826b" defer></script>
 </body>
 </html>

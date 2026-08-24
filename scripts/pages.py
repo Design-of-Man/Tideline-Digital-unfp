@@ -12,7 +12,7 @@ Run from the repo root:  python3 scripts/pages.py
 import os, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-V    = "20260825a"                       # cache-buster, bumped per deploy
+V    = "20260826b"                       # cache-buster, bumped per deploy
 SITE = "https://www.designofman.com"
 MAIL = "hello@designofman.com"
 TEL   = "+1-561-555-0100"                # PLACEHOLDER: see PRELAUNCH.md
