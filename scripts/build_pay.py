@@ -60,7 +60,7 @@ BODY = phero(
     <div class="doc warn" data-sc-in>
       <h2 class="sc-display sc-display--md">Before you send money, read this.</h2>
       <p><strong>We will never email you new bank details.</strong> Our payment instructions do not change. If a message appears to come from us asking you to wire funds elsewhere, or claiming our banking has been updated, it is fraud.</p>
-      <p>Stop, do not reply, and call <a href="tel:%s">%s</a>, the number on this page, not one in the email. Invoice redirection fraud is common and the money is rarely recoverable once sent.</p>
+      <p>Stop, do not reply, and check with us at <a href="mailto:%s">%s</a> &mdash; the address on this page, typed in by hand, not one taken from the email. Invoice redirection fraud is common and the money is rarely recoverable once sent.</p>
       <p>Every real invoice from us arrives from our own domain and is paid through Stripe. If a payment page is not on <strong>stripe.com</strong> or on this site, do not enter anything into it.</p>
     </div>
   </div>
@@ -74,11 +74,9 @@ BODY = phero(
         <p class="sc-body" data-sc-in>Tell us who you are and we will resend the payment link to the email on your account, usually within a business day.</p>
       </div>
       <div>
-        <!-- PRE-LAUNCH: action still carries a placeholder Formspree ID. See PRELAUNCH.md. -->
-        <form class="form" id="resendForm" method="POST"
-              action="https://formspree.io/f/REPLACE_FORM_ID" data-sc-in>
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
-          <input type="hidden" name="_subject" value="Invoice resend request">
+        <form class="form" id="resendForm" method="POST" action="/api/contact" data-sc-in>
+          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="_t" value="">
           <div class="field"><label for="r-name">Your name</label><input id="r-name" name="name" type="text" autocomplete="name" required></div>
           <div class="field"><label for="r-company">Business <span class="opt">optional</span></label><input id="r-company" name="company" type="text" autocomplete="organization"></div>
           <div class="field"><label for="r-email">Email on the account</label><input id="r-email" name="email" type="email" autocomplete="email" required></div>
@@ -112,19 +110,20 @@ BODY = phero(
     <div class="split">
       <div><h2 class="sc-display sc-display--md" data-sc-kinetic="lines">Talk to a person.</h2></div>
       <div data-sc-in>
-        <p class="sc-body">If an invoice looks wrong or a payment did not go through, call. You will get one of us, not a queue.</p>
+        <p class="sc-body">If an invoice looks wrong or a payment did not go through, write to us. You will get one of us, not a queue.</p>
         <div class="phero__cta">
-          <a class="btn" href="tel:%s">Call %s</a>
-          <a class="btn btn--quiet" href="mailto:%s">Email us</a>
+          <a class="btn" href="mailto:%s">Email us</a>
+          <a class="btn btn--quiet" href="/contact">Contact form</a>
         </div>
       </div>
     </div>
   </div>
 </section>
-""" % (TELH, TELD, TELH, TELD, MAIL)
+""" % (MAIL, MAIL, MAIL)
 
 write("pay.html",
       head("Billing",
            "Pay an invoice or manage your monthly plan. Everything runs through Stripe. "
            "Includes what to do if something looks wrong.",
-           "/pay", robots="noindex, follow") + BODY + foot())
+           "/pay", robots="noindex, follow",
+           nodes=[crumbs([("/pay", "Billing")])]) + BODY + foot())

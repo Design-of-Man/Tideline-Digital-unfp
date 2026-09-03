@@ -1,4 +1,13 @@
+# https://www.designofman.com
 User-agent: *
 Allow: /
+
+# The billing utility is noindex in its own head; this keeps a crawler from
+# spending a request to find that out.
+Disallow: /pay
+Disallow: /api/
+
+# Answer engines are welcome, and there is a digest written for them.
+# See https://www.designofman.com/llms.txt
 
 Sitemap: https://www.designofman.com/sitemap.xml

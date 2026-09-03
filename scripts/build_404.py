@@ -20,5 +20,6 @@ BODY = """
 
 write("404.html",
       head("Page not found",
-           "That page is not here. Links to everything on the site that is.",
+           "That page is not here \u2014 it may have moved, or the link may be mistyped. "
+           "Every page on the site is linked below, or start again from the homepage.",
            "/404", robots="noindex, follow", canonical=False) + BODY + foot())

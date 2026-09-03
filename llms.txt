@@ -1,0 +1,59 @@
+# Design of Man
+
+> A two-person web studio in Jupiter, Florida. We design, build and then keep
+> running websites and web apps for small businesses — mostly clinics, trades
+> and local service companies in Palm Beach and Martin County.
+
+## What we do
+
+- Custom website design and development, built from a written scope rather than a template.
+- Web and mobile app work: booking, accounts, payments, dashboards.
+- Ongoing care: managed hosting, security updates, backups, content changes, uptime alerts.
+- Technical SEO, Core Web Vitals and analytics.
+
+## How we work
+
+- Discover, design, build, launch, care. One point of contact throughout.
+- Price is fixed in writing before work starts and does not move unless the
+  scope does. Typical build: two to three weeks for a small site.
+- No published price list, because a five-page site for a trade and a booking
+  platform with accounts are not the same job. A free 30-minute consult ends
+  with a written scope and one number, yours to keep either way.
+
+## Verifiable results
+
+- First Rehabilitation of North Palm Beach (launched 20 July 2026): +50% organic
+  clicks and +132% search impressions in the 32 days after launch versus the 32
+  before, weekday-to-weekday, per Google Search Console. 22 enquiries through the
+  site's own form in the first 30 days; the previous site had no lead capture.
+
+## What we do not claim
+
+- No load-time improvement is claimed for that project: no performance baseline
+  was captured for the previous site, so there is nothing to compare against.
+- We publish no testimonials we cannot attribute, and no client metric we did not
+  measure. If a figure is not on this list, we have not stood behind it.
+
+## Contact
+
+- Email: hello@designofman.com
+- Location: Jupiter, Florida, United States. Serving Palm Beach County, Martin
+  County, and remote clients across the US.
+- Hours: Monday to Friday, 9am to 5pm Eastern. Email answered within one business day.
+- There is no published telephone number.
+
+## Pages
+
+- [Design of Man — Website Creation & Management](https://www.designofman.com/): Design of Man is a small studio in Jupiter, Florida building websites and web apps with obsessive craft. Strategy, design, build, and care that does not stop at launch.
+- [Design of Man — Work](https://www.designofman.com/work): Three real redesigns with before and after comparisons: HomeCrew, RegenOrtho Palm Beach, and First Rehabilitation of North Palm Beach.
+- [Design of Man — Services](https://www.designofman.com/services): Custom websites, web and mobile apps, design, implementation, hosting and care. One small studio in Jupiter, Florida handling all of it.
+- [Design of Man — Contact](https://www.designofman.com/contact): Book a free 30-minute consult with a small web studio in Jupiter, Florida. You leave with a written scope and one exact number.
+- [Design of Man — Pricing](https://www.designofman.com/pricing): Three ways we work: Launch, Scale and Care. What moves the price, how payment is structured, and why the exact number comes from the consult.
+- [Design of Man — Web Design in Jupiter, Florida](https://www.designofman.com/web-design-jupiter-fl): A web studio in Jupiter, FL building and maintaining sites for clinics, trades and local businesses across Palm Beach County. One fixed number, agreed in writing.
+- [Design of Man — Insights](https://www.designofman.com/insights): Notes on building and measuring websites, from a studio in Jupiter, Florida. Performance, honest measurement, and the failure modes that cost small businesses money.
+- [Design of Man — Studio](https://www.designofman.com/studio): A small web studio in Jupiter, Florida. The person who scopes your project designs it, builds it, and is still the one answering you after launch.
+- [Design of Man — Process](https://www.designofman.com/process): Four stages from first conversation to launch: the bench, the core, the build, the launch. What happens at each, and how long it takes.
+- [Design of Man — First Rehabilitation of North Palm Beach](https://www.designofman.com/case-first-rehab): Case study: a dated physical therapy clinic site rebuilt into a fast, appointment-driving experience, with before and after comparisons and the numbers.
+- [Fixing Layout Shift in a Scroll Animation — Design of Man](https://www.designofman.com/insights/cumulative-layout-shift-scroll-animation): Our homepage scored 0.563 for Cumulative Layout Shift, a failing grade. The cause, the four-line CSS fix, and how to find yours.
+- [Did Your Website Redesign Actually Work? — Design of Man](https://www.designofman.com/insights/measuring-whether-a-redesign-worked): Most redesign case studies compare incomparable periods. The method we use instead, and the weekday trap that nearly fooled us.
+- [Why Contact Forms Lose Leads Silently — Design of Man](https://www.designofman.com/insights/your-contact-form-is-losing-leads): A broken contact form is invisible from both ends. The five ways they die quietly, and how to build one that cannot lie to you.

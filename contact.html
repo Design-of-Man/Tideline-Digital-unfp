@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="/assets/css/vendor/scrollcraft.css?v=20260825a">
 <link rel="stylesheet" href="/assets/css/v3.css?v=20260825a">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"ProfessionalService","name":"Design of Man","description":"Website creation and management. Strategy, design, build, and ongoing care.","url":"https://www.designofman.com/","email":"hello@designofman.com","telephone":"+1-561-555-0100","areaServed":"United States","priceRange":"$$","address":{"@type":"PostalAddress","addressLocality":"Jupiter","addressRegion":"FL","addressCountry":"US"},"serviceType":["Website Development","Web App Development","Web Hosting and Maintenance"]}
+{"@context":"https://schema.org","@graph":[{"@type":["ProfessionalService","LocalBusiness"],"@id":"https://www.designofman.com/#studio","name":"Design of Man","alternateName":"Design of Man Studio","description":"Website creation and management for small businesses. Strategy, design, build, and ongoing care that does not stop at launch.","url":"https://www.designofman.com/","email":"hello@designofman.com","logo":{"@type":"ImageObject","@id":"https://www.designofman.com/#logo","url":"https://www.designofman.com/assets/img/logo-mark.png","caption":"Design of Man"},"image":"https://www.designofman.com/og.png","priceRange":"$$","currenciesAccepted":"USD","paymentAccepted":"Credit Card, ACH","address":{"@type":"PostalAddress","addressLocality":"Jupiter","addressRegion":"FL","postalCode":"33477","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":26.9342,"longitude":-80.0942},"areaServed":[{"@type":"AdministrativeArea","name":"Palm Beach County, Florida"},{"@type":"AdministrativeArea","name":"Martin County, Florida"},{"@type":"Country","name":"United States"}],"knowsAbout":["Web design","Web development","Search engine optimization","Website maintenance","Core Web Vitals","Web accessibility"],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"17:00"}],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Website creation and management","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Website design and development","description":"Custom sites built from a written scope, not a template."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Web application development","description":"Booking, accounts, payments and dashboards on the open web."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Website care and hosting","description":"Managed hosting, security updates, backups and content changes."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Search and performance","description":"Technical SEO, Core Web Vitals and analytics that is actually read."}}]}},{"@type":"WebSite","@id":"https://www.designofman.com/#website","url":"https://www.designofman.com/","name":"Design of Man","inLanguage":"en-US","publisher":{"@id":"https://www.designofman.com/#studio"}},{"@type":"WebPage","@id":"https://www.designofman.com/contact#page","url":"https://www.designofman.com/contact","name":"Design of Man &mdash; Contact","description":"Book a free 30-minute consult with a small web studio in Jupiter, Florida. You leave with a written scope and one exact number.","inLanguage":"en-US","isPartOf":{"@id":"https://www.designofman.com/#website"},"about":{"@id":"https://www.designofman.com/#studio"},"primaryImageOfPage":{"@id":"https://www.designofman.com/#logo"}},{"@type":"BreadcrumbList","@id":"https://www.designofman.com/contact#crumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.designofman.com/"},{"@type":"ListItem","position":2,"name":"Contact","item":"https://www.designofman.com/contact"}]},{"@type":"FAQPage","@id":"https://www.designofman.com/contact#faq","mainEntity":[{"@type":"Question","name":"Do you work with businesses outside Florida?","acceptedAnswer":{"@type":"Answer","text":"Yes. Most of our clients are within an hour of Jupiter because that is where we are, but the work runs the same either way and plenty of it is remote."}},{"@type":"Question","name":"How small is too small?","acceptedAnswer":{"@type":"Answer","text":"There is no floor. A single well-built page that gets your phone ringing is a real project and we are happy to do it."}},{"@type":"Question","name":"Can you fix my existing site instead of rebuilding it?","acceptedAnswer":{"@type":"Answer","text":"Often, yes, and we will tell you honestly when that is the better value. Sometimes a rebuild is genuinely cheaper than untangling what is there. We will show you why."}},{"@type":"Question","name":"I have a deadline. Is that a problem?","acceptedAnswer":{"@type":"Answer","text":"Only if we find out about it late. Say so on the first call and we will tell you straight away whether it is possible."}}]}]}
 </script>
 </head>
 <body class="has-bar">
@@ -59,10 +59,10 @@
   <div class="sc-wrap">
     <div class="split">
       <div>
-        <h2 class="sc-display sc-display--md" data-sc-kinetic="lines">We answer our own phone.</h2>
+        <h2 class="sc-display sc-display--md" data-sc-kinetic="lines">You get a person, not a queue.</h2>
         <dl class="rows" data-sc-in>
-          <div><dt>Phone</dt><dd><a href="tel:+15615550100">(561) 555-0100</a></dd></div>
           <div><dt>Email</dt><dd><a href="mailto:hello@designofman.com">hello@designofman.com</a></dd></div>
+          <div><dt>Reply time</dt><dd>Within one business day, from the person who would do the work</dd></div>
           <div><dt>Where</dt><dd>Jupiter, Florida</dd></div>
           <div><dt>Hours</dt><dd>Monday to Friday, 9 to 5 Eastern</dd></div>
         </dl>
@@ -71,12 +71,14 @@
       <div>
         <p class="sc-body" data-sc-in>Bring whatever you have: a rough idea, a competitor's site you like, or a list of everything wrong with your current one. We will tell you honestly what it takes, and whether we are the right people for it.</p>
 
-      <!-- PRE-LAUNCH: action still carries Formspree's YOUR_FORM_ID placeholder.
-           See PRELAUNCH.md. assets/js/form.js keeps a submission from being lost
-           while that is true: it hands the filled-in fields to the visitor's mail
-           client and steps aside the moment a real endpoint is set. -->
-      <form class="form" id="consultForm" method="POST"
-            action="https://formspree.io/f/YOUR_FORM_ID" data-sc-in>
+      <!-- Posts to our own /api/contact (api/contact.mjs), not a third party.
+           Without JavaScript the browser posts natively and the function
+           answers with a 303; with it, form.js sends JSON and keeps the
+           visitor on the page. The two inputs below are the bot filters and
+           are never seen or tabbed to by a person. -->
+      <form class="form" id="consultForm" method="POST" action="/api/contact" data-sc-in>
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="_t" value="">
         <div class="field"><label for="cf-name">Name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
         <div class="field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
         <div class="field"><label for="cf-company">Business <span class="opt">optional</span></label><input id="cf-company" name="company" type="text" autocomplete="organization"></div>
@@ -132,6 +134,8 @@
       <a href="/process">Process</a>
       <a href="/studio">Studio</a>
       <a href="/pricing">Pricing</a>
+      <a href="/insights">Insights</a>
+      <a href="/web-design-jupiter-fl">Jupiter, FL</a>
       <a href="/contact">Contact</a>
       <a href="/pay">Pay</a>
     </nav>
@@ -141,6 +145,9 @@
 
 <script src="/assets/js/vendor/scrollcraft.js?v=20260825a"></script>
 <script src="/assets/js/page.js?v=20260825a"></script>
+<script src="/assets/js/bar.js?v=20260825a" defer></script>
 <script src="/assets/js/form.js?v=20260825a" defer></script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

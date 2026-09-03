@@ -1,5 +1,12 @@
 {
-  "dependencies": {
+  "name": "design-of-man",
+  "private": true,
+  "description": "designofman.com — a static site with one serverless function.",
+  "scripts": {
+    "build": "python3 scripts/pages.py && for p in work services studio process pricing contact case pay 404 local insights; do python3 \"scripts/build_$p.py\"; done && python3 scripts/sync_index.py && python3 scripts/build_meta.py",
+    "verify": "./scrollcraft/verify/run-all.sh"
+  },
+  "devDependencies": {
     "playwright-core": "^1.62.1"
   }
 }

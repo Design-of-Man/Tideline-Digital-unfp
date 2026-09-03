@@ -1,156 +1,159 @@
 # Pre-launch checklist
 
-Everything here is a **placeholder or an unverified claim that will survive
-launch unless someone removes it**. None of it is a bug. Each one is a
-deliberate stand-in waiting on a real value, or a number only you can confirm.
+State as of **2026-09-03**. Every claim here was checked against the repository
+when it was written, not carried forward from the previous version of this file
+— which had several lines that were no longer true, including one that said the
+fabricated client metrics had been removed when they were still on two pages.
 
-## Blocking — the site must not go to a custom domain with these in place
+---
 
-### 1. The phone number is fake
-`(561) 555-0100` is a reserved-for-fiction 555 number, and it is now on four
-pages plus the structured data every page carries:
+## Blocking — one item
 
-- the `ProfessionalService` JSON-LD in the shared head, so **every page**
-- `studio.html`, `contact.html`, `pay.html` (three places on that one)
+### `/pay` still has the Stripe portal placeholder
 
-It is generated from `TEL`, `TELH` and `TELD` at the top of `scripts/pages.py`.
-Change those three constants, re-run the page scripts, and it is fixed
-everywhere at once.
+`REPLACE_PORTAL_LINK` is on the "Open my dashboard" button. The Customer Portal
+login URL is issued by Stripe and cannot be invented, so it stays a placeholder
+until someone pastes the real one in.
 
-`grep -rn "555-0100" --include="*.html" .`
+It does not lose anything: `assets/js/form.js` tests the live attribute and, while
+the placeholder is there, rewrites the button to email us for the link and adds
+a line saying self-serve access is being switched on — rather than sending a
+paying client to a Stripe error page.
 
-### 2. The contact form has no endpoint
-`index.html` and `contact.html` both post to
-`https://formspree.io/f/YOUR_FORM_ID`.
+**Stripe Dashboard → Settings → Billing → Customer portal → Login page**, then
+put the URL in `scripts/build_pay.py` and re-run it. The guard turns itself off.
 
-`assets/js/form.js` keeps this from losing leads: while the action carries the
-placeholder, submitting hands the filled-in fields to the visitor's mail client
-addressed to `hello@designofman.com`, and the note under the form says so. The
-moment the action becomes a real Formspree URL the handler steps aside and the
-native POST runs. No other change needed.
+```
+grep -rn "REPLACE_" --include="*.html" .
+```
 
-`grep -rn "YOUR_FORM_ID" --include="*.html" .`
+`_dev/preflight.py` blocks on this by design.
 
-> The fallback is a stopgap, not the plan. A visitor on a device with no mail
-> client configured still cannot send. Set the real ID.
+---
 
-### 3. `/pay` has two live placeholders that take money
-Worse than a dead form, because a client is trying to pay you. **Both still need
-real values** — but neither loses anything silently any more (2026-08-24):
+## Closed in this pass
 
-- `REPLACE_FORM_ID` on the invoice-resend form. `assets/js/form.js` now guards
-  `#resendForm` as well as `#consultForm`, so while the ID is a placeholder the
-  submission opens the client's mail client with every field filled in instead
-  of POSTing to a 404. Verified in a headless browser.
-- `REPLACE_PORTAL_LINK` on the "Open my dashboard" button. While the href
-  carries the placeholder, `form.js` rewrites the button to email us for the
-  link and adds a line saying self-serve access is being switched on — rather
-  than sending the client to a Stripe error page. Stripe Dashboard → Settings →
-  Billing → Customer portal → Login page.
+### The phone number is gone, not replaced
+`(561) 555-0100` was a reserved-for-fiction number sitting on four pages **and in
+the structured data of every page on the site**. A search engine reads that as
+the business's real contact data, so a fake number is worse than none. It has
+been removed everywhere: the `tel:` links, the copy that promised someone would
+answer the phone, and the `telephone` key in the JSON-LD.
 
-Both guards test the live attribute, so dropping in the real values turns them
-off automatically. The preflight still blocks on these three, by design.
+Contact is email and the form until a real line exists. Adding one back means a
+`TEL`/`TELH`/`TELD` triple in `scripts/pages.py` and a `telephone` key in
+`STUDIO` — nowhere else.
 
-`grep -rn "REPLACE_" --include="*.html" .`
+### The contact form reaches a real endpoint
+Both forms posted to `https://formspree.io/f/YOUR_FORM_ID` — a literal template
+placeholder. They now post to `/api/contact` (`api/contact.mjs`) on our own
+origin, which validates, filters bots with a honeypot and a submit-timing check,
+rate-limits deliveries (not attempts — see below), escapes everything it puts in
+an email, and sends through Resend.
 
-### 4. ~~The performance numbers are unverified~~ — done 2026-08-24
-`/work` and `/case-first-rehab` claimed **+186% organic traffic, +72%
-appointment requests, 2.4s faster**, "measured over the eight months following
-launch". First Rehabilitation's site launched **2026-07-20**, so eight months of
-post-launch data could not exist, and none of the three figures reconciled with
-Search Console.
+The rule it is built around: **the visitor is never shown a success message for
+a message that was not delivered.** With no `RESEND_API_KEY` it answers 503 and
+says to email instead, rather than accepting a lead it cannot deliver. Without
+JavaScript the browser posts natively and gets a 303. `scrollcraft/verify/form-check.cjs`
+enforces all of it, including that a failed send can never answer 200.
 
-Replaced with measured figures, Search Console for the 32 days after launch
-(21 Jul – 21 Aug 2026) against the 32 before, compared weekday-to-weekday
-because the pre-window contained a weekend and the post-window did not:
+The first version of the rate limiter counted every request, which meant someone
+mistyping their email five times was locked out for ten minutes having sent
+nothing. It now counts deliveries separately from attempts. That bug was found
+by the check, not by review.
+
+### The fabricated case-study metrics are actually gone this time
+`/work` and `/case-first-rehab` still carried **+186% organic traffic, +72%
+appointment requests, 2.4s faster**, attributed to "the eight months following
+launch" — for a site that launched 2026-07-20, six weeks earlier. The previous
+version of this file said these had been replaced. They had not; only this file
+had been edited.
+
+Replaced with measured figures, Google Search Console, the 32 days after launch
+(21 Jul – 21 Aug 2026) against the 32 before, weekday-to-weekday because the
+earlier window contained a weekend and the later one did not:
 
 - **+50%** organic clicks (3.64 → 5.46 per weekday)
 - **+132%** search impressions (190 → 440 per weekday)
 - **22** enquiries in the first 30 days, from the site's own form — the previous
   site had no lead capture, so there is no percentage to quote
 
-The load-time claim is gone rather than restated: no performance baseline was
-ever captured for the old Wix site, so there is nothing to compare against.
+No load-time claim is made in any form. No performance baseline was captured for
+the old site, so there is nothing to compare against.
 
-### 5. Confirm the email address
-`hello@designofman.com` is in the JSON-LD, both forms' fallback, the footer of
-every page, and the 404. Confirm the mailbox exists and is monitored.
+### The unattributed testimonials are gone
+Three quotes on the homepage with no name, no business and no photograph. They
+read as invented whether or not they were, and a visitor could not check a word.
+Replaced with the First Rehabilitation figures above and a link to the working.
 
-## Done in this pass, noted so nobody re-does it
+### Security headers are now a real policy
+Was: four headers, no CSP, no HSTS. Now a `Content-Security-Policy` with
+`script-src 'self'` and no `'unsafe-inline'` anywhere — possible because there
+is not one inline `<script>` on the site and the analytics are served from the
+deployment's own origin. Plus HSTS with preload, COOP, CORP, a
+`Permissions-Policy` that denies the whole unused interface surface, and
+`frame-ancestors`.
 
-- **The preflight gate was reporting 213 blockers, 210 of them false.**
-  `resolve()` built root-relative paths with `os.path.join(base, "/work")`,
-  which discards the base and returns an absolute *filesystem* path — so every
-  root-relative link, image and script on the site came back missing. Its
-  `DOMAIN` constant also still read `www.tidelinedigital.com`, which failed
-  every correct canonical on the site. Both fixed; the gate now reports the 3
-  real `/pay` blockers and still exits non-zero. It also no longer demands a
-  canonical on `404.html` or a sitemap entry for a `noindex` page, both of
-  which are deliberate.
-- **Three of the four verify harness checks could not run.** `target-check`,
-  `reveal-check` and `coverage-check` each did
-  `require("/home/user/Tideline-Digital-unfp/node_modules/playwright-core")` —
-  an absolute path, capitalised differently from the repo, so they threw
-  `MODULE_NOT_FOUND` in any fresh clone. Only `a11y-check` and `links-check`
-  ever ran. Changed to `require("playwright-core")`; all five now run and pass.
-- **Homepage CLS was 0.563 on a throttled phone** — a failing grade on its own.
-  `scrollcraft.js` writes `height: Nvh` on each pinned act at init, so until the
-  engine booted every act was content-height and the whole page below the film
-  sat several screens too high, then jumped. Pinned acts now reserve that space
-  in CSS via `--sc-span`, mirroring `data-sc-span`. **CLS 0.563 → 0.002**,
-  Lighthouse mobile performance **49 → 77**. Keep the two values in step if a
-  span changes.
-- **The film poster is preloaded** with `fetchpriority="high"`. It is the LCP
-  element and was only discovered after three stylesheets parsed.
+`scrollcraft/verify/csp-check.cjs` loads every page under the exact headers
+`vercel.json` declares. It immediately caught one: `media-src 'self'` refused the
+`blob:` URL the scrub engine plays the homepage film from, which would have
+shipped a black hero to production.
 
-- **Two fabricated case studies removed.** The previous `/work` carried
-  "Coastal Collective" and "Green & Co." as client projects, with CSS mock
-  rectangles instead of screenshots and invented metrics (+240% inbound leads,
-  3.1x form submits, +132% mobile traffic). They are gone. If they were meant
-  as visual placeholders, they read as real client results to anyone visiting,
-  which is why they are not coming back without real numbers behind them.
-- **The invented sparkline trends** on those cards went with them.
-- **`/work` and `/case-first-rehab` no longer inline 1.4MB of base64.** The
-  seven real screenshots live in `assets/img/work/` and load lazily. `/work`
-  went from 796KB to 13KB of HTML.
-- **Fonts are self-hosted** from `assets/fonts/` (161KB, both SIL OFL, licence
-  text alongside). No render-blocking request to Google, no third-party DNS
-  lookup on first paint.
-- **`home.html` and the four `v2-*` pages are deleted**, with 301s in
-  `vercel.json` so shared links still land somewhere.
-- **`sitemap.xml` rewritten** to the real page set. `/pay` is deliberately
-  absent and marked `noindex`.
-- **`404.html` exists.**
+### Core Web Vitals are inside budget and enforced
+- Homepage LCP **3.4s → 2.0s** on a throttled phone. The poster was a single
+  1600px JPEG served to every device; it is now WebP at three widths. A 390px
+  phone at DPR 3 needs ~1170 device pixels, so without a 1200 candidate it
+  skipped 960 and took the full 1600 — the fix was the middle width. The
+  closing still, ten viewports down, was also loading at ~1s and competing with
+  the LCP image; it is lazy now.
+- CLS is **0.000** on every page.
+- `scrollcraft/verify/vitals-check.cjs` fails the run if either goes out of band.
 
-## Non-blocking, but do them
+### Analytics exist
+Vercel Web Analytics and Speed Insights, in every page's footer, served from
+`/_vercel/*`. `/services` had been telling visitors analytics was "wired and
+verified" on every build while the site itself had none.
 
-- **Homepage LCP is still 4.1s** on a throttled phone. Three render-blocking
-  stylesheets (`fonts.css`, `scrollcraft.css`, `v3.css`) delay first paint by
-  ~500ms before the poster can start. Inlining critical CSS is the next lever;
-  it was left alone because the visual system is bespoke and a partial extract
-  would be worse than the delay. Note the 4.1s is measured against a local
-  static server with no compression — Vercel serves these gzipped, so the real
-  figure is better.
+### The homepage had no footer
+It carried no `<footer>` at all — no contentinfo landmark, and none of the
+site-wide links. `scripts/sync_index.py` now derives the homepage's schema
+graph, footer, script set and cache-buster from the same source as every other
+page, because the hand-written copy had already drifted.
 
-- **Analytics.** Still nothing installed. Plausible or PostHog per the usual
-  stack. `/services` tells visitors analytics is "wired and verified" on every
-  build, so this one is a little pointed.
-- **Testimonials on `/` are unattributed.** Three quotes with no name, business
-  or photograph read as invented whether or not they are. Attribute them or
-  cut them.
-- ~~**`_dev/` ships.**~~ Struck. I claimed this without checking and it is not
-  true: `.vercelignore` already excludes `_dev/`, `books/` and `*.md`, and
-  `/_dev/*` returns 404 in production. Nothing to do.
-- **The runic wordmark** you picked is still not built. Elder Futhark risks
-  tofu on a device without the glyphs, so it wants inline SVG runes rather than
-  a third font family.
+### The gates were not gating
+- `_dev/preflight.py` globbed `*.html` at the root only, so the four pages under
+  `/insights/` were checked by nothing. It is recursive now, and it knows
+  `/_vercel/*` and `/api/*` are served by the platform rather than by files.
+- `sitemap.xml`, `robots.txt` and `llms.txt` are generated from the pages
+  themselves by `scripts/build_meta.py`, so the sitemap cannot list a page that
+  does not exist or miss one that does. `lastmod` comes from git.
+
+### Header text collision
+The fixed header's gradient ground faded to transparent at its lower edge, so
+any heading scrolling past it painted straight through the nav — the wordmark
+and an `<h2>` in the same pixels, on every page. Past the first fold the bar now
+takes a solid ground.
+
+---
+
+## Non-blocking, worth doing
+
+- **The runic wordmark** you picked is still not built. Elder Futhark risks tofu
+  on a device without the glyphs, so it wants inline SVG runes rather than a
+  third font family.
+- **Only one case study has real numbers.** HomeCrew and RegenOrtho are shown
+  with real screenshots and no metrics, which is honest but thin. Pull their
+  Search Console figures when there is enough post-launch data.
+- **`/insights` has three articles.** That is enough to be a real section and
+  not enough to rank broadly. The next few should keep the same rule: if we
+  cannot point at the commit, the measurement or the file, it does not go up.
+- **Verify the Resend sending domain** before launch. See `DEPLOY.md`.
 
 ## Verified and fine
 
 - Icons: `favicon.svg`, `apple-touch-icon.png`, `site.webmanifest`.
-- `og.png`, 1200x630, rendered from the film in the current brand.
-- Security headers, `cleanUrls` and redirects in `vercel.json`.
-- Every page passes all five harness checks in `scrollcraft/verify/`: links
-  resolve, no text painted over, no contrast failure, every reveal fires, every
-  target 24x24. (Three of them could not run at all until 2026-08-24 — see
-  above. The earlier version of this line was not true.)
+- `og.png`, 1200×630, rendered from the film in the current brand.
+- `.vercelignore` excludes `_dev/`, `books/` and `*.md`; `/_dev/*` 404s in
+  production.
+- All fifteen pages pass every gate in `scrollcraft/verify/`. Run them with
+  `./scrollcraft/verify/run-all.sh`.

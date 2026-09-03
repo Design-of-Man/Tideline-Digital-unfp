@@ -65,10 +65,11 @@ BODY = phero(
         <h3>First Rehabilitation of North Palm Beach</h3>
         <p>A dated clinic site rebuilt into a fast, modern experience that turns visitors into booked appointments, with an ongoing care plan keeping it sharp.</p>
         <div class="metrics">
-          <div class="metric"><b>+186%</b><span>Organic traffic</span></div>
-          <div class="metric"><b>+72%</b><span>Appointment requests</span></div>
-          <div class="metric"><b>2.4s faster</b><span>Load time</span></div>
+          <div class="metric"><b>+50%</b><span>Organic clicks</span></div>
+          <div class="metric"><b>+132%</b><span>Search impressions</span></div>
+          <div class="metric"><b>22</b><span>Enquiries, first 30 days</span></div>
         </div>
+        <p class="proj__note">Search Console, the 32 days after launch against the 32 before.</p>
         <div class="proj__links">
           <a href="/case-first-rehab">Read the case study</a>
           <a href="https://www.firstrehabnpb.com" target="_blank" rel="noopener">Visit the live site</a>
@@ -96,4 +97,14 @@ write("work.html",
       head("Work",
            "Three real redesigns with before and after comparisons: HomeCrew, "
            "RegenOrtho Palm Beach, and First Rehabilitation of North Palm Beach.",
-           "/work") + BODY + foot())
+           "/work",
+           nodes=[crumbs([("/work", "Work")]),
+                  {"@type": "CollectionPage", "@id": SITE + "/work#collection",
+                   "name": "Selected work", "isPartOf": {"@id": SITE + "/#website"},
+                   "mainEntity": {"@type": "ItemList", "itemListOrder": "Unordered",
+                     "numberOfItems": 3, "itemListElement": [
+                       {"@type": "ListItem", "position": 1, "name": "HomeCrew"},
+                       {"@type": "ListItem", "position": 2, "name": "RegenOrtho Palm Beach"},
+                       {"@type": "ListItem", "position": 3,
+                        "name": "First Rehabilitation of North Palm Beach",
+                        "url": SITE + "/case-first-rehab"}]}}]) + BODY + foot())

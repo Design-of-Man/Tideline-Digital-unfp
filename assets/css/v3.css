@@ -60,6 +60,25 @@
     color-mix(in oklab, var(--sc-canvas) 58%, transparent) 52%,
     transparent 100%);
 }
+/* Past the first fold the gradient stands down and the bar takes a solid
+   ground. Without this a heading scrolling under the header paints through it:
+   the wordmark and an <h2> end up occupying the same pixels. */
+.bar { transition: background var(--sc-d-base) var(--sc-ease-out),
+                   box-shadow var(--sc-d-base) var(--sc-ease-out); }
+.bar::before { transition: opacity var(--sc-d-base) var(--sc-ease-out); }
+.bar--solid::before { opacity: 0; }
+.bar--solid {
+  background: color-mix(in oklab, var(--sc-canvas) 94%, transparent);
+  backdrop-filter: saturate(150%) blur(14px);
+  -webkit-backdrop-filter: saturate(150%) blur(14px);
+  box-shadow: inset 0 -1px 0 color-mix(in oklab, var(--sc-ink) 11%, transparent);
+}
+/* A browser without backdrop-filter gets the flat canvas rather than a
+   translucent bar with copy legible through it. */
+@supports not (backdrop-filter: blur(1px)) {
+  .bar--solid { background: var(--sc-canvas); }
+}
+
 .bar a { text-decoration: none; }
 .mark { display: inline-flex; align-items: center; gap: var(--sc-3);
   font-family: var(--sc-font-display); font-size: var(--sc-t-lg); letter-spacing: var(--sc-track-snug); }
@@ -356,6 +375,18 @@
   outline: 2px solid var(--sc-accent); outline-offset: 2px; border-color: transparent; }
 .form__note { margin: 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); max-width: var(--sc-measure); } /* was uncapped: ran to ~88 real chars, bounded only by .form's width */
 .form__note a { color: var(--sc-ink); }
+/* The note doubles as the form's live region, so it has to be able to say
+   three different things: sending, sent, and something went wrong. Colour is
+   never the only signal — the wording carries it — because a colour-blind or
+   greyscale reader gets no information from the hue alone. */
+.form__note[data-tone="ok"]   { color: var(--sc-ink); }
+.form__note[data-tone="warn"] { color: var(--sc-accent); }
+
+/* The honeypot. Off-screen rather than display:none, because some bots skip
+   fields they can see are not rendered. aria-hidden and tabindex="-1" in the
+   markup keep it away from assistive technology and the tab order. */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px;
+  opacity: 0; pointer-events: none; }
 
 /* The one button. It was never defined -- .btn--quiet modified a class that did
    not exist -- so every CTA on the page rendered as plain text or a default
@@ -393,8 +424,9 @@
 /* The header is fixed over the film on `/`, where the moor scrolls behind it.
    On a document page there is nothing behind it, so it needs its own ground
    and the content below needs to clear it. */
-.has-bar .bar { background: color-mix(in srgb, var(--sc-canvas) 88%, transparent);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.has-bar .bar { background: color-mix(in oklab, var(--sc-canvas) 92%, transparent);
+  backdrop-filter: saturate(150%) blur(14px); -webkit-backdrop-filter: saturate(150%) blur(14px); }
+@supports not (backdrop-filter: blur(1px)) { .has-bar .bar { background: var(--sc-canvas); } }
 .has-bar main { padding-top: var(--bar-h); }
 
 /* PAGE HERO. One statement, one paragraph, nothing else. The rule underneath
@@ -464,7 +496,12 @@
 .site-foot { border-top: 1px solid var(--sc-hairline); padding-block: var(--sc-7); }
 .site-foot .sc-wrap { display: flex; flex-wrap: wrap; align-items: center;
   justify-content: space-between; gap: var(--sc-5); }
-.site-foot nav { display: flex; flex-wrap: wrap; gap: var(--sc-2); }
+/* The footer nav grew from seven links to nine, and at --sc-2 the words ran
+   together into one grey stripe. The gap is the separation now; the links
+   themselves already carry 24px targets from the shared .foot nav a rule. */
+.site-foot nav { display: flex; flex-wrap: wrap; gap: var(--sc-2) var(--sc-4);
+  justify-content: flex-end; max-width: 40rem; }
+@media (max-width: 720px) { .site-foot nav { justify-content: flex-start; } }
 .site-foot small { color: var(--sc-ink-soft); font-size: var(--sc-t-xs); }
 .site-foot .mark { color: var(--sc-ink); text-decoration: none; }
 
@@ -479,6 +516,11 @@
   .proj { grid-template-columns: 1fr; }
   .proj--flip > :first-child { order: 0; }
 }
+/* The source line under a metric row. A figure with no provenance is a
+   claim; a figure with its measurement window is evidence. */
+.proj__note { margin: var(--sc-3) 0 0; font-size: var(--sc-t-xs);
+  color: var(--sc-ink-soft); max-width: 46ch; }
+
 .proj__kind { font-size: var(--sc-t-xs); color: var(--sc-ink-soft);
   letter-spacing: var(--sc-track-wide); text-transform: uppercase; }
 .proj h3 { margin: var(--sc-2) 0 var(--sc-3); font-family: var(--sc-font-display);
@@ -549,6 +591,47 @@
   color: var(--sc-ink-soft); }
 
 /* PAY. A single-column document with a form at the end of it. */
+/* ------------------------------------------------------------- article --
+   Long-form prose. Everything else on the site is display type over short
+   copy; an article is the one place a reader spends minutes rather than
+   seconds, so the measure is tighter and the vertical rhythm is looser than
+   the marketing bands. */
+.article { max-width: 42rem; }
+.article > * + * { margin-top: var(--sc-5); }
+.article p, .article li { color: var(--sc-ink-soft); }
+.article h2 { font-family: var(--sc-font-display); font-weight: 400;
+  font-size: var(--sc-t-xl); line-height: 1.05; color: var(--sc-ink);
+  letter-spacing: var(--sc-track-snug); margin-top: var(--sc-8); }
+.article h3 { font-family: var(--sc-font-display); font-weight: 400;
+  font-size: var(--sc-t-lg); color: var(--sc-ink); margin-top: var(--sc-7); }
+.article strong { color: var(--sc-ink); font-weight: 400; }
+.article a { color: var(--sc-ink); text-underline-offset: 3px; }
+.article ul, .article ol { padding-left: 1.25rem; display: grid; gap: var(--sc-3); }
+.article code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em; color: var(--sc-ink);
+  background: color-mix(in oklab, var(--sc-ink) 8%, transparent);
+  padding: 0.1em 0.35em; border-radius: var(--sc-r-sm); }
+/* A pulled-out figure or a caveat. The left rule marks it as an aside without
+   needing a colour the rest of the page does not use. */
+.article .aside { border-left: 2px solid var(--sc-accent);
+  padding: var(--sc-1) 0 var(--sc-1) var(--sc-5); }
+.article .aside p { color: var(--sc-ink); }
+
+/* The article index, and the byline under an article title. */
+.meta { display: flex; flex-wrap: wrap; gap: var(--sc-4);
+  font-size: var(--sc-t-xs); color: var(--sc-ink-soft);
+  letter-spacing: var(--sc-track-wide); text-transform: uppercase; }
+.posts { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.posts li { border-top: 1px solid var(--sc-hairline); }
+.posts li:last-child { border-bottom: 1px solid var(--sc-hairline); }
+.posts a { display: grid; gap: var(--sc-3); padding: var(--sc-6) 0;
+  text-decoration: none; color: inherit; }
+.posts a:hover h2, .posts a:focus-visible h2 { color: var(--sc-accent); }
+.posts h2 { margin: 0; font-family: var(--sc-font-display); font-weight: 400;
+  font-size: var(--sc-t-lg); line-height: 1.1; color: var(--sc-ink);
+  transition: color var(--sc-d-fast) var(--sc-ease-out); }
+.posts p { margin: 0; color: var(--sc-ink-soft); max-width: 52ch; }
+
 .doc { max-width: 46rem; }
 .doc h2 { margin: 0 0 var(--sc-5); }
 .doc p { color: var(--sc-ink-soft); }

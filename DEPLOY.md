@@ -1,142 +1,98 @@
 # Deploying Design of Man
 
-Static site. No build step — Vercel serves the files as they are.
+A static site with one serverless function. No build step: Vercel serves the
+files as they are, and `api/contact.mjs` runs on demand.
+
+Everything below was verified against this repository on 2026-09-03. If a
+statement here disagrees with the code, the code is right and this file is a
+bug.
 
 ---
 
-## Before you deploy: three credentials
+## 1 · Environment variables
 
-`_dev/preflight.py` **will fail** until these are set. That is deliberate: without
-them the chat and payment forms silently go nowhere, which is worse than not
-shipping.
+Set these in **Vercel → Project → Settings → Environment Variables**, for
+Production and Preview.
 
-### 1. Chat widget endpoint
+| Variable | Required | What happens without it |
+|---|---|---|
+| `RESEND_API_KEY` | **yes** | `/api/contact` answers `503` and tells the visitor to email instead. It never accepts a lead it cannot deliver. |
+| `CONTACT_TO` | no | Defaults to `hello@designofman.com`. |
+| `CONTACT_FROM` | no | Defaults to `Design of Man <site@designofman.com>`. Must be on a domain **verified in Resend**, or every send is rejected. |
 
-Create a Formspree form, then in `index.html`:
+Verifying the sending domain in Resend means adding its DKIM and SPF records
+to DNS. Skipping that step is the single most common reason a working form
+still delivers nothing: the endpoint returns 200, Resend accepts the request,
+and the receiving server drops the mail.
 
-```html
-<script src="assets/js/chat-widget.js"
-        data-endpoint="https://formspree.io/f/XXXXXXX"   <!-- was REPLACE_CHAT_ID -->
-        data-phone="+15615550100"
-        data-phone-label="(561) 555-0100"
-        data-email="hello@designofman.com" defer></script>
-```
+## 2 · Turn on analytics
 
-### 2 & 3. Billing page
+**Vercel → Project → Analytics → Enable**, and the same for **Speed Insights**.
+Both scripts are already in every page's footer, served from `/_vercel/*` on
+your own domain — no third-party host, no cookie banner, and nothing to add to
+the Content-Security-Policy. Until the features are enabled in the dashboard
+those two paths 404 harmlessly.
 
-In `pay.html`:
+## 3 · Domain
 
-| Placeholder | Replace with |
-|---|---|
-| `REPLACE_FORM_ID` | Formspree endpoint for the invoice-resend form |
-| `REPLACE_PORTAL_LINK` | Stripe Customer Portal login URL (see `BILLING-SETUP.md`, step 5) |
+Add `designofman.com` in **Settings → Domains** and let Vercel issue the
+certificate. Every canonical, Open Graph URL, schema `@id`, `robots.txt` and
+`sitemap.xml` already points at `https://www.designofman.com`; if you serve the
+apex instead, change `SITE` in `scripts/pages.py` and re-run the build below.
 
-Then:
+## 4 · Build and gate
 
 ```bash
-python3 _dev/preflight.py     # must print READY TO DEPLOY
+python3 scripts/pages.py            # shared head/header/footer helpers
+for p in work services studio process pricing contact case pay 404 local insights; do
+  python3 "scripts/build_$p.py"
+done
+python3 scripts/sync_index.py       # homepage's shared blocks
+python3 scripts/build_poster.py     # responsive LCP image (needs Pillow)
+python3 scripts/build_meta.py       # sitemap.xml, robots.txt, llms.txt
+
+./scrollcraft/verify/run-all.sh     # every gate; non-zero if anything fails
 ```
 
----
+`run-all.sh` runs the pre-deploy gate plus seven browser checks: internal links
+resolve, every reveal fires, every tap target clears 24×24, the contact
+endpoint cannot silently lose a lead, every page loads clean under the shipped
+Content-Security-Policy, Core Web Vitals stay inside Google's "good" band on a
+throttled phone, and no text is painted over at any scroll position.
 
-## Deploy
+**Do not deploy on a red run.** Each of those checks exists because the thing
+it tests has already broken here once.
 
-### Git-connected project (recommended)
+## 5 · Deploy
 
 ```bash
-git add -A
-git commit -m "3D hero, laptop assembly, chat widget, billing page"
-git push
+vercel --prod
 ```
 
-Vercel builds a preview automatically. Check it, then promote to production from
-the dashboard. If something is wrong you revert a commit, not a live site.
-
-### Vercel CLI
-
-```bash
-npm i -g vercel
-vercel            # preview deployment
-vercel --prod     # promote once you're happy
-```
+or push to the connected branch and let the Git integration do it.
 
 ---
 
-## What ships
+## After the first deploy
 
-```
-index.html              home — 3D hero, laptop assembly, chat widget
-work.html               portfolio
-case-first-rehab.html   case study
-pay.html                client billing
-assets/js/dom-3d.bundle.js    Three.js + hero + laptop  (157 KB gzipped)
-assets/js/chat-widget.js      chat capture              (5.5 KB gzipped)
-og.png  robots.txt  sitemap.xml  vercel.json
-```
+1. **Submit the sitemap** in Google Search Console: `https://www.designofman.com/sitemap.xml`.
+2. **Send yourself a real enquiry** through `/contact`, and confirm it arrives —
+   including in spam. Repeat quarterly; forms break when a card expires or a
+   DNS record moves, and nothing tells you.
+3. **Check the security headers** at <https://securityheaders.com>. The
+   configuration in `vercel.json` is written for an A+ and the CSP is enforced
+   locally by `csp-check.cjs`, but only the live response proves it.
+4. **Confirm `/pay` still shows its stand-in.** See the open item below.
 
-`_dev/` and markdown files are excluded by `.vercelignore`.
+## Known open item
 
-### What's in `_dev/` (not deployed)
+`/pay` carries `REPLACE_PORTAL_LINK` on the "Open my dashboard" button, because
+the Stripe Customer Portal login URL is issued by Stripe and cannot be
+invented. `assets/js/form.js` guards it: while the placeholder is in the href,
+the button is rewritten to email us for the link rather than sending a paying
+client to a Stripe error page.
 
-| File | Why keep it |
-|---|---|
-| `preflight.py` | the pre-deploy gate |
-| `laptop-assembly.source.js` | readable source for the laptop scene |
-| `hero3d.source.js`, `mount.source.js` | sources for the hero and the mount wrapper |
-| `laptop.html` | standalone animation demo |
-| `index-hero-2d.html` | the 2D-canvas hero variant, if you ever want to A/B it |
-| `laptop-assembly.bundle.js`, `hero-3d.bundle.js` | individual bundles, superseded by the combined one |
-
-### Rebuilding the 3D bundle
-
-Only needed if you edit `_dev/laptop-assembly.source.js` or `_dev/hero3d.source.js`:
-
-```bash
-npm i three esbuild
-# copy sources into a working dir, change the three import to bare 'three'
-npx esbuild all.js --bundle --minify --format=iife \
-  --target=es2019 --outfile=assets/js/dom-3d.bundle.js
-```
-
-Shipping the hero and laptop as one bundle keeps Three.js to a single copy —
-157 KB gzipped instead of 291 KB.
-
----
-
-## After it's live
-
-- [ ] Real submission through the chat widget; confirm the email arrives
-- [ ] Real submission through the billing resend form
-- [ ] Open the Stripe portal link and confirm it loads
-- [ ] `sitemap.xml` submitted in Google Search Console
-- [ ] Lighthouse mobile run — see the caveat below
-- [ ] Test the 3D on a real mid-range Android, not just desktop
-
-### Performance caveat
-
-The homepage carries **157 KB gzipped of JavaScript above the fold** for the 3D
-hero. That will show up in Largest Contentful Paint and it is the one thing on
-this site that could cost you in search.
-
-Two ways to soften it if Lighthouse comes back poor:
-
-1. **Swap the homepage hero back to 2D.** `_dev/index-hero-2d.html` is the same
-   page with the canvas hero — zero extra weight, and the laptop assembly still
-   loads further down the page where it does not block first paint.
-2. **Defer the hero.** Load the 3D bundle only after first paint and let the CSS
-   gradient stand in until it arrives.
-
-Worth measuring before deciding. You are selling SEO to local businesses, so
-your own Core Web Vitals are a sales asset.
-
----
-
-## Known open items
-
-- **Mobile nav.** Below 1024px the menu sits off-screen via `transform` while
-  staying `visibility: visible` — the document reports ~702 px wide on a 390 px
-  viewport, and keyboard users can tab into the hidden menu. One-line fix:
-  `.nav-links { visibility: hidden }` and `visible` when open.
-- **Placeholder content.** Phone `(561) 555-0100`, the testimonials, and the
-  stats (120+ sites, 99.9% uptime, 14 yrs) are still from the original build.
-- **Four dead `href="#"` links** in the footer social icons.
+To set it: **Stripe Dashboard → Settings → Billing → Customer portal → Login
+page**, copy the URL into `scripts/build_pay.py`, and re-run that script. The
+guard tests the live attribute, so it turns itself off. `preflight.py` blocks
+on this by design and will go green once it is set.

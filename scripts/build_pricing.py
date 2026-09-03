@@ -43,7 +43,7 @@ BODY = phero(
           <li>Managed hosting and uptime alerts</li>
           <li>Security updates and backups</li>
           <li>Monthly content updates</li>
-          <li>Someone who answers the phone</li>
+          <li>A person who answers, same day</li>
           <li>Month to month, no contract</li>
         </ul>
         <a class="btn btn--quiet" href="/contact">Get started</a>
@@ -111,4 +111,5 @@ write("pricing.html",
       head("Pricing",
            "Three ways we work: Launch, Scale and Care. What moves the price, how "
            "payment is structured, and why the exact number comes from the consult.",
-           "/pricing") + BODY + foot())
+           "/pricing",
+           nodes=[crumbs([("/pricing", "Pricing")])] + faq(BODY, "/pricing")) + BODY + foot())
