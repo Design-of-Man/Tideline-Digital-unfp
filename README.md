@@ -39,7 +39,7 @@ cache-buster come from the same source as everything else, via
 
 ```bash
 python3 scripts/pages.py
-for p in work services studio process pricing contact case pay 404 local insights; do
+for p in work services studio process pricing contact case 404 local insights; do
   python3 "scripts/build_$p.py"
 done
 python3 scripts/sync_index.py

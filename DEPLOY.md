@@ -44,7 +44,7 @@ apex instead, change `SITE` in `scripts/pages.py` and re-run the build below.
 
 ```bash
 python3 scripts/pages.py            # shared head/header/footer helpers
-for p in work services studio process pricing contact case pay 404 local insights; do
+for p in work services studio process pricing contact case 404 local insights; do
   python3 "scripts/build_$p.py"
 done
 python3 scripts/sync_index.py       # homepage's shared blocks

@@ -36,7 +36,7 @@ if drift; then
 fi
 
 python3 scripts/pages.py >/dev/null || exit 1
-for p in work services studio process pricing contact case pay 404 local insights; do
+for p in work services studio process pricing contact case 404 local insights; do
   python3 "scripts/build_$p.py" >/dev/null || exit 1
 done
 python3 scripts/sync_index.py >/dev/null || exit 1
