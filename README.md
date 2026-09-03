@@ -25,6 +25,11 @@ _dev/preflight.py        the pre-deploy check
 The interior pages are **generated**. Editing `work.html` by hand works until
 the next build, then it is gone. Edit `scripts/build_work.py` instead.
 
+This is not hypothetical. A commit fixing fabricated client metrics edited
+`work.html` and `case-first-rehab.html` but not the two generators behind them,
+so the next build wrote the fabricated figures back over the fix and no gate
+noticed. On this repo, editing a generated page is a fix with a timer on it.
+
 `index.html` is hand-written because the film, the boot panel and the bezel
 exist on no other page — but its schema graph, footer, script set and
 cache-buster come from the same source as everything else, via
@@ -56,6 +61,7 @@ thing it tests has already broken here at least once:
 
 | Check | Catches |
 |---|---|
+| `generated-check` | a generated page edited by hand, or a generator changed without rebuilding |
 | `preflight.py` | placeholders, missing files, meta lengths, sitemap drift |
 | `links-check` | an internal href that resolves to nothing |
 | `reveal-check` | a scroll reveal that never fires, leaving content invisible |
@@ -68,7 +74,8 @@ thing it tests has already broken here at least once:
 
 **A red run means do not deploy.** `csp-check` caught a policy that would have
 shipped a black homepage; `form-check` caught a rate limiter that locked out
-anyone who mistyped their email.
+anyone who mistyped their email; `generated-check` caught a non-idempotent
+generator on its first run, and exists because of the metrics regression above.
 
 ## Deploying
 

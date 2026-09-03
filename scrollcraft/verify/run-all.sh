@@ -21,6 +21,7 @@ PAGES=(index.html work.html services.html studio.html process.html pricing.html
        contact.html case-first-rehab.html pay.html 404.html
        web-design-jupiter-fl.html insights/index.html)
 
+run "generated"  ./scrollcraft/verify/generated-check.sh
 run "preflight"  python3 _dev/preflight.py
 run "links"      node scrollcraft/verify/links-check.cjs
 run "reveals"    node scrollcraft/verify/reveal-check.cjs

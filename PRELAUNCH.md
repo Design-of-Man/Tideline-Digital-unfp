@@ -65,9 +65,18 @@ by the check, not by review.
 ### The fabricated case-study metrics are actually gone this time
 `/work` and `/case-first-rehab` still carried **+186% organic traffic, +72%
 appointment requests, 2.4s faster**, attributed to "the eight months following
-launch" — for a site that launched 2026-07-20, six weeks earlier. The previous
-version of this file said these had been replaced. They had not; only this file
-had been edited.
+launch" — for a site that launched 2026-07-20, six weeks earlier.
+
+They had been fixed once already, in `26fcd4a`, and had come back. That commit
+edited the two generated HTML files and left `186%` sitting in
+`scripts/build_work.py` and `scripts/build_case.py`. **These pages are
+generated**, so the next run of the build scripts wrote the fabricated figures
+straight back over the fix, silently, and nothing in the repo noticed.
+
+That is the more useful lesson than the numbers themselves: on this site,
+editing a generated `.html` file is not a fix, it is a fix with a timer on it.
+The correction has to go in `scripts/`. Both generators carry the real figures
+now.
 
 Replaced with measured figures, Google Search Console, the 32 days after launch
 (21 Jul – 21 Aug 2026) against the 32 before, weekday-to-weekday because the

@@ -46,8 +46,15 @@ def main():
 
     # 2 · the footer. The page had none at all, which cost it the site-wide
     #     link set and left the document with no contentinfo landmark.
-    s = re.sub(r'\n<footer class="site-foot">.*?</footer>\n', "\n", s, flags=re.S)
-    s = s.replace("</main>\n", "</main>\n\n" + foot_block() + "\n", 1)
+    #
+    #     Written to be idempotent: strip any existing footer, collapse the gap
+    #     after </main> to a known shape, then insert. The first version grew
+    #     one blank line per run, because removal left the separator behind and
+    #     insertion added another. Running a generator twice must produce the
+    #     same file, or the drift gate can never be green.
+    s = re.sub(r'<footer class="site-foot">.*?</footer>\n?', "", s, flags=re.S)
+    s = re.sub(r'</main>\s*', "</main>\n\n", s, count=1)
+    s = s.replace("</main>\n\n", "</main>\n\n" + foot_block() + "\n\n", 1)
 
     # 3 · the script set, in the same order and with the same defer flags the
     #     generated pages use.
