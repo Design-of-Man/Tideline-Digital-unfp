@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Re-derive the shared blocks of the hand-written homepage from pages.py.
 
-`index.html` is bespoke -- the film, the boot panel and the bezel exist on no
-other page -- so it is not generated. But the four things every page must
-agree on (the schema graph, the footer, the script set, the cache-buster) were
-being maintained twice, and the copy in index.html had already drifted: it
-carried a ProfessionalService node with a fabricated telephone long after the
-generated pages stopped.
+`index.html` is bespoke -- the ambient lighthouse hero exists on no other
+page -- so it is not generated. But the four things every page must agree on
+(the schema graph, the footer, the script set, the cache-buster) were being
+maintained twice, and the copy in index.html had already drifted once before:
+it carried a ProfessionalService node with a fabricated telephone long after
+the generated pages stopped.
 
 This script owns those four blocks and nothing else. Run it after pages.py.
 
@@ -56,10 +56,14 @@ def main():
     s = re.sub(r'</main>\s*', "</main>\n\n", s, count=1)
     s = s.replace("</main>\n\n", "</main>\n\n" + foot_block() + "\n\n", 1)
 
-    # 3 · the script set, in the same order and with the same defer flags the
-    #     generated pages use.
+    # 3 · the script set. The homepage no longer runs v3.js -- that file was
+    #     entirely the scrub-film/glass/panel boot sequence, which the ambient
+    #     lighthouse hero replaced -- so it mounts the shared reveal engine via
+    #     page.js like every interior page, plus hero-video.js for the one
+    #     piece of behaviour that really is homepage-only.
     scripts = (f'<script src="/assets/js/vendor/scrollcraft.js?v={V}"></script>\n'
-               f'<script src="/assets/js/v3.js?v={V}"></script>\n'
+               f'<script src="/assets/js/page.js?v={V}"></script>\n'
+               f'<script src="/assets/js/hero-video.js?v={V}" defer></script>\n'
                f'<script src="/assets/js/bar.js?v={V}" defer></script>\n'
                f'<script src="/assets/js/form.js?v={V}" defer></script>\n'
                f'{ANALYTICS}')

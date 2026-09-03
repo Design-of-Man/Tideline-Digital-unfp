@@ -48,7 +48,7 @@ for p in work services studio process pricing contact case 404 local insights; d
   python3 "scripts/build_$p.py"
 done
 python3 scripts/sync_index.py       # homepage's shared blocks
-python3 scripts/build_poster.py     # responsive LCP image (needs Pillow)
+python3 scripts/build_lighthouse.py /path/to/source.mp4  # hero video + poster (needs ffmpeg + Pillow)
 python3 scripts/build_meta.py       # sitemap.xml, robots.txt, llms.txt
 
 ./scrollcraft/verify/run-all.sh     # every gate; non-zero if anything fails

@@ -105,8 +105,10 @@ deployment's own origin. Plus HSTS with preload, COOP, CORP, a
 
 `scrollcraft/verify/csp-check.cjs` loads every page under the exact headers
 `vercel.json` declares. It immediately caught one: `media-src 'self'` refused the
-`blob:` URL the scrub engine plays the homepage film from, which would have
-shipped a black hero to production.
+`blob:` URL the scrub engine used to play the homepage film from (that hero
+has since been replaced by an ambient lighthouse loop, but the exception
+remains harmless and the check now derives its expected canvas colour from
+the theme file instead of a hardcoded value).
 
 ### Core Web Vitals are inside budget and enforced
 - Homepage LCP **3.4s → 2.0s** on a throttled phone. The poster was a single
@@ -161,7 +163,7 @@ takes a solid ground.
 ## Verified and fine
 
 - Icons: `favicon.svg`, `apple-touch-icon.png`, `site.webmanifest`.
-- `og.png`, 1200×630, rendered from the film in the current brand.
+- `og.png`, 1200×630, rendered from the lighthouse hero in the current brand.
 - `.vercelignore` excludes `_dev/`, `books/` and `*.md`; `/_dev/*` 404s in
   production.
 - All fifteen pages pass every gate in `scrollcraft/verify/`. Run them with

@@ -1,18 +1,37 @@
-/* Design of Man — theme layer over scrollcraft.css.
-   Six colour roles and two faces. Everything below the token block is this
-   page's own markup; nothing here restyles .sc-stage, .sc-copy or a
-   [data-sc-*] selector, because those are the engine's mechanism. */
+/* Design of Man — Jupiter, Florida theme layer over scrollcraft.css.
+   A working lighthouse, a real inlet, and the palette that is actually
+   there at 4pm in July: coral brick, saltwater teal, deep dusk. Six colour
+   roles and two faces, same contract as before -- nothing here restyles
+   .sc-stage, .sc-copy or a [data-sc-*] selector, because those are the
+   engine's mechanism. */
 
 :root {
-  /* Cold silver on off-black with one warm ember. The cream/brass palette the
-     old build used is the exact combination that makes every craft studio look
-     like the same studio. */
-  --sc-canvas:     #0b0c0e;
-  --sc-surface:    #14161a;
-  --sc-ink:        #edeff2;
-  --sc-ink-soft:   #99a0aa;
-  --sc-accent:     #e5763d;
-  --sc-accent-ink: #0b0c0e;
+  /* Sampled from the studio's own drone footage of the Jupiter Inlet
+     Lighthouse (assets/video/lighthouse/lighthouse-poster.jpg), then pushed
+     to full saturation for use as UI colour rather than a hazy photograph.
+     The canvas is a dusk teal-black, not a flat grey-black, so every warm
+     accent on top of it reads as evening light rather than sitting on a
+     colourless void. */
+  --sc-canvas:      #0a1a1d;
+  --sc-canvas-deep: #061214;
+  --sc-surface:     #102428;
+  --sc-ink:         #f7f2e9;
+  --sc-ink-soft:    #a9c0c1;
+  --sc-accent:      #e8623f;
+  --sc-accent-ink:  #0a1a1d;
+
+  /* The second accent: inlet teal. Used sparingly -- a hover state, a second
+     data series, the lighthouse beam -- never load-bearing the way the coral
+     accent is, or the page has two competing focal colours. */
+  --sc-accent-2: #2fb8a6;
+
+  /* Warm sand, for a light surface where the dark canvas would fight body
+     copy meant to be read at length (the article measure, a light card). */
+  --sc-sand: #f3ead9;
+  --sc-sand-ink: #1c2b2c;
+
+  --sc-hairline:        color-mix(in oklab, var(--sc-ink) 14%, transparent);
+  --sc-hairline-strong: color-mix(in oklab, var(--sc-ink) 24%, transparent);
 
   --sc-font-display: "Instrument Serif", Georgia, serif;
   --sc-font-text:    "DM Sans", system-ui, sans-serif;
@@ -22,10 +41,7 @@
      ~94 real characters -- far past the 75ch ceiling. 46ch targets ~68 real
      characters, the readable band. */
 
-  /* The bezel the site is trapped inside from the peak onward. */
-  --frame: clamp(10px, 1.6vw, 22px);
-
-  /* The fixed header's own height. `/` scrolls the film behind it, but an
+  /* The fixed header's own height. The hero sits behind it on `/`, but an
      interior page has to reserve the space or the h1 starts underneath it. */
   --bar-h: 4.5rem;
 }
@@ -87,14 +103,19 @@
 /* WCAG 2.2 SC 2.5.8: every target at least 24x24. These measured 19-23px tall,
    which is the kind of miss that only shows up on a phone. Padding buys the
    height without moving the type, and the negative margin keeps the optical
-   alignment of the bar unchanged. */
-.bar nav a, .foot nav a {
+   alignment of the bar unchanged.
+
+   .site-foot, not .foot: the sitewide footer's real class is .site-foot, so
+   this rule never actually matched it -- the footer nav has been relying on
+   the browser default underline and default link colour this whole time. */
+.bar nav a, .site-foot nav a {
   color: var(--sc-ink-soft);
+  text-decoration: none;
   display: inline-flex; align-items: center;
   min-height: 24px; padding-inline: var(--sc-2); margin-inline: calc(var(--sc-2) * -1);
 }
 .mark { min-height: 24px; }
-.bar nav a[aria-current], .bar nav a:hover, .foot nav a:hover { color: var(--sc-ink); }
+.bar nav a[aria-current], .bar nav a:hover, .site-foot nav a:hover { color: var(--sc-ink); }
 @media (max-width: 640px) {
   .bar { padding-inline: var(--sc-4); gap: var(--sc-3); }
   .bar nav { gap: var(--sc-2); }
@@ -103,204 +124,120 @@
   .bar .mark span { display: none; }
 }
 
-/* ------------------------------------------------------ act 1+2 · film -- */
-/* The engine's --lead scrim is tuned for display type. This page puts body
-   copy in the same corner over a snow-bright plate, which measures 3.3:1, so
-   the density is pushed down and further up the frame to cover the paragraph
-   too. Page-owned element, not an override of .sc-scrim. */
-.film__scrim {
-  position: absolute; inset: 0; z-index: 10; pointer-events: none;
-  /* Two shapes, both chosen against where things actually are in frame.
-     The copy sits bottom-left and runs to about mid-width; in the close shot the
-     laptop occupies y 27%-71% and is centred. So: a band across the bottom that
-     stops below the machine, plus an ellipse in the copy's own corner for the
-     display line above the band. Kept OUT of the copy element -- a pad inside
-     the cue fades with the text while the plate behind it does not, which
-     measured 1.27:1 at the worst frame. */
+/* --------------------------------------------------------------- hero --
+   An ambient hero, not a scroll-scrubbed one: the lighthouse plays once,
+   loops, and asks nothing of the visitor's scroll position. It is behind
+   the fixed header from the first frame, so .bar keeps its solid ground
+   here rather than the film's translucent-then-solid transition -- there
+   is no moment on this page where the header sits over open sky with
+   nothing else to anchor it. */
+.hero {
+  position: relative; min-height: 100svh; overflow: hidden;
+  display: flex; align-items: flex-end;
+  isolation: isolate; /* keeps the scrim's stacking context off the header */
+}
+.hero__media { position: absolute; inset: 0; z-index: 0; }
+.hero__media video, .hero__media img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 60% 42%; /* keeps the tower off-centre, out from under the header and the copy */
+}
+.hero__media video { opacity: 0; transition: opacity 700ms var(--sc-ease-out); }
+.hero__media video.is-ready { opacity: 1; }
+/* Warm dusk grade over the raw drone footage, plus the scrim the headline
+   needs. Two layers: a bottom-weighted band for the copy, and a slim top
+   band so the header never sits on blown-out sky. Measured against the
+   lightest frame in the loop (open sky, upper third) at 4.6:1 minimum
+   for the headline and 4.5:1 for the byline row beneath it. */
+.hero__scrim {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
-    radial-gradient(ellipse 108% 92% at -12% 108%,
-      color-mix(in oklab, var(--sc-canvas) 98%, transparent) 0%,
-      color-mix(in oklab, var(--sc-canvas) 95%, transparent) 40%,
-      color-mix(in oklab, var(--sc-canvas) 92%, transparent) 60%,
-      color-mix(in oklab, var(--sc-canvas) 66%, transparent) 78%,
-      color-mix(in oklab, var(--sc-canvas) 14%, transparent) 90%,
-      transparent 100%),
     linear-gradient(to top,
-      color-mix(in oklab, var(--sc-canvas) 95%, transparent) 0%,
-      color-mix(in oklab, var(--sc-canvas) 82%, transparent) 15%,
-      color-mix(in oklab, var(--sc-canvas) 44%, transparent) 27%,
-      transparent 38%);
+      color-mix(in oklab, var(--sc-canvas-deep) 92%, transparent) 0%,
+      color-mix(in oklab, var(--sc-canvas-deep) 70%, transparent) 24%,
+      color-mix(in oklab, var(--sc-canvas-deep) 28%, transparent) 46%,
+      transparent 64%),
+    linear-gradient(to bottom,
+      color-mix(in oklab, var(--sc-canvas-deep) 55%, transparent) 0%,
+      transparent 22%),
+    /* A whisper of the accent and the inlet teal across the middle, so the
+       grade reads as "golden hour over water" and not just "darkened". */
+    linear-gradient(120deg,
+      color-mix(in oklab, var(--sc-accent) 10%, transparent) 0%,
+      transparent 35%,
+      color-mix(in oklab, var(--sc-accent-2) 8%, transparent) 100%);
+}
+.hero__content {
+  position: relative; z-index: 2; width: 100%;
+  padding: calc(var(--bar-h) + var(--sc-6)) max(var(--sc-gutter), calc(var(--frame, 0px) + var(--sc-4))) var(--sc-9);
+}
+.hero__kicker {
+  display: inline-flex; align-items: center; gap: var(--sc-3);
+  font-size: var(--sc-t-sm); letter-spacing: var(--sc-track-wide); text-transform: uppercase;
+  color: var(--sc-ink); margin-bottom: var(--sc-5);
+}
+/* The beam. A small drawn mark rather than a stock icon, echoing the real
+   lighthouse's own lamp room without needing another asset. */
+.hero__kicker svg { width: 18px; height: 18px; flex: none; }
+.hero h1 { max-width: 20ch; margin: 0 0 var(--sc-5);
+  text-shadow: 0 2px 24px color-mix(in oklab, var(--sc-canvas-deep) 65%, transparent); }
+.hero .sc-body { color: var(--sc-ink); max-width: 46ch; font-size: var(--sc-t-lg);
+  text-shadow: 0 1px 12px color-mix(in oklab, var(--sc-canvas-deep) 60%, transparent); }
+.hero__cta { display: flex; flex-wrap: wrap; gap: var(--sc-4); margin-top: var(--sc-7); }
+.hero__meta { display: flex; flex-wrap: wrap; gap: var(--sc-3) var(--sc-6);
+  margin-top: var(--sc-8); padding-top: var(--sc-5);
+  border-top: 1px solid color-mix(in oklab, var(--sc-ink) 22%, transparent);
+  font-size: var(--sc-t-xs); letter-spacing: var(--sc-track-wide); text-transform: uppercase;
+  color: var(--sc-ink-soft); max-width: 46rem; }
+
+/* The scroll cue. A single breathing line rather than a chevron, echoing the
+   lighthouse beam's own vertical sweep. Freezes under reduced motion. */
+.hero__cue {
+  position: absolute; z-index: 2; left: max(var(--sc-gutter), calc(var(--frame, 0px) + var(--sc-4)));
+  bottom: var(--sc-6); display: flex; align-items: center; gap: var(--sc-3);
+  color: var(--sc-ink-soft); font-size: var(--sc-t-xs); letter-spacing: var(--sc-track-wide);
+  text-transform: uppercase; text-decoration: none;
+}
+.hero__cue::before {
+  content: ""; display: block; width: 1px; height: 28px;
+  background: linear-gradient(to bottom, transparent, var(--sc-accent));
+  animation: sc-cue-sweep 2.2s var(--sc-ease-in-out) infinite;
+}
+@keyframes sc-cue-sweep {
+  0%, 100% { transform: scaleY(0.4); transform-origin: top; opacity: 0.5; }
+  50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+}
+.hero__cue:hover { color: var(--sc-ink); }
+@media (prefers-reduced-motion: reduce) {
+  .hero__cue::before { animation: none; transform: none; opacity: 0.8; }
+}
+@media (max-width: 640px) {
+  .hero { align-items: flex-end; }
+  .hero__content { padding-bottom: var(--sc-8); }
+  .hero__cue { display: none; } /* the fold is the cue on a phone */
 }
 
-/* On a narrow viewport the engine spans the copy the full width, so a
-   corner-weighted scrim leaves the right-hand end of every line over open
-   plate -- it measured 2.26:1 there. Below 860px the density goes full width
-   instead. The laptop is not in frame while these two cues are up, so this
-   costs the shot nothing. */
-@media (max-width: 860px) {
-  .film__scrim {
-    background: linear-gradient(to top,
-      color-mix(in oklab, var(--sc-canvas) 97%, transparent) 0%,
-      color-mix(in oklab, var(--sc-canvas) 90%, transparent) 26%,
-      color-mix(in oklab, var(--sc-canvas) 62%, transparent) 44%,
-      color-mix(in oklab, var(--sc-canvas) 22%, transparent) 60%,
-      transparent 74%);
-  }
+/* ------------------------------------------------------- the one action --
+   A plain closing band, not a pinned reveal: the payoff here is the offer
+   itself, not a mechanism. Kept visually distinct with the accent-tinted
+   ground so it still reads as a destination rather than another .band. */
+.close {
+  position: relative; overflow: hidden;
+  padding-block: var(--sc-section);
+  background: var(--sc-canvas-deep);
+  text-align: center;
 }
-
-.film .sc-copy {
-  max-width: min(46rem, 82vw);
-  /* Type over moving media cannot rely on a scrim alone: the plate swings from
-     wet black rock to a red tunic to blown-out sky underneath the same word.
-     The accent italic measured 2.41:1 against the tunic. A shadow travels with
-     the glyphs, so it holds the ratio wherever the footage puts them. */
-  text-shadow: 0 1px 2px color-mix(in oklab, var(--sc-canvas) 62%, transparent),
-               0 3px 22px color-mix(in oklab, var(--sc-canvas) 72%, transparent);
-}
-.film h1, .film .beat { margin: 0 0 var(--sc-4); }
-.film p { color: var(--sc-ink); max-width: 42ch; }
-
-/* --------------------------------------------------- act 3 · the glass --
-   The peak. A fixed layer, not an act stage: the still it opens on is the
-   film's own last frame, so it can cover the moment the scrub act's sticky
-   stage unsticks and slides away. Without it the payoff has a seam in it. */
-.glass {
-  position: fixed; inset: 0; z-index: 40;
-  opacity: 0; visibility: hidden; pointer-events: none;
-  background: var(--sc-canvas);
-}
-.glass.is-live { opacity: 1; visibility: visible; }
-.glass { overflow: hidden; }
-.glass__still { position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; will-change: transform; }
-
-/* The payoff layer. Nothing is drawn on the laptop while the film runs -- the
-   white screen is the footage's own. This sits over the push-in and carries the
-   two things that happen once the screen has swallowed the viewport: the mark,
-   then the site.
-
-   --mark : 0 -> 1  the wordmark comes up on the white
-   --boot : 0 -> 1  the white gives way to the site */
-.panel {
-  position: absolute; inset: 0;
-  overflow: hidden;
-  display: grid; place-items: center;
-  --mark: 0; --boot: 0;
-  /* Transparent while the white screen behind it is doing the work; the site's
-     own ground arrives only at boot. */
-  background: color-mix(in srgb, var(--sc-canvas) calc(var(--boot) * 100%), transparent);
-}
-
-/* The mark, on the white. Wide tracking and a pair of hairlines: the closest
-   this typeface gets to something struck rather than printed. */
-.panel__boot {
-  position: absolute; inset: 0; z-index: 2;
-  display: grid; place-content: center; justify-items: center;
-  gap: clamp(0.9rem, 2.4vmin, 1.8rem);
-  color: #14161a;
-  opacity: calc(var(--mark) * (1 - clamp(0, var(--boot) / 0.45, 1)));
-}
-.panel__mark { width: clamp(96px, 14vmin, 210px); height: auto; stroke: currentColor; }
-.panel__word {
-  font-family: var(--sc-font-display);
-  font-size: clamp(1.15rem, 3.1vmin, 2.1rem);
-  letter-spacing: 0.58em; text-transform: uppercase;
-  padding-left: 0.58em; color: #14161a; white-space: nowrap;
-}
-/* The runic divider, which is also the loading bar. The three glyphs sit at a
-   faint 0.18 from the first frame so the thing reads as a rule with a mark in
-   it, then each ignites in turn as --mark crosses its third. One element doing
-   both jobs beats a divider with a progress bar underneath it. */
-.panel__rune { display: block; width: clamp(150px, 26vmin, 340px); height: auto; }
-.panel__rule { opacity: 0.26; }
-.panel__rune g { opacity: calc(0.18 + 0.82 * var(--lit, 0)); }
-.panel__rune g:nth-of-type(1) { --lit: clamp(0, var(--mark) / 0.34, 1); }
-.panel__rune g:nth-of-type(2) { --lit: clamp(0, (var(--mark) - 0.33) / 0.34, 1); }
-.panel__rune g:nth-of-type(3) { --lit: clamp(0, (var(--mark) - 0.66) / 0.34, 1); }
-/* The last one to light is the one that carries the accent, so the sequence
-   finishes on the brand colour rather than on more grey. */
-.panel__rune g:nth-of-type(3) { stroke: color-mix(in oklab, var(--sc-accent) calc(var(--lit) * 100%), currentColor); }
-
-.panel__inner {
-  position: relative; z-index: 3;
-  padding: clamp(1.5rem, 6vmin, 5rem); text-align: center;
-  display: grid; gap: clamp(0.75rem, 2.2vmin, 1.75rem); justify-items: center;
-  max-width: 100vw;
-  opacity: clamp(0, (var(--boot) - 0.5) / 0.5, 1);
-}
-.panel__inner h2 { font-family: var(--sc-font-display); font-weight: 400;
-  font-size: var(--sc-t-3xl); line-height: 0.98; letter-spacing: var(--sc-track-tight);
-  margin: 0; text-wrap: balance; }
-.panel__inner h2 em { font-style: italic; color: var(--sc-accent); }
-.panel__inner p { margin: 0; color: var(--sc-ink-soft); max-width: 46ch;
-  font-size: var(--sc-t-base); }
-
-/* The frame that never breaks: once the site has taken the screen, a hairline
-   of the machine stays at the viewport edge for the rest of the page. */
-.bezel {
-  position: fixed; inset: 0; z-index: 50; pointer-events: none;
-  opacity: 0;
-  border: var(--frame) solid #060708;
-  box-shadow:
-    inset 0 0 0 1px color-mix(in oklab, var(--sc-ink) 34%, transparent),
-    inset 0 0 0 calc(var(--frame) + 1px) #060708,
-    inset 0 0 0 calc(var(--frame) + 2px) color-mix(in oklab, var(--sc-ink) 10%, transparent),
-    inset 0 0 90px -26px #000;
-}
-
-/* -------------------------------------------------- act 4 · what we do -- */
-/* No lead-in padding: act 4 follows the peak's exit slide, which is already a
-   viewport of dark. Padding on top of that turns a breath into a hole. */
-.work { padding-block: var(--sc-5) var(--sc-section); }
-.work h2 { margin: 0 0 var(--sc-8); }
-.row {
-  display: grid; grid-template-columns: 1fr auto; gap: var(--sc-3) var(--sc-6);
-  align-items: baseline;
-  padding: var(--sc-6) 0; border-top: 1px solid var(--sc-hairline);
-}
-.row:last-child { border-bottom: 1px solid var(--sc-hairline); }
-.row h3 { margin: 0 0 var(--sc-2); font-family: var(--sc-font-display);
-  font-weight: 400; font-size: var(--sc-t-xl); letter-spacing: var(--sc-track-snug); }
-.row p { margin: 0; color: var(--sc-ink-soft); max-width: 40ch; } /* same DM Sans ch-inflation correction */
-.row .tag { color: var(--sc-ink-soft); font-size: var(--sc-t-xs);
-  letter-spacing: var(--sc-track-wide); text-transform: uppercase; white-space: nowrap; }
-@media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
-
-/* ------------------------------------------------ act 5 · the one action -- */
-.close { display: grid; place-items: center; text-align: center;
-  padding: var(--sc-gutter); }
-.close__inner { display: grid; gap: var(--sc-6); justify-items: center; }
-.close .sc-body { color: var(--sc-ink); max-width: 40ch; margin-inline: auto; }
-.foot {
-  position: absolute; inset: auto 0 0; padding: var(--sc-5) var(--sc-gutter);
-  display: flex; flex-wrap: wrap; gap: var(--sc-4);
-  align-items: center; justify-content: space-between;
-  font-size: var(--sc-t-xs); color: var(--sc-ink-soft);
-}
-.foot nav { display: flex; gap: var(--sc-4); }
-
-/* Act 5 pulls back out of the machine: the moor returns behind the close as
-   the bezel retreats, so the page resolves by leaving rather than fading. */
- /* No position on .close: the engine sticks the stage with position:sticky and
-   a `position: relative` here silently beats it, un-pinning the whole act.
-   Sticky is already a containing block for the absolute children below. */
 .close::before {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  /* The engine owns .close::after (data-sc-spotlight), so the scrim rides in
-     this element's own background stack rather than a second pseudo. */
-  background-image:
-    linear-gradient(color-mix(in oklab, var(--sc-canvas) 88%, transparent),
-                    color-mix(in oklab, var(--sc-canvas) 88%, transparent)),
-    var(--moor-src);
-  background-size: cover, cover;
-  background-position: center, center;
-  opacity: var(--moor, 0);
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 120%,
+      color-mix(in oklab, var(--sc-accent) 20%, transparent) 0%, transparent 70%);
 }
-
+.close__inner { position: relative; z-index: 1;
+  display: grid; gap: var(--sc-6); justify-items: center; max-width: 46rem; margin-inline: auto; }
+.close .sc-body { color: var(--sc-ink-soft); max-width: 40ch; margin-inline: auto; }
 
 /* ══════════════════════════════════════════════════ THE SITE ══════════════
-   Everything the film delivers you into. Same tokens as the gateway, so the
-   boot resolves onto this ground with no second transition. */
+   Everything below shares the header, footer and token set with the hero. */
 
 .band { padding-block: clamp(4rem, 11vh, 9rem); }
 .band--alt { background: var(--sc-surface); }

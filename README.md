@@ -8,15 +8,15 @@ framework, no build step, no dependencies in the page.
 ## Layout
 
 ```
-index.html               the homepage: scrubbed film, then the site (hand-written)
+index.html               the homepage: ambient lighthouse hero, then the site (hand-written)
 *.html                   generated pages — do not edit these directly
 insights/                the article section, also generated
 api/contact.mjs          the form endpoint (Vercel serverless function)
 assets/
   css/                   fonts.css, vendor/scrollcraft.css (engine), v3.css (theme)
-  js/                    v3.js (home), page.js (interior), bar.js, form.js, vendor/scrollcraft.js
+  js/                    page.js (reveals), hero-video.js (home), bar.js, form.js, vendor/scrollcraft.js
   fonts/                 self-hosted Instrument Serif + DM Sans, SIL OFL
-  video/ img/ journey/   the film, screenshots, frame sequences
+  video/ img/            the lighthouse loop, before/after screenshots
 scripts/                 the page generators — edit these
 scrollcraft/verify/      the gates
 _dev/preflight.py        the pre-deploy check
@@ -30,10 +30,10 @@ This is not hypothetical. A commit fixing fabricated client metrics edited
 so the next build wrote the fabricated figures back over the fix and no gate
 noticed. On this repo, editing a generated page is a fix with a timer on it.
 
-`index.html` is hand-written because the film, the boot panel and the bezel
-exist on no other page — but its schema graph, footer, script set and
-cache-buster come from the same source as everything else, via
-`scripts/sync_index.py`. Those four blocks had already drifted once.
+`index.html` is hand-written because the ambient lighthouse hero exists on no
+other page — but its schema graph, footer, script set and cache-buster come
+from the same source as everything else, via `scripts/sync_index.py`. Those
+four blocks had already drifted once.
 
 ## Building
 
@@ -43,7 +43,7 @@ for p in work services studio process pricing contact case 404 local insights; d
   python3 "scripts/build_$p.py"
 done
 python3 scripts/sync_index.py
-python3 scripts/build_poster.py     # needs Pillow; only after replacing the poster
+python3 scripts/build_lighthouse.py /path/to/source.mp4   # needs ffmpeg + Pillow; only after replacing the footage
 python3 scripts/build_meta.py       # sitemap.xml, robots.txt, llms.txt
 ```
 
@@ -85,8 +85,8 @@ blocker and what has already been closed.
 
 ## Notes
 
-- Respects `prefers-reduced-motion`: the film and every reveal freeze into a
-  static frame.
+- Respects `prefers-reduced-motion` and `Save-Data`: the hero video never loads
+  at all, and every scroll reveal freezes into a static frame.
 - Self-hosted fonts, no third-party request on first paint, no cookie banner
   needed — the analytics are served from the deployment's own origin.
 - There is deliberately **no published telephone number**. The site previously

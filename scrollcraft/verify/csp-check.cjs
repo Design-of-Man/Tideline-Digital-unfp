@@ -21,6 +21,19 @@ const path = require('node:path');
 const ROOT = path.resolve(__dirname, '..', '..');
 const PORT = 8901;
 
+/* The expected canvas colour, read out of the theme file itself rather than
+   hardcoded here. A hardcoded rgb() literal is exactly the kind of value
+   that silently goes stale the next time the brand changes -- this file's
+   own history already has one metrics regression caused by a copy of a
+   value living in two places and only one of them getting updated. */
+function themeCanvasRgb() {
+  const css = fs.readFileSync(path.join(ROOT, 'assets/css/v3.css'), 'utf8');
+  const m = css.match(/--sc-canvas:\s*#([0-9a-fA-F]{6})\s*;/);
+  if (!m) throw new Error('could not find --sc-canvas in assets/css/v3.css');
+  const n = parseInt(m[1], 16);
+  return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
+}
+
 const TYPES = {
   '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript',
   '.mjs': 'text/javascript', '.json': 'application/json', '.svg': 'image/svg+xml',
@@ -66,6 +79,7 @@ function serve() {
 }
 
 (async () => {
+  const expectBg = themeCanvasRgb();
   const srv = await serve();
   const browser = await chromium.launch({
     executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
@@ -113,7 +127,7 @@ function serve() {
     /* A blocked stylesheet or webfont is a CSP failure that logs nothing
        useful, so assert the page actually painted in the brand. */
     if (!state.font) issues.push('the webfont did not load — check font-src');
-    if (state.bg !== 'rgb(11, 12, 14)') issues.push(`body background is ${state.bg} — check style-src`);
+    if (state.bg !== expectBg) issues.push(`body background is ${state.bg}, expected ${expectBg} — check style-src`);
 
     if (issues.length) bad++;
     console.log(`${issues.length ? 'FAIL' : 'ok  '} ${p}`);
