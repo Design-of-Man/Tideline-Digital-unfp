@@ -43,7 +43,7 @@ NAV = [("/work", "Work"), ("/services", "Services"),
 FOOTNAV = [("/work", "Work"), ("/services", "Services"), ("/process", "Process"),
            ("/studio", "Studio"), ("/pricing", "Pricing"), ("/insights", "Insights"),
            ("/web-design-jupiter-fl", "Jupiter, FL"),
-           ("/contact", "Contact"), ("/pay", "Pay")]
+           ("/contact", "Contact")]
 
 # ------------------------------------------------------------------ schema --
 # One @graph per page rather than a pile of loose <script> blocks. Every node

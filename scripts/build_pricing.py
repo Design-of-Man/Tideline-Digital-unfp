@@ -86,7 +86,6 @@ BODY = phero(
       <div data-sc-in>
         <p class="sc-body">Half up front to reserve the schedule, half on launch. Larger builds split into milestones, agreed in writing before anything starts. Care plans bill monthly and you can stop them whenever you like.</p>
         <p class="sc-body">Everything runs through Stripe, so your card and bank details never touch our servers. Bank transfer is cheaper than card on a project invoice and it is what we default to.</p>
-        <div class="phero__cta"><a class="btn btn--quiet" href="/pay">Billing and invoices</a></div>
       </div>
     </div>
   </div>

@@ -84,15 +84,20 @@ or push to the connected branch and let the Git integration do it.
    locally by `csp-check.cjs`, but only the live response proves it.
 4. **Confirm `/pay` still shows its stand-in.** See the open item below.
 
-## Known open item
+## Payments are not on the site
 
-`/pay` carries `REPLACE_PORTAL_LINK` on the "Open my dashboard" button, because
-the Stripe Customer Portal login URL is issued by Stripe and cannot be
-invented. `assets/js/form.js` guards it: while the placeholder is in the href,
-the button is rewritten to email us for the link rather than sending a paying
-client to a Stripe error page.
+`/pay` is not built or deployed. Payments are not being taken through the site
+for now, so the page came off rather than shipping with a Stripe placeholder on
+a button a paying client might press. `/pay` and `/pay.html` **302 to
+`/contact`**, so an old link or one inside an already-sent invoice still lands
+somewhere useful.
 
-To set it: **Stripe Dashboard → Settings → Billing → Customer portal → Login
-page**, copy the URL into `scripts/build_pay.py`, and re-run that script. The
-guard tests the live attribute, so it turns itself off. `preflight.py` blocks
-on this by design and will go green once it is set.
+Everything needed to bring it back is still in the repo. To restore it:
+
+1. **Stripe Dashboard → Settings → Billing → Customer portal → Login page**,
+   and paste that URL over `REPLACE_PORTAL_LINK` in `scripts/build_pay.py`.
+2. `python3 scripts/build_pay.py`
+3. Put `("/pay", "Pay")` back in `FOOTNAV` in `scripts/pages.py`, re-run the
+   build, and drop the two `/pay` redirects from `vercel.json`.
+
+See `BILLING-SETUP.md` for the Stripe side.

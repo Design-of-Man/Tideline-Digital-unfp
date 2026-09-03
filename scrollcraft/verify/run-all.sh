@@ -18,7 +18,7 @@ trap 'kill $SRV 2>/dev/null' EXIT
 sleep 2
 
 PAGES=(index.html work.html services.html studio.html process.html pricing.html
-       contact.html case-first-rehab.html pay.html 404.html
+       contact.html case-first-rehab.html 404.html
        web-design-jupiter-fl.html insights/index.html)
 
 run "generated"  ./scrollcraft/verify/generated-check.sh

@@ -127,6 +127,16 @@
   ],
   "redirects": [
     {
+      "source": "/pay",
+      "destination": "/contact",
+      "permanent": false
+    },
+    {
+      "source": "/pay.html",
+      "destination": "/contact",
+      "permanent": false
+    },
+    {
       "source": "/journey",
       "destination": "/",
       "permanent": true
