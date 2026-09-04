@@ -7,7 +7,7 @@ that resolution -- this script's OUTPUT is what ships, the same contract as
 every other build_*.py in this directory.
 
 Emits, into assets/video/lighthouse/:
-  lighthouse.mp4 / lighthouse.webm       desktop loop,  1600w @ 30fps
+  lighthouse.mp4 / lighthouse.webm       desktop loop,  2000w @ 30fps
   lighthouse-m.mp4 / lighthouse-m.webm   mobile loop,    960w @ 24fps
   lighthouse-poster.jpg                  the LCP element, at source width
   lighthouse-poster-{960,1200,1920}.webp responsive candidates of the poster
@@ -36,7 +36,7 @@ POSTER_AT_SECONDS = 4
 # and roughly halves the bitrate for the same visual result. The mobile pair
 # goes further on both axes because it is competing for LCP budget on a
 # throttled connection.
-DESKTOP = dict(fps=30, width=1600, crf_h264=24, crf_vp9=34)
+DESKTOP = dict(fps=30, width=2000, crf_h264=23, crf_vp9=33)
 MOBILE = dict(fps=24, width=960, crf_h264=28, crf_vp9=38)
 
 POSTER_WIDTHS = [960, 1200, 1920]
