@@ -62,9 +62,23 @@
 /* ------------------------------------------------------------- chrome -- */
 .bar {
   position: fixed; inset: 0 0 auto; z-index: var(--sc-z-chrome);
+  padding-block: var(--sc-4);
+}
+/* Every page's body copy sits in an .sc-wrap column: max-width var(--sc-maxw),
+   centered, gutter padding. The header used to hug the raw viewport edge
+   instead -- and on a wide window that reads as misaligned against everything
+   below it, the mark sitting noticeably further left than the content start.
+   .bar__inner repeats the same column so the wordmark and the page's H1 line
+   up on the same left edge. (It was also, separately, broken: the padding
+   above referenced --frame, a variable from the bezel engine this redesign
+   removed. With no fallback that made the whole calc() -- and so the whole
+   padding shorthand -- invalid, which collapsed it to 0. The header has been
+   flush against the edges since that engine went, not by choice.) */
+.bar__inner {
   display: flex; align-items: center; justify-content: space-between;
   gap: var(--sc-5);
-  padding: var(--sc-4) max(var(--sc-gutter), calc(var(--frame) + var(--sc-4)));
+  max-width: var(--sc-maxw); margin-inline: auto;
+  padding-inline: var(--sc-gutter);
 }
 /* The bar sits over the film, over the peak and over body copy in turn. A
    blend mode cannot serve all three, and heading-over-nav is unreadable, so
@@ -117,7 +131,7 @@
 .mark { min-height: 24px; }
 .bar nav a[aria-current], .bar nav a:hover, .site-foot nav a:hover { color: var(--sc-ink); }
 @media (max-width: 640px) {
-  .bar { padding-inline: var(--sc-4); gap: var(--sc-3); }
+  .bar__inner { padding-inline: var(--sc-4); gap: var(--sc-3); }
   .bar nav { gap: var(--sc-2); }
   /* The wordmark wraps to two lines under ~430px and collides with the links.
      The glyph alone carries it at that size. */

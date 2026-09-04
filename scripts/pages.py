@@ -12,7 +12,7 @@ Run from the repo root:  python3 scripts/pages.py
 import json, os, pathlib, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-V    = "20260903a"                       # cache-buster, bumped per deploy
+V    = "20260904a"                       # cache-buster, bumped per deploy
 SITE = "https://www.designofman.com"
 MAIL = "hello@designofman.com"
 
@@ -212,9 +212,11 @@ def header(path):
         '\n    <a href="%s"%s>%s</a>' % (h, cur if h == path else "", t)
         for h, t in NAV)
     return f"""<header class="bar">
-  <a href="/" class="mark">{LOGO}<span>Design of Man</span></a>
-  <nav aria-label="Main">{links}
-  </nav>
+  <div class="bar__inner">
+    <a href="/" class="mark">{LOGO}<span>Design of Man</span></a>
+    <nav aria-label="Main">{links}
+    </nav>
+  </div>
 </header>"""
 
 
