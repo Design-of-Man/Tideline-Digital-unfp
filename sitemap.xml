@@ -4,17 +4,17 @@
      so it cannot list a page that does not exist or miss one that does.
      /pay is absent because it is noindex — a client billing utility. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.designofman.com/</loc><lastmod>2026-09-03</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://www.designofman.com/work</loc><lastmod>2026-09-03</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.designofman.com/services</loc><lastmod>2026-09-03</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.designofman.com/contact</loc><lastmod>2026-09-03</lastmod><changefreq>yearly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.designofman.com/pricing</loc><lastmod>2026-09-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.designofman.com/web-design-jupiter-fl</loc><lastmod>2026-09-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.designofman.com/insights</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.designofman.com/studio</loc><lastmod>2026-09-03</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.designofman.com/process</loc><lastmod>2026-09-03</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.designofman.com/case-first-rehab</loc><lastmod>2026-09-03</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.designofman.com/insights/cumulative-layout-shift-scroll-animation</loc><lastmod>2026-09-03</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.designofman.com/insights/measuring-whether-a-redesign-worked</loc><lastmod>2026-09-03</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.designofman.com/insights/your-contact-form-is-losing-leads</loc><lastmod>2026-09-03</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.designofman.com/</loc><lastmod>2026-09-04</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.designofman.com/work</loc><lastmod>2026-09-04</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.designofman.com/services</loc><lastmod>2026-09-04</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.designofman.com/contact</loc><lastmod>2026-09-04</lastmod><changefreq>yearly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.designofman.com/pricing</loc><lastmod>2026-09-04</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.designofman.com/web-design-jupiter-fl</loc><lastmod>2026-09-04</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.designofman.com/insights</loc><lastmod>2026-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.designofman.com/studio</loc><lastmod>2026-09-04</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.designofman.com/process</loc><lastmod>2026-09-04</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.designofman.com/case-first-rehab</loc><lastmod>2026-09-04</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.designofman.com/insights/cumulative-layout-shift-scroll-animation</loc><lastmod>2026-09-04</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.designofman.com/insights/measuring-whether-a-redesign-worked</loc><lastmod>2026-09-04</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.designofman.com/insights/your-contact-form-is-losing-leads</loc><lastmod>2026-09-04</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
 </urlset>
