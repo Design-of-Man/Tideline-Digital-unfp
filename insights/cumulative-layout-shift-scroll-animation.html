@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Our homepage scored 0.563 for Cumulative Layout Shift, a failing grade. The cause, the four-line CSS fix, and how to find yours.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0b0c0e">
+<title>Fixing Layout Shift in a Scroll Animation &mdash; Design of Man</title>
+<link rel="canonical" href="https://www.designofman.com/insights/cumulative-layout-shift-scroll-animation">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.designofman.com/insights/cumulative-layout-shift-scroll-animation">
+<meta property="og:site_name" content="Design of Man">
+<meta property="og:title" content="Fixing Layout Shift in a Scroll Animation &mdash; Design of Man">
+<meta property="og:description" content="Our homepage scored 0.563 for Cumulative Layout Shift, a failing grade. The cause, the four-line CSS fix, and how to find yours.">
+<meta property="og:image" content="https://www.designofman.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fixing Layout Shift in a Scroll Animation &mdash; Design of Man">
+<meta name="twitter:description" content="Our homepage scored 0.563 for Cumulative Layout Shift, a failing grade. The cause, the four-line CSS fix, and how to find yours.">
+<meta name="twitter:image" content="https://www.designofman.com/og.png">
+<link rel="icon" href="/favicon.svg?v=20260904b" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260904b">
+<link rel="manifest" href="/site.webmanifest?v=20260904b">
+<link rel="preload" href="/assets/fonts/instrument-serif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/fonts.css?v=20260904b">
+<link rel="stylesheet" href="/assets/css/vendor/scrollcraft.css?v=20260904b">
+<link rel="stylesheet" href="/assets/css/v3.css?v=20260904b">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":["ProfessionalService","LocalBusiness"],"@id":"https://www.designofman.com/#studio","name":"Design of Man","alternateName":"Design of Man Studio","description":"Website creation and management for small businesses. Strategy, design, build, and ongoing care that does not stop at launch.","url":"https://www.designofman.com/","email":"hello@designofman.com","logo":{"@type":"ImageObject","@id":"https://www.designofman.com/#logo","url":"https://www.designofman.com/assets/img/logo-mark.png","caption":"Design of Man"},"image":"https://www.designofman.com/og.png","priceRange":"$$","currenciesAccepted":"USD","paymentAccepted":"Credit Card, ACH","address":{"@type":"PostalAddress","addressLocality":"Jupiter","addressRegion":"FL","postalCode":"33477","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":26.9342,"longitude":-80.0942},"areaServed":[{"@type":"AdministrativeArea","name":"Palm Beach County, Florida"},{"@type":"AdministrativeArea","name":"Martin County, Florida"},{"@type":"Country","name":"United States"}],"knowsAbout":["Web design","Web development","Search engine optimization","Website maintenance","Core Web Vitals","Web accessibility"],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"17:00"}],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Website creation and management","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Website design and development","description":"Custom sites built from a written scope, not a template."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Web application development","description":"Booking, accounts, payments and dashboards on the open web."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Website care and hosting","description":"Managed hosting, security updates, backups and content changes."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Search and performance","description":"Technical SEO, Core Web Vitals and analytics that is actually read."}}]}},{"@type":"WebSite","@id":"https://www.designofman.com/#website","url":"https://www.designofman.com/","name":"Design of Man","inLanguage":"en-US","publisher":{"@id":"https://www.designofman.com/#studio"}},{"@type":"WebPage","@id":"https://www.designofman.com/insights/cumulative-layout-shift-scroll-animation#page","url":"https://www.designofman.com/insights/cumulative-layout-shift-scroll-animation","name":"Fixing Layout Shift in a Scroll Animation &mdash; Design of Man","description":"Our homepage scored 0.563 for Cumulative Layout Shift, a failing grade. The cause, the four-line CSS fix, and how to find yours.","inLanguage":"en-US","isPartOf":{"@id":"https://www.designofman.com/#website"},"about":{"@id":"https://www.designofman.com/#studio"},"primaryImageOfPage":{"@id":"https://www.designofman.com/#logo"}},{"@type":"BreadcrumbList","@id":"https://www.designofman.com/insights/cumulative-layout-shift-scroll-animation#crumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.designofman.com/"},{"@type":"ListItem","position":2,"name":"Insights","item":"https://www.designofman.com/insights"},{"@type":"ListItem","position":3,"name":"A scroll animation cost us a Lighthouse grade, and the fix was four lines of CSS","item":"https://www.designofman.com/insights/cumulative-layout-shift-scroll-animation"}]},{"@type":"Article","@id":"https://www.designofman.com/insights/cumulative-layout-shift-scroll-animation#article","headline":"A scroll animation cost us a Lighthouse grade, and the fix was four lines of CSS","description":"Our homepage scored 0.563 for Cumulative Layout Shift, a failing grade. The cause, the four-line CSS fix, and how to find yours.","datePublished":"2026-08-24","dateModified":"2026-09-03","inLanguage":"en-US","articleSection":"Performance","author":{"@id":"https://www.designofman.com/#studio"},"publisher":{"@id":"https://www.designofman.com/#studio"},"image":"https://www.designofman.com/og.png","mainEntityOfPage":{"@id":"https://www.designofman.com/insights/cumulative-layout-shift-scroll-animation#page"}}]}
+</script>
+</head>
+<body class="has-bar">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="bar">
+  <div class="bar__inner">
+    <a href="/" class="mark"><svg viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg><span>Design of Man</span></a>
+    <nav aria-label="Main">
+    <a href="/work">Work</a>
+    <a href="/services">Services</a>
+    <a href="/studio">Studio</a>
+    <a href="/contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="phero">
+  <div class="sc-wrap">
+    <a class="back" href="/insights">All notes</a>
+    <h1 class="sc-display sc-display--lg" data-sc-kinetic="lines">A scroll animation cost us a Lighthouse grade, and the fix was four lines of CSS</h1>
+    <p class="sc-body" data-sc-in>Our homepage scored 0.563 for Cumulative Layout Shift, a failing grade. The cause, the four-line CSS fix, and how to find yours.</p>
+  </div>
+</section>
+
+<section class="sc-section band">
+  <div class="sc-wrap">
+    <p class="meta" data-sc-in><span>Performance</span><span>6 min read</span>
+      <span>Updated <time datetime="2026-09-03">3 September 2026</time></span></p>
+    <div class="article" data-sc-in><p>Our own homepage scored <strong>0.563</strong> on Cumulative Layout Shift on a throttled phone. Google considers anything above 0.25 poor. Lighthouse put mobile performance at 49. This is a site built by people who sell performance for a living, so it is worth writing down exactly how that happened, because the shape of the mistake is extremely common.</p>
+
+<h2>What CLS actually measures</h2>
+<p>Cumulative Layout Shift scores how much visible content jumps around while a page loads, without the user asking it to. Every developer has experienced the failure it is designed to catch: you go to tap a link, an image finishes loading above it, the page lurches, and you tap an advert instead. CLS puts a number on that.</p>
+<p>It is one of the three Core Web Vitals, it is a real ranking input, and unlike the other two it is not primarily about speed. A slow site with a stable layout scores fine. A fast site that reflows scores badly.</p>
+
+<h2>The cause: measuring in JavaScript what CSS already knew</h2>
+<p>Our homepage opens with a film that scrubs as you scroll. The animation engine pins a section and gives it a scroll length — five viewport heights, say — so there is somewhere to scroll while the film plays. The engine did that by writing an inline height onto each pinned section during initialisation:</p>
+<p><code>section.style.height = span * 100 + 'vh'</code></p>
+<p>Which is correct, and which happens too late. Between first paint and the engine booting, every pinned section is only as tall as its contents — a few hundred pixels instead of several thousand. So the entire page below the film renders several screens too high, and then, the moment the engine initialises, everything below snaps down into place.</p>
+<div class="aside"><p>The page was never <em>wrong</em>. It was right, then briefly wrong, then right again — and the browser scores that middle state.</p></div>
+<p>This is worth generalising, because it is not really a bug about scroll animation. <strong>Any layout value your JavaScript computes on load is a layout shift waiting to happen.</strong> Web fonts swapping in without <code>size-adjust</code>. Images without width and height attributes. A cookie banner injected at the top of the document. An embed that arrives at its real size a second late. All the same failure: the browser was asked to lay out a page before it had been told how big things are.</p>
+
+<h2>The fix</h2>
+<p>The section already declared its scroll length in the markup, for the engine to read:</p>
+<p><code>data-sc-span="5.2"</code></p>
+<p>So we mirrored the same number into a custom property on the same element, and let CSS reserve the space before a single line of JavaScript runs:</p>
+<p><code>style="--sc-span:5.2"</code>, with <code>[data-sc-act] { height: calc(var(--sc-span) * 100vh); }</code> in the stylesheet.</p>
+<p>The engine still writes its own height when it boots. It now writes the same number the browser had already used, so nothing moves.</p>
+<ul>
+  <li>CLS: <strong>0.563 → 0.002</strong></li>
+  <li>Lighthouse mobile performance: <strong>49 → 77</strong></li>
+</ul>
+<p>The cost is one duplicated number per section, which is a genuine maintenance hazard: change the span attribute and forget the custom property, and the shift comes back silently. We took the trade because a comment in the stylesheet is cheaper than a failing Core Web Vital, but it is a trade, not a free win. If you do this, put the two values on the same line so they are hard to edit apart.</p>
+
+<h2>How to find yours</h2>
+<p>Do not trust a desktop Lighthouse run. CLS is dominated by slow connections and slow CPUs, which is where the gap between first paint and JavaScript is widest.</p>
+<ol>
+  <li>Chrome DevTools, Lighthouse panel, <strong>Mobile</strong> with throttling on. Run it three times and take the worst.</li>
+  <li>Open the Performance panel, record a load, and look for the <em>Layout Shift</em> markers. Each one tells you the element that moved.</li>
+  <li>Then check field data in Search Console's Core Web Vitals report, which is real visitors rather than a simulation. Lab and field disagree often, and field wins.</li>
+</ol>
+<p>The pattern to look for is not a slow page. It is a page that finishes loading in a different shape than it started.</p></div>
+  </div>
+</section>
+
+<section class="sc-section band band--alt">
+  <div class="sc-wrap">
+    <div class="split">
+      <div><h2 class="sc-display sc-display--md" data-sc-kinetic="lines">Want this looked at on your site?</h2></div>
+      <div data-sc-in>
+        <p class="sc-body">A free 30-minute consult, and you leave with a written scope and one number whether or not you go ahead.</p>
+        <div class="phero__cta"><a class="btn" href="/contact">Book a free consult</a><a class="btn btn--quiet" href="/insights">Read the other notes</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="sc-wrap">
+    <a href="/" class="mark"><svg viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg><span>Design of Man</span></a>
+    <nav aria-label="Footer">
+      <a href="/work">Work</a>
+      <a href="/services">Services</a>
+      <a href="/process">Process</a>
+      <a href="/studio">Studio</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/insights">Insights</a>
+      <a href="/web-design-jupiter-fl">Jupiter, FL</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <small>&copy; 2026 Design of Man. Website creation and management. Jupiter, Florida.</small>
+  </div>
+</footer>
+
+<script src="/assets/js/vendor/scrollcraft.js?v=20260904b"></script>
+<script src="/assets/js/page.js?v=20260904b"></script>
+<script src="/assets/js/bar.js?v=20260904b" defer></script>
+<script src="/assets/js/form.js?v=20260904b" defer></script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+</body>
+</html>

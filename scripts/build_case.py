@@ -67,11 +67,11 @@ BODY = phero(
   <div class="sc-wrap">
     <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Numbers that moved.</h2>
     <div class="metrics" data-sc-in style="max-width:52rem">
-      <div class="metric"><b>+186%</b><span>Organic traffic</span></div>
-      <div class="metric"><b>+72%</b><span>Appointment requests</span></div>
-      <div class="metric"><b>2.4s faster</b><span>Load time</span></div>
+      <div class="metric"><b>+50%</b><span>Organic clicks</span></div>
+      <div class="metric"><b>+132%</b><span>Search impressions</span></div>
+      <div class="metric"><b>22</b><span>Enquiries, first 30 days</span></div>
     </div>
-    <p class="sc-body note" data-sc-in>Measured over the eight months following launch, against the eight before it.</p>
+    <p class="sc-body note" data-sc-in>Google Search Console, the 32 days after launch (21 July &ndash; 21 August 2026) against the 32 before, compared weekday to weekday because the earlier window contained a weekend and the later one did not. The enquiry count is from the site&rsquo;s own form; the previous site had no lead capture at all, so there is no percentage to quote against it. The method behind these figures is written up in <a href="/insights/measuring-whether-a-redesign-worked">how to tell whether a redesign actually worked</a>. We are not claiming a load-time improvement: no performance baseline was ever captured for the old site, so there is nothing to have measured against.</p>
   </div>
 </section>
 """ + nxt("/contact", "Next", "Get a number for yours")
@@ -80,4 +80,17 @@ write("case-first-rehab.html",
       head("First Rehabilitation of North Palm Beach",
            "Case study: a dated physical therapy clinic site rebuilt into a fast, "
            "appointment-driving experience, with before and after comparisons and the numbers.",
-           "/case-first-rehab") + BODY + foot())
+           "/case-first-rehab", og_type="article",
+           nodes=[crumbs([("/work", "Work"),
+                          ("/case-first-rehab", "First Rehabilitation of North Palm Beach")]),
+                  {"@type": "Article", "@id": SITE + "/case-first-rehab#article",
+                   "headline": "First Rehabilitation of North Palm Beach: a Wix clinic site rebuilt",
+                   "description": "What changed, what it cost in effort, and what Search Console "
+                                  "recorded in the 32 days after launch.",
+                   "datePublished": "2026-08-24", "dateModified": "2026-09-03",
+                   "inLanguage": "en-US",
+                   "author": {"@id": SITE + "/#studio"},
+                   "publisher": {"@id": SITE + "/#studio"},
+                   "image": SITE + "/assets/img/work/firstrehab-after.jpg",
+                   "about": {"@type": "Thing", "name": "Physical therapy clinic website redesign"},
+                   "mainEntityOfPage": {"@id": SITE + "/case-first-rehab#page"}}]) + BODY + foot())

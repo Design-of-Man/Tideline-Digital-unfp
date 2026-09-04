@@ -81,6 +81,18 @@ class Doc(HTMLParser):
             self._buf += d
 
 
+# Paths served by the hosting platform rather than by anything in this repo.
+# /_vercel/* is Vercel's own Web Analytics and Speed Insights bundle, injected
+# at the edge when those features are enabled on the project; there is no file
+# here to find and there never will be. /api/* is a serverless function, which
+# exists as api/<name>.mjs rather than at the URL it answers on.
+PLATFORM_PREFIXES = ("/_vercel/", "/api/")
+
+
+def platform_served(href):
+    return href.startswith(PLATFORM_PREFIXES)
+
+
 def resolve(page, href):
     base = os.path.dirname(os.path.join(ROOT, page))
     clean = href.split("#")[0].split("?")[0]
@@ -98,10 +110,15 @@ def resolve(page, href):
     return t
 
 
+# Recursive, so pages in a subdirectory are gated too. The flat glob this
+# replaced silently skipped everything under /insights/ -- four pages checked
+# by nothing, which is the failure mode a pre-deploy gate exists to prevent.
+SKIP_DIRS = {"_dev", "books", "node_modules", ".git", ".vercel", "scrollcraft"}
+
 pages = sorted(
     os.path.relpath(p, ROOT)
-    for p in glob.glob(os.path.join(ROOT, "*.html"))
-    if "_dev" not in p
+    for p in glob.glob(os.path.join(ROOT, "**", "*.html"), recursive=True)
+    if not (SKIP_DIRS & set(os.path.relpath(p, ROOT).split(os.sep)))
 )
 
 for rel in pages:
@@ -166,7 +183,9 @@ for rel in pages:
             bad("LINK", "missing image: %s" % src)
 
     for src in d.scripts:
-        if not src.startswith("http") and not os.path.exists(resolve(rel, src)):
+        if src.startswith("http") or platform_served(src):
+            continue
+        if not os.path.exists(resolve(rel, src)):
             bad("LINK", "missing script: %s" % src)
 
     for href in d.links:
@@ -195,7 +214,14 @@ for rel in pages:
     # 404 and any deliberately noindexed page are not sitemap candidates.
     if rel == "404.html" or rel in noindexed:
         continue
-    slug = "" if rel == "index.html" else rel[:-5]
+    # cleanUrls serves foo/index.html at /foo, not at /foo/index. Without this
+    # every directory-index page reads as missing from the sitemap.
+    if rel == "index.html":
+        slug = ""
+    elif rel.endswith("/index.html"):
+        slug = rel[:-len("/index.html")]
+    else:
+        slug = rel[:-5]
     url = DOMAIN + "/" + slug
     if url not in locs:
         notes.append(("SEO", "not in sitemap: %s" % rel))

@@ -1,38 +1,23 @@
-/* Pre-launch fail-safes for anything still pointing at a placeholder endpoint
-   (see PRELAUNCH.md).
-
-   Two failure modes, both silent, and both worse on /pay than anywhere else
-   because there the visitor is a client trying to pay or chase an invoice:
-
-     1. A Formspree action still carrying a placeholder ID. A POST to it 404s —
-        the visitor sees an error page and the submission is gone. Until a real
-        endpoint is wired, hand the submission to the visitor's mail client with
-        every field already filled in.
-     2. The Stripe Customer Portal button still carrying REPLACE_PORTAL_LINK.
-        Clicking it lands the client on a Stripe error page. Until the real
-        login URL is set, point it at us instead and say so plainly.
-
-   Each guard tests the live attribute, so the moment a real value is dropped in
-   the handler steps aside and native behaviour resumes. No other change needed. */
+/* The forms, and the one billing button that still has no real destination.
+ *
+ * The forms post to /api/contact (api/contact.mjs) on our own origin. This
+ * file is an enhancement over that, never a requirement: with it off, the
+ * browser submits natively and the function answers with a 303. With it on,
+ * the submission goes as JSON, the visitor stays on the page, and a failure
+ * is said out loud instead of being swallowed.
+ *
+ * The mailto: path that used to be the primary route is still here, but only
+ * where it belongs: as the fallback after the endpoint has actually failed.
+ * It loses anyone with no mail client configured, which is why it is no
+ * longer the first thing tried.
+ */
 (function () {
   'use strict';
 
   var MAIL = 'hello@designofman.com';
-  var PLACEHOLDERS = ['YOUR_FORM_ID', 'REPLACE_FORM_ID'];
 
-  /* ---------------------------------------------------------------- forms -- */
-
-  function unconfigured(form) {
-    var a = form.getAttribute('action') || '';
-    if (a.indexOf('formspree.io/f/') === -1) return true;
-    for (var i = 0; i < PLACEHOLDERS.length; i++) {
-      if (a.indexOf(PLACEHOLDERS[i]) !== -1) return true;
-    }
-    return false;
-  }
-
-  /* Label text for a field, so the email reads like the form rather than like a
-     list of input names. Falls back to the name attribute. */
+  /* Field label text, so a fallback email reads like the form rather than
+     like a list of input names. */
   function labelFor(form, el) {
     var l = el.id ? form.querySelector('label[for="' + el.id + '"]') : null;
     if (!l) return el.name;
@@ -45,57 +30,116 @@
     var fields = form.querySelectorAll('input, textarea, select');
     for (var i = 0; i < fields.length; i++) {
       var el = fields[i];
-      if (!el.name) continue;
-      if (el.name.charAt(0) === '_') continue;             // _gotcha, _subject
+      if (!el.name || el.name.charAt(0) === '_') continue;
       if (el.type === 'hidden' || el.type === 'submit') continue;
       var v = (el.value || '').trim();
       if (el.tagName === 'TEXTAREA') { trailing = v; continue; }
       out.push(labelFor(form, el) + ': ' + (v || '—'));
     }
-    if (trailing) { out.push('', trailing); }
+    if (trailing) out.push('', trailing);
     return out.join('\n');
   }
 
-  function subjectOf(form) {
-    var s = form.querySelector('input[name="_subject"]');
-    if (s && s.value) return s.value;
-    return form.id === 'consultForm' ? 'Consult request' : 'Website enquiry';
+  function note(form) {
+    return form.querySelector('.form__note');
+  }
+
+  function say(form, msg, tone) {
+    var n = note(form);
+    if (!n) return;
+    n.textContent = msg;
+    n.setAttribute('data-tone', tone || '');
+  }
+
+  /* Last resort, and only after the endpoint has failed. */
+  function handToMailClient(form) {
+    var nameEl = form.querySelector('input[name="name"]');
+    var who = nameEl ? nameEl.value.trim() : '';
+    var subject = form.id === 'resendForm' ? 'Invoice resend request' : 'Consult request';
+    say(form, 'We could not send that from here. Opening your email app with it filled '
+            + 'in — if nothing happens, send it to ' + MAIL + ' and we will pick it up.', 'warn');
+    location.href = 'mailto:' + MAIL
+      + '?subject=' + encodeURIComponent(subject + (who ? ' — ' + who : ''))
+      + '&body=' + encodeURIComponent(bodyOf(form));
   }
 
   function wire(form) {
     if (!form) return;
+
+    /* Stamp the load time. The endpoint drops anything returned in under two
+       seconds; a person cannot fill this in that fast and a script usually
+       does. Stamped here rather than rendered into the HTML so a cached page
+       does not carry a stale timestamp. */
+    var t = form.querySelector('input[name="_t"]');
+    if (t) t.value = String(Date.now());
+
+    if (!window.fetch) return;                        // native POST still works
+
     form.addEventListener('submit', function (e) {
-      if (!unconfigured(form)) return;                      // real endpoint — let it POST
       if (!form.reportValidity()) { e.preventDefault(); return; }
       e.preventDefault();
 
-      var nameEl = form.querySelector('input[name="name"]');
-      var who = nameEl ? nameEl.value.trim() : '';
+      var btn = form.querySelector('button[type="submit"]');
+      var label = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+      say(form, 'Sending…', '');
 
-      var note = form.querySelector('.form__note');
-      if (note) {
-        note.textContent = 'Opening your email app with this filled in. If nothing '
-          + 'happens, send it to ' + MAIL + ' and we will pick it up from there.';
-      }
+      var data = {};
+      new FormData(form).forEach(function (v, k) { data[k] = v; });
 
-      location.href = 'mailto:' + MAIL
-        + '?subject=' + encodeURIComponent(subjectOf(form) + (who ? ' — ' + who : ''))
-        + '&body=' + encodeURIComponent(bodyOf(form));
+      fetch(form.getAttribute('action'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (r) {
+        return r.json().then(function (j) { return { ok: r.ok, status: r.status, body: j }; });
+      }).then(function (res) {
+        if (res.ok && res.body && res.body.ok) {
+          form.reset();
+          if (t) t.value = String(Date.now());
+          say(form, form.id === 'resendForm'
+            ? 'Sent. We will resend the invoice to the email on your account, usually within a business day.'
+            : 'Sent. We reply within one business day, from the person who would do the work.', 'ok');
+          if (btn) btn.textContent = 'Sent';
+          return;
+        }
+        if (btn) { btn.disabled = false; btn.textContent = label; }
+        /* 422 is the visitor's own input and is theirs to correct. Anything
+           else is our fault, so fall through to the mail client. */
+        if (res.status === 422 && res.body && res.body.error) {
+          say(form, res.body.error, 'warn');
+          return;
+        }
+        handToMailClient(form);
+      }).catch(function () {
+        if (btn) { btn.disabled = false; btn.textContent = label; }
+        handToMailClient(form);
+      });
     });
   }
 
   wire(document.getElementById('consultForm'));
   wire(document.getElementById('resendForm'));
 
-  /* ------------------------------------------------------- stripe portal -- */
+  /* A visitor arriving back from the no-JavaScript 303 gets the same
+     confirmation the fetch path shows. */
+  if (/[?&]sent=1(&|$)/.test(location.search)) {
+    var f = document.getElementById('consultForm');
+    if (f) say(f, 'Sent. We reply within one business day, from the person who would do the work.', 'ok');
+  }
 
+  /* ------------------------------------------------------- stripe portal --
+     Still a placeholder: the Customer Portal login URL is issued by Stripe
+     and nobody can invent it. Until it is set, clicking through would land a
+     paying client on a Stripe error page, so the button is rewritten to reach
+     us instead. The guard tests the live attribute, so dropping the real URL
+     into build_pay.py turns all of this off by itself. */
   var portal = document.querySelector('a[href*="REPLACE_PORTAL_LINK"]');
   if (portal) {
     portal.setAttribute('href', 'mailto:' + MAIL
       + '?subject=' + encodeURIComponent('Billing dashboard access')
       + '&body=' + encodeURIComponent(
-          'Please send me the link to my billing dashboard.\n\n'
-        + 'Business:\nEmail on the account:\n'));
+          'Please send me the link to my billing dashboard.\n\nBusiness:\nEmail on the account:\n'));
     portal.textContent = 'Email us for your dashboard link';
     portal.removeAttribute('rel');
 
@@ -107,8 +151,8 @@
       var p = document.createElement('p');
       p.className = 'form__note portal-note';
       p.setAttribute('role', 'status');
-      p.textContent = 'Self-serve access is being switched on. Until then we send '
-        + 'your dashboard link by hand, usually the same business day.';
+      p.textContent = 'Self-serve access is being switched on. Until then we send your '
+        + 'dashboard link by hand, usually the same business day.';
       card.appendChild(p);
     }
   }

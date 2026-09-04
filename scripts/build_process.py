@@ -68,7 +68,7 @@ BODY = phero(
       <div class="card"><h3>Four to six weeks</h3><p>Most business sites. Custom design throughout, integrations, content migrated from an old site.</p></div>
       <div class="card"><h3>Eight to twelve weeks</h3><p>E-commerce, booking systems, or an application with accounts and a workflow behind it.</p></div>
     </div>
-    <p class="sc-body note" data-sc-in>These are the ranges we actually hit, not best cases. The date you get at the bench is the one we hold.</p>
+    <p class="sc-body note" data-sc-in>These are the ranges we actually hit, not best cases. The date you get at the bench is the one we hold. Afterwards we measure whether it worked, and we are specific about how &mdash; see <a href="/insights/measuring-whether-a-redesign-worked">how to tell whether a redesign actually worked</a>.</p>
   </div>
 </section>
 """ + nxt("/pricing", "Next", "What it costs")
@@ -77,4 +77,5 @@ write("process.html",
       head("Process",
            "Four stages from first conversation to launch: the bench, the core, "
            "the build, the launch. What happens at each, and how long it takes.",
-           "/process") + BODY + foot())
+           "/process",
+           nodes=[crumbs([("/process", "Process")])]) + BODY + foot())

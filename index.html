@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="Design of Man is a small studio in Jupiter, Florida building websites and web apps with obsessive craft. Strategy, design, build, and care that does not stop at launch.">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#0b0c0e">
+<meta name="theme-color" content="#0a1a1d">
 <title>Design of Man &mdash; Website Creation &amp; Management</title>
 <link rel="canonical" href="https://www.designofman.com/">
 <meta property="og:type" content="website">
@@ -20,119 +20,117 @@
 <meta name="twitter:title" content="Design of Man &mdash; Website Creation &amp; Management">
 <meta name="twitter:description" content="A small studio building websites and web apps with obsessive craft.">
 <meta name="twitter:image" content="https://www.designofman.com/og.png">
-<link rel="icon" href="/favicon.svg?v=20260824a" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260824a">
-<link rel="manifest" href="/site.webmanifest?v=20260824a">
+<link rel="icon" href="/favicon.svg?v=20260904b" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260904b">
+<link rel="manifest" href="/site.webmanifest?v=20260904b">
 <link rel="preload" href="/assets/fonts/instrument-serif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/dm-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<!-- The film poster is the LCP element on this page. Without a preload the
-     browser only discovers it after the three stylesheets parse, which put
-     LCP at 4.1s on a throttled phone. -->
-<link rel="preload" href="/assets/video/sc/film-poster.jpg?v=20260824a" as="image" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/fonts.css?v=20260824a">
-<link rel="stylesheet" href="/assets/css/vendor/scrollcraft.css?v=20260824a">
-<link rel="stylesheet" href="/assets/css/v3.css?v=20260824a">
+<!-- The lighthouse poster is the LCP element on this page: it paints the
+     instant the video is still fetching, and stays under it as the video's own
+     poster attribute besides. scripts/build_poster.py derives the WebP pair;
+     the JPEG here is what the preload falls back to on a browser that cannot
+     decode WebP. -->
+<link rel="preload" as="image" fetchpriority="high" type="image/webp"
+      href="/assets/video/lighthouse/lighthouse-poster.jpg?v=20260904b"
+      imagesrcset="/assets/video/lighthouse/lighthouse-poster-960.webp?v=20260904b 960w,
+                   /assets/video/lighthouse/lighthouse-poster-1200.webp?v=20260904b 1200w,
+                   /assets/video/lighthouse/lighthouse-poster-1920.webp?v=20260904b 1920w"
+      imagesizes="100vw">
+<link rel="stylesheet" href="/assets/css/fonts.css?v=20260904b">
+<link rel="stylesheet" href="/assets/css/vendor/scrollcraft.css?v=20260904b">
+<link rel="stylesheet" href="/assets/css/v3.css?v=20260904b">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"ProfessionalService","name":"Design of Man",
-"description":"Website creation and management. Strategy, design, build, and ongoing care.",
-"url":"https://www.designofman.com/","email":"hello@designofman.com","telephone":"+1-561-555-0100",
-"areaServed":"United States","priceRange":"$$",
-"address":{"@type":"PostalAddress","addressLocality":"Jupiter","addressRegion":"FL","addressCountry":"US"},
-"serviceType":["Website Development","Web App Development","Web Hosting and Maintenance"]}
+{"@context":"https://schema.org","@graph":[{"@type":["ProfessionalService","LocalBusiness"],"@id":"https://www.designofman.com/#studio","name":"Design of Man","alternateName":"Design of Man Studio","description":"Website creation and management for small businesses. Strategy, design, build, and ongoing care that does not stop at launch.","url":"https://www.designofman.com/","email":"hello@designofman.com","logo":{"@type":"ImageObject","@id":"https://www.designofman.com/#logo","url":"https://www.designofman.com/assets/img/logo-mark.png","caption":"Design of Man"},"image":"https://www.designofman.com/og.png","priceRange":"$$","currenciesAccepted":"USD","paymentAccepted":"Credit Card, ACH","address":{"@type":"PostalAddress","addressLocality":"Jupiter","addressRegion":"FL","postalCode":"33477","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":26.9342,"longitude":-80.0942},"areaServed":[{"@type":"AdministrativeArea","name":"Palm Beach County, Florida"},{"@type":"AdministrativeArea","name":"Martin County, Florida"},{"@type":"Country","name":"United States"}],"knowsAbout":["Web design","Web development","Search engine optimization","Website maintenance","Core Web Vitals","Web accessibility"],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"17:00"}],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Website creation and management","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Website design and development","description":"Custom sites built from a written scope, not a template."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Web application development","description":"Booking, accounts, payments and dashboards on the open web."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Website care and hosting","description":"Managed hosting, security updates, backups and content changes."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Search and performance","description":"Technical SEO, Core Web Vitals and analytics that is actually read."}}]}},{"@type":"WebSite","@id":"https://www.designofman.com/#website","url":"https://www.designofman.com/","name":"Design of Man","inLanguage":"en-US","publisher":{"@id":"https://www.designofman.com/#studio"}},{"@type":"WebPage","@id":"https://www.designofman.com/#page","url":"https://www.designofman.com/","name":"Design of Man &mdash; Website Creation &amp; Management","description":"Design of Man is a small studio in Jupiter, Florida building websites and web apps with obsessive craft. Strategy, design, build, and care that does not stop at launch.","inLanguage":"en-US","isPartOf":{"@id":"https://www.designofman.com/#website"},"about":{"@id":"https://www.designofman.com/#studio"},"primaryImageOfPage":{"@id":"https://www.designofman.com/#logo"}},{"@type":"FAQPage","@id":"https://www.designofman.com/#faq","mainEntity":[{"@type":"Question","name":"How much does a custom website cost?","acceptedAnswer":{"@type":"Answer","text":"It depends on what the site has to do. A brochure site for a local business and a custom build with booking, payments and integrations are very different jobs. The consult ends with an exact number for your scope."}},{"@type":"Question","name":"How long does a project take?","acceptedAnswer":{"@type":"Answer","text":"Simple sites launch in two to three weeks. Most business sites run four to six weeks from kickoff, and larger custom or e-commerce builds take eight to twelve. You get the schedule before we start."}},{"@type":"Question","name":"Will my site work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Always. Every site we build is responsive and tested across phones, tablets and desktops. Mobile is part of the process, not an afterthought."}},{"@type":"Question","name":"Do you handle hosting and updates after launch?","acceptedAnswer":{"@type":"Answer","text":"Yes. Care plans cover managed hosting, security updates, backups, uptime monitoring and content updates, priced to the site they look after."}},{"@type":"Question","name":"Can you redesign or migrate my existing site?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. We regularly rebuild aging sites and migrate content, domains and email from your old host with no downtime. We audit what you have and tell you honestly what is worth keeping."}}]}]}
 </script>
 </head>
 <body>
 
-<!-- The film is a gateway, not a wall. This is the first focusable thing on the
-     page, so a keyboard or screen-reader user is never made to scroll ten
-     viewports of scrubbed video to reach the content. -->
-<a class="skip-link" href="#site">Skip film, enter site</a>
-<span data-sc-progress></span>
+<a class="skip-link" href="#site">Skip to content</a>
 
 <header class="bar">
-  <a href="/" class="mark"><svg viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg><span>Design of Man</span></a>
-  <nav aria-label="Main">
-    <a href="/work">Work</a>
-    <a href="/services">Services</a>
-    <a href="/studio">Studio</a>
-    <a href="/contact">Contact</a>
-  </nav>
+  <div class="bar__inner">
+    <a href="/" class="mark"><svg viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg><span>Design of Man</span></a>
+    <nav aria-label="Main">
+      <a href="/work">Work</a>
+      <a href="/services">Services</a>
+      <a href="/studio">Studio</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
 </header>
 
-<main>
+<main id="main">
 
-  <!-- 1+2 · THE CROSSING, then ARRIVAL. One scrub device, two beats: the film
-       is a single unbroken shot and splitting it into two acts would put the
-       same device family twice in a row for no gain. clip-map="travel" lands
-       the last frame exactly at the end of the pin, which is where the glass
-       layer below takes over. -->
-  <section class="film" id="film" data-sc-act="scrub" data-sc-span="5.2"
-           data-sc-dwell="0.30" data-sc-clip-map="travel" data-sc-drift="#0b0c0e" style="--sc-span:5.2">
-    <div data-sc-stage>
-      <img class="sc-stage__poster" src="/assets/video/sc/film-poster.jpg?v=20260824a" alt="">
-      <video data-sc-scrub
-             data-sc-src="/assets/video/sc/film.mp4?v=20260824a"
-             data-sc-src-mobile="/assets/video/sc/film-m.mp4?v=20260824a"
-             muted playsinline preload="none"></video>
-      <div class="film__scrim" aria-hidden="true"></div>
+  <!-- THE LIGHTHOUSE. Ambient, not scroll-scrubbed: the drone orbit around the
+       real Jupiter Inlet Lighthouse plays once the browser judges it worth
+       autoplaying, then loops. Nothing about the page depends on scroll
+       position to make sense -- turn the motion off entirely and the poster
+       frame alone still says exactly where this studio is. -->
+  <section class="hero" id="hero">
+    <div class="hero__media" aria-hidden="true">
+      <picture>
+        <source type="image/webp" sizes="100vw"
+                srcset="/assets/video/lighthouse/lighthouse-poster-960.webp?v=20260904b 960w,
+                        /assets/video/lighthouse/lighthouse-poster-1200.webp?v=20260904b 1200w,
+                        /assets/video/lighthouse/lighthouse-poster-1920.webp?v=20260904b 1920w">
+        <img src="/assets/video/lighthouse/lighthouse-poster.jpg?v=20260904b" alt=""
+             width="1920" height="1080" fetchpriority="high" decoding="async">
+      </picture>
+      <video id="heroVideo" autoplay muted loop playsinline
+             poster="/assets/video/lighthouse/lighthouse-poster.jpg?v=20260904b"
+             preload="none">
+        <!-- Ordered mobile-then-desktop, mp4-then-webm: hero-video.js swaps
+             every data-src's extension to .webm first when the browser lacks
+             a licensed H.264 decoder (Firefox and codec-stripped Chromium
+             builds), so this pair of <source> elements never both resolve at
+             once. -->
+        <source data-src="/assets/video/lighthouse/lighthouse-m.mp4?v=20260904b" type="video/mp4" media="(max-width: 720px)">
+        <source data-src="/assets/video/lighthouse/lighthouse.mp4?v=20260904b" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero__scrim" aria-hidden="true"></div>
 
-      <div class="sc-copy sc-copy--lead" data-sc-cue="0 0.30 0">
-        <h1 class="sc-display sc-display--xl" data-sc-kinetic="lines">Most people are <em>looking</em> for it.</h1>
-        <p class="sc-body">Your customers are already searching. The only question is whether they find you.</p>
+    <div class="hero__content">
+      <span class="hero__kicker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/><circle cx="12" cy="12" r="3.4"/></svg>
+        Jupiter Inlet Lighthouse &middot; Jupiter, Florida
+      </span>
+      <h1 class="sc-display sc-display--xl" data-sc-kinetic="lines">A studio on the <em>inlet</em>, built to hold the light.</h1>
+      <p class="sc-body">Design of Man builds and looks after websites and web apps for businesses up and down the Treasure Coast. Custom-built, plainly priced, and still answered a year after launch &mdash; the way a lighthouse keeper stays.</p>
+      <div class="hero__cta">
+        <a class="btn" href="#consult">Book a free consult</a>
+        <a class="btn btn--quiet" href="#what-we-do">See what we build</a>
       </div>
-
-      <div class="sc-copy sc-copy--lead" data-sc-cue="0.46 0.70">
-        <p class="beat sc-display sc-display--lg" data-sc-kinetic="lines">Getting found takes <em>ground</em>.</p>
-        <p class="sc-body">Search, structure, speed, and content that earns its place. Nobody arrives by accident.</p>
+      <div class="hero__meta">
+        <span>Jupiter, FL, serving Palm Beach &amp; Martin County</span>
+        <span>Fixed price, agreed in writing</span>
+        <span>Care that does not stop at launch</span>
       </div>
     </div>
+
+    <a class="hero__cue" href="#what-we-do">Scroll</a>
   </section>
 
-  <!-- 3 · THE SCREEN. The peak, and the largest span on the page. This section
-       owns the scroll; what draws is the fixed .glass layer below, because the
-       payoff has to survive the scrub stage unsticking underneath it. -->
-  <section id="peak" data-sc-act="pin" data-sc-span="2.4" data-sc-drift="#0b0c0e" style="--sc-span:2.4">
-    <div data-sc-stage aria-hidden="true"></div>
-  </section>
-
-
-  <!-- ══ THE SITE ══ Everything below is what the film delivers you into. The
-       boot resolves the white screen to this ground, so there is no second
-       transition: you are simply inside. -->
+  <!-- ══ THE SITE ══ -->
   <div id="site">
 
-  <section class="sc-section band" id="about">
+  <section class="sc-section band" id="what-we-do">
     <div class="sc-wrap">
-      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">We build the foundation your business stands on.</h2>
+      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">What we actually do.</h2>
       <div class="lede" data-sc-in data-sc-stagger="80">
-        <p class="sc-body">Design of Man is a small studio with one focus: websites that work, and keep working. We handle the full arc, from design and development to launch and the ongoing care after it.</p>
-        <p class="sc-body">No templates stretched to fit. No jargon-filled proposals. Clear plans, honest timelines, and sites built to hold up as your business grows.</p>
+        <p class="sc-body">Design of Man is a two-person studio that designs, builds, and then keeps running websites and web apps. Not a marketing agency that also touches code, and not a freelancer who disappears after launch &mdash; the same people who scope your project are the ones who build it and the ones who answer when something needs fixing.</p>
+        <p class="sc-body">We work mostly with clinics, trades, and local service businesses from Jupiter down through Palm Beach County, though plenty of the work is remote. No templates stretched to fit, no jargon-filled proposals: a clear written plan, a fixed number, and a site built to hold up as your business grows.</p>
       </div>
       <div class="cards three" data-sc-in data-sc-stagger="90">
-      <div class="card"><h3>Clarity</h3><p>No jargon, no static. Every project starts with a plan you can actually read.</p></div>
-      <div class="card"><h3>Craft</h3><p>Custom-built, not templated. Your site is made for your business, not shoehorned into one.</p></div>
-      <div class="card"><h3>Care</h3><p>We do not disappear after launch. Hosting and maintenance are part of the deal.</p></div>
+      <div class="card"><h3>Build it</h3><p>Custom website and web app design and development, written by hand from a scope you approved &mdash; not assembled from a page builder and a stack of plugins.</p></div>
+      <div class="card"><h3>Wire it up</h3><p>Booking, payments, CRM, analytics and content migrated from your old site, tested for real before anyone calls it done.</p></div>
+      <div class="card"><h3>Keep it running</h3><p>Managed hosting, security updates, backups, and someone who picks up when you email &mdash; for as long as you want us on it.</p></div>
       </div>
-      <p class="sc-body note" data-sc-in><a href="/studio">More about the studio</a></p>
+      <p class="sc-body note" data-sc-in><a href="/services">Everything we build, in detail</a> &middot; <a href="/studio">More about the studio</a> &middot; <a href="/web-design-jupiter-fl">Working with us locally</a></p>
     </div>
   </section>
 
-  <section class="sc-section band band--alt" id="services">
-    <div class="sc-wrap">
-      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Two starting points, one proven blueprint.</h2>
-      <p class="sc-body lede" data-sc-in>Whether you need a website, an app, or both, every build follows the same route: design, implementation, and long-term care.</p>
-      <div class="cards" data-sc-in data-sc-stagger="80">
-      <div class="card"><h3>Custom Website Development</h3><p>Responsive, custom-built sites, written by hand rather than assembled from plugins.</p></div>
-      <div class="card"><h3>Custom App Development</h3><p>Web and mobile apps, built to scale with what you actually sell.</p></div>
-      <div class="card"><h3>Design</h3><p>UX, wireframes and visual direction, refined with your feedback rather than presented at you.</p></div>
-      <div class="card"><h3>Implementation</h3><p>Domains, migrations, payments, CRM and analytics, wired up and tested for real.</p></div>
-      <div class="card"><h3>Hosting and Maintenance</h3><p>Hosting, security, backups, updates and support, for as long as you want us on it.</p></div>
-      </div>
-      <p class="sc-body note" data-sc-in><a href="/services">Everything we do, in detail</a></p>
-    </div>
-  </section>
-
-  <section class="sc-section band" id="why">
+  <section class="sc-section band band--alt" id="why">
     <div class="sc-wrap">
       <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">The difference, plainly.</h2>
       <div class="cards two" data-sc-in data-sc-stagger="90">
@@ -144,7 +142,7 @@
     </div>
   </section>
 
-  <section class="sc-section band band--alt" id="process">
+  <section class="sc-section band" id="process">
     <div class="sc-wrap">
       <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">From first sketch to launch day.</h2>
       <ol class="steps" data-sc-in data-sc-stagger="70">
@@ -158,7 +156,7 @@
     </div>
   </section>
 
-  <section class="sc-section band" id="pricing">
+  <section class="sc-section band band--alt" id="pricing">
     <div class="sc-wrap">
       <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Simple plans, no surprises.</h2>
       <p class="sc-body lede" data-sc-in>Three ways we usually work. Every build is scoped to what it actually needs, so your free consult gets you an exact quote, not a number off a list.</p>
@@ -186,19 +184,22 @@
     </div>
   </section>
 
-  <section class="sc-section band band--alt" id="testimonials">
+  <section class="sc-section band" id="proof">
     <div class="sc-wrap">
-      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Built for them. In their words.</h2>
-      <div class="cards three" data-sc-in data-sc-stagger="90">
-        <blockquote class="card quote"><p>They took our tired old site and turned it into something we are proud to send people to. Launched ahead of schedule, too.</p></blockquote>
-        <blockquote class="card quote"><p>What sold me was that they did not disappear after launch. The maintenance plan means I never think about my website. It just works.</p></blockquote>
-        <blockquote class="card quote"><p>Clear pricing, honest timelines, and a team that actually explained things. Our new site loads fast and our bookings are up.</p></blockquote>
+      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Proof, not adjectives.</h2>
+      <div class="lede" data-sc-in>
+        <p class="sc-body">First Rehabilitation of North Palm Beach came off a dated template site in July 2026. This is what Google recorded in the 32 days after launch, against the 32 days before it.</p>
       </div>
-      <p class="sc-body note" data-sc-in><a href="/work">See the before and after</a></p>
+      <div class="metrics" data-sc-in data-sc-stagger="90" style="max-width:52rem">
+        <div class="metric"><b>+50%</b><span>Organic clicks</span></div>
+        <div class="metric"><b>+132%</b><span>Search impressions</span></div>
+        <div class="metric"><b>22</b><span>Enquiries, first 30 days</span></div>
+      </div>
+      <p class="sc-body note" data-sc-in>Google Search Console, weekday to weekday. The enquiry count is from the site&rsquo;s own form &mdash; the previous site had no lead capture, so there is no percentage to quote. <a href="/case-first-rehab">Read the case study</a>, or <a href="/work">see the before and after</a>.</p>
     </div>
   </section>
 
-  <section class="sc-section band" id="faq">
+  <section class="sc-section band band--alt" id="faq">
     <div class="sc-wrap narrow">
       <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Everything you would ask on the call.</h2>
       <div data-sc-in data-sc-stagger="60">
@@ -211,14 +212,13 @@
     </div>
   </section>
 
-  <section class="sc-section band band--alt" id="consult">
+  <section class="sc-section band" id="consult">
     <div class="sc-wrap narrow">
       <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Let us draw up the plan.</h2>
       <p class="sc-body lede" data-sc-in>Tell us about your project. We reply within one business day to set up a free, no-pressure 30-minute call.</p>
-      <!-- PRE-LAUNCH: action still carries Formspree's YOUR_FORM_ID placeholder.
-           See PRELAUNCH.md. The form degrades to the mailto link below it. -->
-      <form class="form" id="consultForm" method="POST"
-            action="https://formspree.io/f/YOUR_FORM_ID" data-sc-in>
+      <form class="form" id="consultForm" method="POST" action="/api/contact" data-sc-in>
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="_t" value="">
         <div class="field"><label for="cf-name">Name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
         <div class="field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
         <div class="field"><label for="cf-company">Business <span class="opt">optional</span></label><input id="cf-company" name="company" type="text" autocomplete="organization"></div>
@@ -240,80 +240,41 @@
 
   </div><!-- /#site -->
 
-  <!-- THE CLOSE. Last element on the page. The moor comes back behind it and the
-       bezel retreats, so the page resolves by leaving the machine rather than
-       fading to a footer. -->
-  <section id="join" data-sc-act="pin" data-sc-span="1.4" data-sc-drift="#0b0c0e" style="--sc-span:1.4">
-    <div data-sc-stage class="close" id="closeStage" data-sc-spotlight>
-      <div class="close__inner">
-        <h2 class="sc-display sc-display--lg" data-sc-cue="0 1 0 0" data-sc-kinetic="lines">Let&rsquo;s build something <em>honest</em>.</h2>
-        <p class="sc-body" data-sc-cue="0 1 0 0">One studio, from the first sketch to the hosting bill.</p>
-        <a class="btn" href="#consult" data-sc-magnet="0.24" data-sc-cue="0 1 0 0" data-sc-rise="0">Start a Project</a>
-      </div>
-      <div class="foot">
-        <span>&copy; 2026 Design of Man. Website creation and management.</span>
-        <nav aria-label="Footer">
-          <a href="/work">Work</a>
-          <a href="/services">Services</a>
-          <a href="/process">Process</a>
-          <a href="/studio">Studio</a>
-          <a href="/pricing">Pricing</a>
-          <a href="/contact">Contact</a>
-          <a href="/pay">Pay</a>
-        </nav>
-      </div>
+  <!-- THE CLOSE. A plain closing offer, not a reveal mechanism -- the payoff
+       here is the offer itself. -->
+  <section class="close">
+    <div class="sc-wrap close__inner">
+      <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Let&rsquo;s build something <em>honest</em>.</h2>
+      <p class="sc-body">One studio, from the first sketch to the hosting bill.</p>
+      <a class="btn" href="#consult">Start a Project</a>
     </div>
   </section>
 
 </main>
 
-<!-- The signature move. Opens on the film's own final frame so the cut is
-     invisible, then flies the site off the laptop's real glass until it is the
-     viewport. inert until the panel is big enough to read and click. -->
-<div class="glass" id="glass" aria-hidden="true" inert>
-  <img class="glass__still" id="glassStill" src="/assets/video/sc/film-end.jpg?v=20260824a" alt="">
-  <div class="panel" id="panel">
-    <!-- What the machine is showing while you are still walking up to it. The
-         plate's screen is blown out to rgb(244,250,243), so the panel matches
-         that exactly: white on white means the weld cannot betray itself. -->
-    <div class="panel__boot" aria-hidden="true">
-      <svg class="panel__mark" viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg>
-      <span class="panel__word">Design of Man</span>
-      <!-- DAGAZ, OTHALA, MANNAZ. Elder Futhark for D, O, M, which is also
-           daybreak, homestead and man: the film is two men crossing a dark moor
-           toward a light, so the initials happen to say the right thing.
-
-           Drawn, not typed. The Runic block is real Unicode but almost nothing
-           ships a font for it outside Segoe UI Historic, so setting these as
-           characters would hand a lot of visitors three tofu boxes at the exact
-           moment the page is trying to land. Runes are straight lines, so they
-           are <line> elements like the mark above them. The proportions are
-           traced off FreeMono's own outlines, measured column by column.
-
-           It is also the progress bar: each glyph sits at a faint 0.18 until
-           --mark reaches it, so the same element reads as a divider first and a
-           loading indicator second. -->
-      <svg class="panel__rune" viewBox="0 0 150 18" fill="none" stroke="currentColor"
-           stroke-width="1.05" stroke-linecap="round" aria-hidden="true">
-        <line class="panel__rule" x1="0" y1="9.0" x2="40.61" y2="9.0" stroke-width="0.75"/>
-        <line class="panel__rule" x1="109.38" y1="9.0" x2="150" y2="9.0" stroke-width="0.75"/>
-        <g><!-- dagaz --><line x1="50.99" y1="0.00" x2="50.99" y2="18.00"/><line x1="61.63" y1="0.00" x2="61.63" y2="18.00"/><line x1="50.99" y1="0.00" x2="61.63" y2="18.00"/><line x1="50.99" y1="18.00" x2="61.63" y2="0.00"/></g>
-        <g><!-- othala --><line x1="76.74" y1="0.00" x2="72.61" y2="5.40"/><line x1="76.74" y1="0.00" x2="80.88" y2="5.40"/><line x1="72.61" y1="5.40" x2="76.74" y2="12.24"/><line x1="80.88" y1="5.40" x2="76.74" y2="12.24"/><line x1="76.74" y1="12.24" x2="71.69" y2="18.00"/><line x1="76.74" y1="12.24" x2="81.80" y2="18.00"/></g>
-        <g><!-- mannaz --><line x1="91.88" y1="0.00" x2="91.88" y2="18.00"/><line x1="98.99" y1="0.00" x2="98.99" y2="18.00"/><line x1="91.88" y1="0.00" x2="98.99" y2="9.00"/><line x1="98.99" y1="0.00" x2="91.88" y2="9.00"/></g>
-      </svg>
-    </div>
-    <div class="panel__inner">
-      <h2>Websites that work, and <em>keep</em> working.</h2>
-      <p>A small studio. Strategy, design, build, and care, by the people who read every line before they ship it.</p>
-      <a class="btn" href="#consult" id="panelCta">Start a Project</a>
-    </div>
+<footer class="site-foot">
+  <div class="sc-wrap">
+    <a href="/" class="mark"><svg viewBox="0 0 124 60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Design of Man"><line x1="16.0" y1="42.1" x2="23.9" y2="38.2" stroke-width="2.8"/><circle cx="27.0" cy="36.8" r="1.8" stroke="none" fill="currentColor"/><line x1="16.0" y1="42.1" x2="13.4" y2="52.0" stroke-width="2.2"/><line x1="16.0" y1="42.1" x2="19.4" y2="52.0" stroke-width="2.2"/><line x1="23.9" y1="38.2" x2="28.6" y2="43.4" stroke-width="1.8"/><line x1="46.0" y1="39.5" x2="53.8" y2="31.4" stroke-width="3.6"/><circle cx="56.8" cy="28.3" r="2.3" stroke="none" fill="currentColor"/><line x1="46.0" y1="39.5" x2="42.7" y2="52.0" stroke-width="2.8"/><line x1="46.0" y1="39.5" x2="50.3" y2="52.0" stroke-width="2.8"/><line x1="53.8" y1="31.4" x2="59.5" y2="38.0" stroke-width="2.2"/><line x1="78.0" y1="36.8" x2="83.1" y2="24.2" stroke-width="4.3"/><circle cx="85.0" cy="19.4" r="2.8" stroke="none" fill="currentColor"/><line x1="78.0" y1="36.8" x2="74.0" y2="52.0" stroke-width="3.4"/><line x1="78.0" y1="36.8" x2="83.2" y2="52.0" stroke-width="3.4"/><line x1="83.1" y1="24.2" x2="88.7" y2="32.2" stroke-width="2.7"/><line x1="110.0" y1="34.5" x2="111.6" y2="19.0" stroke-width="5.0"/><circle cx="112.3" cy="13.0" r="3.2" stroke="none" fill="currentColor"/><line x1="110.0" y1="34.5" x2="105.4" y2="52.0" stroke-width="3.9"/><line x1="110.0" y1="34.5" x2="116.0" y2="52.0" stroke-width="3.9"/><line x1="111.6" y1="19.0" x2="116.3" y2="28.2" stroke-width="3.1"/></svg><span>Design of Man</span></a>
+    <nav aria-label="Footer">
+      <a href="/work">Work</a>
+      <a href="/services">Services</a>
+      <a href="/process">Process</a>
+      <a href="/studio">Studio</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/insights">Insights</a>
+      <a href="/web-design-jupiter-fl">Jupiter, FL</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <small>&copy; 2026 Design of Man. Website creation and management. Jupiter, Florida.</small>
   </div>
-</div>
-<div class="bezel" id="bezel" aria-hidden="true"></div>
+</footer>
 
-
-<script src="/assets/js/vendor/scrollcraft.js?v=20260824a"></script>
-<script src="/assets/js/v3.js?v=20260824a"></script>
-<script src="/assets/js/form.js?v=20260824a" defer></script>
+<script src="/assets/js/vendor/scrollcraft.js?v=20260904b"></script>
+<script src="/assets/js/page.js?v=20260904b"></script>
+<script src="/assets/js/hero-video.js?v=20260904b" defer></script>
+<script src="/assets/js/bar.js?v=20260904b" defer></script>
+<script src="/assets/js/form.js?v=20260904b" defer></script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

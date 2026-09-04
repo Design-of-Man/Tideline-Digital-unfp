@@ -34,6 +34,7 @@ BODY = phero(
       <div><h2 class="sc-display sc-display--md" data-sc-kinetic="lines">Web and mobile apps</h2></div>
       <div data-sc-in>
         <p class="sc-body">When the thing you sell needs accounts, dashboards, scheduling or a workflow your team lives inside, a brochure site will not carry it. We build the application instead, on the same principles: your data stays yours, the code stays legible, and the thing keeps working when you are not looking.</p>
+        <p class="sc-body">Most of this work is for businesses within twenty minutes of us &mdash; see <a href="/web-design-jupiter-fl">web design in Jupiter, Florida</a> for how a local project runs.</p>
         <p class="sc-body">We are honest about scope here. An app is a bigger commitment than a website, and most businesses that ask for one need three pages and a form. If that is you, we will say so before you spend anything.</p>
       </div>
     </div>
@@ -96,4 +97,5 @@ write("services.html",
       head("Services",
            "Custom websites, web and mobile apps, design, implementation, hosting and care. "
            "One small studio in Jupiter, Florida handling all of it.",
-           "/services") + BODY + foot())
+           "/services",
+           nodes=[crumbs([("/services", "Services")])]) + BODY + foot())

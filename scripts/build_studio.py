@@ -53,8 +53,9 @@ BODY = phero(
       <div data-sc-in>
         <p class="sc-body">Jupiter, Florida. Most of our clients are within an hour of here, which means we can sit across a table from you when that is the fastest way to settle something. The rest are anywhere, and the work runs the same way.</p>
         <dl class="rows" data-sc-in>
-          <div><dt>Phone</dt><dd><a href="tel:%s">%s</a></dd></div>
           <div><dt>Email</dt><dd><a href="mailto:%s">%s</a></dd></div>
+          <div><dt>Start here</dt><dd><a href="/contact">Book a free 30-minute consult</a></dd></div>
+          <div><dt>Read first</dt><dd><a href="/insights">Notes from the bench</a>, including what we got wrong on our own site</dd></div>
           <div><dt>Where</dt><dd>Jupiter, Florida</dd></div>
           <div><dt>Hours</dt><dd>Monday to Friday, 9 to 5 Eastern. Emails answered within one business day.</dd></div>
         </dl>
@@ -62,10 +63,11 @@ BODY = phero(
     </div>
   </div>
 </section>
-""" % (TELH, TELD, MAIL, MAIL) + nxt("/work", "Next", "The work itself")
+""" % (MAIL, MAIL) + nxt("/work", "Next", "The work itself")
 
 write("studio.html",
       head("Studio",
            "A small web studio in Jupiter, Florida. The person who scopes your project "
-           "designs it, builds it, and answers the phone after launch.",
-           "/studio") + BODY + foot())
+           "designs it, builds it, and is still the one answering you after launch.",
+           "/studio",
+           nodes=[crumbs([("/studio", "Studio")])]) + BODY + foot())

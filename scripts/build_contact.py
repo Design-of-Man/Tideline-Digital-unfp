@@ -3,12 +3,14 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from pages import *
 
 FORM = """
-      <!-- PRE-LAUNCH: action still carries Formspree's YOUR_FORM_ID placeholder.
-           See PRELAUNCH.md. assets/js/form.js keeps a submission from being lost
-           while that is true: it hands the filled-in fields to the visitor's mail
-           client and steps aside the moment a real endpoint is set. -->
-      <form class="form" id="consultForm" method="POST"
-            action="https://formspree.io/f/YOUR_FORM_ID" data-sc-in>
+      <!-- Posts to our own /api/contact (api/contact.mjs), not a third party.
+           Without JavaScript the browser posts natively and the function
+           answers with a 303; with it, form.js sends JSON and keeps the
+           visitor on the page. The two inputs below are the bot filters and
+           are never seen or tabbed to by a person. -->
+      <form class="form" id="consultForm" method="POST" action="/api/contact" data-sc-in>
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="_t" value="">
         <div class="field"><label for="cf-name">Name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
         <div class="field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
         <div class="field"><label for="cf-company">Business <span class="opt">optional</span></label><input id="cf-company" name="company" type="text" autocomplete="organization"></div>
@@ -37,14 +39,13 @@ BODY = phero(
   <div class="sc-wrap">
     <div class="split">
       <div>
-        <h2 class="sc-display sc-display--md" data-sc-kinetic="lines">We answer our own phone.</h2>
+        <h2 class="sc-display sc-display--md" data-sc-kinetic="lines">You get a person, not a queue.</h2>
         <dl class="rows" data-sc-in>
-          <div><dt>Phone</dt><dd><a href="tel:%s">%s</a></dd></div>
           <div><dt>Email</dt><dd><a href="mailto:%s">%s</a></dd></div>
+          <div><dt>Reply time</dt><dd>Within one business day, from the person who would do the work</dd></div>
           <div><dt>Where</dt><dd>Jupiter, Florida</dd></div>
           <div><dt>Hours</dt><dd>Monday to Friday, 9 to 5 Eastern</dd></div>
         </dl>
-        <p class="sc-body note" data-sc-in>Already a client with a billing question? <a href="/pay">Head to billing</a> instead.</p>
       </div>
       <div>
         <p class="sc-body" data-sc-in>Bring whatever you have: a rough idea, a competitor's site you like, or a list of everything wrong with your current one. We will tell you honestly what it takes, and whether we are the right people for it.</p>
@@ -76,10 +77,11 @@ BODY = phero(
     </div>
   </div>
 </section>
-""" % (TELH, TELD, MAIL, MAIL, FORM)
+""" % (MAIL, MAIL, FORM)
 
 write("contact.html",
       head("Contact",
            "Book a free 30-minute consult with a small web studio in Jupiter, Florida. "
            "You leave with a written scope and one exact number.",
-           "/contact") + BODY + foot())
+           "/contact",
+           nodes=[crumbs([("/contact", "Contact")])] + faq(BODY, "/contact")) + BODY + foot())

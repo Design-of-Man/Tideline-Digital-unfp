@@ -9,17 +9,30 @@ a different, broken mobile nav. One source, one shape.
 
 Run from the repo root:  python3 scripts/pages.py
 """
-import os, pathlib
+import json, os, pathlib, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-V    = "20260825a"                       # cache-buster, bumped per deploy
+V    = "20260904b"                       # cache-buster, bumped per deploy
 SITE = "https://www.designofman.com"
 MAIL = "hello@designofman.com"
-TEL   = "+1-561-555-0100"                # PLACEHOLDER: see PRELAUNCH.md
-TELH  = "+15615550100"
-TELD  = "(561) 555-0100"
+
+# There is no telephone constant. The site carried a reserved-for-fiction 555
+# number on four pages and in the structured data of every one of them, which
+# is worse than no number at all: a search engine reads it as the business's
+# real NAP data. Email and the form are the contact path until a real line
+# exists. Adding one back means a `TEL`/`TELH`/`TELD` triple here and a
+# "telephone" key in LOCAL below -- nowhere else.
 
 LOGO = (ROOT / "scripts" / "logo.svg").read_text().strip()
+
+# Vercel Web Analytics and Speed Insights, served from the deployment's own
+# origin rather than a vendor CDN. That matters twice: the Content-Security-
+# Policy in vercel.json can stay at script-src 'self' with no third-party host
+# punched through it, and there is no cross-origin request to consent to, so
+# the site needs no cookie banner. Both are inert until enabled in the Vercel
+# project settings, where the /_vercel/* routes are switched on.
+ANALYTICS = ('<script defer src="/_vercel/insights/script.js"></script>\n'
+             '<script defer src="/_vercel/speed-insights/script.js"></script>')
 
 # Header nav. Four items is the most that survives 390px without a disclosure
 # button; Process, Pricing and Pay are reachable from the footer and from the
@@ -28,19 +41,127 @@ NAV = [("/work", "Work"), ("/services", "Services"),
        ("/studio", "Studio"), ("/contact", "Contact")]
 
 FOOTNAV = [("/work", "Work"), ("/services", "Services"), ("/process", "Process"),
-           ("/studio", "Studio"), ("/pricing", "Pricing"),
-           ("/contact", "Contact"), ("/pay", "Pay")]
+           ("/studio", "Studio"), ("/pricing", "Pricing"), ("/insights", "Insights"),
+           ("/web-design-jupiter-fl", "Jupiter, FL"),
+           ("/contact", "Contact")]
 
-LD = ('{"@context":"https://schema.org","@type":"ProfessionalService","name":"Design of Man",'
-      '"description":"Website creation and management. Strategy, design, build, and ongoing care.",'
-      f'"url":"{SITE}/","email":"{MAIL}","telephone":"{TEL}",'
-      '"areaServed":"United States","priceRange":"$$",'
-      '"address":{"@type":"PostalAddress","addressLocality":"Jupiter","addressRegion":"FL","addressCountry":"US"},'
-      '"serviceType":["Website Development","Web App Development","Web Hosting and Maintenance"]}')
+# ------------------------------------------------------------------ schema --
+# One @graph per page rather than a pile of loose <script> blocks. Every node
+# carries a stable @id so the studio, the site and the page reference each
+# other instead of being re-declared -- which is what lets Google resolve the
+# whole site to a single entity rather than eight unrelated business listings.
+#
+# There is no "telephone" and no "sameAs": both were invented in the previous
+# build and a fabricated social profile or phone number in structured data is
+# worse than an absent one. Add them here when they are real.
+STUDIO_ID  = f"{SITE}/#studio"
+WEBSITE_ID = f"{SITE}/#website"
+
+STUDIO = {
+    "@type": ["ProfessionalService", "LocalBusiness"],
+    "@id": STUDIO_ID,
+    "name": "Design of Man",
+    "alternateName": "Design of Man Studio",
+    "description": ("Website creation and management for small businesses. Strategy, "
+                    "design, build, and ongoing care that does not stop at launch."),
+    "url": f"{SITE}/",
+    "email": MAIL,
+    "logo": {"@type": "ImageObject", "@id": f"{SITE}/#logo",
+             "url": f"{SITE}/assets/img/logo-mark.png", "caption": "Design of Man"},
+    "image": f"{SITE}/og.png",
+    "priceRange": "$$",
+    "currenciesAccepted": "USD",
+    "paymentAccepted": "Credit Card, ACH",
+    "address": {"@type": "PostalAddress", "addressLocality": "Jupiter",
+                "addressRegion": "FL", "postalCode": "33477", "addressCountry": "US"},
+    "geo": {"@type": "GeoCoordinates", "latitude": 26.9342, "longitude": -80.0942},
+    "areaServed": [
+        {"@type": "AdministrativeArea", "name": "Palm Beach County, Florida"},
+        {"@type": "AdministrativeArea", "name": "Martin County, Florida"},
+        {"@type": "Country", "name": "United States"},
+    ],
+    "knowsAbout": ["Web design", "Web development", "Search engine optimization",
+                   "Website maintenance", "Core Web Vitals", "Web accessibility"],
+    "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00", "closes": "17:00"}],
+    "hasOfferCatalog": {
+        "@type": "OfferCatalog", "name": "Website creation and management",
+        "itemListElement": [
+            {"@type": "Offer", "itemOffered": {
+                "@type": "Service", "name": "Website design and development",
+                "description": "Custom sites built from a written scope, not a template."}},
+            {"@type": "Offer", "itemOffered": {
+                "@type": "Service", "name": "Web application development",
+                "description": "Booking, accounts, payments and dashboards on the open web."}},
+            {"@type": "Offer", "itemOffered": {
+                "@type": "Service", "name": "Website care and hosting",
+                "description": "Managed hosting, security updates, backups and content changes."}},
+            {"@type": "Offer", "itemOffered": {
+                "@type": "Service", "name": "Search and performance",
+                "description": "Technical SEO, Core Web Vitals and analytics that is actually read."}},
+        ]},
+}
+
+WEBSITE = {
+    "@type": "WebSite", "@id": WEBSITE_ID, "url": f"{SITE}/",
+    "name": "Design of Man", "inLanguage": "en-US",
+    "publisher": {"@id": STUDIO_ID},
+}
 
 
-def head(title, desc, path, robots="index, follow", extra="", canonical=True):
-    full = f"Design of Man &mdash; {title}" if title else "Design of Man"
+def crumbs(trail):
+    """trail: [(path, name), ...] -- the home crumb is added here."""
+    items = [(f"{SITE}/", "Home")] + [(f"{SITE}{h}", n) for h, n in trail]
+    return {"@type": "BreadcrumbList", "@id": f"{SITE}{trail[-1][0]}#crumbs",
+            "itemListElement": [
+                {"@type": "ListItem", "position": i + 1, "name": n, "item": u}
+                for i, (u, n) in enumerate(items)]}
+
+
+def faq(body, path):
+    """FAQPage built by reading the page's own <details class="qa"> blocks.
+
+    Hand-writing the schema next to the copy guarantees it drifts: someone
+    edits an answer, nobody edits the JSON, and Google is served a question
+    the page no longer answers. Scraping the rendered body cannot drift.
+    """
+    pairs = re.findall(
+        r'<details class="qa"><summary>(.*?)</summary>(.*?)</details>', body, re.S)
+    if not pairs:
+        return []
+    def text(h):
+        return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", h)).strip()
+    return [{
+        "@type": "FAQPage", "@id": f"{SITE}{path}#faq",
+        "mainEntity": [
+            {"@type": "Question", "name": text(q),
+             "acceptedAnswer": {"@type": "Answer", "text": text(a)}}
+            for q, a in pairs],
+    }]
+
+
+def graph(path, title, desc, extra=None):
+    page = {
+        "@type": "WebPage", "@id": f"{SITE}{path}#page", "url": f"{SITE}{path}",
+        "name": title, "description": desc, "inLanguage": "en-US",
+        "isPartOf": {"@id": WEBSITE_ID}, "about": {"@id": STUDIO_ID},
+        "primaryImageOfPage": {"@id": f"{SITE}/#logo"},
+    }
+    nodes = [STUDIO, WEBSITE, page] + list(extra or [])
+    return ('<script type="application/ld+json">\n'
+            + json.dumps({"@context": "https://schema.org", "@graph": nodes},
+                         separators=(",", ":"), ensure_ascii=False)
+            + "\n</script>")
+
+
+def head(title, desc, path, robots="index, follow", extra="", canonical=True,
+         nodes=None, og_type="website", title_full=None):
+    # A long editorial headline makes a bad <title>: Google truncates around 60
+    # characters and the brand prefix eats a third of that. `title_full` lets a
+    # page set the tag independently of the headline shown on the page.
+    full = title_full or (f"Design of Man &mdash; {title}" if title else "Design of Man")
     CANON = (f'<link rel="canonical" href="{SITE}{path}">' if canonical
              else "<!-- no canonical: this page is a status response, not a destination -->")
     return f"""<!DOCTYPE html>
@@ -53,7 +174,7 @@ def head(title, desc, path, robots="index, follow", extra="", canonical=True):
 <meta name="theme-color" content="#0b0c0e">
 <title>{full}</title>
 {CANON}
-<meta property="og:type" content="website">
+<meta property="og:type" content="{og_type}">
 <meta property="og:url" content="{SITE}{path}">
 <meta property="og:site_name" content="Design of Man">
 <meta property="og:title" content="{full}">
@@ -73,9 +194,7 @@ def head(title, desc, path, robots="index, follow", extra="", canonical=True):
 <link rel="stylesheet" href="/assets/css/fonts.css?v={V}">
 <link rel="stylesheet" href="/assets/css/vendor/scrollcraft.css?v={V}">
 <link rel="stylesheet" href="/assets/css/v3.css?v={V}">
-<script type="application/ld+json">
-{LD}
-</script>{extra}
+{graph(path, full, desc, nodes)}{extra}
 </head>
 <body class="has-bar">
 
@@ -93,9 +212,11 @@ def header(path):
         '\n    <a href="%s"%s>%s</a>' % (h, cur if h == path else "", t)
         for h, t in NAV)
     return f"""<header class="bar">
-  <a href="/" class="mark">{LOGO}<span>Design of Man</span></a>
-  <nav aria-label="Main">{links}
-  </nav>
+  <div class="bar__inner">
+    <a href="/" class="mark">{LOGO}<span>Design of Man</span></a>
+    <nav aria-label="Main">{links}
+    </nav>
+  </div>
 </header>"""
 
 
@@ -125,7 +246,9 @@ def foot():
 
 <script src="/assets/js/vendor/scrollcraft.js?v={V}"></script>
 <script src="/assets/js/page.js?v={V}"></script>
+<script src="/assets/js/bar.js?v={V}" defer></script>
 <script src="/assets/js/form.js?v={V}" defer></script>
+{ANALYTICS}
 </body>
 </html>
 """
@@ -149,5 +272,7 @@ def phero(h1, lede, meta=None, cta=None, back=None):
 
 
 def write(name, body):
-    (ROOT / name).write_text(body)
+    out = ROOT / name
+    out.parent.mkdir(parents=True, exist_ok=True)   # /insights/<slug>.html
+    out.write_text(body)
     print(f"  {name:26} {len(body):7,} bytes")
