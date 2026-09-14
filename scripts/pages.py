@@ -29,7 +29,7 @@ NAV = [("/work", "Work"), ("/services", "Services"),
 
 FOOTNAV = [("/work", "Work"), ("/services", "Services"), ("/process", "Process"),
            ("/studio", "Studio"), ("/pricing", "Pricing"),
-           ("/contact", "Contact"), ("/pay", "Pay")]
+           ("/contact", "Contact")]
 
 LD = ('{"@context":"https://schema.org","@type":"ProfessionalService","name":"Design of Man",'
       '"description":"Website creation and management. Strategy, design, build, and ongoing care.",'

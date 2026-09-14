@@ -2,6 +2,24 @@ import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from pages import *
 
+# /pay is switched OFF (2026-09-14, at the owner's request).
+#
+# The page carries REPLACE_FORM_ID and REPLACE_PORTAL_LINK on a flow whose whole
+# job is taking money, so a client hitting it half-built is worse than not
+# finding it: vercel.json now redirects /pay and /pay.html to /contact, the tab
+# is out of every footer, and pay.html is not shipped.
+#
+# Nothing here is deleted. Set the real Formspree ID and Stripe portal link,
+# then bring it back deliberately:
+#
+#     python3 scripts/build_pay.py --enable
+#
+# and restore the ("/pay", "Pay") entry in FOOTNAV in scripts/pages.py plus the
+# two redirects in vercel.json.
+if "--enable" not in sys.argv:
+    print("  pay.html                   SKIPPED - /pay is off, see PRELAUNCH.md")
+    raise SystemExit(0)
+
 BODY = phero(
     "Settle up in <em>about a minute</em>.",
     "Pay an invoice or manage your monthly plan. Everything runs through Stripe, "

@@ -48,7 +48,7 @@ BODY = phero(
           <div><dt>Where</dt><dd>Jupiter, Florida</dd></div>
           <div><dt>Hours</dt><dd>Monday to Friday, 9 to 5 Eastern</dd></div>
         </dl>
-        <p class="sc-body note" data-sc-in>Already a client with a billing question? <a href="/pay">Head to billing</a> instead.</p>
+        <p class="sc-body note" data-sc-in>Already a client with a billing question? Email <a href="mailto:hello@designofman.com">hello@designofman.com</a> and we will sort it out.</p>
       </div>
       <div>
         <p class="sc-body" data-sc-in>Bring whatever you have: a rough idea, a competitor's site you like, or a list of everything wrong with your current one. We will tell you honestly what it takes, and whether we are the right people for it.</p>

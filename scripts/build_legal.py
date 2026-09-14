@@ -14,11 +14,25 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from pages import *
 
 ENTITY  = "Design of Man LLC"
-ADDR    = "REPLACE_ADDRESS"     # registered business address for legal notices
+ADDR    = ""                    # optional. Empty = do not publish a street address.
+                                # The registered office of a Florida LLC is public
+                                # record at sunbiz.org either way, and service of
+                                # process goes to the registered agent, so omitting
+                                # it here costs a reader nothing and keeps a home
+                                # address off a scraped, archived page.
+                                # NOTE: if marketing email ever starts, CAN-SPAM
+                                # requires a real postal address in every message.
 UPDATED = "14 September 2026"
 
+WHERE = (f"Registered address: {ADDR}." if ADDR else
+         "Design of Man LLC is a Florida limited liability company; its registered "
+         "office and registered agent are on public file with the Florida Division "
+         "of Corporations, and legal notice may be served there or by the contact "
+         "details below.")
+
 def sub(t):
-    return (t.replace("{{ENTITY}}", ENTITY).replace("{{ADDR}}", ADDR)
+    return (t.replace("{{WHERE}}", WHERE)
+             .replace("{{ENTITY}}", ENTITY).replace("{{ADDR}}", ADDR)
              .replace("{{MAIL}}", MAIL).replace("{{UPDATED}}", UPDATED)
              .replace("{{TELD}}", TELD))
 
@@ -46,7 +60,7 @@ PRIVACY = phero(
     meta=["Last updated {{UPDATED}}", "Jupiter, Florida"],
 ) + legal_section("Who is responsible.", [
     "{{ENTITY}} (&ldquo;Design of Man&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) operates designofman.com and is the data controller for the personal information described here.",
-    "Registered address: {{ADDR}}. Email: <a href=\"mailto:{{MAIL}}\">{{MAIL}}</a>. Phone: {{TELD}}.",
+    "{{WHERE}} Email: <a href=\"mailto:{{MAIL}}\">{{MAIL}}</a>. Phone: {{TELD}}.",
     "For anything on this page, including a request to see or delete your data, email us. A person reads that inbox; there is no ticket queue.",
 ])+ legal_section("What we collect.", [
     "<strong>What you send us.</strong> The consult form asks for your name, email address, an optional company name, the kind of project, and your message. The invoice form on the payment page asks for an invoice number and an email address. That is the whole list. Nothing is required that we do not need in order to reply.",
@@ -84,7 +98,7 @@ TERMS = phero(
     "by a separate written agreement, not by this page.",
     meta=["Last updated {{UPDATED}}", "Governed by Florida law"],
 ) + legal_section("Using this site.", [
-    "This website is operated by {{ENTITY}}, {{ADDR}}. By using it you accept these terms. If you do not, please do not use the site.",
+    "This website is operated by {{ENTITY}}, a Florida limited liability company. By using it you accept these terms. If you do not, please do not use the site.",
     "You may read, print and share these pages for your own use. You may not copy the design, code, text or photography for a commercial purpose, scrape the site, attempt to break or overload it, or use it to send anything unlawful.",
 ]) + legal_section("What is on the page is not an offer.", [
     "Prices, packages and timeframes on this site are indicative. Nothing here is a binding offer and nothing forms a contract until we have both signed a written proposal that sets out the scope, the price and the schedule for your specific project.",

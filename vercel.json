@@ -140,6 +140,16 @@
       "source": "/blog",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/pay",
+      "destination": "/contact",
+      "permanent": false
+    },
+    {
+      "source": "/pay.html",
+      "destination": "/contact",
+      "permanent": false
     }
   ]
 }

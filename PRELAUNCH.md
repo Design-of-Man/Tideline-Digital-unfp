@@ -6,21 +6,35 @@ deliberate stand-in waiting on a real value, or a number only you can confirm.
 
 ## Blocking — added by the legal/compliance pass (2026-09-14)
 
-### 0. The legal pages still need a postal address
-The entity is set (`Design of Man LLC`) and the phone number is real. What is
-left is `REPLACE_ADDRESS` in `scripts/build_legal.py`: an address that can
-receive legal notice, which for an LLC is usually the registered agent address
-already on file with the Florida Division of Corporations. Set it, re-run
-`python3 scripts/build_legal.py`.
+### 0. ~~The legal pages need a postal address~~ — decided 2026-09-14
+Entity set to **Design of Man LLC**, phone set to the real number, and the
+**street address is deliberately not published**.
 
-A privacy policy that cannot be written to is a published representation
-nobody can act on.
+The registered address is the owner's home. A website privacy policy does not
+require a street address: UK/EU GDPR Article 13 requires the controller's
+*identity and contact details*, which the entity name, a monitored email and a
+real phone number satisfy, and service of process on a Florida LLC goes to the
+registered agent, which is already public record at sunbiz.org. Publishing it
+again on a page that gets scraped and archived adds exposure without adding a
+route anyone lacked.
 
-`grep -rn "REPLACE_ADDRESS" --include="*.html" .`
+`ADDR` in `scripts/build_legal.py` is empty and both pages fall back to naming
+the Division of Corporations filing. Setting it to a real string publishes it
+again everywhere, so if a registered agent service or a virtual business
+address is ever taken, put that there rather than the house.
+
+**One future trigger:** CAN-SPAM requires a valid physical postal address in
+every commercial email. The moment a newsletter starts, an address is needed —
+in the email, not necessarily on the site.
 
 ## Blocking — the site must not go to a custom domain with these in place
 
-### 1. The phone number is fake
+### 1. ~~The phone number is fake~~ — done 2026-09-14
+Set to (561) 324-1658 in `scripts/pages.py` and in the hand-maintained JSON-LD
+of `index.html`. Nothing that ships carries a 555 number.
+
+<details><summary>original note</summary>
+
 `(561) 555-0100` is a reserved-for-fiction 555 number, and it is now on four
 pages plus the structured data every page carries:
 
@@ -32,6 +46,7 @@ Change those three constants, re-run the page scripts, and it is fixed
 everywhere at once.
 
 `grep -rn "555-0100" --include="*.html" .`
+</details>
 
 ### 2. The contact form has no endpoint
 `index.html` and `contact.html` both post to
@@ -48,7 +63,18 @@ native POST runs. No other change needed.
 > The fallback is a stopgap, not the plan. A visitor on a device with no mail
 > client configured still cannot send. Set the real ID.
 
-### 3. `/pay` has two live placeholders that take money
+### 3. ~~`/pay` has two live placeholders that take money~~ — switched off 2026-09-14
+`/pay` is **off at the owner's request**. `pay.html` is not shipped, the tab is
+out of every footer, the pricing CTA and the contact-page billing link are gone,
+and `vercel.json` redirects `/pay` and `/pay.html` to `/contact` (temporary, not
+301, so the URL is not burned). `scripts/build_pay.py` refuses to emit the page
+unless run with `--enable`, so a routine rebuild cannot bring it back half-built.
+
+To switch it on: set the two real values, run `python3 scripts/build_pay.py --enable`,
+restore `("/pay", "Pay")` in `FOOTNAV`, and drop the two redirects.
+
+<details><summary>original note</summary>
+
 Worse than a dead form, because a client is trying to pay you. **Both still need
 real values** — but neither loses anything silently any more (2026-08-24):
 
@@ -66,6 +92,7 @@ Both guards test the live attribute, so dropping in the real values turns them
 off automatically. The preflight still blocks on these three, by design.
 
 `grep -rn "REPLACE_" --include="*.html" .`
+</details>
 
 ### 4. ~~The performance numbers are unverified~~ — done 2026-08-24
 `/work` and `/case-first-rehab` claimed **+186% organic traffic, +72%
@@ -225,11 +252,12 @@ answer that costs money later.
   the Viking sequence, and it is the single largest piece of published media on
   the site. Two things follow from that:
 
-  1. **Commercial use depends entirely on the generator's terms.** Most paid
-     tiers grant it; several free tiers do not, and a few grant it only while
-     the subscription is live. Confirm the plan the render was made on and keep
-     the licence text and the generation receipt with the project files. This
-     is the one media question on the site with a real downside.
+  1. **Generated on a paid Higgsfield subscription** (confirmed 2026-09-14),
+     which is the tier that carries commercial-use rights. Keep the invoice, the
+     plan name and the generation record with the project files: the licence is
+     only useful if it can be produced later, and "we were on the paid plan" is
+     not evidence two years from now. Re-check the terms if the subscription
+     ever lapses, since some grants are tied to an active plan.
   2. **Purely AI-generated output has no human author, so it is generally not
      copyrightable in the US** (Copyright Office guidance; *Thaler*). Design of
      Man can use the film, but cannot stop a competitor using the same render.
