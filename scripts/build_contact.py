@@ -22,6 +22,10 @@ FORM = """
             <option>Something else</option>
           </select></div>
         <div class="field"><label for="cf-message">Tell us a little about it</label><textarea id="cf-message" name="message" rows="5" required></textarea></div>
+        <div class="consent">
+          <input type="checkbox" id="cf-consent" name="consent" value="yes" required>
+          <label for="cf-consent">I agree that Design of Man can use these details to reply to my enquiry. We will not add you to a mailing list. <a href="/privacy">Privacy policy</a>.</label>
+        </div>
         <button class="btn" type="submit">Book my consult</button>
         <p class="form__note" role="status">We reply within one business day. Prefer email? <a href="mailto:%s">%s</a></p>
       </form>

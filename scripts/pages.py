@@ -119,6 +119,11 @@ def foot():
     <a href="/" class="mark">{LOGO}<span>Design of Man</span></a>
     <nav aria-label="Footer">{links}
     </nav>
+    <nav aria-label="Legal">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/cookies">Cookies</a>
+    </nav>
     <small>&copy; 2026 Design of Man. Website creation and management. Jupiter, Florida.</small>
   </div>
 </footer>

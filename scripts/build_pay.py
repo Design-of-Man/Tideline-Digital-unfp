@@ -84,6 +84,10 @@ BODY = phero(
           <div class="field"><label for="r-email">Email on the account</label><input id="r-email" name="email" type="email" autocomplete="email" required></div>
           <div class="field"><label for="r-invoice">Invoice number <span class="opt">if you have it</span></label><input id="r-invoice" name="invoice" type="text" placeholder="DOM-1042"></div>
           <div class="field"><label for="r-note">Anything else</label><textarea id="r-note" name="message" rows="4"></textarea></div>
+        <div class="consent">
+          <input type="checkbox" id="rs-consent" name="consent" value="yes" required>
+          <label for="rs-consent">I agree that Design of Man can use these details to find and resend my invoice. We will not add you to a mailing list. <a href="/privacy">Privacy policy</a>.</label>
+        </div>
           <button class="btn" type="submit">Resend my invoice</button>
           <p class="form__note" role="status">For security we resend to the email already on your account, never to a new one.</p>
         </form>
