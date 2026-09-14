@@ -22,7 +22,7 @@ BODY = phero(
     "Redesigns that moved the needle.",
     "The build we are free to show in full, with the old site still there to "
     "compare against. Where we have the numbers, they are measured, not estimated.",
-    meta=["Home watch", "Orthopedics", "Physical therapy"],
+    meta=["Orthopedics", "Physical therapy"],
 ) + """
 <section class="sc-section band">
   <div class="sc-wrap">
@@ -55,18 +55,13 @@ BODY = phero(
 
 <section class="sc-section band band--alt">
   <div class="sc-wrap">
-    <h2 class="sc-display sc-display--md" data-sc-kinetic="lines">Also built recently.</h2>
-    <div class="cards" data-sc-in data-sc-stagger="90">
-      <div class="card">
-        <p class="proj__kind">Home watch &middot; Built from scratch</p>
-        <p>A brand new site for a firefighter-owned residential home-watch company, built from a blank page into a trust-first experience with clear services, transparent pricing, and a consultation flow that does not make anyone hunt for the button.</p>
-      </div>
-      <div class="card">
-        <p class="proj__kind">Orthopedics &middot; Full redesign</p>
-        <p>A cluttered, dated medical site rebuilt into a clean, high-trust experience. A bold editorial hero, service navigation a patient can actually parse, and a booking-first layout that puts consultations in the first screen instead of the fourth.</p>
+    <div class="split">
+      <div><h2 class="sc-display sc-display--md" data-sc-kinetic="lines">Also built recently.</h2></div>
+      <div data-sc-in>
+        <p class="sc-body"><strong>Orthopedics &middot; Full redesign.</strong> A cluttered, dated medical site rebuilt into a clean, high-trust experience. A bold editorial hero, service navigation a patient can actually parse, and a booking-first layout that puts consultations in the first screen instead of the fourth.</p>
+        <p class="sc-body">Named and shown on request rather than on the page, because publishing a client&rsquo;s brand and screenshots is theirs to agree to, not ours to assume. Ask on the call and we will walk you through it, or put you in touch with the owner.</p>
       </div>
     </div>
-    <p class="sc-body note" data-sc-in>These two are named and shown on request rather than on the page, because publishing a client&rsquo;s brand and screenshots is theirs to agree to, not ours to assume. Ask on the call and we will walk you through them, or put you in touch with the owner.</p>
   </div>
 </section>
 
@@ -87,5 +82,5 @@ BODY = phero(
 write("work.html",
       head("Work",
            "A physical therapy redesign shown before and after with measured results, "
-           "plus recent work in home watch and orthopedics.",
+           "plus recent work in orthopedics.",
            "/work") + BODY + foot())
