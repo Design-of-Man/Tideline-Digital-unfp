@@ -6,16 +6,17 @@ deliberate stand-in waiting on a real value, or a number only you can confirm.
 
 ## Blocking — added by the legal/compliance pass (2026-09-14)
 
-### 0. The legal pages name a placeholder company
-`/privacy` and `/terms` have to name the operating entity and an address that
-can receive legal notice. Both carry `REPLACE_ENTITY` and `REPLACE_ADDRESS`,
-set at the top of `scripts/build_legal.py`. Fill those two constants, re-run
-`python3 scripts/build_legal.py`, done everywhere.
+### 0. The legal pages still need a postal address
+The entity is set (`Design of Man LLC`) and the phone number is real. What is
+left is `REPLACE_ADDRESS` in `scripts/build_legal.py`: an address that can
+receive legal notice, which for an LLC is usually the registered agent address
+already on file with the Florida Division of Corporations. Set it, re-run
+`python3 scripts/build_legal.py`.
 
-A privacy policy that names nobody is worse than none: it is a published
-representation that cannot be acted on.
+A privacy policy that cannot be written to is a published representation
+nobody can act on.
 
-`grep -rn "REPLACE_ENTITY\|REPLACE_ADDRESS" --include="*.html" .`
+`grep -rn "REPLACE_ADDRESS" --include="*.html" .`
 
 ## Blocking — the site must not go to a custom domain with these in place
 
@@ -215,3 +216,46 @@ every page, and the 404. Confirm the mailbox exists and is monitored.
   `REPLACE_` blockers; links, a11y/contrast, targets, reveals and coverage all
   pass on the new pages and every page touched.
 
+## Media provenance — recorded 2026-09-14
+
+Who made each asset, because "we cannot remember where that came from" is the
+answer that costs money later.
+
+- **The homepage film (`assets/video/sc/film*.mp4`) is AI generated.** It is
+  the Viking sequence, and it is the single largest piece of published media on
+  the site. Two things follow from that:
+
+  1. **Commercial use depends entirely on the generator's terms.** Most paid
+     tiers grant it; several free tiers do not, and a few grant it only while
+     the subscription is live. Confirm the plan the render was made on and keep
+     the licence text and the generation receipt with the project files. This
+     is the one media question on the site with a real downside.
+  2. **Purely AI-generated output has no human author, so it is generally not
+     copyrightable in the US** (Copyright Office guidance; *Thaler*). Design of
+     Man can use the film, but cannot stop a competitor using the same render.
+     That is a commercial fact, not a liability, and it is an argument for the
+     brand resting on the wordmark and the build quality rather than on footage
+     anyone can regenerate.
+
+  The film is a stylised brand piece, not documentary footage of the studio or
+  of client work, so nobody could mistake it for a record of real events. If AI
+  footage is ever used to depict the team, an office or a client result, that
+  becomes a deception question rather than a licensing one.
+
+- **`pc-assembly.*` is AI generated** and is currently unreferenced (below).
+- **`assets/img/work/firstrehab-*.jpg`** are screenshots of a real client site,
+  published with that client's permission.
+- **The logo, the walking mark, `og.png` and `laptop-screen.jpg`** are our own.
+
+### 49MB of video ships and nothing loads it
+
+`viking-hero.*`, `pc-assembly.*` and `laptop-open.*` total ~49MB in
+`assets/video/`. `viking-hero` is referenced by nothing at all; the other two
+are referenced only by `assets/js/pc-assembly.js`, `assets/js/laptop-open.js`
+and `assets/js/scroll-hud.js`, **none of which are loaded by any page**. The
+`assets/img/pc-frames/` sequence is likewise unreferenced.
+
+Left in place rather than deleted because this looks like a laptop-assembly
+rework in progress, and deleting someone's working set to save deploy weight is
+not a call to make on their behalf. If the rework is dead, removing those files
+and the three orphaned scripts takes the deploy down by roughly 49MB.

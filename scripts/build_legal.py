@@ -13,7 +13,7 @@ import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from pages import *
 
-ENTITY  = "REPLACE_ENTITY"      # registered name, e.g. "Design of Man LLC"
+ENTITY  = "Design of Man LLC"
 ADDR    = "REPLACE_ADDRESS"     # registered business address for legal notices
 UPDATED = "14 September 2026"
 

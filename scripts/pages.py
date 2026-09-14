@@ -15,9 +15,9 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 V    = "20260825a"                       # cache-buster, bumped per deploy
 SITE = "https://www.designofman.com"
 MAIL = "hello@designofman.com"
-TEL   = "+1-561-555-0100"                # PLACEHOLDER: see PRELAUNCH.md
-TELH  = "+15615550100"
-TELD  = "(561) 555-0100"
+TEL   = "+1-561-324-1658"
+TELH  = "+15613241658"
+TELD  = "(561) 324-1658"
 
 LOGO = (ROOT / "scripts" / "logo.svg").read_text().strip()
 
