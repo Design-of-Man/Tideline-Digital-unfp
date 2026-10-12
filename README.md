@@ -1,68 +1,75 @@
 # Design of Man
 
-A single-page marketing site for a website creation &amp; management studio. Beach/sunset theme, custom animated canvas hero, branching flowchart of services, pricing, testimonials, FAQ, and a consultation form.
+The studio's own site: **https://www.designofman.com**. Static HTML, one
+stylesheet, one script, one serverless function for the contact form. No
+framework and no build step on Vercel; the HTML in the repo is what ships.
 
-Everything lives in **`index.html`** — no build step, no dependencies, no framework. It's a pure static site (the only external requests are Google Fonts). That makes it about as simple as a Vercel deploy gets.
-
-## Project structure
+## Layout
 
 ```
-design-of-man/
-├── index.html      # the entire site (HTML + CSS + JS inline)
-├── vercel.json     # clean URLs + security headers
-├── .gitignore
-└── README.md
+index.html …            generated pages (do not edit by hand)
+api/contact.mjs         the form endpoint (Vercel function, sends via Resend)
+assets/css/site.css     the whole design system: tokens first, then components
+assets/js/site.js       every interaction: smooth scroll, preloader, reveals,
+                        hero shrink, beam, pinned process, stacking cards, form
+assets/js/vendor/       Lenis (smooth scroll, MIT)
+assets/fonts/           Instrument Serif, DM Sans, JetBrains Mono (SIL OFL)
+assets/video/lighthouse the Jupiter Inlet Lighthouse hero loop and posters
+assets/img/work/        First Rehabilitation before/after screenshots
+scripts/shell.py        constants, <head>, header, menu, footer, components
+scripts/build.py        every page's content, plus sitemap, robots, llms.txt,
+                        and the CSP hash in vercel.json
+scripts/legal.py        privacy, terms, cookies copy
+scripts/build_lighthouse.py   re-encodes the hero footage (needs ffmpeg)
+_dev/                   not deployed: preflight gate, OG image template
 ```
 
-## Deploy to Vercel
-
-Because there's no build step, Vercel serves `index.html` from the root automatically. Pick whichever path you like.
-
-### Option A — Claude Code
-
-1. Open this folder in Claude Code (`claude` in your terminal, or the Code tab in the Claude desktop app).
-2. Ask it to initialize git and deploy, e.g. *"init a git repo, commit, and deploy this to Vercel."*
-3. Claude Code can run the Vercel CLI for you and hand back the live URL.
-
-Claude Code install &amp; docs: https://docs.claude.com/en/docs/claude-code/overview
-npm package: https://www.npmjs.com/package/@anthropic-ai/claude-code (`npm install -g @anthropic-ai/claude-code`)
-
-### Option B — Vercel CLI
+## Building
 
 ```bash
-npm install -g vercel      # if you don't have it
-cd design-of-man
-vercel                     # preview deploy (follow the prompts)
-vercel --prod              # promote to production
+python3 scripts/build.py      # writes every .html, sitemap.xml, robots.txt, llms.txt, vercel.json CSP
+python3 _dev/preflight.py     # must print READY TO DEPLOY
 ```
 
-### Option C — Git import (no CLI)
+Edit content in `scripts/build.py` (or `scripts/legal.py`), never in the
+generated HTML: the next build overwrites it. Asset URLs carry a cache-buster
+derived from the CSS/JS bytes, so it changes exactly when they do.
 
-1. Push this folder to a new GitHub/GitLab/Bitbucket repo.
-2. In the Vercel dashboard: **Add New → Project → Import** the repo.
-3. Framework preset: **Other** · Build command: **none** · Output dir: **`./`**
-4. **Deploy.**
+The one inline script (in `shell.py`, `INLINE_JS`) is hashed into the
+Content-Security-Policy by the build. Change it and rebuild, or the browser
+will refuse to run it.
 
-## Before you go live — checklist
+## The homepage, top to bottom
 
-This started as a design mockup, so a few values are placeholders:
+1. **Preloader** (first visit per tab only, skipped for reduced motion): a
+   counter tied to the hero poster actually loading, then a curtain wipe.
+2. **Lighthouse hero**: the drone loop around the Jupiter Inlet Light. As you
+   scroll, the frame contracts into a rounded card and the caption appears.
+3. Statement that brightens word by word as it is read.
+4. Velocity-reactive marquee of services.
+5. Services accordion with tags and detail.
+6. First Rehabilitation case: draggable before/after (keyboard accessible),
+   counted-up measured results.
+7. **The beam**: a lamp sweeps the night section and lights the headline
+   only as the cone crosses it. One CSS custom property drives both.
+8. Process as a pinned horizontal scroll (native sideways scroll on phones).
+9. Refusals as stacking cards.
+10. Plans with cursor spotlight, FAQ, contact form, footer wordmark.
 
-- [ ] **Phone number** — replace `(561) 555-0100` (appears in the top bar, contact section, and footer).
-- [x] **Email** — `hello@designofman.com`.
-- [ ] **Stats** — the hero counters (120+ sites, 99.9% uptime, 14 yrs, &lt;1 day) are illustrative.
-- [ ] **Testimonials** — names, companies, and quotes are invented; swap in real ones.
-- [ ] **Pricing** — confirm the Launch / Grow / Care numbers reflect your real offer.
-- [ ] **Consultation form** — it currently shows a success state only; it does **not** send anywhere yet. Wire it to a form service (e.g. Formspree, Basin, or a Vercel serverless function) so submissions reach your inbox.
-- [ ] **Domain** — add your custom domain in the Vercel project settings.
-- [ ] **Metadata/SEO** — add a favicon, and an Open Graph title/description/image for link previews.
+Everything is visible without JavaScript, and `prefers-reduced-motion` turns
+off the preloader, pinning, scrubbing and smooth scroll.
 
-## Notes
+## Contact form
 
-- Respects `prefers-reduced-motion`: the animated sunset and reveal animations freeze into a static frame for users who ask for reduced motion.
-- Fully responsive; the services flowchart and all grids reflow for tablet and mobile.
+`api/contact.mjs` needs `RESEND_API_KEY` set in Vercel (Project, Settings,
+Environment Variables). Optional: `CONTACT_TO`, `CONTACT_FROM` (must be on a
+domain verified in Resend). Until the key is set, the endpoint answers 503
+and the page hands the visitor's message to their own mail app, filled in.
+It never shows success for a message that was not delivered.
 
-## SEO & domain
+## Checks run on this build
 
-The pages ship with meta descriptions, canonical tags, Open Graph/Twitter cards, a social image (`og.png`), a favicon, and JSON-LD structured data (Organization + WebSite + FAQPage on the homepage, BreadcrumbList + CollectionPage/Article on Work and the case study). `robots.txt` and `sitemap.xml` are included.
-
-The production domain is `https://www.designofman.com` — canonicals, Open Graph URLs, schema `@id`s, `robots.txt`, and `sitemap.xml` all point there. The phone number is still the placeholder `(561) 555-0100`; replace it before launch, then submit the sitemap in Google Search Console.
+- axe-core WCAG 2.2 AA on all 12 pages: 0 violations
+- No JS errors, no horizontal overflow at 1440px or 390px
+- No CSP violations under the production policy
+- Throttled phone (4x CPU, slow network): homepage LCP ~2.0s, CLS 0 on every page measured

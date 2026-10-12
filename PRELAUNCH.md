@@ -4,6 +4,40 @@ Everything here is a **placeholder or an unverified claim that will survive
 launch unless someone removes it**. None of it is a bug. Each one is a
 deliberate stand-in waiting on a real value, or a number only you can confirm.
 
+## Full redesign — 2026-10-12
+
+The site was rebuilt from the ground up around the Jupiter Inlet Lighthouse
+hero (footage taken from the unmerged `site-overhaul-complete` branch). New
+design system (`assets/css/site.css`), one interaction script
+(`assets/js/site.js`), one generator (`scripts/build.py` + `shell.py` +
+`legal.py`). The copy was carried over and tightened, not invented: the
+honesty rules below still hold and nothing fabricated came back.
+
+**Needs a decision or a value before launch:**
+
+- **`RESEND_API_KEY` in Vercel.** The forms now post to `/api/contact` (from
+  the same overhaul branch). Without the key the endpoint answers 503 and the
+  page offers the visitor a pre-filled email instead, so no lead is silently
+  lost, but the form is not really "on" until the key is set. Verify a real
+  submission arrives after setting it. `CONTACT_FROM` must be on a domain
+  verified in Resend.
+- **Confirm the lighthouse footage is ours to use.** `scripts/build_lighthouse.py`
+  describes it as the studio's own drone footage (Dropbox:
+  `lighthouse-1440p.mp4`). If it was licensed or taken by someone else, record
+  who and on what terms here, the same as the media provenance notes below.
+- **"Est. 2024" and "Founded 2024"** appear on the homepage and studio page
+  (carried over from the previous studio page). Confirm the year.
+- **"First lit 1860"** for the Jupiter Inlet Light is public history; it is
+  used as a caption and in the care section's copy.
+
+**Removed in this pass (all still in git history):** the Viking scroll film
+(`assets/video/sc/`, 44MB), the 400-frame journey sequence (74MB), the
+unreferenced `viking-hero`, `pc-assembly` and `laptop-open` videos and their
+scripts, the scrollcraft engine and its verify harness, and the old
+`build_*.py` generators. The deploy is roughly 175MB lighter.
+
+**Item 2 below is superseded** by `/api/contact`; Formspree is no longer used.
+
 ## Blocking — added by the legal/compliance pass (2026-09-14)
 
 ### 0. ~~The legal pages need a postal address~~ — decided 2026-09-14
@@ -234,7 +268,7 @@ every page, and the 404. Confirm the mailbox exists and is monitored.
 
 - **No cookie banner, on purpose.** The site sets no cookies, loads no
   analytics, no pixels, and self-hosts its fonts. The only client-side storage
-  is `dom.film.seen` in session storage, which is strictly necessary and
+  is `dom.intro.seen` in session storage (was `dom.film.seen`), which is strictly necessary and
   exempt from consent under the e-privacy rules. `/cookies` says exactly that.
   **If analytics is ever added, `/cookies` and `/privacy` change in the same
   commit, and a cookie tool may then be genuinely required.**
