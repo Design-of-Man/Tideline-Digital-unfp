@@ -15,12 +15,12 @@ honesty rules below still hold and nothing fabricated came back.
 
 **Needs a decision or a value before launch:**
 
-- **`RESEND_API_KEY` in Vercel.** The forms now post to `/api/contact` (from
-  the same overhaul branch). Without the key the endpoint answers 503 and the
-  page offers the visitor a pre-filled email instead, so no lead is silently
-  lost, but the form is not really "on" until the key is set. Verify a real
-  submission arrives after setting it. `CONTACT_FROM` must be on a domain
-  verified in Resend.
+- **Activate FormSubmit.** The forms post to FormSubmit for
+  hello@designofman.com (switched from the Resend function on 2026-10-12, at
+  the owner's request). The first submission triggers an activation email to
+  that inbox; click its link once. Until then FormSubmit replies
+  `success: "false"` and visitors are handed a pre-filled email instead, so
+  nothing is silently lost. After activating, send one real test.
 - **Confirm the lighthouse footage is ours to use.** `scripts/build_lighthouse.py`
   describes it as the studio's own drone footage (Dropbox:
   `lighthouse-1440p.mp4`). If it was licensed or taken by someone else, record
@@ -36,7 +36,7 @@ unreferenced `viking-hero`, `pc-assembly` and `laptop-open` videos and their
 scripts, the scrollcraft engine and its verify harness, and the old
 `build_*.py` generators. The deploy is roughly 175MB lighter.
 
-**Item 2 below is superseded** by `/api/contact`; Formspree is no longer used.
+**Item 2 below is superseded**: the forms use FormSubmit, not Formspree.
 
 ## Blocking — added by the legal/compliance pass (2026-09-14)
 

@@ -244,10 +244,11 @@
 
   /* ------------------------------------------------- scroll-driven parts -- */
   var heroWrap = $('.hero-wrap');
+  var heroFrame = $('.hero__frame'), heroMedia = $('.hero__media'), heroContent = $('.hero__content'), heroCap = $('.hero__caption');
+  var progressBar = $('.hdr .progress');
   var hpin = $('.hpin');
   var rail = $('.tl');
   var tlItems = $$('.tl__item');
-  var cards = $$('.stack__card');
   var tocLinks = $$('.toc a');
   var pinOK = function () { return !reduce && vw > 900 && vh > 560; };
 
@@ -264,23 +265,25 @@
         hpin.classList.add('is-pinned');
         var dist = Math.max(0, track.scrollWidth - track.parentNode.clientWidth + 0);
         hpin.style.setProperty('--hpin-h', (dist + vh * 1.15) + 'px');
-        M.pin = { top: top(hpin), h: dist + vh * 1.15, dist: dist };
+        M.pin = { top: top(hpin), h: dist + vh * 1.15, dist: dist, track: track, bar: $('.hpin__bar i', hpin) };
+        M.lastPp = -1;
       } else {
         hpin.classList.remove('is-pinned');
         hpin.style.removeProperty('--hpin-h');
-        track.style.removeProperty('--hx');
+        track.style.transform = '';
         M.pin = null;
       }
     }
     if (rail) M.rail = { top: top(rail), h: rail.offsetHeight };
     M.items = tlItems.map(function (it) { return top(it); });
-    M.cards = cards.map(function (c) { return { top: top(c), h: c.offsetHeight }; });
     M.zones = darkZones.map(function (z) { return { top: top(z), bottom: top(z) + z.offsetHeight, clear: z.hasAttribute('data-clear') }; });
     M.toc = tocLinks.map(function (a) {
       var t = document.getElementById(a.getAttribute('href').slice(1));
       return t ? top(t) : 0;
     });
     M.docH = doc.scrollHeight;
+    M.lastHp = -1;
+    scrubbers.forEach(function (s) { s.lastP = -1; });
     beamOrigins();
   }
 
@@ -299,45 +302,51 @@
       hdr.classList.toggle('is-solid', y > 30 && !clear);
       var menuOpen = menu && menu.classList.contains('is-open');
       if (!menuOpen) hdr.classList.toggle('is-hidden', y > lastY && y > vh * 0.6 && !hdr.contains(document.activeElement));
-      hdr.style.setProperty('--progress', clamp(y / Math.max(1, M.docH - vh), 0, 1));
+      if (progressBar) progressBar.style.transform = 'scaleX(' + clamp(y / Math.max(1, M.docH - vh), 0, 1).toFixed(4) + ')';
     }
     lastY = y;
 
+    /* Each piece writes only when its value actually changed, straight onto
+       the element it moves. Writing an inherited custom property to a parent
+       instead would restyle its whole subtree every frame. */
     if (M.hero && !reduce) {
-      var hp = clamp((y - M.hero.top) / Math.max(1, M.hero.h - vh), 0, 1);
-      heroWrap.style.setProperty('--p', hp.toFixed(4));
+      var hp = Math.round(clamp((y - M.hero.top) / Math.max(1, M.hero.h - vh), 0, 1) * 1000) / 1000;
+      if (hp !== M.lastHp) {
+        M.lastHp = hp;
+        heroFrame.style.clipPath = hp ? 'inset(' + (hp * 7).toFixed(2) + '% ' + (hp * 5).toFixed(2) + '% ' + (hp * 13).toFixed(2) + '% round ' + (hp * 2.2).toFixed(2) + 'rem)' : '';
+        heroMedia.style.transform = 'scale(' + (1.08 - hp * 0.08).toFixed(4) + ')';
+        heroContent.style.opacity = clamp(1 - hp * 1.6, 0, 1).toFixed(3);
+        heroContent.style.transform = hp ? 'translate3d(0,' + (-hp * 9).toFixed(2) + 'vh,0)' : '';
+        heroContent.style.visibility = hp > 0.7 ? 'hidden' : '';
+        if (heroCap) heroCap.style.opacity = clamp((hp - 0.55) * 3, 0, 1).toFixed(3);
+      }
     }
 
     scrubbers.forEach(function (s) {
       var start = s.top - vh * 0.82, end = s.top + s.h - vh * 0.42;
       var p = clamp((y - start) / Math.max(1, end - start), 0, 1);
+      if (p === s.lastP) return;
+      s.lastP = p;
       var n = s.words.length, lit = p * (n + 6);
       for (var k = 0; k < n; k++) {
-        var o = clamp((lit - k) / 6, 0.16, 1);
-        s.words[k].style.setProperty('--o', o.toFixed(3));
+        var o = Math.round(clamp((lit - k) / 6, 0.16, 1) * 50) / 50;
+        if (s.words[k].__o !== o) { s.words[k].__o = o; s.words[k].style.opacity = o; }
       }
     });
 
     if (M.pin) {
-      var pp = clamp((y - M.pin.top) / Math.max(1, M.pin.h - vh), 0, 1);
-      var track = $('.hpin__track', hpin);
-      track.style.setProperty('--hx', (-pp * M.pin.dist).toFixed(1) + 'px');
-      hpin.style.setProperty('--hp', pp.toFixed(4));
+      var pp = Math.round(clamp((y - M.pin.top) / Math.max(1, M.pin.h - vh), 0, 1) * 2000) / 2000;
+      if (pp !== M.lastPp) {
+        M.lastPp = pp;
+        M.pin.track.style.transform = 'translate3d(' + (-pp * M.pin.dist).toFixed(1) + 'px,0,0)';
+        M.pin.bar.style.transform = 'scaleX(' + pp + ')';
+      }
     }
 
     if (M.rail) {
       var mid = y + vh * 0.55;
       rail.style.setProperty('--tp', clamp((mid - M.rail.top) / M.rail.h, 0, 1).toFixed(4));
       M.items.forEach(function (t, j) { tlItems[j].classList.toggle('is-in', mid > t + 40); });
-    }
-
-    if (M.cards.length > 1 && !reduce) {
-      for (var c = 0; c < cards.length - 1; c++) {
-        var cur = cards[c], next = cards[c + 1];
-        var gap = next.getBoundingClientRect().top - cur.getBoundingClientRect().top;
-        var cover = clamp(1 - gap / M.cards[c].h, 0, 1);
-        cur.style.setProperty('--s', (1 - cover * 0.05).toFixed(4));
-      }
     }
 
     if (tocLinks.length) {
@@ -463,6 +472,9 @@
   /* ---------------------------------------------------------------- beam -- */
   /* The lit copy is masked by a cone whose apex has to sit on the lamp, so
      each lit block is told where the lamp is in its own coordinates. */
+  if (io) $$('.beam').forEach(function (b) {
+    new IntersectionObserver(function (en) { b.classList.toggle('is-live', en[0].isIntersecting); }).observe(b);
+  });
   function beamOrigins() {
     $$('.beam').forEach(function (b) {
       var lamp = $('.beam__lamp', b);
@@ -483,8 +495,6 @@
   /* ---------------------------------------------------------------- form -- */
   var MAIL = 'hello@designofman.com';
   $$('form[data-contact]').forEach(function (form) {
-    var stamp = $('input[name="_t"]', form);
-    if (stamp) stamp.value = String(Date.now());
     var note = $('.form__note', form);
     var noteText = note ? note.innerHTML : '';
 
@@ -504,15 +514,17 @@
     if (/[?&]sent=1/.test(location.search)) showSent(form);
 
     form.addEventListener('submit', function (e) {
-      if (!window.fetch) return;           // native POST, server answers 303
+      if (!window.fetch) return;           // native POST; FormSubmit redirects to _next
       e.preventDefault();
       if (!form.reportValidity()) return;
       var data = {};
       new FormData(form).forEach(function (v, k) { data[k] = v; });
       if (data.kind === 'question') data.project = 'Just a question';
+      delete data.kind; delete data._next;
       form.classList.add('is-sending');
       setNote('Sending…', '');
-      fetch(form.getAttribute('action'), {
+      /* FormSubmit's AJAX endpoint is the same URL with /ajax/ in it. */
+      fetch(form.getAttribute('action').replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(data)
@@ -520,9 +532,13 @@
         return r.json().catch(function () { return { ok: false }; }).then(function (j) { return { status: r.status, j: j }; });
       }).then(function (res) {
         form.classList.remove('is-sending');
-        if (res.j && res.j.ok) { showSent(form); return; }
-        if (res.status === 422 && res.j.error) { setNote(res.j.error, 'is-err'); return; }
-        fallback(data, res.j && res.j.error);
+        /* FormSubmit answers HTTP 200 even when it did NOT deliver (for
+           example, before the address is activated), with success "false".
+           So the body decides, never the status. String() because it sends
+           the flag as a string in some responses and a boolean in others. */
+        if (res.j && String(res.j.success) === 'true') { showSent(form); return; }
+        if (res.j && res.j.message && window.console) console.warn('FormSubmit:', res.j.message);
+        fallback(data);
       }).catch(function () {
         form.classList.remove('is-sending');
         fallback(data);

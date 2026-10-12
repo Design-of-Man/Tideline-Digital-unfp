@@ -372,7 +372,15 @@ FIGS = """<div class="figs">
 
 
 def contact_form(idp="f"):
-    return f"""<form class="form" data-contact method="POST" action="/api/contact">
+    # FormSubmit. The action is its normal (non-AJAX) endpoint so a visitor
+    # without JavaScript still posts and lands back on /contact?sent=1; with
+    # JavaScript, site.js posts the same fields to the /ajax/ endpoint and
+    # only shows a thank-you when the body says success is "true".
+    return f"""<form class="form" data-contact method="POST" action="https://formsubmit.co/{MAIL}">
+          <input type="hidden" name="_subject" value="New enquiry from designofman.com">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="{SITE}/contact?sent=1">
           <div class="tabs" role="radiogroup" aria-label="What is this about?">
             <label><input type="radio" name="kind" value="project" checked><span>New project</span></label>
             <label><input type="radio" name="kind" value="question"><span>Just a question</span></label>
@@ -389,8 +397,7 @@ def contact_form(idp="f"):
               <option>Something else</option>
             </select><label for="{idp}-project">What do you need?</label></div>
           <div class="field full"><textarea id="{idp}-message" name="message" rows="4" required placeholder=" " maxlength="5000"></textarea><label for="{idp}-message">Tell us a little about it</label></div>
-          <div class="hp" aria-hidden="true"><label for="{idp}-gotcha">Leave this empty</label><input id="{idp}-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>
-          <input type="hidden" name="_t" value="">
+          <div class="hp" aria-hidden="true"><label for="{idp}-honey">Leave this empty</label><input id="{idp}-honey" name="_honey" type="text" tabindex="-1" autocomplete="off"></div>
           <div class="consent">
             <input type="checkbox" id="{idp}-consent" name="consent" value="yes" required>
             <label for="{idp}-consent">Design of Man can use these details to reply to my enquiry. No mailing list, ever. <a href="/privacy">Privacy policy</a>.</label>

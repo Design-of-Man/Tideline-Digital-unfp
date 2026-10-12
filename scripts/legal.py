@@ -21,7 +21,7 @@ ADDR    = ""                    # optional. Empty = do not publish a street addr
                                 # address off a scraped, archived page.
                                 # NOTE: if marketing email ever starts, CAN-SPAM
                                 # requires a real postal address in every message.
-UPDATED = "14 September 2026"
+UPDATED = "12 October 2026"
 
 WHERE = (f"Registered address: {ADDR}." if ADDR else
          "Design of Man LLC is a Florida limited liability company; its registered "
@@ -79,7 +79,7 @@ PRIVACY = phero_legal(
     "If you are already a client, we process your details to perform the contract between us, and to meet legal and tax obligations for invoices and records.",
     "We do not send marketing email. If we ever start, it will be to people who opted in, with an unsubscribe link in every message, and you can refuse at the point of collection.",
 ]) + legal_section("Who else can see it.", [
-    "<strong>Vercel</strong> hosts the site and runs the small function that receives form submissions, and processes the server logs above. <strong>Resend</strong> delivers each submission to our inbox as an email. <strong>Stripe</strong> handles payments if you pay an invoice; card details go to Stripe directly and never reach us or this site.",
+    "<strong>Vercel</strong> hosts the site and processes the server logs above. <strong>FormSubmit</strong> (formsubmit.co) receives form submissions and delivers them to our inbox as an email. <strong>Stripe</strong> handles payments if you pay an invoice; card details go to Stripe directly and never reach us or this site.",
     "Each of those is a processor acting on our instructions under a contract, not a party free to use your data for its own purposes. We may also disclose information where the law requires it, or to establish or defend a legal claim.",
     "All three are US companies. If you are in the UK or EEA, that means your information is transferred to the United States, which those processors cover with the standard contractual clauses or an equivalent approved safeguard.",
 ]) + legal_section("How long we keep it.", [
@@ -141,7 +141,7 @@ COOKIES = phero_legal(
     "No Google Analytics or any other analytics. No advertising pixels, no Meta or LinkedIn tags, no retargeting. No session recording or heatmaps. No social media embeds. No fonts loaded from a third party &mdash; they are served from our own domain, so no request leaves for anyone else when a page paints.",
     "We are not claiming virtue here; it is a design decision. It also means we cannot tell you which pages are popular, which is a trade we are currently making on purpose. If we add analytics later we will say so on this page first, and we will choose a tool that does not need cookies &mdash; and if it does need them, you will get a real consent choice before it loads.",
 ]) + legal_section("What other companies may set.", [
-    "None while you browse. Submitting the form sends what you typed to our own form handler, which sets no cookies; it is delivered to us by <strong>Resend</strong> as an email. <strong>Stripe</strong>, if you follow a payment link, to process the payment and detect fraud. Both are subject to their own policies, and neither is loaded while you are simply reading the site.",
+    "None while you browse. <strong>FormSubmit</strong>, when you actually submit a form, receives what you typed and delivers it to our inbox; it is subject to its own privacy policy and is not loaded while you are simply reading the site. <strong>Stripe</strong>, if you follow a payment link, to process the payment and detect fraud. Both are subject to their own policies, and neither is loaded while you are simply reading the site.",
     "Our host, <strong>Vercel</strong>, keeps standard server logs. Those are not cookies and nothing is written to your browser.",
 ]) + legal_section("Clearing it, and asking us about it.", [
     "Closing the tab removes it. You can also clear site data for designofman.com in your browser settings, or browse in a private window. Nothing on the site breaks if you do &mdash; the opening animation simply plays again.",
