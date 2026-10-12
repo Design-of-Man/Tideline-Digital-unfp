@@ -867,8 +867,8 @@ def vercel_config():
     import base64, hashlib, json
     h = base64.b64encode(hashlib.sha256(INLINE_JS.encode()).digest()).decode()
     csp = ("default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; "
-           f"form-action 'self'; script-src 'self' 'sha256-{h}'; style-src 'self' 'unsafe-inline'; "
-           "img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self'; "
+           f"form-action 'self' https://formsubmit.co; script-src 'self' 'sha256-{h}'; style-src 'self' 'unsafe-inline'; "
+           "img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self' https://formsubmit.co; "
            "manifest-src 'self'; frame-src 'none'; upgrade-insecure-requests")
     path = S.ROOT / "vercel.json"
     cfg = json.loads(path.read_text())

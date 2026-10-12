@@ -104,7 +104,7 @@ ol, ul { padding: 0; list-style: none; }
    flat fields read as material rather than as a screen. */
 body::after {
   content: "";
-  position: fixed; inset: -50%;
+  position: fixed; inset: 0;
   z-index: 200;
   pointer-events: none;
   opacity: .055;
@@ -153,15 +153,11 @@ body::after {
 }
 .eyebrow { display: inline-flex; align-items: center; gap: .7em; color: var(--ink-3); }
 .eyebrow::before {
-  content: ""; width: .5em; height: .5em; border-radius: 50%;
-  background: var(--signal); box-shadow: 0 0 0 0 rgba(229, 98, 58, .5);
-  animation: pulse 2.6s var(--ease-out) infinite;
+  content: ""; width: .5em; height: .5em; border-radius: 50%; flex: none;
+  background: var(--signal);
+  box-shadow: 0 0 0 .22em rgba(229, 98, 58, .22);
 }
 .dark .eyebrow { color: var(--foam-3); }
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(229, 98, 58, .55); }
-  70%, 100% { box-shadow: 0 0 0 .7em rgba(229, 98, 58, 0); }
-}
 
 /* ------------------------------------------------------------ buttons -- */
 .btn {
@@ -176,7 +172,6 @@ body::after {
   text-decoration: none; white-space: nowrap;
   overflow: hidden; isolation: isolate;
   transition: color .5s var(--ease-out);
-  will-change: transform;
 }
 .btn::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
@@ -239,15 +234,13 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
 }
 .hdr::before {
   content: ""; position: absolute; inset: 0;
-  background: color-mix(in srgb, var(--bone) 78%, transparent);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
-  backdrop-filter: blur(14px) saturate(1.3);
+  background: color-mix(in srgb, var(--bone) 94%, transparent);
   border-bottom: 1px solid var(--line-bone);
   opacity: 0; transition: opacity .5s var(--ease-out), background .4s;
 }
 .hdr.is-solid::before { opacity: 1; }
 .hdr.on-dark { color: var(--foam); }
-.hdr.on-dark::before { background: color-mix(in srgb, var(--sea) 72%, transparent); border-color: var(--line-sea); }
+.hdr.on-dark::before { background: color-mix(in srgb, var(--sea) 92%, transparent); border-color: var(--line-sea); }
 .hdr.is-hidden { transform: translateY(-110%); }
 .hdr__in {
   position: relative; height: 100%;
@@ -284,7 +277,7 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
 .menu-btn__lines::after { top: calc(100% - 1.5px); }
 .progress {
   position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
-  background: var(--signal); transform-origin: 0 50%; transform: scaleX(var(--progress, 0));
+  background: var(--signal); transform-origin: 0 50%; transform: scaleX(0);
 }
 
 @media (max-width: 1180px) { .clock { display: none; } }
@@ -368,10 +361,8 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
 .hero__frame {
   position: absolute; inset: 0;
   overflow: hidden;
-  clip-path: inset(calc(var(--p) * 7%) calc(var(--p) * 5%) calc(var(--p) * 13%) round calc(var(--p) * 2.2rem));
-  will-change: clip-path;
 }
-.hero__media { position: absolute; inset: 0; transform: scale(calc(1.08 - var(--p) * .08)); transform-origin: 50% 40%; }
+.hero__media { position: absolute; inset: 0; transform: scale(1.08); transform-origin: 50% 40%; }
 .hero__media img, .hero__media video {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; object-position: 54% 42%;
@@ -390,8 +381,6 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
   grid-template-rows: 1fr auto auto;
   padding: calc(var(--hdr-h) + 1rem) var(--pad-x) 1.6rem;
   max-width: none;
-  opacity: calc(1 - var(--p) * 1.6);
-  transform: translateY(calc(var(--p) * -9vh));
 }
 .hero__h1 {
   align-self: end;
@@ -418,9 +407,9 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
 .scroll-cue i::after { content: ""; position: absolute; left: 0; top: 0; width: 1px; height: 50%; background: var(--foam); animation: drip 2s var(--ease-io) infinite; }
 @keyframes drip { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
 .hero__caption {
-  position: absolute; left: 50%; bottom: calc(var(--p) * 4.5% - 3rem);
+  position: absolute; left: 50%; bottom: 4.5%;
   transform: translateX(-50%);
-  opacity: calc((var(--p) - .55) * 3);
+  opacity: 0;
   display: flex; gap: 1.5rem; color: var(--foam-2); white-space: nowrap;
 }
 @media (max-width: 720px) {
@@ -485,8 +474,7 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
   text-wrap: pretty;
   max-width: 24ch;
 }
-.state .wd { opacity: var(--o, 1); transition: opacity .2s linear; }
-.js .state[data-scrub] .wd { --o: .16; }
+.js .state[data-scrub] .wd { opacity: .16; }
 .statement__foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; align-items: end; margin-top: clamp(3rem, 6vw, 5rem); }
 .statement__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 14rem)); gap: 2rem; }
 .statement__cols p { font-size: .95rem; color: var(--ink-2); }
@@ -641,26 +629,35 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
    masked by the same rotating cone, so the words catch the light only as
    the beam crosses them. One custom property drives both, so they cannot
    drift out of step. */
-@property --beam { syntax: "<angle>"; inherits: true; initial-value: 0deg; }
+/* Performance note: an earlier version animated a registered custom property
+   on the whole section. Custom-property animations run on the main thread and
+   repaint everything that reads them, every frame, on or off screen; it made
+   the entire homepage stutter. Now the cone is a plain element rotated with
+   transform (compositor only, no repaint), and the only main-thread animation
+   left is the lit heading's mask, which runs only while .beam.is-live. */
+@property --beam { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 .beam {
-  --beam: 0deg;
   --ox: 50%; --oy: 100%;
   position: relative; overflow: hidden; isolation: isolate;
   padding: var(--sect) 0 calc(var(--sect) + 6rem);
-  animation: sweep 8s var(--ease-soft) infinite alternate;
+  background: radial-gradient(120% 70% at 50% 100%, rgba(60, 196, 180, .12), transparent 60%), var(--sea);
 }
 @keyframes sweep { from { --beam: -68deg; } to { --beam: 68deg; } }
+@keyframes cone { from { transform: rotate(-68deg); } to { transform: rotate(68deg); } }
 .beam__cone {
-  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  position: absolute; z-index: -1; pointer-events: none;
+  left: var(--ox); top: var(--oy);
+  width: 320vmax; height: 320vmax; margin: -160vmax 0 0 -160vmax;
   background:
-    conic-gradient(from calc(var(--beam) - 14deg) at var(--ox) var(--oy),
+    conic-gradient(from -14deg,
       rgba(255, 208, 138, 0) 0deg, rgba(255, 208, 138, .16) 9deg, rgba(255, 208, 138, .34) 14deg,
       rgba(255, 208, 138, .16) 19deg, rgba(255, 208, 138, 0) 28deg, transparent 360deg),
-    conic-gradient(from calc(var(--beam) - 30deg) at var(--ox) var(--oy),
-      transparent 0deg, rgba(255, 208, 138, .05) 30deg, transparent 60deg, transparent 360deg),
-    radial-gradient(120% 70% at var(--ox) var(--oy), rgba(60, 196, 180, .12), transparent 60%);
-  mix-blend-mode: screen;
+    conic-gradient(from -30deg, transparent 0deg, rgba(255, 208, 138, .05) 30deg, transparent 60deg, transparent 360deg);
+  transform: rotate(-68deg);
+  animation: cone 8s var(--ease-soft) infinite alternate;
+  will-change: transform;
 }
+.beam:not(.is-live) .beam__cone, .beam:not(.is-live) .lit__glow { animation-play-state: paused; }
 .beam__stars {
   position: absolute; inset: 0; z-index: -2; opacity: .5;
   background-image:
@@ -687,7 +684,7 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
   color: var(--foam);
   -webkit-mask-image: conic-gradient(from calc(var(--beam) - 14deg) at var(--mx, 50%) var(--my, 160%), transparent 0deg, #000 8deg, #000 20deg, transparent 28deg, transparent 360deg);
   mask-image: conic-gradient(from calc(var(--beam) - 14deg) at var(--mx, 50%) var(--my, 160%), transparent 0deg, #000 8deg, #000 20deg, transparent 28deg, transparent 360deg);
-  text-shadow: 0 0 30px rgba(255, 208, 138, .35);
+  animation: sweep 8s var(--ease-soft) infinite alternate;
 }
 .lit__glow em { color: var(--lamp); }
 .beam__grid {
@@ -732,7 +729,7 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
 .stage--end { background: var(--ink); color: var(--foam); border-color: transparent; justify-content: space-between; }
 .stage--end p { color: var(--foam-2); }
 .hpin__bar { height: 2px; background: var(--line-bone); margin-top: 2rem; position: relative; }
-.hpin__bar i { position: absolute; inset: 0; background: var(--signal); transform-origin: 0 50%; transform: scaleX(var(--hp, 0)); }
+.hpin__bar i { position: absolute; inset: 0; background: var(--signal); transform-origin: 0 50%; transform: scaleX(0); }
 .hpin__bar i::after { content: ""; position: absolute; right: -4px; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 18px var(--signal); }
 
 /* Pinned only with JS, motion allowed and room to do it. Otherwise the
@@ -743,7 +740,7 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
 .hpin.is-pinned .hpin__stick { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; padding-top: calc(var(--hdr-h) * .6); }
 .hpin.is-pinned .stage { min-height: clamp(22rem, 50svh, 30rem); }
 .hpin.is-pinned .sect-head .lede { display: none; }
-.hpin.is-pinned .hpin__track { will-change: transform; transform: translate3d(var(--hx, 0px), 0, 0); }
+.hpin.is-pinned .hpin__track { will-change: transform; }
 .hpin.is-pinned .sect-head { margin-bottom: clamp(2rem, 4vh, 3.5rem); }
 
 /* ------------------------------------------------ vertical timeline -- */
@@ -773,9 +770,6 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
   background: var(--bone);
   border: 1px solid var(--line-bone);
   box-shadow: 0 -24px 60px -36px rgba(10, 23, 28, .35);
-  transform-origin: 50% 0;
-  transform: scale(var(--s, 1));
-  will-change: transform;
 }
 .stack__card:nth-child(even) { background: var(--bone-2); }
 .dark .stack__card { background: var(--sea-2); border-color: var(--line-sea); box-shadow: 0 -24px 60px -30px rgba(0, 0, 0, .6); }
@@ -1052,7 +1046,7 @@ button:hover .roll > span, button:focus-visible .roll > span { transform: transl
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
-  .beam { animation: none; --beam: 60deg; }
+  .beam__cone { animation: none; transform: rotate(30deg); }
   .lit__glow { -webkit-mask-image: none; mask-image: none; }
   .lit__base { visibility: hidden; }
   .hero-wrap { height: auto; }

@@ -1,14 +1,13 @@
 # Design of Man
 
 The studio's own site: **https://www.designofman.com**. Static HTML, one
-stylesheet, one script, one serverless function for the contact form. No
-framework and no build step on Vercel; the HTML in the repo is what ships.
+stylesheet, one script. Forms go to FormSubmit. No framework and no build step
+on Vercel; the HTML in the repo is what ships.
 
 ## Layout
 
 ```
 index.html …            generated pages (do not edit by hand)
-api/contact.mjs         the form endpoint (Vercel function, sends via Resend)
 assets/css/site.css     the whole design system: tokens first, then components
 assets/js/site.js       every interaction: smooth scroll, preloader, reveals,
                         hero shrink, beam, pinned process, stacking cards, form
@@ -61,11 +60,31 @@ off the preloader, pinning, scrubbing and smooth scroll.
 
 ## Contact form
 
-`api/contact.mjs` needs `RESEND_API_KEY` set in Vercel (Project, Settings,
-Environment Variables). Optional: `CONTACT_TO`, `CONTACT_FROM` (must be on a
-domain verified in Resend). Until the key is set, the endpoint answers 503
-and the page hands the visitor's message to their own mail app, filled in.
-It never shows success for a message that was not delivered.
+Both forms post to **FormSubmit** at `https://formsubmit.co/hello@designofman.com`.
+With JavaScript, `site.js` sends the same fields to FormSubmit's `/ajax/`
+endpoint and shows a thank-you only when the response body says
+`success: "true"`. FormSubmit answers HTTP 200 even when it did not deliver
+(for example before the address is activated), so the status code is never
+trusted. Any failure hands the visitor's message to their own mail app,
+filled in. Without JavaScript the form posts natively and FormSubmit
+redirects to `/contact?sent=1`.
+
+FormSubmit must be activated once: the first submission sends a confirmation
+email to hello@designofman.com, and nothing is delivered until the link in it
+is clicked.
+
+## Performance rules (learned the hard way)
+
+The first version of the beam animated a registered custom property on a
+full-height section. Custom-property animations run on the main thread and
+repaint everything that reads them, every frame, even off screen: the whole
+homepage dropped to ~30fps on a throttled CPU. So:
+
+- Animate `transform` and `opacity` only. The beam cone is a rotated element.
+- Main-thread animations (the lit heading's mask) run only while on screen.
+- Scroll handlers write styles straight onto the element that moves, only
+  when the value changed, and never read layout inside the loop.
+- No `backdrop-filter`, no permanent `will-change` on repeated components.
 
 ## Checks run on this build
 
@@ -73,3 +92,4 @@ It never shows success for a message that was not delivered.
 - No JS errors, no horizontal overflow at 1440px or 390px
 - No CSP violations under the production policy
 - Throttled phone (4x CPU, slow network): homepage LCP ~2.0s, CLS 0 on every page measured
+- Homepage scroll on a 4x throttled CPU: 0 long tasks, median frame 16.7ms
