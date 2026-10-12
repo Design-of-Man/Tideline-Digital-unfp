@@ -1,0 +1,19 @@
+# Design of Man
+
+> A small web design and development studio in Jupiter, Florida. Custom websites and web apps: strategy, design, build, hosting and ongoing care. Founded 2024. Operated by Design of Man LLC.
+
+- Contact: hello@designofman.com, (561) 324-1658, Monday to Friday, 9 to 5 Eastern
+- Location: Jupiter, Florida, USA. Works with clients locally and remotely.
+- Pricing model: fixed quote per project after a free 30-minute consult; half up front, half at launch; care plans month to month with no contract.
+- Typical timelines: 2-3 weeks for a focused local site, 4-6 weeks for most business sites, 8-12 weeks for e-commerce, booking or app builds.
+
+## Pages
+
+- [Home](https://www.designofman.com/): overview of services, work, process, pricing and contact
+- [Work](https://www.designofman.com/work): First Rehabilitation of North Palm Beach redesign with measured results
+- [Case study](https://www.designofman.com/case-first-rehab): +50% organic clicks, +132% search impressions, 22 enquiries in the first 30 days (Search Console, 32 days after launch vs 32 before)
+- [Services](https://www.designofman.com/services): custom websites, web and mobile apps, design, implementation, hosting and care
+- [Process](https://www.designofman.com/process): the bench, the core, the build, the launch
+- [Studio](https://www.designofman.com/studio): who we are and what we refuse to do
+- [Pricing](https://www.designofman.com/pricing): Launch, Scale and Care plans; what moves the price
+- [Contact](https://www.designofman.com/contact): free consult request form

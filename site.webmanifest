@@ -4,8 +4,8 @@
   "description": "Website creation and management.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0b0c0e",
-  "theme_color": "#0b0c0e",
+  "background_color": "#0a171c",
+  "theme_color": "#0a171c",
   "icons": [
     { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
     { "src": "/apple-touch-icon.png", "type": "image/png", "sizes": "180x180" }
