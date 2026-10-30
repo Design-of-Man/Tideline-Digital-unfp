@@ -372,15 +372,13 @@ FIGS = """<div class="figs">
 
 
 def contact_form(idp="f"):
-    # FormSubmit. The action is its normal (non-AJAX) endpoint so a visitor
-    # without JavaScript still posts and lands back on /contact?sent=1; with
-    # JavaScript, site.js posts the same fields to the /ajax/ endpoint and
-    # only shows a thank-you when the body says success is "true".
-    return f"""<form class="form" data-contact method="POST" action="https://formsubmit.co/{MAIL}">
-          <input type="hidden" name="_subject" value="New enquiry from designofman.com">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_next" value="{SITE}/contact?sent=1">
+    # Our own /api/contact (Vercel function: stores the enquiry, then emails it
+    # through Resend). FormSubmit did this until its outage on 2026-10-28
+    # dropped every enquiry. A visitor without JavaScript posts the form and
+    # is redirected to /contact?sent=1; with JavaScript, site.js posts JSON to
+    # the same URL and only shows a thank-you when success is "true".
+    return f"""<form class="form" data-contact method="POST" action="/api/contact">
+          <input type="hidden" name="_next" value="/contact?sent=1">
           <div class="tabs" role="radiogroup" aria-label="What is this about?">
             <label><input type="radio" name="kind" value="project" checked><span>New project</span></label>
             <label><input type="radio" name="kind" value="question"><span>Just a question</span></label>

@@ -514,7 +514,7 @@
     if (/[?&]sent=1/.test(location.search)) showSent(form);
 
     form.addEventListener('submit', function (e) {
-      if (!window.fetch) return;           // native POST; FormSubmit redirects to _next
+      if (!window.fetch) return;           // native POST; /api/contact redirects to _next
       e.preventDefault();
       if (!form.reportValidity()) return;
       var data = {};
@@ -523,8 +523,8 @@
       delete data.kind; delete data._next;
       form.classList.add('is-sending');
       setNote('Sending…', '');
-      /* FormSubmit's AJAX endpoint is the same URL with /ajax/ in it. */
-      fetch(form.getAttribute('action').replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
+      data.source = /^\/contact/.test(location.pathname) ? 'contact-page' : 'home';
+      fetch(form.getAttribute('action'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(data)
@@ -532,12 +532,9 @@
         return r.json().catch(function () { return { ok: false }; }).then(function (j) { return { status: r.status, j: j }; });
       }).then(function (res) {
         form.classList.remove('is-sending');
-        /* FormSubmit answers HTTP 200 even when it did NOT deliver (for
-           example, before the address is activated), with success "false".
-           So the body decides, never the status. String() because it sends
-           the flag as a string in some responses and a boolean in others. */
+        /* /api/contact answers {"success":"true"} only once the enquiry was
+           stored or emailed. The body decides, never the status alone. */
         if (res.j && String(res.j.success) === 'true') { showSent(form); return; }
-        if (res.j && res.j.message && window.console) console.warn('FormSubmit:', res.j.message);
         fallback(data);
       }).catch(function () {
         form.classList.remove('is-sending');
