@@ -1,7 +1,7 @@
 # Design of Man
 
 The studio's own site: **https://www.designofman.com**. Static HTML, one
-stylesheet, one script. Forms go to FormSubmit. No framework and no build step
+stylesheet, one script. Forms go to our own `/api/contact` (Resend). No framework and no build step
 on Vercel; the HTML in the repo is what ships.
 
 ## Layout
@@ -60,18 +60,26 @@ off the preloader, pinning, scrubbing and smooth scroll.
 
 ## Contact form
 
-Both forms post to **FormSubmit** at `https://formsubmit.co/hello@designofman.com`.
-With JavaScript, `site.js` sends the same fields to FormSubmit's `/ajax/`
-endpoint and shows a thank-you only when the response body says
-`success: "true"`. FormSubmit answers HTTP 200 even when it did not deliver
-(for example before the address is activated), so the status code is never
-trusted. Any failure hands the visitor's message to their own mail app,
-filled in. Without JavaScript the form posts natively and FormSubmit
-redirects to `/contact?sent=1`.
+Both forms post to **`/api/contact`** (`api/contact.js`, a zero-dependency
+Vercel function). It stores the enquiry first, through the agency portal's
+`contact-lead` Supabase function (table `public.leads`, site
+`designofman.com`), then emails it through **Resend** from the verified
+`designofman.com` domain, with reply-to set to the sender, and sends the
+sender a short confirmation (first name and fixed text only). It answers
+`{"success":"true"}` when the enquiry was stored or emailed.
 
-FormSubmit must be activated once: the first submission sends a confirmation
-email to hello@designofman.com, and nothing is delivered until the link in it
-is clicked.
+With JavaScript, `site.js` posts JSON and shows a thank-you only when the body
+says `success: "true"`. Any failure hands the visitor's message to their own
+mail app, filled in. Without JavaScript the form posts natively and the
+function redirects to `/contact?sent=1`.
+
+Vercel env on project `tideline-digital-unfp`: `RESEND_API_KEY`, `LEAD_TO`
+(hello@designofman.com), optional `LEAD_CC`, `LEAD_FROM`, `CONFIRM_FROM`.
+Resend's DNS records live on `send`, `rsend` and `resend._domainkey`; the root
+MX and SPF belong to Google Workspace and must not change.
+
+Until 2026-10-30 the forms posted to FormSubmit, which went down on 2026-10-28
+(Cloudflare 521) and dropped every enquiry. Don't move them back.
 
 ## Performance rules (learned the hard way)
 

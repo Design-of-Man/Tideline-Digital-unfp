@@ -15,12 +15,6 @@ honesty rules below still hold and nothing fabricated came back.
 
 **Needs a decision or a value before launch:**
 
-- **Activate FormSubmit.** The forms post to FormSubmit for
-  hello@designofman.com (switched from the Resend function on 2026-10-12, at
-  the owner's request). The first submission triggers an activation email to
-  that inbox; click its link once. Until then FormSubmit replies
-  `success: "false"` and visitors are handed a pre-filled email instead, so
-  nothing is silently lost. After activating, send one real test.
 - **Confirm the lighthouse footage is ours to use.** `scripts/build_lighthouse.py`
   describes it as the studio's own drone footage (Dropbox:
   `lighthouse-1440p.mp4`). If it was licensed or taken by someone else, record
